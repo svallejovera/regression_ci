@@ -24,7 +24,7 @@ Before you start, check the required software and packages below. Also, don't fo
 
 For this course, we will be using R. I will assume that you are minimally familiar with R language, RStudio, and R packages. However, the course includes labs on coding in R. These are the main packages you will need to have installed:
 
-- tidyverse (we will be piping)
+- tidyverse (you will be pipin')
 - tidylog (helps keep track of what your are pipin')
 
 ## Datasets
@@ -37,13 +37,13 @@ Throughout the class, we will be using a number of sample datasets. Access to th
 
 ```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
 tabl <- "
-| Weeks          | Assignment?           |
+| Chapter          | Exercises           |
 |---------------|-------------|
-| 1: A Primer on Using Text as Data      | Optional |
-| 2: Tokenization and Word Frequency      | No      |
-| 3: Dictionary-Based Approaches | Homework 1      |
-| 4: Complexity and Similarity | Optional     |
-| 5: Scaling Techniques and Topic Modeling | Homework 2 |
+| Chapter 2     | a) Problems 1, 3, 5, and 7<br>b) Computer exercises: C2, C6, and C9 |
+| Chapter 3     | a) Problems 1, 2, 5, and 9<br>b) Computer exercises: C1, C5, and C6      |
+| Chapter 4 | Homework 1      |
+| Chapter 6 | Optional     |
+| Chapter 6 | Homework 2 |
 | 6: Word Embeddings | No   |
 | 7: Getting Data | Optional   |
 | 8: Introduction to Supervised Machine-Learning | Homework 3 |
