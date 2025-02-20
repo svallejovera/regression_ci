@@ -1,0 +1,9 @@
+# Week 1: What is Causal Inference?
+
+## Slides{.unnumbered}
+
+- 2 What is Causal Inference? ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/1%20Introduction%20to%20CTA.pptx) or in Perusall) 
+
+## Introduction
+
+On this first week, we introduce 'causal inference' as a concept of interest, and what are the main problems of determining causality from observational data. No fancy code for this week. 

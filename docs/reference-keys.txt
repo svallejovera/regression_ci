@@ -24,3 +24,6 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
+week-1-what-is-causal-inference
+introduction
