@@ -2,7 +2,7 @@
 
 ## Slides{.unnumbered}
 
-- 2 What is Causal Inference? ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/1%20Introduction%20to%20CTA.pptx) or in Perusall) 
+- 2 What is Causal Inference? ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/2%20What%20is%20Causal%20Inference.pptx) or in Perusall) 
 
 ## Introduction
 
