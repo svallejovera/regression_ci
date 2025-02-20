@@ -12,7 +12,7 @@ link-citations: yes
 github-repo: svallejovera/regression_ci
 ---
   
-# "Computational Text Analysis"{.unnumbered}
+# "Regressions and Causal Inference" {.unnumbered}
   
 &nbsp;
 

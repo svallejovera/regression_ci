@@ -12,9 +12,9 @@ link-citations: yes
 github-repo: svallejovera/regression_ci
 ---
   
-  # "Computational Text Analysis"{.unnumbered}
+# "Regressions and Causal Inference" {.unnumbered}
   
-  &nbsp;
+&nbsp;
 
 Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for the corresponding topic. 
 

@@ -1,7 +1,6 @@
 delete_merged_file: true
-book_filename: "index"
+book_filename: "main.Rmd"
 output_dir: "docs"
 language:
   ui:
     chapter_name: "Chapter "
-new_session: true
