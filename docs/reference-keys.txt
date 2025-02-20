@@ -7,8 +7,8 @@ datasets
 assignments
 final-exam
 acknowledgments
-hello-bookdown
-a-section
+week-1-what-is-causal-inference
+introduction
 cross
 chapters-and-sub-chapters
 captioned-figures-and-tables
@@ -24,6 +24,3 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-week-1-what-is-causal-inference
-introduction
