@@ -11,5 +11,5 @@ On this first week, we introduce 'causal inference' as a concept of interest, an
 The lecture slide are displayed in full below:
 
 ```{r week2slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 2 What is Causal Inference?."}
-knitr::include_graphics("slide/2 What is Causal Inference.pdf")
+knitr::include_graphics("slide/2_What_is_Causal_Inference.pdf")
 ```

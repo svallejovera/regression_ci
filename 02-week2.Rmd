@@ -2,7 +2,7 @@
 
 ## Slides{.unnumbered}
 
-- 3 Introduction to Causal Inference ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/2%20What%20is%20Causal%20Inference.pptx) or in Perusall) 
+- 3 Introduction to Causal Inference ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/2%20What%20is%20Causal%20Inference.pptx)) 
 
 ## Introduction
 
@@ -11,5 +11,5 @@ We now dive deeper into causal inference and the counterfactual problem. We show
 The lecture slide are displayed in full below:
 
 ```{r week3slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 3 Introduction to Causal Inference."}
-knitr::include_graphics("slide/3 Introduction to Causal Inference.pdf")
+knitr::include_graphics("slide/3_Introduction_to_Causal_Inference.pdf")
 ```
