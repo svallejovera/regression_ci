@@ -1,60 +1,67 @@
 --- 
-title: "A Minimal Book Example"
-author: "John Doe"
+title: "PS9591: Regressions and Causal Inference"
+author: "Dr. Sebastián Vallejo Vera | Western University"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
-description: |
-  This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
-  set in the _output.yml file.
+description: "Code, exercises, and slides for PS9591: Regressions and Causal Inference"
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: svallejovera/regression_ci
 ---
+  
+# "Computational Text Analysis"{.unnumbered}
+  
+&nbsp;
 
-# About
+Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for the corresponding topic. 
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+Before you start, check the required software and packages below. Also, don't forget to read the [Syllabus](https://svallejovera.github.io/files/9594A__Computational_Text_Analysis.pdf) and check Perusall for the readings for the course. This site will be corrected/updated throughout the semester(s).
 
-## Usage 
+## Software and Packages
 
-Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+For this course, we will be using R. I will assume that you are minimally familiar with R language, RStudio, and R packages. However, the course includes labs on coding in R. These are the main packages you will need to have installed:
 
-Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+- tidyverse (we will be piping)
+- tidylog (helps keep track of what your are pipin')
 
-The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
+## Datasets
 
-## Render book
+Throughout the class, we will be using a number of sample datasets. Access to these datasets will be provided directly on the code. For the class For your Final Exam, I will post the required datasets for the replication exercise here:
+  
+  - COMING SOON... 
 
-You can render the HTML version of this example book without changing anything:
+## Assignments
 
-1. Find the **Build** pane in the RStudio IDE, and
-
-1. Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
-
-Or build the book from the R console:
-
-```{r, eval=FALSE}
-bookdown::render_book()
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- "
+| Weeks          | Assignment?           |
+|---------------|-------------|
+| 1: A Primer on Using Text as Data      | Optional |
+| 2: Tokenization and Word Frequency      | No      |
+| 3: Dictionary-Based Approaches | Homework 1      |
+| 4: Complexity and Similarity | Optional     |
+| 5: Scaling Techniques and Topic Modeling | Homework 2 |
+| 6: Word Embeddings | No   |
+| 7: Getting Data | Optional   |
+| 8: Introduction to Supervised Machine-Learning | Homework 3 |
+| 9: Transformers | Optional |
+| 10: Do We Even Need Theory Anymore? | No |
+| 11: Llama 2, ChatGPT, and Generative Modeling | Optional |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
-To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
 
-## Preview book
+## Final Exam
 
-As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
+The final exam will require students to replicate the findings from a some papers, and interpret the results. 
 
-```{r eval=FALSE}
-bookdown::serve_book()
-```
+## Acknowledgments 
+
+The organization of this course is based on the great textbook 'The Effect: An Introduction to Research Design and Causality' by Nick Huntington-Klein, freely available at [here](https://theeffectbook.net/). The code used throughout for the main lectures is a patchwork of my own code, but my own code borrows heavily from the internet (but that's true for all code). I try my best to give credit to the original authors of the code (when and if possible). The code for the labs was created and revised by two amazing doctoral students[^1] at Western University, Hugo Machado and John Santos (and are posted here with their permission). 
 
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+[^1]: I will update their status as they advance on their academic journey.

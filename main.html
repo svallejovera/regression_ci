@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>PS9591: Regressions and Causal Inference</title>
+
+    <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University" />
+  
+   <meta name="description" content="Code, exercises, and slides for PS9591: Regressions and Causal Inference" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="PS9591: Regressions and Causal Inference" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Code, exercises, and slides for PS9591: Regressions and Causal Inference" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="PS9591: Regressions and Causal Inference" />
+  
+  <meta name="twitter:description" content="Code, exercises, and slides for PS9591: Regressions and Causal Inference" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.7.0/transition.js"></script>
+    <script src="libs/bs3compat-0.7.0/tabs.js"></script>
+    <script src="libs/bs3compat-0.7.0/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+    <style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+    
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<!--bookdown:title:start-->
+<!--bookdown:title:end-->
+
+<!--bookdown:toc:start-->
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9591: Regressions and Causal Inference</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<!--bookdown:toc:end-->
+<!--bookdown:body:start-->
+<p># “Computational Text Analysis”{.unnumbered}</p>
+<p> </p>
+<p>Welcome to the site for the course PS9591: “Regressions and Causal Inference” at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for the corresponding topic.</p>
+<p>Before you start, check the required software and packages below. Also, don’t forget to read the <a href="https://svallejovera.github.io/files/9594A__Computational_Text_Analysis.pdf">Syllabus</a> and check Perusall for the readings for the course. This site will be corrected/updated throughout the semester(s).</p>
+<div id="software-and-packages" class="section level2" number="0.1">
+<h2><span class="header-section-number">0.1</span> Software and Packages</h2>
+<p>For this course, we will be using R. I will assume that you are minimally familiar with R language, RStudio, and R packages. However, the course includes labs on coding in R. These are the main packages you will need to have installed:</p>
+<ul>
+<li>tidyverse (we will be piping)</li>
+<li>tidylog (helps keep track of what your are pipin’)</li>
+</ul>
+</div>
+<div id="datasets" class="section level2" number="0.2">
+<h2><span class="header-section-number">0.2</span> Datasets</h2>
+<p>Throughout the class, we will be using a number of sample datasets. Access to these datasets will be provided directly on the code. For the class For your Final Exam, I will post the required datasets for the replication exercise here:</p>
+<ul>
+<li>COMING SOON…</li>
+</ul>
+</div>
+<div id="assignments" class="section level2" number="0.3">
+<h2><span class="header-section-number">0.3</span> Assignments</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Weeks</th>
+<th>Assignment?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1: A Primer on Using Text as Data</td>
+<td>Optional</td>
+</tr>
+<tr class="even">
+<td>2: Tokenization and Word Frequency</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>3: Dictionary-Based Approaches</td>
+<td>Homework 1</td>
+</tr>
+<tr class="even">
+<td>4: Complexity and Similarity</td>
+<td>Optional</td>
+</tr>
+<tr class="odd">
+<td>5: Scaling Techniques and Topic Modeling</td>
+<td>Homework 2</td>
+</tr>
+<tr class="even">
+<td>6: Word Embeddings</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>7: Getting Data</td>
+<td>Optional</td>
+</tr>
+<tr class="even">
+<td>8: Introduction to Supervised Machine-Learning</td>
+<td>Homework 3</td>
+</tr>
+<tr class="odd">
+<td>9: Transformers</td>
+<td>Optional</td>
+</tr>
+<tr class="even">
+<td>10: Do We Even Need Theory Anymore?</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>11: Llama 2, ChatGPT, and Generative Modeling</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="final-exam" class="section level2" number="0.4">
+<h2><span class="header-section-number">0.4</span> Final Exam</h2>
+<p>The final exam will require students to replicate the findings from a some papers, and interpret the results.</p>
+</div>
+<div id="acknowledgments" class="section level2" number="0.5">
+<h2><span class="header-section-number">0.5</span> Acknowledgments</h2>
+<p>The organization of this course is based on the great textbook ‘The Effect: An Introduction to Research Design and Causality’ by Nick Huntington-Klein, freely available at <a href="https://theeffectbook.net/">here</a>. The code used throughout for the main lectures is a patchwork of my own code, but my own code borrows heavily from the internet (but that’s true for all code). I try my best to give credit to the original authors of the code (when and if possible). The code for the labs was created and revised by two amazing doctoral students<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> at Western University, Hugo Machado and John Santos (and are posted here with their permission).</p>
+<!--chapter:end:index.Rmd-->
+</div>
+<div id="hello-bookdown" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Hello bookdown</h1>
+<p>All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (<code>#</code>) per .Rmd file.</p>
+<div id="a-section" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> A section</h2>
+<p>All chapter sections start with a second-level (<code>##</code>) or higher heading followed by your section title, like the sections above and below here. You can have as many as you want within a chapter.</p>
+<div id="an-unnumbered-section" class="section level3 unnumbered">
+<h3 class="unnumbered">An unnumbered section</h3>
+<p>Chapters and sections are numbered by default. To un-number a heading, add a <code>{.unnumbered}</code> or the shorter <code>{-}</code> at the end of the heading, like in this section.</p>
+<!--chapter:end:01-intro.Rmd-->
+</div>
+</div>
+</div>
+<div id="cross" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Cross-references</h1>
+<p>Cross-references make it easier for your readers to find and link to elements in your book.</p>
+<div id="chapters-and-sub-chapters" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Chapters and sub-chapters</h2>
+<p>There are two steps to cross-reference any heading:</p>
+<ol style="list-style-type: decimal">
+<li>Label the heading: <code># Hello world {#nice-label}</code>.
+<ul>
+<li>Leave the label off if you like the automated heading generated based on your heading title: for example, <code># Hello world</code> = <code># Hello world {#hello-world}</code>.</li>
+<li>To label an un-numbered heading, use: <code># Hello world {-#nice-label}</code> or <code>{# Hello world .unnumbered}</code>.</li>
+</ul></li>
+<li>Next, reference the labeled heading anywhere in the text using <code>\@ref(nice-label)</code>; for example, please see Chapter @ref(cross).
+<ul>
+<li>If you prefer text as the link instead of a numbered reference use: <a href="#cross">any text you want can go here</a>.</li>
+</ul></li>
+</ol>
+</div>
+<div id="captioned-figures-and-tables" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Captioned figures and tables</h2>
+<p>Figures and tables <em>with captions</em> can also be cross-referenced from elsewhere in your book using <code>\@ref(fig:chunk-label)</code> and <code>\@ref(tab:chunk-label)</code>, respectively.</p>
+<p>See Figure @ref(fig:nice-fig).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">1</span>, .<span class="dv">1</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">plot</span>(pressure, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="main_files/figure-html/nice-fig-1.png" alt="Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases." width="80%" />
+<p class="caption">
+(#fig:nice-fig)Here is a nice figure!
+</p>
+</div>
+<p>Don’t miss Table @ref(tab:nice-tab).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">head</span>(pressure, <span class="dv">10</span>), <span class="at">caption =</span> <span class="st">&#39;Here is a nice table!&#39;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">booktabs =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<caption>(#tab:nice-tab)Here is a nice table!</caption>
+<thead>
+<tr class="header">
+<th align="right">temperature</th>
+<th align="right">pressure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.0002</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="right">0.0012</td>
+</tr>
+<tr class="odd">
+<td align="right">40</td>
+<td align="right">0.0060</td>
+</tr>
+<tr class="even">
+<td align="right">60</td>
+<td align="right">0.0300</td>
+</tr>
+<tr class="odd">
+<td align="right">80</td>
+<td align="right">0.0900</td>
+</tr>
+<tr class="even">
+<td align="right">100</td>
+<td align="right">0.2700</td>
+</tr>
+<tr class="odd">
+<td align="right">120</td>
+<td align="right">0.7500</td>
+</tr>
+<tr class="even">
+<td align="right">140</td>
+<td align="right">1.8500</td>
+</tr>
+<tr class="odd">
+<td align="right">160</td>
+<td align="right">4.2000</td>
+</tr>
+<tr class="even">
+<td align="right">180</td>
+<td align="right">8.8000</td>
+</tr>
+</tbody>
+</table>
+<!--chapter:end:02-cross-refs.Rmd-->
+</div>
+</div>
+<div id="parts" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Parts</h1>
+<p>You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file.</p>
+<p>Add a numbered part: <code># (PART) Act one {-}</code> (followed by <code># A chapter</code>)</p>
+<p>Add an unnumbered part: <code># (PART\*) Act one {-}</code> (followed by <code># A chapter</code>)</p>
+<p>Add an appendix as a special kind of un-numbered part: <code># (APPENDIX) Other stuff {-}</code> (followed by <code># A chapter</code>). Chapters in an appendix are prepended with letters instead of numbers.</p>
+<!--chapter:end:03-parts.Rmd-->
+</div>
+<div id="footnotes-and-citations" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Footnotes and citations</h1>
+<div id="footnotes" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Footnotes</h2>
+<p>Footnotes are put inside the square brackets after a caret <code>^[]</code>. Like this one <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+</div>
+<div id="citations" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Citations</h2>
+<p>Reference items in your bibliography file(s) using <code>@key</code>.</p>
+<p>For example, we are using the <strong>bookdown</strong> package <span class="citation">(<a href="#ref-R-bookdown">Xie 2023</a>)</span> (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(<a href="#ref-xie2015">Xie 2015</a>)</span> (this citation was added manually in an external file book.bib).
+Note that the <code>.bib</code> files need to be listed in the index.Rmd with the YAML <code>bibliography</code> key.</p>
+<p>The RStudio Visual Markdown Editor can also make it easier to insert citations: <a href="https://rstudio.github.io/visual-markdown-editing/#/citations" class="uri">https://rstudio.github.io/visual-markdown-editing/#/citations</a></p>
+<!--chapter:end:04-citations.Rmd-->
+</div>
+</div>
+<div id="blocks" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Blocks</h1>
+<div id="equations" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Equations</h2>
+<p>Here is an equation.</p>
+<p><span class="math display">\[\begin{equation}
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  (\#eq:binom)
+\end{equation}\]</span></p>
+<p>You may refer to using <code>\@ref(eq:binom)</code>, like see Equation @ref(eq:binom).</p>
+</div>
+<div id="theorems-and-proofs" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Theorems and proofs</h2>
+<p>Labeled theorems can be referenced in text using <code>\@ref(thm:tri)</code>, for example, check out this smart theorem @ref(thm:tri).</p>
+<div class="theorem">
+<p><span id="thm:tri" class="theorem"><strong>(#thm:tri) </strong></span>For a right triangle, if <span class="math inline">\(c\)</span> denotes the <em>length</em> of the hypotenuse
+and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> denote the lengths of the <strong>other</strong> two sides, we have
+<span class="math display">\[a^2 + b^2 = c^2\]</span></p>
+</div>
+<p>Read more here <a href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html" class="uri">https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html</a>.</p>
+</div>
+<div id="callout-blocks" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Callout blocks</h2>
+<p>The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: <a href="https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html</a></p>
+<!--chapter:end:05-blocks.Rmd-->
+</div>
+</div>
+<div id="sharing-your-book" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Sharing your book</h1>
+<div id="publishing" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Publishing</h2>
+<p>HTML books can be published online, see: <a href="https://bookdown.org/yihui/bookdown/publishing.html" class="uri">https://bookdown.org/yihui/bookdown/publishing.html</a></p>
+</div>
+<div id="pages" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> 404 pages</h2>
+<p>By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you’d like to customize your 404 page instead of using the default, you may add either a <code>_404.Rmd</code> or <code>_404.md</code> file to your project root and use code and/or Markdown syntax.</p>
+</div>
+<div id="metadata-for-sharing" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Metadata for sharing</h2>
+<p>Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the <code>index.Rmd</code> YAML. To setup, set the <code>url</code> for your book and the path to your <code>cover-image</code> file. Your book’s <code>title</code> and <code>description</code> are also used.</p>
+<p>This <code>gitbook</code> uses the same social sharing data across all chapters in your book- all links shared will look the same.</p>
+<p>Specify your book’s source repository on GitHub using the <code>edit</code> key under the configuration options in the <code>_output.yml</code> file, which allows users to suggest an edit by linking to a chapter’s source file.</p>
+<p>Read more about the features of this output format here:</p>
+<p><a href="https://pkgs.rstudio.com/bookdown/reference/gitbook.html" class="uri">https://pkgs.rstudio.com/bookdown/reference/gitbook.html</a></p>
+<p>Or use:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>?bookdown<span class="sc">::</span>gitbook</span></code></pre></div>
+<!--chapter:end:06-share.Rmd-->
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<!--chapter:end:07-references.Rmd-->
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-xie2015" class="csl-entry">
+Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.org/knitr/">http://yihui.org/knitr/</a>.
+</div>
+<div id="ref-R-bookdown" class="csl-entry">
+———. 2023. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>I will update their status as they advance on their academic journey.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>This is a footnote.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+<!--bookdown:body:end-->
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-02-19.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>
