@@ -1,3 +1,5 @@
+fig:week2slides
+fig:week3slides
 eq:binom
 thm:tri
 software-and-packages
@@ -21,3 +23,4 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
+url-your-book-url-like-httpsbookdown.orgyihuibookdown

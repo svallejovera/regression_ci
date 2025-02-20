@@ -1,4 +1,4 @@
-# Week 2: Introduction to Causal Inference?
+# Week 2: Introduction to Causal Inference
 
 ## Slides{.unnumbered}
 
@@ -6,4 +6,10 @@
 
 ## Introduction
 
-We now dive deeper into causal inference and the counterfactual problem. We show... No fancy code for this week. 
+We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but why this is not the case with observational data. No fancy code for this week. 
+
+The lecture slide are displayed in full below:
+
+```{r week3slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 3 Introduction to Causal Inference."}
+knitr::include_graphics("slide/3 Introduction to Causal Inference.pdf")
+```
