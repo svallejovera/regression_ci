@@ -1,13 +1,6 @@
-Welcome! 
+# PS9591: Regressions and Causal Inference
 
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
+This repo contains teaching materials for the "Regressions and Causal Inference" (PS9591) course at Western University. The book includes code, exercises, and slides for each week.
 
-This template provides a skeleton file structure that you can edit to create your book. 
+This will be the main resource we use throughout the course. You can access all of these materials, as well as the course overview by following [this link](https://svallejovera.github.io/regression_ci/). I will continue to update the site throughout the semester(s). 
 
-The contents inside the .Rmd files provide some pointers to help you get started, but feel free to also delete the content in each file and start fresh.
-
-Additional resources:
-
-The **bookdown** book: https://bookdown.org/yihui/bookdown/
-
-The **bookdown** package reference site: https://pkgs.rstudio.com/bookdown
