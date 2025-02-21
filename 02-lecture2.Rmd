@@ -1,4 +1,4 @@
-# Week 2: Introduction to Causal Inference
+# Lecture 2: Introduction to Causal Inference
 
 ## Slides{.unnumbered}
 
@@ -6,7 +6,7 @@
 
 ## Introduction
 
-We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but why this is not the case with observational data. No fancy code for this week. 
+We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but also how the counterfactual problem is still a problem when using observational data. No fancy code for this week. 
 
 The lecture slide are displayed in full below:
 

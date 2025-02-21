@@ -1,4 +1,4 @@
-# Week 1: What is Causal Inference?
+# Lecture 1: What is Causal Inference?
 
 ## Slides{.unnumbered}
 
