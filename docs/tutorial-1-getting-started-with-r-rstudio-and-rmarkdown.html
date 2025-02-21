@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Tutorial 1: Getting Started with R, RStudio and RMarkdown | PS9591: Regressions and Causal Inference</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="This tutorial was created by Hugo Machado and John Santos (with minor adaptations from me). This tutorial will guide you through setting up R and RStudio, installing essential packages, learning...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Tutorial 1: Getting Started with R, RStudio and RMarkdown | PS9591: Regressions and Causal Inference">
+<meta property="og:type" content="book">
+<meta property="og:description" content="This tutorial was created by Hugo Machado and John Santos (with minor adaptations from me). This tutorial will guide you through setting up R and RStudio, installing essential packages, learning...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Tutorial 1: Getting Started with R, RStudio and RMarkdown | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="This tutorial was created by Hugo Machado and John Santos (with minor adaptations from me). This tutorial will guide you through setting up R and RStudio, installing essential packages, learning...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9591: Regressions and Causal Inference</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Chapter 4</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li></ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown<a class="anchor" aria-label="anchor" href="#tutorial-1-getting-started-with-r-rstudio-and-rmarkdown"><i class="fas fa-link"></i></a>
+</h1>
+<p><em>This tutorial was created by <a href="https://ca.linkedin.com/in/hugo-coimbra-machado/en">Hugo Machado</a> and <a href="https://jb-santos.github.io/">John Santos</a></em> (with minor adaptations from me).</p>
+<p>This tutorial will guide you through setting up R and RStudio, installing essential packages, learning the basics of RMarkdown, and suggesting some best practices that will help keep your work organized and find solutions to common problems (which you will most definitely encounter).</p>
+<div id="installing-r-and-rstudio" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Installing R and RStudio<a class="anchor" aria-label="anchor" href="#installing-r-and-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>R is the programming language we’ll be using in this course. It is optimized for statistics and data analysis. Additionally, it is open source, easily customizable, and very popular in academia, which gives it the edge over proprietary (e.g., Stata, SPSS) or general purpose frameworks (e.g., Python) as the best language to learn for social scientists working with data.</p>
+<ol style="list-style-type: decimal">
+<li><p>Go to the R Project website: <a href="https://mirror.csclub.uwaterloo.ca/CRAN/" class="uri">https://mirror.csclub.uwaterloo.ca/CRAN/</a></p></li>
+<li><p>This link will send you to a CRAN mirror hosted in the University of Waterloo.</p></li>
+<li><p>Select the appropriate link for your operating system (Windows, macOS, or Linux).</p></li>
+<li>
+<p>Follow the instructions to download and install R.</p>
+<ul>
+<li>
+<p><strong>For macOS users:</strong></p>
+<ul>
+<li>If you have a Mac with an Apple Silicon chip (M1, M2, M3, etc.), choose the <strong>arm64</strong> version.</li>
+<li>If you have a Mac with an Intel chip, choose the <strong>x86_64</strong> version.</li>
+</ul>
+</li>
+<li><p><strong>Note:</strong> When updating R, you’ll need to reinstall your packages. It’s a good idea to do this when you have time and not right before a deadline.</p></li>
+</ul>
+</li>
+</ol>
+<div id="rstudio" class="section level3" number="4.1.1">
+<h3>
+<span class="header-section-number">4.1.1</span> RStudio<a class="anchor" aria-label="anchor" href="#rstudio"><i class="fas fa-link"></i></a>
+</h3>
+<p>RStudio is an Integrated Development Environment (IDE) that makes working with R much easier and more user-friendly.</p>
+<ol style="list-style-type: decimal">
+<li>Go to the RStudio Desktop download page: <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a>
+</li>
+<li>Download the free version of RStudio Desktop for your operating system.</li>
+<li>Follow the instructions to install RStudio.</li>
+</ol>
+</div>
+</div>
+<div id="a-quick-tour-of-the-rstudio-interface" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> A Quick Tour of the RStudio Interface<a class="anchor" aria-label="anchor" href="#a-quick-tour-of-the-rstudio-interface"><i class="fas fa-link"></i></a>
+</h2>
+<p>When you open RStudio, you’ll see four main panes:</p>
+<ul>
+<li>
+<strong>Source (top-left):</strong> This is where you write and edit your R code and RMarkdown documents.</li>
+<li>
+<strong>Console (bottom-left):</strong> This is where you can run R code interactively and see the output.</li>
+<li>
+<strong>Environment/History (top-right):</strong> The Environment tab shows you the objects (data, variables, functions) you have created. The History tab shows you the commands you have run.</li>
+<li>
+<strong>Files/Plots/Packages/Help (bottom-right):</strong> This pane has several tabs:
+<ul>
+<li>
+<strong>Files:</strong> Allows you to browse and manage files on your computer.</li>
+<li>
+<strong>Plots:</strong> Displays the plots you create.</li>
+<li>
+<strong>Packages:</strong> Shows you the installed R packages and allows you to load/unload them.</li>
+<li>
+<strong>Help:</strong> Displays R documentation.</li>
+</ul>
+</li>
+</ul>
+<p>You can customize the layout of these panes in Tools &gt; Global Options &gt; Pane Layout.</p>
+</div>
+<div id="r-working-directory" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> R Working Directory<a class="anchor" aria-label="anchor" href="#r-working-directory"><i class="fas fa-link"></i></a>
+</h2>
+<p>The working directory is the folder where R will look for files and save output by default. Issues with conflicting working directories are common, especially if you have multiple folders for your different projects. Here are some best practices to deal with this.</p>
+<ul>
+<li>
+<strong>Using <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>:</strong> You can use the <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code> function to set the working directory. For example, <code>setwd("~/Documents/R Projects/MyProject")</code> sets the working directory to the “MyProject” folder within the “R Projects” folder in your “Documents” directory. You can also open a new script (tab on the top left), right-click on the tab, and tell R to “Set working directory” wherever the script is located. If you are working with external data files (e.g., a .dta database, for example), your data will need to be in the same folder as the script you are working with.<br>
+</li>
+<li>
+<strong>Using the RStudio Interface:</strong> You can also set the working directory through the RStudio menu: “Session” &gt; “Set Working Directory” &gt; “Choose Directory…”.</li>
+<li>
+<strong>R Projects:</strong> For better organization, consider creating R Projects for your assignments. An R Project is a special type of working directory that makes it easier to manage your code, data, and output. You can create a new project by going to “File” &gt; “New Project…”. RStudio will automatically set the working directory to the project folder. For more information about working with projects, consult this guide: <a href="https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects" class="uri">https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects</a>
+</li>
+</ul>
+</div>
+<div id="introduction-to-rmarkdown" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Introduction to RMarkdown<a class="anchor" aria-label="anchor" href="#introduction-to-rmarkdown"><i class="fas fa-link"></i></a>
+</h2>
+<p>RMarkdown is a file format that allows you to combine R code, its output (e.g., tables, plots), and text in a single document. It’s a powerful tool for creating reproducible reports and assignments. You can also use it to write in HTML and render PDFs. However, it can be a little finicky and it is not as intuitive to write with, when compared to common word processors like MSWord or Google Docs, so it takes some practice (and patience) to get to a place where you feel comfortable writing in it.</p>
+<div id="why-use-rmarkdown" class="section level3" number="4.4.1">
+<h3>
+<span class="header-section-number">4.4.1</span> Why Use RMarkdown?<a class="anchor" aria-label="anchor" href="#why-use-rmarkdown"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<strong>Reproducibility:</strong> Your code, output, and text are all in one place, making it easy to reproduce your analysis.</li>
+<li>
+<strong>Clarity:</strong> You can interweave your code with explanations and narrative, making your work easier to understand.</li>
+<li>
+<strong>Efficiency:</strong> You can generate different output formats (HTML, PDF, Word) from the same RMarkdown file. The outputs also look pretty nice.</li>
+</ul>
+</div>
+<div id="basic-rmarkdown-syntax" class="section level3" number="4.4.2">
+<h3>
+<span class="header-section-number">4.4.2</span> Basic RMarkdown Syntax<a class="anchor" aria-label="anchor" href="#basic-rmarkdown-syntax"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<p><strong>Code Chunks:</strong> R code is enclosed in “chunks” that start with <code>```{r}</code> and end with <code>```</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This is an R code chunk</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span></code></pre></div>
+</li>
+<li><p><strong>Headers:</strong> You can create headers using <code>#</code>, <code>##</code>, <code>###</code>, etc. The number of <code>#</code> determines the level of the header.</p></li>
+<li>
+<p><strong>Text Formatting:</strong> You can format text using Markdown syntax. For example:</p>
+<ul>
+<li>
+<em>Italic</em>: <code>*italic*</code>
+</li>
+<li>
+<strong>Bold</strong>: <code>**bold**</code>
+</li>
+<li>
+<code>Code</code>: `code`</li>
+<li>Links: <code>[Link Text](URL)</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="creating-an-rmarkdown-file" class="section level3" number="4.4.3">
+<h3>
+<span class="header-section-number">4.4.3</span> Creating an RMarkdown File<a class="anchor" aria-label="anchor" href="#creating-an-rmarkdown-file"><i class="fas fa-link"></i></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>In RStudio, go to “File” &gt; “New File” &gt; “R Markdown…”.</li>
+<li>Choose a title and author name.</li>
+<li>Select the desired output format (e.g., HTML, PDF).</li>
+<li>Click “OK”.</li>
+</ol>
+<p>RStudio will create a new RMarkdown file with some example content. You can edit this file, add your own code and text, and then “knit” it to generate the output document.</p>
+</div>
+<div id="knitting" class="section level3" number="4.4.4">
+<h3>
+<span class="header-section-number">4.4.4</span> Knitting<a class="anchor" aria-label="anchor" href="#knitting"><i class="fas fa-link"></i></a>
+</h3>
+<p>“Knitting” is the process of converting an RMarkdown file into an output document. To knit a document, click the “Knit” button at the top of the Source pane. You can choose the output format from the dropdown menu next to the “Knit” button.</p>
+</div>
+<div id="rmarkdown-cheatsheet" class="section level3" number="4.4.5">
+<h3>
+<span class="header-section-number">4.4.5</span> RMarkdown cheatsheet:<a class="anchor" aria-label="anchor" href="#rmarkdown-cheatsheet"><i class="fas fa-link"></i></a>
+</h3>
+<p>This is a useful quick guide you can use to help with formatting and other related tasks: <a href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html" class="uri">https://rstudio.github.io/cheatsheets/html/rmarkdown.html</a></p>
+</div>
+</div>
+<div id="installing-r-packages" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> Installing R Packages<a class="anchor" aria-label="anchor" href="#installing-r-packages"><i class="fas fa-link"></i></a>
+</h2>
+<p>R packages extend the functionality of base R. As we progress in the course, we’ll use several packages that help you perform different tasks related to statistical analysis. You will only need to install packages once, but you will need to load them after each new session.</p>
+<p>Here are some basic packages we will use and how you would go about installing them.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install packages for data import/export:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"foreign"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rio"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install tidyverse, a collection of packages for data science:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install wooldridge, which contains datasets you will use for the assignments:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wooldridge"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install knitr and markdown for improved RMarkdown functionality:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"knitr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"markdown"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>For the Experienced:</strong> If you have some experience with R, you might be interested in exploring the <code>pacman</code> package. It provides a convenient way to manage packages, allowing you to load, install, and update packages using a single function, <code>p_load()</code>. For example, instead of the repeated <code>install.packages</code> operations above, if you have <code>pacman</code> installed you could use one line like: <code>pacman::p_load(devtools, remotes, foreign, readstata13, rio, labelled, sjlabelled, tidyverse, fixest, wooldridge, modelsummary, stargazer, ggplot2, knitr, kableExtra, markdown, car, carData, lmtest, sandwich, survey, srvyr)</code>. Using <code>pacman</code> may also automatically install packages from CRAN, Bioconductor or GitHub, according to where the latest version is. If you’re interested, you can learn more about <code>pacman</code> on its <a href="https://cran.r-project.org/web/packages/pacman/index.html">CRAN page</a>. However, for this course, using the standard <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> method will be sufficient.</p>
+</div>
+<div id="using-ai-tools-to-assist-with-r-programming" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> Using AI Tools to Assist with R Programming<a class="anchor" aria-label="anchor" href="#using-ai-tools-to-assist-with-r-programming"><i class="fas fa-link"></i></a>
+</h2>
+<p>Large Language Models (LLMs) and related AI tools, such as ChatGPT, Copilot or Gemini, can be valuable assistants for learning and using R. If used correctly, they can save you a lot of time, especially in debugging and finding ways of performing specific tasks you’re not really familiar with. However, it’s crucial to use them responsibly and ethically. Here are some general tips for using these tools.</p>
+<div id="how-ai-can-help" class="section level3" number="4.6.1">
+<h3>
+<span class="header-section-number">4.6.1</span> How AI Can Help<a class="anchor" aria-label="anchor" href="#how-ai-can-help"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<strong>Code Suggestions and Auto-Completion:</strong> AI tools like GitHub Copilot can suggest code snippets as you type, helping you write code faster and with fewer errors. They also hallucinate at times, so be mindful of what they are suggesting. I’m not a big fan of auto-complete, it’s usually better to either ask it for something specific or to ask for edits to base code you’ve already written.</li>
+<li>
+<strong>Debugging Assistance:</strong> When you encounter an error, AI can help explain what the error message means and suggest potential solutions. Just copy and paste the error message (or a relevant excerpt), tell it what you wanted it to do, and ask what could be causing the error.</li>
+<li>
+<strong>Understanding Functions and Packages:</strong> AI can provide explanations of how R functions work, what arguments they take, and how to use them effectively. Check the documentation to make sure the LLMs are not telling you to do something that is off the mark.</li>
+<li>
+<strong>Learning New Concepts:</strong> You can ask AI to explain statistical concepts or R programming topics in a way that’s easy to understand. Documentation references and StackOverflow can be a bit cryptic.</li>
+<li>
+<strong>Finding Relevant Documentation:</strong> AI can help you locate relevant documentation for R packages and functions.</li>
+<li>
+<strong>Generating Code for Specific Tasks:</strong> You can describe the task you want to accomplish, and AI can generate R code to perform that task. The better and more informed your prompt is, the better the output you will get. These models are typically better at contained, well-defined, tasks than at broad tasks that are underspecified.</li>
+</ul>
+</div>
+<div id="limitations-and-ethical-considerations" class="section level3" number="4.6.2">
+<h3>
+<span class="header-section-number">4.6.2</span> Limitations and Ethical Considerations<a class="anchor" aria-label="anchor" href="#limitations-and-ethical-considerations"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<strong>Critical Thinking is Essential:</strong> AI is a tool, not a replacement for your own understanding. Always critically evaluate the code generated by AI. Make sure you understand how it works before using it.</li>
+<li>
+<strong>Don’t Blindly Copy and Paste:</strong> Avoid copying and pasting code without understanding it. This can lead to errors and a lack of comprehension.</li>
+<li>
+<strong>Avoid Plagiarism:</strong> Be transparent about your use of AI. Properly cite any AI-generated code or ideas in your assignments. Your instructors need to know what work is yours and what came from AI assistance.</li>
+<li>
+<strong>AI Makes Mistakes:</strong> AI is not perfect. It can generate incorrect or inefficient code. Always test the code thoroughly.</li>
+</ul>
+</div>
+<div id="prompt-engineering-tips" class="section level3" number="4.6.3">
+<h3>
+<span class="header-section-number">4.6.3</span> Prompt Engineering Tips<a class="anchor" aria-label="anchor" href="#prompt-engineering-tips"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<strong>Be Specific and Clear:</strong> The more specific you are in your prompts, the better the AI will understand your request.</li>
+<li>
+<strong>Provide Context:</strong> If you’re asking about a specific piece of code, include the relevant code in your prompt.</li>
+<li>
+<strong>Break Down Complex Tasks:</strong> If you have a complex task, break it down into smaller, more manageable steps.</li>
+<li>
+<strong>Iterate and Refine:</strong> If the AI doesn’t give you the answer you’re looking for, try rephrasing your prompt or providing more information.</li>
+</ul>
+</div>
+<div id="example" class="section level3" number="4.6.4">
+<h3>
+<span class="header-section-number">4.6.4</span> Example<a class="anchor" aria-label="anchor" href="#example"><i class="fas fa-link"></i></a>
+</h3>
+<p>Here’s an example of how you could use an AI tool to help you generate a plot:</p>
+<p><strong>Prompt:</strong> “I have a data frame called <code>mydata</code> with columns <code>x</code> and <code>y</code>. How can I create a scatterplot of <code>y</code> against <code>x</code> using ggplot2, with blue points and a red trend line?”</p>
+<p><strong>AI-Generated Code (example):</strong></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mydata</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Remember</strong>: You would still need to load the ggplot2 package (<code><a href="https://ggplot2.tidyverse.org">library(ggplot2)</a></code>) and have your data frame <code>mydata</code> loaded in your R environment for this code to work.</p>
+</div>
+</div>
+<div id="quick-example-importing-and-checking-data-from-wooldridge" class="section level2" number="4.7">
+<h2>
+<span class="header-section-number">4.7</span> Quick Example: Importing and Checking Data from <code>wooldridge</code><a class="anchor" aria-label="anchor" href="#quick-example-importing-and-checking-data-from-wooldridge"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let’s load a dataset from the <code>wooldridge</code> package and take a quick look at it. We’ll use the <code>wage1</code> dataset, which contains information about wages and other individual characteristics.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load the wooldridge package</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the wage1 dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the first few rows of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get a summary of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get the structure of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Explanation:</strong></p>
+<ol style="list-style-type: decimal">
+<li>
+<code><a href="https://justinmshea.github.io/wooldridge/">library(wooldridge)</a></code>: Loads the <code>wooldridge</code> package, making its datasets available.</li>
+<li>
+<code>data("wage1")</code>: Loads the <code>wage1</code> dataset into your R environment.</li>
+<li>
+<code>head(wage1)</code>: Displays the first six rows of the dataset, allowing you to see the variable names and some sample data.
+<ul>
+<li>
+<strong>Exercise:</strong> Try changing the number inside the parentheses of the <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> function to display a different number of rows.</li>
+</ul>
+</li>
+<li>
+<code>summary(wage1)</code>: Provides descriptive statistics for each variable in the dataset (e.g., mean, median, min, max, quartiles).</li>
+<li>
+<code>str(wage1)</code>: Shows the structure of the dataset, including the data type of each variable (e.g., numeric, integer, factor).</li>
+</ol>
+</div>
+<div id="getting-help-in-r" class="section level2" number="4.8">
+<h2>
+<span class="header-section-number">4.8</span> Getting Help in R<a class="anchor" aria-label="anchor" href="#getting-help-in-r"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are several ways to get help in R:</p>
+<ul>
+<li>
+<strong><code>?</code> or <code><a href="https://rdrr.io/r/utils/help.html">help()</a></code>:</strong> To access the documentation for a specific function, type <code>?</code> followed by the function name (e.g., <code><a href="https://rdrr.io/r/base/mean.html">?mean</a></code>). You can also use <code><a href="https://rdrr.io/r/base/mean.html">help(mean)</a></code>.</li>
+<li>
+<strong><code>??</code> or <code><a href="https://rdrr.io/r/utils/help.search.html">help.search()</a></code>:</strong> To search for help topics related to a keyword, use <code>??</code> followed by the keyword (e.g., <code>??regression</code>). You can also use <code>help.search("regression")</code>.</li>
+<li>
+<strong>Online Resources:</strong> The R community is very active online. Websites like Stack Overflow (<a href="https://stackoverflow.com/questions/tagged/r" class="uri">https://stackoverflow.com/questions/tagged/r</a>) are great places to find answers to common R questions.</li>
+<li>
+<strong>Package Vignettes</strong>: Many R packages include vignettes, which are longer, tutorial-style documents that demonstrate how to use the package. You can access them using the <code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes()</a></code> function.</li>
+<li>
+<strong>Package Websites</strong>: Some packages have dedicated websites with additional resources, such as tutorials, articles, and examples. These can typically be found by searching for the package name followed by “R package” in a search engine.</li>
+</ul>
+</div>
+<div id="style-guides-in-r" class="section level2" number="4.9">
+<h2>
+<span class="header-section-number">4.9</span> Style Guides in R<a class="anchor" aria-label="anchor" href="#style-guides-in-r"><i class="fas fa-link"></i></a>
+</h2>
+<p>Coding style guides are sets of conventions that prescribe how code should be formatted and written. Following a style guide can make your code more readable, maintainable, and consistent.</p>
+<div id="the-tidyverse-style-guide" class="section level3" number="4.9.1">
+<h3>
+<span class="header-section-number">4.9.1</span> The tidyverse Style Guide<a class="anchor" aria-label="anchor" href="#the-tidyverse-style-guide"><i class="fas fa-link"></i></a>
+</h3>
+<p>The tidyverse style guide, developed by Hadley Wickham and the RStudio team, is a widely used style guide for R. It covers various aspects of coding style, including:</p>
+<ul>
+<li>File names</li>
+<li>Object names</li>
+<li>Syntax</li>
+<li>Spacing</li>
+<li>Control flow</li>
+<li>Comments</li>
+</ul>
+<p>You can find the tidyverse style guide here: <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a>. <em>Note: I try to follow the guide, but I am not incredibly good at doing so</em>.</p>
+</div>
+<div id="quick-examples" class="section level3" number="4.9.2">
+<h3>
+<span class="header-section-number">4.9.2</span> Quick Examples<a class="anchor" aria-label="anchor" href="#quick-examples"><i class="fas fa-link"></i></a>
+</h3>
+<p>Here are a few examples of tidyverse style guidelines:</p>
+<ul>
+<li>
+<strong>File Names:</strong> Use <code>.R</code> extension for R script files and <code>.Rmd</code> for R Markdown files. File names should be meaningful and use lowercase letters, numbers, and underscores (e.g., <code>process_data.R</code>, <code>analysis_report.Rmd</code>).</li>
+<li>
+<strong>Object Names:</strong> Use lowercase with underscores to separate words (e.g., <code>my_variable</code>, <code>data_frame</code>). Be descriptive but concise.</li>
+<li>
+<strong>Spacing:</strong> Place spaces around operators (e.g., <code>x + y</code>, not <code>x+y</code>) and after commas (e.g., <code>mean(x, na.rm = TRUE)</code>, not <code>mean(x,na.rm=TRUE)</code>).</li>
+<li>
+<strong>Indentation:</strong> Use two spaces for indentation. Do not use tabs.</li>
+</ul>
+</div>
+<div id="other-style-guides" class="section level3" number="4.9.3">
+<h3>
+<span class="header-section-number">4.9.3</span> Other Style Guides<a class="anchor" aria-label="anchor" href="#other-style-guides"><i class="fas fa-link"></i></a>
+</h3>
+<p>While the tidyverse style guide is popular, there are other style guides you might encounter or choose to follow, such as:</p>
+<ul>
+<li>
+<strong>Google’s R Style Guide:</strong> <a href="https://google.github.io/styleguide/Rguide.html" class="uri">https://google.github.io/styleguide/Rguide.html</a>
+</li>
+<li>
+<strong>The Bioconductor Style Guide:</strong> <a href="https://contributions.bioconductor.org/" class="uri">https://contributions.bioconductor.org/</a>
+</li>
+</ul>
+<p>Ultimately, the most important thing is to be consistent in your style, regardless of which guide you choose to follow. Most style guides agree on the basic principles of writing clear and readable code.</p>
+</div>
+</div>
+<div id="protips-for-r-success" class="section level2" number="4.10">
+<h2>
+<span class="header-section-number">4.10</span> Protips for R Success<a class="anchor" aria-label="anchor" href="#protips-for-r-success"><i class="fas fa-link"></i></a>
+</h2>
+<div id="enable-helpful-rstudio-options" class="section level3" number="4.10.1">
+<h3>
+<span class="header-section-number">4.10.1</span> Enable Helpful RStudio Options<a class="anchor" aria-label="anchor" href="#enable-helpful-rstudio-options"><i class="fas fa-link"></i></a>
+</h3>
+<p>These options can make your coding experience more pleasant and efficient:</p>
+<ul>
+<li>
+<strong>Highlight R function calls:</strong> Go to “Tools” &gt; “Global Options” &gt; “Code” &gt; “Display” and check “Highlight R function calls.” This will visually distinguish function names in your code.</li>
+<li>
+<strong>Rainbow parentheses:</strong> In the same “Display” settings, check “Rainbow parentheses.” This will color-code matching parentheses, making it easier to track nested functions.</li>
+<li>
+<strong>Use a dark theme:</strong> If you find yourself staring at the screen for long periods, a dark theme can help reduce eye strain. Go to “Tools” &gt; “Global Options” &gt; “Appearance” and choose a dark theme from the “Editor Theme” options.</li>
+</ul>
+</div>
+<div id="good-coding-practices" class="section level3" number="4.10.2">
+<h3>
+<span class="header-section-number">4.10.2</span> Good Coding Practices<a class="anchor" aria-label="anchor" href="#good-coding-practices"><i class="fas fa-link"></i></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Organization:</strong> Use a clear directory structure for your projects. Keep your data, code, and output in separate folders.</li>
+<li>
+<strong>Comments:</strong> Explain your code using comments (lines starting with <code>#</code>). Focus on explaining the <em>why</em> behind your code, not just the <em>what</em>.</li>
+<li>
+<strong>Readability:</strong> Use consistent spacing and indentation to make your code easy to read. RStudio can help with this by automatically indenting code.</li>
+<li>
+<strong>Section Headings:</strong> Use <code>#</code> to create section headings to organize your R scripts. The number of <code>#</code> determines the level of the heading (e.g., <code>#</code> for a top-level heading, <code>##</code> for a subheading, etc.).</li>
+<li>
+<strong>Don’t Overwrite:</strong> Avoid overwriting your original variables. Create new variables when you need to modify data.</li>
+<li>
+<strong>Backups:</strong> Regularly back up your work. Save reusable code snippets for future use. For larger projects, consider using separate R scripts for different tasks (e.g., data cleaning, analysis, reporting).</li>
+<li>
+<strong>Coding as a Language:</strong> Learning to code is like learning a new language. It takes time and practice. Be patient with yourself.</li>
+<li>
+<strong>Precision:</strong> Approach your analysis with care and attention to detail. Avoid rushing, especially when tired.</li>
+</ol>
+</div>
+<div id="solutions-to-common-problems" class="section level3" number="4.10.3">
+<h3>
+<span class="header-section-number">4.10.3</span> Solutions to Common Problems<a class="anchor" aria-label="anchor" href="#solutions-to-common-problems"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<strong>Knitting Issues:</strong>
+<ul>
+<li>Restart RStudio and try knitting again.</li>
+<li>Check for special characters (e.g., Greek letters) that might be causing problems.</li>
+<li>Make sure your PDF file (if you’re knitting to PDF) is not open in another program.</li>
+<li>Delete temporary <code>.md</code> and <code>.tex</code> files that are created during the knitting process.</li>
+<li>Consider disabling “use tinytex when compiling .tex files” in “Tools” &gt; “Global Options” &gt; “Sweave” if you’re having issues with TinyTeX.</li>
+</ul>
+</li>
+<li>
+<strong>Error Messages:</strong>
+<ul>
+<li>Carefully check your function arguments. Did you enter them correctly and in the right order?</li>
+<li>Pay attention to capitalization and the use of quotes.</li>
+<li>If you encounter naming conflicts (e.g., <code><a href="https://dplyr.tidyverse.org/reference/recode.html">dplyr::recode()</a></code> vs. <code><a href="https://rdrr.io/pkg/car/man/recode.html">car::recode()</a></code>), specify the package you want to use (e.g., <code><a href="https://dplyr.tidyverse.org/reference/recode.html">dplyr::recode()</a></code>).</li>
+</ul>
+</li>
+<li>
+<strong>Model Problems:</strong>
+<ul>
+<li>Double-check that you’re using the correct variables in your model.</li>
+<li>Review any recoding steps you performed. Did you make any mistakes that might be affecting your results?</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="empty"></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-02-21.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

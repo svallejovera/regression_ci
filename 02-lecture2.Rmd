@@ -6,10 +6,124 @@
 
 ## Introduction
 
-We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but also how the counterfactual problem is still a problem when using observational data. No fancy code for this week. 
+We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but also how the counterfactual problem is still a problem when using observational data. 
 
 The lecture slide are displayed in full below:
 
 ```{r week3slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 3 Introduction to Causal Inference."}
 knitr::include_graphics("slide/3_Introduction_to_Causal_Inference.pdf")
 ```
+
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+```
+
+## Vignette 2.1
+
+Usually, we do not know the data generation process, but here, we are gods. Let's create a world where taking a *treatment A* (e.g., taking a pill) positively *affect Y* (e.g., health) by one unit. Let's run an experiment.
+
+```{r}
+df <- data.frame(health_no_pill= rnorm(5000),
+                 # Randomly assign a treatment
+                 pill=sample(c(0,1),5000,replace=T))
+hist(df$health_no_pill)
+```
+
+```{r}
+knitr::kable(table(df$pill), format="markdown")
+```
+
+Now we can create our counterfactual:
+
+```{r}
+df <- df %>%
+  mutate(health_w_pill = health_no_pill + 1) # Our Y when A=1 aka our counterfactual
+```
+
+Let's look at our counterfactual:
+
+```{r}
+health_w_pill <- cbind.data.frame(df$health_w_pill,"with Pill")
+colnames(health_w_pill) <- c("health","treatment")
+health_no_pill <- cbind.data.frame(df$health_no_pill,"without Pill")
+colnames(health_no_pill) <- c("health","treatment")
+comparison_y <- rbind.data.frame(health_w_pill,health_no_pill)
+
+comparison_y %>%
+  group_by(treatment) %>%
+  mutate(mean_health = mean(health)) %>%
+  ungroup() %>%
+  ggplot(aes(x=health,fill = treatment,color = treatment)) +
+  geom_density(alpha = .5) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+  geom_vline(aes(xintercept = mean_health, color = treatment ),
+             linetype = "dashed")
+```
+
+Now let's give each individual the treatment (either the pill or a placebo):
+
+```{r}
+df <- df %>%
+  mutate(health_obs = ifelse(pill==1,health_w_pill,health_no_pill))
+head(df,10)
+```
+
+We can see the average effect of the pill on the treated group (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+
+```{r}
+df %>%
+  group_by(pill) %>%
+  summarize(health = mean(health_obs))
+```
+
+Or we can plot it:
+
+```{r}
+df %>%
+  group_by(pill) %>%
+  mutate(mean_health_obs = mean(health_obs)) %>%
+  ungroup() %>%
+  ggplot(aes(x=health_obs,fill = factor(pill),color = factor(pill))) +
+  geom_density(alpha = .5) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+  geom_vline(aes(xintercept = mean_health_obs, color = factor(pill) ),
+             linetype = "dashed")
+
+```
+
+## Vignette 2.2
+
+Ok... but what happens if we cannot randomize? What if we have observational data, such that...
+
+```{r}
+df <- data.frame(income = runif(10000)) %>%
+  # In this case, your health is determined randomly AND by your levels of income
+  mutate(health_no_pill = rnorm(10000) + income,
+         health_w_pill = health_no_pill + 1) %>%
+  # Now we give the pill only to people that have money
+  mutate(pill = income > .7,
+         health_obs = ifelse(pill==1,health_w_pill,health_no_pill))
+
+head(df,10)
+```
+
+Let's see what happens now to the estimated mean average 'effect' (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+
+```{r}
+df %>%
+  group_by(pill) %>%
+  summarize(health = mean(health_obs))
+```
+
+Oh no! That is more than the actual effect of the pill, which we *know* is 1 since we created it. However, if we were to properly model (this is an RDD!), then (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+
+```{r}
+df %>%
+  filter(abs(income-.7)<.01) %>%
+  group_by(pill) %>%
+  summarize(health = mean(health_obs)) ## BOOM!!
+```
+
+

@@ -1,0 +1,285 @@
+# Tutorial 1: Getting Started with R, RStudio and RMarkdown
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en) and [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
+
+This tutorial will guide you through setting up R and RStudio, installing essential packages, learning the basics of RMarkdown, and suggesting some best practices that will help keep your work organized and find solutions to common problems (which you will most definitely encounter).
+
+## Installing R and RStudio
+
+```{r global-options, echo=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE)
+```
+
+R is the programming language we'll be using in this course. It is optimized for statistics and data analysis. Additionally, it is open source, easily customizable, and very popular in academia, which gives it the edge over proprietary (e.g., Stata, SPSS) or general purpose frameworks (e.g., Python) as the best language to learn for social scientists working with data.
+
+1.  Go to the R Project website: <https://mirror.csclub.uwaterloo.ca/CRAN/>
+
+2.  This link will send you to a CRAN mirror hosted in the University of Waterloo.
+
+3.  Select the appropriate link for your operating system (Windows, macOS, or Linux).
+
+4.  Follow the instructions to download and install R.
+
+    -   **For macOS users:**
+
+        -   If you have a Mac with an Apple Silicon chip (M1, M2, M3, etc.), choose the **arm64** version.
+        -   If you have a Mac with an Intel chip, choose the **x86_64** version.
+
+    -   **Note:** When updating R, you'll need to reinstall your packages. It's a good idea to do this when you have time and not right before a deadline.
+
+### RStudio
+
+RStudio is an Integrated Development Environment (IDE) that makes working with R much easier and more user-friendly.
+
+1.  Go to the RStudio Desktop download page: <https://posit.co/download/rstudio-desktop/>
+2.  Download the free version of RStudio Desktop for your operating system.
+3.  Follow the instructions to install RStudio.
+
+## A Quick Tour of the RStudio Interface
+
+When you open RStudio, you'll see four main panes:
+
+-   **Source (top-left):** This is where you write and edit your R code and RMarkdown documents.
+-   **Console (bottom-left):** This is where you can run R code interactively and see the output.
+-   **Environment/History (top-right):** The Environment tab shows you the objects (data, variables, functions) you have created. The History tab shows you the commands you have run.
+-   **Files/Plots/Packages/Help (bottom-right):** This pane has several tabs:
+    -   **Files:** Allows you to browse and manage files on your computer.
+    -   **Plots:** Displays the plots you create.
+    -   **Packages:** Shows you the installed R packages and allows you to load/unload them.
+    -   **Help:** Displays R documentation.
+
+You can customize the layout of these panes in Tools \> Global Options \> Pane Layout.
+
+## R Working Directory
+
+The working directory is the folder where R will look for files and save output by default. Issues with conflicting working directories are common, especially if you have multiple folders for your different projects. Here are some best practices to deal with this.
+
+-   **Using `setwd()`:** You can use the `setwd()` function to set the working directory. For example, `setwd("~/Documents/R Projects/MyProject")` sets the working directory to the "MyProject" folder within the "R Projects" folder in your "Documents" directory. You can also open a new script (tab on the top left), right-click on the tab, and tell R to "Set working directory" wherever the script is located. If you are working with external data files (e.g., a .dta database, for example), your data will need to be in the same folder as the script you are working with.\
+-   **Using the RStudio Interface:** You can also set the working directory through the RStudio menu: "Session" \> "Set Working Directory" \> "Choose Directory...".
+-   **R Projects:** For better organization, consider creating R Projects for your assignments. An R Project is a special type of working directory that makes it easier to manage your code, data, and output. You can create a new project by going to "File" \> "New Project...". RStudio will automatically set the working directory to the project folder. For more information about working with projects, consult this guide: <https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects>
+
+## Introduction to RMarkdown
+
+RMarkdown is a file format that allows you to combine R code, its output (e.g., tables, plots), and text in a single document. It's a powerful tool for creating reproducible reports and assignments. You can also use it to write in HTML and render PDFs. However, it can be a little finicky and it is not as intuitive to write with, when compared to common word processors like MSWord or Google Docs, so it takes some practice (and patience) to get to a place where you feel comfortable writing in it.
+
+### Why Use RMarkdown?
+
+-   **Reproducibility:** Your code, output, and text are all in one place, making it easy to reproduce your analysis.
+-   **Clarity:** You can interweave your code with explanations and narrative, making your work easier to understand.
+-   **Efficiency:** You can generate different output formats (HTML, PDF, Word) from the same RMarkdown file. The outputs also look pretty nice.
+
+### Basic RMarkdown Syntax
+
+-   **Code Chunks:** R code is enclosed in "chunks" that start with ```` ```{r} ```` and end with ```` ``` ````.
+
+    ``` r
+    # This is an R code chunk
+    x <- 10
+    y <- 20
+    x + y
+    ```
+
+-   **Headers:** You can create headers using `#`, `##`, `###`, etc. The number of `#` determines the level of the header.
+
+-   **Text Formatting:** You can format text using Markdown syntax. For example:
+
+    -   *Italic*: `*italic*`
+    -   **Bold**: `**bold**`
+    -   `Code`: \`code\`
+    -   Links: `[Link Text](URL)`
+
+### Creating an RMarkdown File
+
+1.  In RStudio, go to "File" \> "New File" \> "R Markdown...".
+2.  Choose a title and author name.
+3.  Select the desired output format (e.g., HTML, PDF).
+4.  Click "OK".
+
+RStudio will create a new RMarkdown file with some example content. You can edit this file, add your own code and text, and then "knit" it to generate the output document.
+
+### Knitting
+
+"Knitting" is the process of converting an RMarkdown file into an output document. To knit a document, click the "Knit" button at the top of the Source pane. You can choose the output format from the dropdown menu next to the "Knit" button.
+
+### RMarkdown cheatsheet:
+
+This is a useful quick guide you can use to help with formatting and other related tasks: <https://rstudio.github.io/cheatsheets/html/rmarkdown.html>
+
+## Installing R Packages
+
+R packages extend the functionality of base R. As we progress in the course, we'll use several packages that help you perform different tasks related to statistical analysis. You will only need to install packages once, but you will need to load them after each new session.
+
+Here are some basic packages we will use and how you would go about installing them.
+
+```{r}
+# Install packages for data import/export:
+install.packages("foreign")
+install.packages("rio")
+
+# Install tidyverse, a collection of packages for data science:
+install.packages("tidyverse")
+
+# Install wooldridge, which contains datasets you will use for the assignments:
+install.packages("wooldridge")
+
+# Install knitr and markdown for improved RMarkdown functionality:
+install.packages("knitr")
+install.packages("markdown")
+```
+
+**For the Experienced:** If you have some experience with R, you might be interested in exploring the `pacman` package. It provides a convenient way to manage packages, allowing you to load, install, and update packages using a single function, `p_load()`. For example, instead of the repeated `install.packages` operations above, if you have `pacman` installed you could use one line like: `pacman::p_load(devtools, remotes, foreign, readstata13, rio, labelled, sjlabelled, tidyverse, fixest, wooldridge, modelsummary, stargazer, ggplot2, knitr, kableExtra, markdown, car, carData, lmtest, sandwich, survey, srvyr)`. Using `pacman` may also automatically install packages from CRAN, Bioconductor or GitHub, according to where the latest version is. If you're interested, you can learn more about `pacman` on its [CRAN page](https://cran.r-project.org/web/packages/pacman/index.html). However, for this course, using the standard `install.packages()` method will be sufficient.
+
+## Using AI Tools to Assist with R Programming
+
+Large Language Models (LLMs) and related AI tools, such as ChatGPT, Copilot or Gemini, can be valuable assistants for learning and using R. If used correctly, they can save you a lot of time, especially in debugging and finding ways of performing specific tasks you're not really familiar with. However, it's crucial to use them responsibly and ethically. Here are some general tips for using these tools.
+
+### How AI Can Help
+
+-   **Code Suggestions and Auto-Completion:** AI tools like GitHub Copilot can suggest code snippets as you type, helping you write code faster and with fewer errors. They also hallucinate at times, so be mindful of what they are suggesting. I'm not a big fan of auto-complete, it's usually better to either ask it for something specific or to ask for edits to base code you've already written.
+-   **Debugging Assistance:** When you encounter an error, AI can help explain what the error message means and suggest potential solutions. Just copy and paste the error message (or a relevant excerpt), tell it what you wanted it to do, and ask what could be causing the error.
+-   **Understanding Functions and Packages:** AI can provide explanations of how R functions work, what arguments they take, and how to use them effectively. Check the documentation to make sure the LLMs are not telling you to do something that is off the mark.
+-   **Learning New Concepts:** You can ask AI to explain statistical concepts or R programming topics in a way that's easy to understand. Documentation references and StackOverflow can be a bit cryptic.
+-   **Finding Relevant Documentation:** AI can help you locate relevant documentation for R packages and functions.
+-   **Generating Code for Specific Tasks:** You can describe the task you want to accomplish, and AI can generate R code to perform that task. The better and more informed your prompt is, the better the output you will get. These models are typically better at contained, well-defined, tasks than at broad tasks that are underspecified.
+
+### Limitations and Ethical Considerations
+
+-   **Critical Thinking is Essential:** AI is a tool, not a replacement for your own understanding. Always critically evaluate the code generated by AI. Make sure you understand how it works before using it.
+-   **Don't Blindly Copy and Paste:** Avoid copying and pasting code without understanding it. This can lead to errors and a lack of comprehension.
+-   **Avoid Plagiarism:** Be transparent about your use of AI. Properly cite any AI-generated code or ideas in your assignments. Your instructors need to know what work is yours and what came from AI assistance.
+-   **AI Makes Mistakes:** AI is not perfect. It can generate incorrect or inefficient code. Always test the code thoroughly.
+
+### Prompt Engineering Tips
+
+-   **Be Specific and Clear:** The more specific you are in your prompts, the better the AI will understand your request.
+-   **Provide Context:** If you're asking about a specific piece of code, include the relevant code in your prompt.
+-   **Break Down Complex Tasks:** If you have a complex task, break it down into smaller, more manageable steps.
+-   **Iterate and Refine:** If the AI doesn't give you the answer you're looking for, try rephrasing your prompt or providing more information.
+
+### Example
+
+Here's an example of how you could use an AI tool to help you generate a plot:
+
+**Prompt:** "I have a data frame called `mydata` with columns `x` and `y`. How can I create a scatterplot of `y` against `x` using ggplot2, with blue points and a red trend line?"
+
+**AI-Generated Code (example):**
+
+``` r
+ggplot(mydata, aes(x = x, y = y)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red")
+```
+
+**Remember**: You would still need to load the ggplot2 package (`library(ggplot2)`) and have your data frame `mydata` loaded in your R environment for this code to work.
+
+## Quick Example: Importing and Checking Data from `wooldridge`
+
+Let's load a dataset from the `wooldridge` package and take a quick look at it. We'll use the `wage1` dataset, which contains information about wages and other individual characteristics.
+
+```{r}
+# Load the wooldridge package
+library(wooldridge)
+
+# Load the wage1 dataset
+data("wage1")
+
+# Display the first few rows of the dataset
+head(wage1)
+
+# Get a summary of the dataset
+summary(wage1)
+
+# Get the structure of the dataset
+str(wage1)
+```
+
+**Explanation:**
+
+1.  `library(wooldridge)`: Loads the `wooldridge` package, making its datasets available.
+2.  `data("wage1")`: Loads the `wage1` dataset into your R environment.
+3.  `head(wage1)`: Displays the first six rows of the dataset, allowing you to see the variable names and some sample data.
+    -   **Exercise:** Try changing the number inside the parentheses of the `head()` function to display a different number of rows.
+4.  `summary(wage1)`: Provides descriptive statistics for each variable in the dataset (e.g., mean, median, min, max, quartiles).
+5.  `str(wage1)`: Shows the structure of the dataset, including the data type of each variable (e.g., numeric, integer, factor).
+
+## Getting Help in R
+
+There are several ways to get help in R:
+
+-   **`?` or `help()`:** To access the documentation for a specific function, type `?` followed by the function name (e.g., `?mean`). You can also use `help(mean)`.
+-   **`??` or `help.search()`:** To search for help topics related to a keyword, use `??` followed by the keyword (e.g., `??regression`). You can also use `help.search("regression")`.
+-   **Online Resources:** The R community is very active online. Websites like Stack Overflow (<https://stackoverflow.com/questions/tagged/r>) are great places to find answers to common R questions.
+-   **Package Vignettes**: Many R packages include vignettes, which are longer, tutorial-style documents that demonstrate how to use the package. You can access them using the `browseVignettes()` function.
+-   **Package Websites**: Some packages have dedicated websites with additional resources, such as tutorials, articles, and examples. These can typically be found by searching for the package name followed by "R package" in a search engine.
+
+## Style Guides in R
+
+Coding style guides are sets of conventions that prescribe how code should be formatted and written. Following a style guide can make your code more readable, maintainable, and consistent.
+
+### The tidyverse Style Guide
+
+The tidyverse style guide, developed by Hadley Wickham and the RStudio team, is a widely used style guide for R. It covers various aspects of coding style, including:
+
+-   File names
+-   Object names
+-   Syntax
+-   Spacing
+-   Control flow
+-   Comments
+
+You can find the tidyverse style guide here: <https://style.tidyverse.org/>. *Note: I try to follow the guide, but I am not incredibly good at doing so*. 
+
+### Quick Examples
+
+Here are a few examples of tidyverse style guidelines:
+
+-   **File Names:** Use `.R` extension for R script files and `.Rmd` for R Markdown files. File names should be meaningful and use lowercase letters, numbers, and underscores (e.g., `process_data.R`, `analysis_report.Rmd`).
+-   **Object Names:** Use lowercase with underscores to separate words (e.g., `my_variable`, `data_frame`). Be descriptive but concise.
+-   **Spacing:** Place spaces around operators (e.g., `x + y`, not `x+y`) and after commas (e.g., `mean(x, na.rm = TRUE)`, not `mean(x,na.rm=TRUE)`).
+-   **Indentation:** Use two spaces for indentation. Do not use tabs.
+
+### Other Style Guides
+
+While the tidyverse style guide is popular, there are other style guides you might encounter or choose to follow, such as:
+
+-   **Google's R Style Guide:** <https://google.github.io/styleguide/Rguide.html>
+-   **The Bioconductor Style Guide:** <https://contributions.bioconductor.org/>
+
+Ultimately, the most important thing is to be consistent in your style, regardless of which guide you choose to follow. Most style guides agree on the basic principles of writing clear and readable code.
+
+## Protips for R Success
+
+### Enable Helpful RStudio Options
+
+These options can make your coding experience more pleasant and efficient:
+
+-   **Highlight R function calls:** Go to "Tools" \> "Global Options" \> "Code" \> "Display" and check "Highlight R function calls." This will visually distinguish function names in your code.
+-   **Rainbow parentheses:** In the same "Display" settings, check "Rainbow parentheses." This will color-code matching parentheses, making it easier to track nested functions.
+-   **Use a dark theme:** If you find yourself staring at the screen for long periods, a dark theme can help reduce eye strain. Go to "Tools" \> "Global Options" \> "Appearance" and choose a dark theme from the "Editor Theme" options.
+
+### Good Coding Practices
+
+1.  **Organization:** Use a clear directory structure for your projects. Keep your data, code, and output in separate folders.
+2.  **Comments:** Explain your code using comments (lines starting with `#`). Focus on explaining the *why* behind your code, not just the *what*.
+3.  **Readability:** Use consistent spacing and indentation to make your code easy to read. RStudio can help with this by automatically indenting code.
+4.  **Section Headings:** Use `#` to create section headings to organize your R scripts. The number of `#` determines the level of the heading (e.g., `#` for a top-level heading, `##` for a subheading, etc.).
+5.  **Don't Overwrite:** Avoid overwriting your original variables. Create new variables when you need to modify data.
+6.  **Backups:** Regularly back up your work. Save reusable code snippets for future use. For larger projects, consider using separate R scripts for different tasks (e.g., data cleaning, analysis, reporting).
+7.  **Coding as a Language:** Learning to code is like learning a new language. It takes time and practice. Be patient with yourself.
+8.  **Precision:** Approach your analysis with care and attention to detail. Avoid rushing, especially when tired.
+
+### Solutions to Common Problems
+
+-   **Knitting Issues:**
+    -   Restart RStudio and try knitting again.
+    -   Check for special characters (e.g., Greek letters) that might be causing problems.
+    -   Make sure your PDF file (if you're knitting to PDF) is not open in another program.
+    -   Delete temporary `.md` and `.tex` files that are created during the knitting process.
+    -   Consider disabling "use tinytex when compiling .tex files" in "Tools" \> "Global Options" \> "Sweave" if you're having issues with TinyTeX.
+-   **Error Messages:**
+    -   Carefully check your function arguments. Did you enter them correctly and in the right order?
+    -   Pay attention to capitalization and the use of quotes.
+    -   If you encounter naming conflicts (e.g., `dplyr::recode()` vs. `car::recode()`), specify the package you want to use (e.g., `dplyr::recode()`).
+-   **Model Problems:**
+    -   Double-check that you're using the correct variables in your model.
+    -   Review any recoding steps you performed. Did you make any mistakes that might be affecting your results?
