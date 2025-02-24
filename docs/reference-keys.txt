@@ -47,9 +47,9 @@ protips-for-r-success
 enable-helpful-rstudio-options
 good-coding-practices
 solutions-to-common-problems
-footnotes-and-citations
-footnotes
-citations
+lecture-3-core-concepts-of-experimental-design
+introduction-2
+vignette-3.1--
 blocks
 equations
 theorems-and-proofs

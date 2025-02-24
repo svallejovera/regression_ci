@@ -40,6 +40,8 @@ install.packages("learnr")
 install.packages("wooldridge")
 install.packages("tidyverse")
 install.packages("tidylog")
+install.packages(sjPlot) # to plot some models
+install.packages(readstata13) # to load .dta files
 ```
 
 ### Running a Tutorial

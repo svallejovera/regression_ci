@@ -1,0 +1,79 @@
+# Lecture 3: Core Concepts of Experimental Design
+
+## Slides{.unnumbered}
+
+- 3 Introduction to Causal Inference ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/4_Core_Concepts_of_Experimental_Design.pptx)) 
+
+## Introduction
+
+In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with observational data) and the potential outcomes approach (to understand how random assignment solves this problem). 
+
+The lecture slide are displayed in full below:
+
+```{r week4slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 4 Core Concepts of Experimental Design."}
+knitr::include_graphics("slide/4_Core_Concepts_of_Experimental_Design.pdf")
+```
+
+# Vignette 3.1: ----
+
+Liebman, Jeffrey B., and Erzo FP Luttmer. "Would people behave differently if they better understood social security? Evidence from a field experiment." American Economic Journal: Economic Policy 7.1 (2015): 275-99.
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(sjPlot) # to plot some models
+library(readstata13) # to load .dta files
+```
+
+```{r}
+exp_data <- read.dta13("Sample_data/Data_WithAgeInconsistency.dta")
+```
+
+Our variable of interest (DV, Y) is paid_work_yes: whether the person worked or not. Our treatment variable is treat: whether they got the pamphlet or not. Because this is an experiment, we can compare the averages of the treatment group and the control group to estimate the causal effect. 
+
+```{r}
+exp_data %>%
+  group_by(treat) %>% 
+  summarise(ATE = mean(paid_work_yes, na.rm = T))
+```
+
+Same effect as reported by authors!! We can also estimate differences by gender (why?):
+
+```{r}
+exp_data %>%
+  group_by(female,treat) %>% 
+  summarise(ATE = mean(paid_work_yes, na.rm = T))
+```
+
+Treatment only has an effect on women... why?
+
+
+These averages look great and all but how can we be sure if these effects are not only a mere coincidence product of randomization? Let's add some confidence intervals:
+
+```{r}
+exp_data$treat <- as.factor(exp_data$treat)
+exp_data$female <- as.factor(exp_data$female)
+
+# Full model
+model_1 <- lm(paid_work_yes ~ treat, data = exp_data)
+summary(model_1)
+
+plot_model(model_1, type = "pred", terms = "treat") +
+  theme_minimal() +
+  labs(x="Treatment", y="Worked +1 Year")
+```
+
+And now by gender;
+
+```{r}
+# Model by gender
+model_2 <- lm(paid_work_yes ~ female + treat + female*treat, data = exp_data)
+summary(model_2)
+
+plot_model(model_2, type = "int") +
+  theme_minimal() +
+  labs(x="Women", y="Worked +1 Year", color = "Treatment")
+```
+
+Cool...
+
