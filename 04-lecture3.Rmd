@@ -14,7 +14,7 @@ The lecture slide are displayed in full below:
 knitr::include_graphics("slide/4_Core_Concepts_of_Experimental_Design.pdf")
 ```
 
-# Vignette 3.1: ----
+## Vignette 3.1: ----
 
 Liebman, Jeffrey B., and Erzo FP Luttmer. "Would people behave differently if they better understood social security? Evidence from a field experiment." American Economic Journal: Economic Policy 7.1 (2015): 275-99.
 
@@ -46,7 +46,6 @@ exp_data %>%
 ```
 
 Treatment only has an effect on women... why?
-
 
 These averages look great and all but how can we be sure if these effects are not only a mere coincidence product of randomization? Let's add some confidence intervals:
 
