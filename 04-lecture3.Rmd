@@ -2,7 +2,7 @@
 
 ## Slides{.unnumbered}
 
-- 3 Introduction to Causal Inference ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/4_Core_Concepts_of_Experimental_Design.pptx)) 
+- 4 Core Concepts of Experimental Design ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/4_Core_Concepts_of_Experimental_Design.pptx)) 
 
 ## Introduction
 

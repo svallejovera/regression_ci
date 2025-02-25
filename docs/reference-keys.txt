@@ -58,5 +58,3 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
-fig:week4slides
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
