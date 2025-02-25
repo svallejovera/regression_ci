@@ -25,7 +25,7 @@ Liebman, Jeffrey B., and Erzo FP Luttmer. "Would people behave differently if th
 ```{r, warning = F, message = F}
 library(tidyverse) # for wrangling data
 library(tidylog) # to know what we are wrangling
-library(sjPlot) # to plot some models
+library(sjPlot) # to plot somse models
 library(readstata13) # to load .dta files
 ```
 
