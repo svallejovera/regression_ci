@@ -6,6 +6,10 @@
 
 ## Introduction
 
+```{r echo=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=F, message=T, eval=T)
+```
+
 In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with observational data) and the potential outcomes approach (to understand how random assignment solves this problem). 
 
 The lecture slide are displayed in full below:
@@ -14,7 +18,7 @@ The lecture slide are displayed in full below:
 knitr::include_graphics("slide/4_Core_Concepts_of_Experimental_Design.pdf")
 ```
 
-## Vignette 3.1: ----
+## Vignette 3.1
 
 Liebman, Jeffrey B., and Erzo FP Luttmer. "Would people behave differently if they better understood social security? Evidence from a field experiment." American Economic Journal: Economic Policy 7.1 (2015): 275-99.
 
@@ -25,13 +29,13 @@ library(sjPlot) # to plot some models
 library(readstata13) # to load .dta files
 ```
 
-```{r}
+```{r, echo=FALSE}
 exp_data <- read.dta13("Sample_data/Data_WithAgeInconsistency.dta")
 ```
 
 Our variable of interest (DV, Y) is paid_work_yes: whether the person worked or not. Our treatment variable is treat: whether they got the pamphlet or not. Because this is an experiment, we can compare the averages of the treatment group and the control group to estimate the causal effect. 
 
-```{r}
+```{r, echo=TRUE}
 exp_data %>%
   group_by(treat) %>% 
   summarise(ATE = mean(paid_work_yes, na.rm = T))
@@ -59,10 +63,11 @@ summary(model_1)
 
 plot_model(model_1, type = "pred", terms = "treat") +
   theme_minimal() +
-  labs(x="Treatment", y="Worked +1 Year")
+  labs(x="Treatment", y="Worked +1 Year",
+       title="Predicted Effect of Treatment")
 ```
 
-And now by gender;
+And now by gender:
 
 ```{r}
 # Model by gender
@@ -71,7 +76,8 @@ summary(model_2)
 
 plot_model(model_2, type = "int") +
   theme_minimal() +
-  labs(x="Women", y="Worked +1 Year", color = "Treatment")
+  labs(x="Women", y="Worked +1 Year", color = "Treatment",
+       title="Predicted Effect of Treatment by Gender")
 ```
 
 Cool...

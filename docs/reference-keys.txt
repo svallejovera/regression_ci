@@ -49,7 +49,7 @@ good-coding-practices
 solutions-to-common-problems
 lecture-3-core-concepts-of-experimental-design
 introduction-2
-vignette-3.1--
+vignette-3.1
 blocks
 equations
 theorems-and-proofs
@@ -58,3 +58,5 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
+fig:week4slides
+url-your-book-url-like-httpsbookdown.orgyihuibookdown

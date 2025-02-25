@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 4 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference</title>
+<title>Chapter 5 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 3 Introduction to Causal Inference (link)  4.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
+<meta name="description" content="Slides 3 Introduction to Causal Inference (link)  5.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
 <meta name="generator" content="bookdown 0.42 with bs4_book()">
-<meta property="og:title" content="Chapter 4 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference">
+<meta property="og:title" content="Chapter 5 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 3 Introduction to Causal Inference (link)  4.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
+<meta property="og:description" content="Slides 3 Introduction to Causal Inference (link)  5.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 4 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference">
-<meta name="twitter:description" content="Slides 3 Introduction to Causal Inference (link)  4.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
+<meta name="twitter:title" content="Chapter 5 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="Slides 3 Introduction to Causal Inference (link)  5.1 Introduction In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -41,25 +41,16 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
-<li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
-<li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">2</span> Lecture 2: Introduction to Causal Inference</a></li>
-<li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
-<li><a class="active" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design</a></li>
-<li><a class="" href="blocks.html"><span class="header-section-number">5</span> Blocks</a></li>
-<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
-<li><a class="" href="references.html">References</a></li>
-</ul>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Chapter 5</span> Lecture 3: Core Concepts of Experimental Design</a></li></ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture-3-core-concepts-of-experimental-design" class="section level1" number="4">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture-3-core-concepts-of-experimental-design" class="section level1" number="5">
 <h1>
-<span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design<a class="anchor" aria-label="anchor" href="#lecture-3-core-concepts-of-experimental-design"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5</span> Lecture 3: Core Concepts of Experimental Design<a class="anchor" aria-label="anchor" href="#lecture-3-core-concepts-of-experimental-design"><i class="fas fa-link"></i></a>
 </h1>
 <div id="slides-2" class="section level2 unnumbered">
 <h2>Slides<a class="anchor" aria-label="anchor" href="#slides-2"><i class="fas fa-link"></i></a>
@@ -68,77 +59,135 @@
 <li>3 Introduction to Causal Inference (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/4_Core_Concepts_of_Experimental_Design.pptx">link</a>)</li>
 </ul>
 </div>
-<div id="introduction-2" class="section level2" number="4.1">
+<div id="introduction-2" class="section level2" number="5.1">
 <h2>
-<span class="header-section-number">4.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-2"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this lecture we look at a (slightly) more technical understanding of selection bias (to understand the problem with observational data) and the potential outcomes approach (to understand how random assignment solves this problem).</p>
 <p>The lecture slide are displayed in full below:</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:week4slides"></span>
+<embed src="slide/4_Core_Concepts_of_Experimental_Design.pdf" title="Slides for 4 Core Concepts of Experimental Design." width="100%" type="application/pdf"></embed><p class="caption">
+Figure 5.1: Slides for 4 Core Concepts of Experimental Design.
+</p>
 </div>
-<div id="vignette-3.1--" class="section level2" number="4.2">
+</div>
+<div id="vignette-3.1" class="section level2" number="5.2">
 <h2>
-<span class="header-section-number">4.2</span> Vignette 3.1: —-<a class="anchor" aria-label="anchor" href="#vignette-3.1--"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2</span> Vignette 3.1<a class="anchor" aria-label="anchor" href="#vignette-3.1"><i class="fas fa-link"></i></a>
 </h2>
 <p>Liebman, Jeffrey B., and Erzo FP Luttmer. “Would people behave differently if they better understood social security? Evidence from a field experiment.” American Economic Journal: Economic Policy 7.1 (2015): 275-99.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span> <span class="co"># to plot some models</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sjewo/readstata13">readstata13</a></span><span class="op">)</span> <span class="co"># to load .dta files</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readstata13/man/read.dta13.html">read.dta13</a></span><span class="op">(</span><span class="st">"Sample_data/Data_WithAgeInconsistency.dta"</span><span class="op">)</span></span></code></pre></div>
 <p>Our variable of interest (DV, Y) is paid_work_yes: whether the person worked or not. Our treatment variable is treat: whether they got the pamphlet or not. Because this is an experiment, we can compare the averages of the treatment group and the control group to estimate the causal effect.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">treat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">summarise</span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">paid_work_yes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (treat)
+## summarise: now 2 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   treat   ATE
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1     0 0.744
+## 2     1 0.785</code></pre>
 <p>Same effect as reported by authors!! We can also estimate differences by gender (why?):</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">female</span>,<span class="va">treat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">summarise</span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">paid_work_yes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: 2 grouping variables (female, treat)
+## summarise: now 4 rows and 3 columns, one group variable remaining (female)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   female [2]
+##   female treat   ATE
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1      0     0 0.784
+## 2      0     1 0.787
+## 3      1     0 0.713
+## 4      1     1 0.782</code></pre>
 <p>Treatment only has an effect on women… why?</p>
 <p>These averages look great and all but how can we be sure if these effects are not only a mere coincidence product of randomization? Let’s add some confidence intervals:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp_data</span><span class="op">$</span><span class="va">treat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">exp_data</span><span class="op">$</span><span class="va">treat</span><span class="op">)</span></span>
 <span><span class="va">exp_data</span><span class="op">$</span><span class="va">female</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">exp_data</span><span class="op">$</span><span class="va">female</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Full model</span></span>
 <span><span class="va">model_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">paid_work_yes</span> <span class="op">~</span> <span class="va">treat</span>, data <span class="op">=</span> <span class="va">exp_data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model_1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_1</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="st">"treat"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model_1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = paid_work_yes ~ treat, data = exp_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.7845  0.2155  0.2155  0.2555  0.2555 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.74446    0.01530  48.666   &lt;2e-16 ***
+## treat1       0.04004    0.02124   1.885   0.0596 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4237 on 1591 degrees of freedom
+##   (890 observations deleted due to missingness)
+## Multiple R-squared:  0.002228,   Adjusted R-squared:  0.001601 
+## F-statistic: 3.553 on 1 and 1591 DF,  p-value: 0.05961</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_1</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="st">"treat"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Treatment"</span>, y<span class="op">=</span><span class="st">"Worked +1 Year"</span><span class="op">)</span></span></code></pre></div>
-<p>And now by gender;</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-6-1.png" width="672"></div>
+<p>And now by gender:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model by gender</span></span>
 <span><span class="va">model_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">paid_work_yes</span> <span class="op">~</span> <span class="va">female</span> <span class="op">+</span> <span class="va">treat</span> <span class="op">+</span> <span class="va">female</span><span class="op">*</span><span class="va">treat</span>, data <span class="op">=</span> <span class="va">exp_data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model_2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_2</span>, type <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model_2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = paid_work_yes ~ female + treat + female * treat, 
+##     data = exp_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.7871  0.2129  0.2164  0.2176  0.2871 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     0.783626   0.022885  34.242   &lt;2e-16 ***
+## female1        -0.070685   0.030743  -2.299   0.0216 *  
+## treat1          0.003436   0.031725   0.108   0.9138    
+## female1:treat1  0.066040   0.042680   1.547   0.1220    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4232 on 1589 degrees of freedom
+##   (890 observations deleted due to missingness)
+## Multiple R-squared:  0.005552,   Adjusted R-squared:  0.003675 
+## F-statistic: 2.957 on 3 and 1589 DF,  p-value: 0.03136</code></pre>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_2</span>, type <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Women"</span>, y<span class="op">=</span><span class="st">"Worked +1 Year"</span>, color <span class="op">=</span> <span class="st">"Treatment"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
 <p>Cool…</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></div>
-<div class="next"><a href="blocks.html"><span class="header-section-number">5</span> Blocks</a></div>
+<div class="empty"></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lecture-3-core-concepts-of-experimental-design"><span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design</a></li>
-<li><a class="nav-link" href="#slides-2">Slides</a></li>
-<li><a class="nav-link" href="#introduction-2"><span class="header-section-number">4.1</span> Introduction</a></li>
-<li><a class="nav-link" href="#vignette-3.1--"><span class="header-section-number">4.2</span> Vignette 3.1: —-</a></li>
-</ul>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/04-lecture3.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/04-lecture3.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          
         </ul>
 </div>
     </nav>
@@ -158,34 +207,6 @@
   </div>
 
 </div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
-</script>
+</footer>
 </body>
 </html>

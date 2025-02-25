@@ -105,11 +105,11 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 <tbody>
 <tr class="odd">
 <td align="left">0</td>
-<td align="right">2459</td>
+<td align="right">2494</td>
 </tr>
 <tr class="even">
 <td align="left">1</td>
-<td align="right">2541</td>
+<td align="right">2506</td>
 </tr>
 </tbody>
 </table></div>
@@ -147,16 +147,16 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>,<span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    health_no_pill pill health_w_pill health_obs
-## 1       0.1967082    0     1.1967082  0.1967082
-## 2      -0.3442929    0     0.6557071 -0.3442929
-## 3      -2.2675517    0    -1.2675517 -2.2675517
-## 4      -0.4315952    0     0.5684048 -0.4315952
-## 5       1.0615768    1     2.0615768  2.0615768
-## 6       0.1089285    0     1.1089285  0.1089285
-## 7      -1.2361550    0    -0.2361550 -1.2361550
-## 8      -0.0580893    0     0.9419107 -0.0580893
-## 9       1.5308890    1     2.5308890  2.5308890
-## 10      1.7194331    1     2.7194331  2.7194331</code></pre>
+## 1      -0.3579874    1     0.6420126  0.6420126
+## 2      -2.9314199    1    -1.9314199 -1.9314199
+## 3       0.3794738    1     1.3794738  1.3794738
+## 4       2.5037990    0     3.5037990  2.5037990
+## 5       0.1542494    0     1.1542494  0.1542494
+## 6      -0.1237040    0     0.8762960 -0.1237040
+## 7       0.3576142    1     1.3576142  1.3576142
+## 8       0.1539094    1     1.1539094  1.1539094
+## 9      -0.1620332    0     0.8379668 -0.1620332
+## 10      1.1597712    1     2.1597712  2.1597712</code></pre>
 <p>We can see the average effect of the pill on the treated group (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -165,10 +165,10 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 <pre><code>## group_by: one grouping variable (pill)
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
-##    pill   health
-##   &lt;dbl&gt;    &lt;dbl&gt;
-## 1     0 -0.00889
-## 2     1  1.01</code></pre>
+##    pill  health
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0 0.00294
+## 2     1 0.997</code></pre>
 <p>Or we can plot it:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -204,17 +204,17 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 ##         new variable 'health_obs' (double) with 10,000 unique values and 0% NA</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>,<span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##       income health_no_pill health_w_pill  pill  health_obs
-## 1  0.2280771     -0.1220079    0.87799214 FALSE -0.12200786
-## 2  0.3227523     -0.7694194    0.23058058 FALSE -0.76941942
-## 3  0.5122241      1.0363089    2.03630888 FALSE  1.03630888
-## 4  0.1836969      2.2933355    3.29333553 FALSE  2.29333553
-## 5  0.1764775      0.2815391    1.28153907 FALSE  0.28153907
-## 6  0.9416852      3.8173834    4.81738341  TRUE  4.81738341
-## 7  0.2404758      1.5802031    2.58020312 FALSE  1.58020312
-## 8  0.5709438      1.5509092    2.55090919 FALSE  1.55090919
-## 9  0.7881647     -0.9421057    0.05789427  TRUE  0.05789427
-## 10 0.5399228      1.1586174    2.15861741 FALSE  1.15861741</code></pre>
+<pre><code>##       income health_no_pill health_w_pill  pill health_obs
+## 1  0.8155807      2.1372576     3.1372576  TRUE  3.1372576
+## 2  0.1808156      0.9304684     1.9304684 FALSE  0.9304684
+## 3  0.2590516      0.8958758     1.8958758 FALSE  0.8958758
+## 4  0.8961297     -0.3549424     0.6450576  TRUE  0.6450576
+## 5  0.9483955      2.4355475     3.4355475  TRUE  3.4355475
+## 6  0.8555458     -0.2672716     0.7327284  TRUE  0.7327284
+## 7  0.2599407      1.0285244     2.0285244 FALSE  1.0285244
+## 8  0.3590775     -0.3959288     0.6040712 FALSE -0.3959288
+## 9  0.5627617     -0.3818828     0.6181172 FALSE -0.3818828
+## 10 0.8223649      1.6642525     2.6642525  TRUE  2.6642525</code></pre>
 <p>Let’s see what happens now to the estimated mean average ‘effect’ (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -225,22 +225,22 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.364
-## 2 TRUE   1.88</code></pre>
+## 1 FALSE  0.344
+## 2 TRUE   1.83</code></pre>
 <p>Oh no! That is more than the actual effect of the pill, which we <em>know</em> is 1 since we created it. However, if we were to properly model (this is an RDD!), then (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">filter</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">income</span><span class="op">-</span><span class="fl">.7</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">.01</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span> <span class="co">## BOOM!!</span></span></code></pre></div>
-<pre><code>## filter: removed 9,789 rows (98%), 211 rows remaining
+<pre><code>## filter: removed 9,827 rows (98%), 173 rows remaining
 ## group_by: one grouping variable (pill)
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.650
-## 2 TRUE   1.74</code></pre>
+## 1 FALSE  0.644
+## 2 TRUE   1.70</code></pre>
 
 </div>
 </div>
