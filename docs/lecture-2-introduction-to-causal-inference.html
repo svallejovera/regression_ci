@@ -46,9 +46,10 @@
 <li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
 <li><a class="active" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">2</span> Lecture 2: Introduction to Causal Inference</a></li>
 <li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
-<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design</a></li>
-<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">5</span> Tutorial 2: Key Concepts</a></li>
-<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
+<li><a class="" href="lecture-exercises-1.html"><span class="header-section-number">4</span> Lecture Exercises 1</a></li>
+<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">5</span> Lecture 3: Core Concepts of Experimental Design</a></li>
+<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">6</span> Tutorial 2: Key Concepts</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">7</span> Sharing your book</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -80,13 +81,23 @@
 Figure 2.1: Slides for 3 Introduction to Causal Inference.
 </p>
 </div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span></code></pre></div>
 </div>
 <div id="vignette-2.1" class="section level2" number="2.2">
 <h2>
 <span class="header-section-number">2.2</span> Vignette 2.1<a class="anchor" aria-label="anchor" href="#vignette-2.1"><i class="fas fa-link"></i></a>
 </h2>
 <p>Usually, we do not know the data generation process, but here, we are gods. Let’s create a world where taking a <em>treatment A</em> (e.g., taking a pill) positively <em>affect Y</em> (e.g., health) by one unit. Let’s run an experiment.</p>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>health_no_pill<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span>,</span>
+<span>                 <span class="co"># Randomly assign a treatment</span></span>
+<span>                 pill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,<span class="fl">5000</span>,replace<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">health_no_pill</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">pill</span><span class="op">)</span>, format<span class="op">=</span><span class="st">"markdown"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th align="left">Var1</th>
@@ -95,85 +106,142 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
 <tbody>
 <tr class="odd">
 <td align="left">0</td>
-<td align="right">2469</td>
+<td align="right">2517</td>
 </tr>
 <tr class="even">
 <td align="left">1</td>
-<td align="right">2531</td>
+<td align="right">2483</td>
 </tr>
 </tbody>
 </table></div>
 <p>Now we can create our counterfactual:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>health_w_pill <span class="op">=</span> <span class="va">health_no_pill</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Our Y when A=1 aka our counterfactual</span></span></code></pre></div>
 <pre><code>## mutate: new variable 'health_w_pill' (double) with 5,000 unique values and 0% NA</code></pre>
 <p>Let’s look at our counterfactual:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">health_w_pill</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">health_w_pill</span>,<span class="st">"with Pill"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">health_w_pill</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"health"</span>,<span class="st">"treatment"</span><span class="op">)</span></span>
+<span><span class="va">health_no_pill</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">health_no_pill</span>,<span class="st">"without Pill"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">health_no_pill</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"health"</span>,<span class="st">"treatment"</span><span class="op">)</span></span>
+<span><span class="va">comparison_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind.data.frame</a></span><span class="op">(</span><span class="va">health_w_pill</span>,<span class="va">health_no_pill</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">comparison_y</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">treatment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mean_health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">health</span>,fill <span class="op">=</span> <span class="va">treatment</span>,color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pretty_breaks.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">mean_health</span>, color <span class="op">=</span> <span class="va">treatment</span> <span class="op">)</span>,</span>
+<span>             linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (treatment)
 ## mutate (grouped): new variable 'mean_health' (double) with 2 unique values and 0% NA
 ## ungroup: no grouping variables remain</code></pre>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
 <p>Now let’s give each individual the treatment (either the pill or a placebo):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>health_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">pill</span><span class="op">==</span><span class="fl">1</span>,<span class="va">health_w_pill</span>,<span class="va">health_no_pill</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## mutate: new variable 'health_obs' (double) with 5,000 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>,<span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    health_no_pill pill health_w_pill  health_obs
-## 1     -0.43945677    0    0.56054323 -0.43945677
-## 2     -1.05236396    1   -0.05236396 -0.05236396
-## 3      0.04267902    1    1.04267902  1.04267902
-## 4     -0.86632315    1    0.13367685  0.13367685
-## 5     -1.34246232    0   -0.34246232 -1.34246232
-## 6      2.72891583    1    3.72891583  3.72891583
-## 7      1.78485678    0    2.78485678  1.78485678
-## 8     -1.07057218    0   -0.07057218 -1.07057218
-## 9     -0.27621627    1    0.72378373  0.72378373
-## 10    -0.77165912    0    0.22834088 -0.77165912</code></pre>
+## 1    -0.272571336    1     0.7274287  0.72742866
+## 2    -0.350792585    1     0.6492074  0.64920742
+## 3     0.772226643    0     1.7722266  0.77222664
+## 4     0.591161168    0     1.5911612  0.59116117
+## 5     1.053822531    0     2.0538225  1.05382253
+## 6    -0.002437894    1     0.9975621  0.99756211
+## 7    -0.790622103    0     0.2093779 -0.79062210
+## 8     0.068306547    0     1.0683065  0.06830655
+## 9     1.227682259    1     2.2276823  2.22768226
+## 10    0.801687706    0     1.8016877  0.80168771</code></pre>
 <p>We can see the average effect of the pill on the treated group (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (pill)
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
-##    pill health
-##   &lt;dbl&gt;  &lt;dbl&gt;
-## 1     0 0.0147
-## 2     1 1.02</code></pre>
+##    pill  health
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0 -0.0315
+## 2     1  1.01</code></pre>
 <p>Or we can plot it:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mean_health_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">health_obs</span>,fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">pill</span><span class="op">)</span>,color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">pill</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pretty_breaks.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">mean_health_obs</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op">)</span>,</span>
+<span>             linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (pill)
 ## mutate (grouped): new variable 'mean_health_obs' (double) with 2 unique values and 0% NA
 ## ungroup: no grouping variables remain</code></pre>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 </div>
 <div id="vignette-2.2" class="section level2" number="2.3">
 <h2>
 <span class="header-section-number">2.3</span> Vignette 2.2<a class="anchor" aria-label="anchor" href="#vignette-2.2"><i class="fas fa-link"></i></a>
 </h2>
 <p>Ok… but what happens if we cannot randomize? What if we have observational data, such that…</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>income <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># In this case, your health is determined randomly AND by your levels of income</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>health_no_pill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span> <span class="op">+</span> <span class="va">income</span>,</span>
+<span>         health_w_pill <span class="op">=</span> <span class="va">health_no_pill</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Now we give the pill only to people that have money</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pill <span class="op">=</span> <span class="va">income</span> <span class="op">&gt;</span> <span class="fl">.7</span>,</span>
+<span>         health_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">pill</span><span class="op">==</span><span class="fl">1</span>,<span class="va">health_w_pill</span>,<span class="va">health_no_pill</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## mutate: new variable 'health_no_pill' (double) with 10,000 unique values and 0% NA
 ##         new variable 'health_w_pill' (double) with 10,000 unique values and 0% NA
 ## mutate: new variable 'pill' (logical) with 2 unique values and 0% NA
 ##         new variable 'health_obs' (double) with 10,000 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>,<span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##        income health_no_pill health_w_pill  pill health_obs
-## 1  0.11974342      0.2470892     1.2470892 FALSE  0.2470892
-## 2  0.74869728     -0.1040237     0.8959763  TRUE  0.8959763
-## 3  0.50897495      1.1704218     2.1704218 FALSE  1.1704218
-## 4  0.86843983      0.8450206     1.8450206  TRUE  1.8450206
-## 5  0.04522417      0.1634942     1.1634942 FALSE  0.1634942
-## 6  0.96812687     -0.1629472     0.8370528  TRUE  0.8370528
-## 7  0.01629560      1.0896066     2.0896066 FALSE  1.0896066
-## 8  0.80284658      1.4072650     2.4072650  TRUE  2.4072650
-## 9  0.84004268      1.7714693     2.7714693  TRUE  2.7714693
-## 10 0.03921411     -0.7461628     0.2538372 FALSE -0.7461628</code></pre>
+## 1  0.87517656      1.2171878     2.2171878  TRUE  2.2171878
+## 2  0.80672109      0.6638430     1.6638430  TRUE  1.6638430
+## 3  0.94182864      0.2257862     1.2257862  TRUE  1.2257862
+## 4  0.83864642      1.7474072     2.7474072  TRUE  2.7474072
+## 5  0.58756135      0.6239204     1.6239204 FALSE  0.6239204
+## 6  0.98557933      0.7525114     1.7525114  TRUE  1.7525114
+## 7  0.70089799      1.1914464     2.1914464  TRUE  2.1914464
+## 8  0.74275368      1.1446100     2.1446100  TRUE  2.1446100
+## 9  0.09280074     -0.6086412     0.3913588 FALSE -0.6086412
+## 10 0.50616205      0.2392857     1.2392857 FALSE  0.2392857</code></pre>
 <p>Let’s see what happens now to the estimated mean average ‘effect’ (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (pill)
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.358
-## 2 TRUE   1.84</code></pre>
+## 1 FALSE  0.347
+## 2 TRUE   1.87</code></pre>
 <p>Oh no! That is more than the actual effect of the pill, which we <em>know</em> is 1 since we created it. However, if we were to properly model (this is an RDD!), then (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment, and those who do not):</p>
-<pre><code>## filter: removed 9,796 rows (98%), 204 rows remaining
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">income</span><span class="op">-</span><span class="fl">.7</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">.01</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span> <span class="co">## BOOM!!</span></span></code></pre></div>
+<pre><code>## filter: removed 9,800 rows (98%), 200 rows remaining
 ## group_by: one grouping variable (pill)
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.753
-## 2 TRUE   1.68</code></pre>
+## 1 FALSE  0.665
+## 2 TRUE   1.83</code></pre>
 
 </div>
 </div>
@@ -213,6 +281,34 @@ Figure 2.1: Slides for 3 Introduction to Causal Inference.
   </div>
 
 </div></div>
-</footer>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
 </body>
 </html>

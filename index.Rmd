@@ -34,7 +34,7 @@ Before running the tutorials, make sure you have:
 2.  RStudio installed (any recent version)
 3.  The following R packages installed. You can install them by running these commands in R:
 
-``` r
+``` {r, eval = FALSE}
 # Install required packages
 install.packages("learnr")
 install.packages("wooldridge")
@@ -59,7 +59,7 @@ There are two ways to run a tutorial locally:
 
 If you have the tutorial file in your working directory, you can run:
 
-``` r
+``` {r, eval = FALSE}
 rmarkdown::run_tutorial("filename", package = "learnr")
 ```
 

@@ -1,5 +1,6 @@
 fig:week2slides
 fig:week3slides
+fig:week4slides
 about-tutorials
 prerequisites
 running-a-tutorial
@@ -45,6 +46,17 @@ protips-for-r-success
 enable-helpful-rstudio-options
 good-coding-practices
 solutions-to-common-problems
+lecture-exercises-1
+main-exercise
+additional-exercises
+stop
+continue
+overall-ratings-of-trudeau
+trudeau-ratings-by-groups
+gender
+age
+education
+ideology
 lecture-3-core-concepts-of-experimental-design
 introduction-2
 vignette-3.1

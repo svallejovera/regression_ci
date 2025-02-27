@@ -46,9 +46,10 @@
 <li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
 <li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">2</span> Lecture 2: Introduction to Causal Inference</a></li>
 <li><a class="active" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
-<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design</a></li>
-<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">5</span> Tutorial 2: Key Concepts</a></li>
-<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
+<li><a class="" href="lecture-exercises-1.html"><span class="header-section-number">4</span> Lecture Exercises 1</a></li>
+<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">5</span> Lecture 3: Core Concepts of Experimental Design</a></li>
+<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">6</span> Tutorial 2: Key Concepts</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">7</span> Sharing your book</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -168,7 +169,7 @@
 <ul>
 <li>
 <p><strong>Code Chunks:</strong> R code is enclosed in “chunks” that start with <code>```{r}</code> and end with <code>```</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This is an R code chunk</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
@@ -223,7 +224,7 @@
 </h2>
 <p>R packages extend the functionality of base R. As we progress in the course, we’ll use several packages that help you perform different tasks related to statistical analysis. You will only need to install packages once, but you will need to load them after each new session.</p>
 <p>Here are some basic packages we will use and how you would go about installing them.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install packages for data import/export:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"foreign"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rio"</span><span class="op">)</span></span>
@@ -300,7 +301,7 @@
 <p>Here’s an example of how you could use an AI tool to help you generate a plot:</p>
 <p><strong>Prompt:</strong> “I have a data frame called <code>mydata</code> with columns <code>x</code> and <code>y</code>. How can I create a scatterplot of <code>y</code> against <code>x</code> using ggplot2, with blue points and a red trend line?”</p>
 <p><strong>AI-Generated Code (example):</strong></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mydata</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
@@ -312,7 +313,7 @@
 <span class="header-section-number">3.7</span> Quick Example: Importing and Checking Data from <code>wooldridge</code><a class="anchor" aria-label="anchor" href="#quick-example-importing-and-checking-data-from-wooldridge"><i class="fas fa-link"></i></a>
 </h2>
 <p>Let’s load a dataset from the <code>wooldridge</code> package and take a quick look at it. We’ll use the <code>wage1</code> dataset, which contains information about wages and other individual characteristics.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the wooldridge package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span></span>
@@ -320,13 +321,95 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Display the first few rows of the dataset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get a summary of the dataset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get the structure of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   wage educ exper tenure nonwhite female married numdep smsa northcen south west
+## 1 3.10   11     2      0        0      1       0      2    1        0     0    1
+## 2 3.24   12    22      2        0      1       1      3    1        0     0    1
+## 3 3.00   11     2      0        0      0       0      2    0        0     0    1
+## 4 6.00    8    44     28        0      0       1      0    1        0     0    1
+## 5 5.30   12     7      2        0      0       1      1    0        0     0    1
+## 6 8.75   16     9      8        0      0       1      0    1        0     0    1
+##   construc ndurman trcommpu trade services profserv profocc clerocc servocc    lwage
+## 1        0       0        0     0        0        0       0       0       0 1.131402
+## 2        0       0        0     0        1        0       0       0       1 1.175573
+## 3        0       0        0     1        0        0       0       0       0 1.098612
+## 4        0       0        0     0        0        0       0       1       0 1.791759
+## 5        0       0        0     0        0        0       0       0       0 1.667707
+## 6        0       0        0     0        0        1       1       0       0 2.169054
+##   expersq tenursq
+## 1       4       0
+## 2     484       4
+## 3       4       0
+## 4    1936     784
+## 5      49       4
+## 6      81      64</code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get a summary of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##       wage             educ           exper           tenure          nonwhite     
+##  Min.   : 0.530   Min.   : 0.00   Min.   : 1.00   Min.   : 0.000   Min.   :0.0000  
+##  1st Qu.: 3.330   1st Qu.:12.00   1st Qu.: 5.00   1st Qu.: 0.000   1st Qu.:0.0000  
+##  Median : 4.650   Median :12.00   Median :13.50   Median : 2.000   Median :0.0000  
+##  Mean   : 5.896   Mean   :12.56   Mean   :17.02   Mean   : 5.105   Mean   :0.1027  
+##  3rd Qu.: 6.880   3rd Qu.:14.00   3rd Qu.:26.00   3rd Qu.: 7.000   3rd Qu.:0.0000  
+##  Max.   :24.980   Max.   :18.00   Max.   :51.00   Max.   :44.000   Max.   :1.0000  
+##      female          married           numdep           smsa           northcen    
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.000   Min.   :0.0000   Min.   :0.000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.0000   1st Qu.:0.000  
+##  Median :0.0000   Median :1.0000   Median :1.000   Median :1.0000   Median :0.000  
+##  Mean   :0.4791   Mean   :0.6084   Mean   :1.044   Mean   :0.7224   Mean   :0.251  
+##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:1.0000   3rd Qu.:0.750  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :6.000   Max.   :1.0000   Max.   :1.000  
+##      south             west           construc          ndurman          trcommpu      
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.00000   Min.   :0.0000   Min.   :0.00000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.0000   1st Qu.:0.00000  
+##  Median :0.0000   Median :0.0000   Median :0.00000   Median :0.0000   Median :0.00000  
+##  Mean   :0.3555   Mean   :0.1692   Mean   :0.04563   Mean   :0.1141   Mean   :0.04373  
+##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.00000   3rd Qu.:0.0000   3rd Qu.:0.00000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.00000   Max.   :1.0000   Max.   :1.00000  
+##      trade           services         profserv         profocc          clerocc      
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000   Median :0.0000  
+##  Mean   :0.2871   Mean   :0.1008   Mean   :0.2586   Mean   :0.3669   Mean   :0.1673  
+##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##     servocc           lwage            expersq          tenursq       
+##  Min.   :0.0000   Min.   :-0.6349   Min.   :   1.0   Min.   :   0.00  
+##  1st Qu.:0.0000   1st Qu.: 1.2030   1st Qu.:  25.0   1st Qu.:   0.00  
+##  Median :0.0000   Median : 1.5369   Median : 182.5   Median :   4.00  
+##  Mean   :0.1407   Mean   : 1.6233   Mean   : 473.4   Mean   :  78.15  
+##  3rd Qu.:0.0000   3rd Qu.: 1.9286   3rd Qu.: 676.0   3rd Qu.:  49.00  
+##  Max.   :1.0000   Max.   : 3.2181   Max.   :2601.0   Max.   :1936.00</code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get the structure of the dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 'data.frame':    526 obs. of  24 variables:
+##  $ wage    : num  3.1 3.24 3 6 5.3 ...
+##  $ educ    : int  11 12 11 8 12 16 18 12 12 17 ...
+##  $ exper   : int  2 22 2 44 7 9 15 5 26 22 ...
+##  $ tenure  : int  0 2 0 28 2 8 7 3 4 21 ...
+##  $ nonwhite: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ female  : int  1 1 0 0 0 0 0 1 1 0 ...
+##  $ married : int  0 1 0 1 1 1 0 0 0 1 ...
+##  $ numdep  : int  2 3 2 0 1 0 0 0 2 0 ...
+##  $ smsa    : int  1 1 0 1 0 1 1 1 1 1 ...
+##  $ northcen: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ south   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ west    : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ construc: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ ndurman : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ trcommpu: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ trade   : int  0 0 1 0 0 0 1 0 1 0 ...
+##  $ services: int  0 1 0 0 0 0 0 0 0 0 ...
+##  $ profserv: int  0 0 0 0 0 1 0 0 0 0 ...
+##  $ profocc : int  0 0 0 0 0 1 1 1 1 1 ...
+##  $ clerocc : int  0 0 0 1 0 0 0 0 0 0 ...
+##  $ servocc : int  0 1 0 0 0 0 0 0 0 0 ...
+##  $ lwage   : num  1.13 1.18 1.1 1.79 1.67 ...
+##  $ expersq : int  4 484 4 1936 49 81 225 25 676 484 ...
+##  $ tenursq : int  0 4 0 784 4 64 49 9 16 441 ...
+##  - attr(*, "time.stamp")= chr "25 Jun 2011 23:03"</code></pre>
 <p><strong>Explanation:</strong></p>
 <ol style="list-style-type: decimal">
 <li>
@@ -493,7 +576,7 @@
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">2</span> Lecture 2: Introduction to Causal Inference</a></div>
-<div class="next"><a href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">4</span> Lecture 3: Core Concepts of Experimental Design</a></div>
+<div class="next"><a href="lecture-exercises-1.html"><span class="header-section-number">4</span> Lecture Exercises 1</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -562,6 +645,34 @@
   </div>
 
 </div></div>
-</footer>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,244 @@
+# Lecture Exercises 1
+
+*This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
+
+## Main Exercise
+
+The data ’fertil2’ were collected on women living in the Republic of Botswana in 1988. The variable children refers to the number of living children. The variable electric is a binary indicator equal to one if the woman’s home has electricity, and zero if not. Using the "fertil2" data in {wooldridge}...
+
+i. Find the smallest and largest values of children in the sample. What is the average of children?
+ii. What percentage of women have electricity in the home?
+iii. Compute the average of children for those without electricity and do the same for those with electricity.
+iv. From part (iii), can you infer that having electricity "causes" women to have fewer children?
+
+```{r}
+library(wooldridge)
+library(tidyverse)
+library(psych)
+data("fertil2")
+```
+
+(i) Find the smallest and largest values of children in the sample. What is the average of children?
+
+Using Base R...
+
+```{r}
+min(fertil2$children)
+max(fertil2$children)
+mean(fertil2$children)
+```
+
+```{r}
+summary(fertil2$children)
+```
+
+Using the `describe()` function from the `{psych}` package...
+
+```{r}
+describe(fertil2$children)
+```
+
+
+(ii) What percentage of women have electricity in the home?
+
+Using Base...
+
+```{r}
+prop.table(table(fertil2$electric))
+```
+
+Using `{tidyverse}` conventions...
+
+```{r}
+fertil2%>%
+  select(electric)%>%
+  table()/nrow(fertil2)
+```
+
+14% of women have electricity.
+
+(iii) Compute the average of children for those without electricity and do the same for those with electricity.
+
+
+Using Base to manually calculate averages from subsets...
+
+The code below, translated into plain English, would be something like: *"Calculate the mean of fertil2\$children for all cases where fertil2\$electric equals 0, while removing all cases that have NAs."*
+
+```{r}
+mean(fertil2$children[fertil2$electric==0], na.rm = TRUE)
+```
+
+The code below calculates the compliment of the code above. In plain English, this code says, *"Calculate the mean of fertil2\$children for all cases where fertil2\$electric equals 1, while removing all cases that have NAs."*
+
+```{r}
+mean(fertil2$children[fertil2$electric==1], na.rm = TRUE)
+```
+
+Mean number of children among women without electricity = 2.33.
+
+Mean number of children among women with electricity = 1.90.
+
+We could also use the `t.test()` command from Base R:
+
+```{r}
+t.test(fertil2$children ~ fertil2$electric)
+```
+
+Mean difference = 0.43, $p\leq0.001$, 95% CI = 0.27 to 0.59.
+
+On average, women with electricity have 0.43 fewer children than women without electricity, and this difference is statistically significant.
+
+```{r}
+# dplyr
+library(dplyr)
+fertil2 %>%
+  group_by(electric) %>%
+  summarise(mean = mean(children),
+            sd = sd(children))
+```
+
+
+(iv) From part (iii), can you infer that having electricity "causes" women to have fewer children?
+
+While women with electricity, on average, have fewer children than women without electricity, and this relationship is statistically significant, we cannot necessarily infer that having electricity "causes" women to have fewer children. We would need a mechanism to link electricity to having children to conclude that electricity is the cause.
+
+Perhaps, electricity is spurious and the common cause is SES.
+
+
+--------------------------------------------------------------------------------
+
+## Additional Exercises:
+
+Use the {ces.Rda} data provided...
+
+**Overall ratings of Trudeau**
+
+The variables *feel_trudeau* has feeling thermometer ratings of Liberal Leader Justin Trudeau. On average, how do Canadians rate him? What's the lowest rating? What's the highest rating?
+
+**Trudeau ratings by groups**
+
+Do Trudeau's ratings vary across groups of the population? Specifically, look at gender (*gender*), age (*agegrp*), and education (*educ*). 
+
+The variable (*leftrightgrp*) measures whether an individual places themselves on the left (0-4), centre (5), or right (6-10) of the political spectrum. Do ratings of Trudeau vary across self-placed ideological categories?  
+
+### STOP!!
+
+Before you continue, try solving the exercises on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+### Continue
+
+```{r}
+load("Sample_data/ces.Rda")
+```
+
+### Overall ratings of Trudeau
+
+The variable *feel_trudeau* has feeling thermometer ratings of Liberal Leader Justin Trudeau. On average, how do Canadians rate him? What's the lowest rating? What's the highest rating?
+
+Using base `R`.
+
+```{r}
+mean(ces$feel_trudeau)
+min(ces$feel_trudeau)
+max(ces$feel_trudeau)
+```
+
+D'oh! That didn't work because there are NAs. 
+
+Let's remove those using the option `na.rm = TRUE`.
+
+```{r}
+mean(ces$feel_trudeau, na.rm = TRUE)
+min(ces$feel_trudeau, na.rm = TRUE)
+max(ces$feel_trudeau, na.rm = TRUE)
+```
+
+Alternatively, we can use the `summary()` command.
+
+```{r}
+summary(ces$feel_trudeau)
+```
+
+We can do the same using `{dplyr}`. We can use this method to calculate other summary statistics at the same time.
+
+```{r}
+library(dplyr)
+ces %>%
+  summarise(mean = mean(feel_trudeau, na.rm = TRUE),
+            min = min(feel_trudeau, na.rm = TRUE),
+            max = max(feel_trudeau, na.rm = TRUE))
+```
+
+We could also calculate all the statistics...
+
+```{r}
+ces %>%
+  summarise(mean = mean(feel_trudeau, na.rm = TRUE),
+            median = median(feel_trudeau, na.rm = TRUE),
+            min = min(feel_trudeau, na.rm = TRUE),
+            max = max(feel_trudeau, na.rm = TRUE),
+            sd = sd(feel_trudeau, na.rm = TRUE),
+            se = sd(feel_trudeau, na.rm = TRUE) / sqrt(sum(!is.na(feel_trudeau))),
+            lower95 = mean - (1.96*se),
+            upper95 = mean + (1.96*se)) 
+```
+
+### Trudeau ratings by groups
+
+Do Trudeau's ratings vary across groups of the population? Have a look at gender (*gender*), age (*agegrp*), and education (*educ*). The variable (*leftrightgrp*) measures whether an individual places themselves on the left (0-4), centre (5), or right (6-10) of the political spectrum. Do ratings of Trudeau vary across self-placed ideological categories?  
+
+### Gender
+
+```{r}
+mean(ces$feel_trudeau[ces$gender=="Man"], na.rm=T)
+mean(ces$feel_trudeau[ces$gender=="Woman"], na.rm=T)
+t.test(ces$feel_trudeau ~ ces$gender)
+```
+
+
+Using `{dplyr}`...
+
+```{r}
+ces %>%
+  group_by(gender) %>%
+  summarise(avg = mean(feel_trudeau, na.rm = TRUE))
+```
+
+We can also use the base `R` command `t.test()`. 
+
+This option is somewhat limited because it only works when comparing across two categories. However, it does test the *significance* of the difference, which is useful. 
+
+```{r}
+t.test(ces$feel_trudeau ~ ces$gender, na.rm = TRUE)
+```
+
+
+#### Age
+
+```{r}
+ces %>%
+  group_by(agegrp) %>%
+  summarise(avg = mean(feel_trudeau, na.rm = TRUE))
+```
+
+
+#### Education
+
+
+```{r}
+ces %>%
+  group_by(educ) %>%
+  summarise(avg = mean(feel_trudeau, na.rm = TRUE))
+```
+
+
+#### Ideology
+
+```{r}
+ces %>%
+  group_by(leftrightgrp) %>%
+  summarise(avg = mean(feel_trudeau, na.rm = TRUE))
+```
+
+
+

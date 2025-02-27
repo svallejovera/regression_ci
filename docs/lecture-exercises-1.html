@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Lecture Exercises 1 | PS9591: Regressions and Causal Inference</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="This tutorial was created by John Santos (with minor adaptations from me).  4.1 Main Exercise The data ’fertil2’ were collected on women living in the Republic of Botswana in 1988. The variable...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Lecture Exercises 1 | PS9591: Regressions and Causal Inference">
+<meta property="og:type" content="book">
+<meta property="og:description" content="This tutorial was created by John Santos (with minor adaptations from me).  4.1 Main Exercise The data ’fertil2’ were collected on women living in the Republic of Botswana in 1988. The variable...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Lecture Exercises 1 | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="This tutorial was created by John Santos (with minor adaptations from me).  4.1 Main Exercise The data ’fertil2’ were collected on women living in the Republic of Botswana in 1988. The variable...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9591: Regressions and Causal Inference</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
+<li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
+<li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">2</span> Lecture 2: Introduction to Causal Inference</a></li>
+<li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
+<li><a class="active" href="lecture-exercises-1.html"><span class="header-section-number">4</span> Lecture Exercises 1</a></li>
+<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">5</span> Lecture 3: Core Concepts of Experimental Design</a></li>
+<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">6</span> Tutorial 2: Key Concepts</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">7</span> Sharing your book</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture-exercises-1" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Lecture Exercises 1<a class="anchor" aria-label="anchor" href="#lecture-exercises-1"><i class="fas fa-link"></i></a>
+</h1>
+<p><em>This tutorial was created by <a href="https://jb-santos.github.io/">John Santos</a></em> (with minor adaptations from me).</p>
+<div id="main-exercise" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Main Exercise<a class="anchor" aria-label="anchor" href="#main-exercise"><i class="fas fa-link"></i></a>
+</h2>
+<p>The data ’fertil2’ were collected on women living in the Republic of Botswana in 1988. The variable children refers to the number of living children. The variable electric is a binary indicator equal to one if the woman’s home has electricity, and zero if not. Using the “fertil2” data in {wooldridge}…</p>
+<ol style="list-style-type: lower-roman">
+<li>Find the smallest and largest values of children in the sample. What is the average of children?</li>
+<li>What percentage of women have electricity in the home?</li>
+<li>Compute the average of children for those without electricity and do the same for those with electricity.</li>
+<li>From part (iii), can you infer that having electricity “causes” women to have fewer children?</li>
+</ol>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span></code></pre></div>
+<ol style="list-style-type: lower-roman">
+<li>Find the smallest and largest values of children in the sample. What is the average of children?</li>
+</ol>
+<p>Using Base R…</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 13</code></pre>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 2.267828</code></pre>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   2.000   2.268   4.000  13.000</code></pre>
+<p>Using the <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe()</a></code> function from the <a href="https://personality-project.org/r/psych/">psych</a> package…</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 4361 2.27 2.22      2    1.95 2.97   0  13    13 1.07     0.75 0.03</code></pre>
+<ol start="2" style="list-style-type: lower-roman">
+<li>What percentage of women have electricity in the home?</li>
+</ol>
+<p>Using Base…</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##         0         1 
+## 0.8597981 0.1402019</code></pre>
+<p>Using <a href="https://tidyverse.tidyverse.org">tidyverse</a> conventions…</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fertil2</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## select: dropped 26 variables (mnthborn, yearborn, age, radio, tv, …)</code></pre>
+<pre><code>## electric
+##         0         1 
+## 0.8592066 0.1401055</code></pre>
+<p>14% of women have electricity.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>Compute the average of children for those without electricity and do the same for those with electricity.</li>
+</ol>
+<p>Using Base to manually calculate averages from subsets…</p>
+<p>The code below, translated into plain English, would be something like: <em>“Calculate the mean of fertil2$children for all cases where fertil2$electric equals 0, while removing all cases that have NAs.”</em></p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 2.327729</code></pre>
+<p>The code below calculates the compliment of the code above. In plain English, this code says, <em>“Calculate the mean of fertil2$children for all cases where fertil2$electric equals 1, while removing all cases that have NAs.”</em></p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 1.898527</code></pre>
+<p>Mean number of children among women without electricity = 2.33.</p>
+<p>Mean number of children among women with electricity = 1.90.</p>
+<p>We could also use the <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> command from Base R:</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span> <span class="op">~</span> <span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  fertil2$children by fertil2$electric
+## t = 5.2409, df = 958, p-value = 1.965e-07
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  0.2684895 0.5899142
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        2.327729        1.898527</code></pre>
+<p>Mean difference = 0.43, <span class="math inline">\(p\leq0.001\)</span>, 95% CI = 0.27 to 0.59.</p>
+<p>On average, women with electricity have 0.43 fewer children than women without electricity, and this difference is statistically significant.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># dplyr</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">children</span><span class="op">)</span>,</span>
+<span>            sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">children</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (electric)
+## summarise: now 3 rows and 3 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   electric  mean    sd
+##      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1        0  2.33  2.28
+## 2        1  1.90  1.80
+## 3       NA  2.67  2.89</code></pre>
+<ol start="4" style="list-style-type: lower-roman">
+<li>From part (iii), can you infer that having electricity “causes” women to have fewer children?</li>
+</ol>
+<p>While women with electricity, on average, have fewer children than women without electricity, and this relationship is statistically significant, we cannot necessarily infer that having electricity “causes” women to have fewer children. We would need a mechanism to link electricity to having children to conclude that electricity is the cause.</p>
+<p>Perhaps, electricity is spurious and the common cause is SES.</p>
+<hr>
+</div>
+<div id="additional-exercises" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> Additional Exercises:<a class="anchor" aria-label="anchor" href="#additional-exercises"><i class="fas fa-link"></i></a>
+</h2>
+<p>Use the {ces.Rda} data provided…</p>
+<p><strong>Overall ratings of Trudeau</strong></p>
+<p>The variables <em>feel_trudeau</em> has feeling thermometer ratings of Liberal Leader Justin Trudeau. On average, how do Canadians rate him? What’s the lowest rating? What’s the highest rating?</p>
+<p><strong>Trudeau ratings by groups</strong></p>
+<p>Do Trudeau’s ratings vary across groups of the population? Specifically, look at gender (<em>gender</em>), age (<em>agegrp</em>), and education (<em>educ</em>).</p>
+<p>The variable (<em>leftrightgrp</em>) measures whether an individual places themselves on the left (0-4), centre (5), or right (6-10) of the political spectrum. Do ratings of Trudeau vary across self-placed ideological categories?</p>
+<div id="stop" class="section level3" number="4.2.1">
+<h3>
+<span class="header-section-number">4.2.1</span> STOP!!<a class="anchor" aria-label="anchor" href="#stop"><i class="fas fa-link"></i></a>
+</h3>
+<p>Before you continue, try solving the exercises on your own. It’s the only way you will learn. Then, come back to this page and see how well you did.</p>
+</div>
+<div id="continue" class="section level3" number="4.2.2">
+<h3>
+<span class="header-section-number">4.2.2</span> Continue<a class="anchor" aria-label="anchor" href="#continue"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.Rda"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="overall-ratings-of-trudeau" class="section level3" number="4.2.3">
+<h3>
+<span class="header-section-number">4.2.3</span> Overall ratings of Trudeau<a class="anchor" aria-label="anchor" href="#overall-ratings-of-trudeau"><i class="fas fa-link"></i></a>
+</h3>
+<p>The variable <em>feel_trudeau</em> has feeling thermometer ratings of Liberal Leader Justin Trudeau. On average, how do Canadians rate him? What’s the lowest rating? What’s the highest rating?</p>
+<p>Using base <code>R</code>.</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>D’oh! That didn’t work because there are NAs.</p>
+<p>Let’s remove those using the option <code>na.rm = TRUE</code>.</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 44.84804</code></pre>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 100</code></pre>
+<p>Alternatively, we can use the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.00    7.00   50.00   44.85   75.00  100.00    2409</code></pre>
+<p>We can do the same using <a href="https://dplyr.tidyverse.org">dplyr</a>. We can use this method to calculate other summary statistics at the same time.</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## summarise: now one row and 3 columns, ungrouped</code></pre>
+<pre><code>##       mean min max
+## 1 44.84804   0 100</code></pre>
+<p>We could also calculate all the statistics…</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">feel_trudeau</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            lower95 <span class="op">=</span> <span class="va">mean</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1.96</span><span class="op">*</span><span class="va">se</span><span class="op">)</span>,</span>
+<span>            upper95 <span class="op">=</span> <span class="va">mean</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1.96</span><span class="op">*</span><span class="va">se</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>## summarise: now one row and 8 columns, ungrouped</code></pre>
+<pre><code>##       mean median min max       sd        se  lower95 upper95
+## 1 44.84804     50   0 100 34.54668 0.1838109 44.48777 45.2083</code></pre>
+</div>
+<div id="trudeau-ratings-by-groups" class="section level3" number="4.2.4">
+<h3>
+<span class="header-section-number">4.2.4</span> Trudeau ratings by groups<a class="anchor" aria-label="anchor" href="#trudeau-ratings-by-groups"><i class="fas fa-link"></i></a>
+</h3>
+<p>Do Trudeau’s ratings vary across groups of the population? Have a look at gender (<em>gender</em>), age (<em>agegrp</em>), and education (<em>educ</em>). The variable (<em>leftrightgrp</em>) measures whether an individual places themselves on the left (0-4), centre (5), or right (6-10) of the political spectrum. Do ratings of Trudeau vary across self-placed ideological categories?</p>
+</div>
+<div id="gender" class="section level3" number="4.2.5">
+<h3>
+<span class="header-section-number">4.2.5</span> Gender<a class="anchor" aria-label="anchor" href="#gender"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">==</span><span class="st">"Man"</span><span class="op">]</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 43.35218</code></pre>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">==</span><span class="st">"Woman"</span><span class="op">]</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 45.93724</code></pre>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ces$feel_trudeau by ces$gender
+## t = -6.9009, df = 31483, p-value = 5.266e-12
+## alternative hypothesis: true difference in means between group Man and group Woman is not equal to 0
+## 95 percent confidence interval:
+##  -3.319280 -1.850828
+## sample estimates:
+##   mean in group Man mean in group Woman 
+##            43.35218            45.93724</code></pre>
+<p>Using <a href="https://dplyr.tidyverse.org">dplyr</a>…</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (gender)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   gender   avg
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 Man     43.4
+## 2 Woman   45.9
+## 3 &lt;NA&gt;    44.8</code></pre>
+<p>We can also use the base <code>R</code> command <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>.</p>
+<p>This option is somewhat limited because it only works when comparing across two categories. However, it does test the <em>significance</em> of the difference, which is useful.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">gender</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ces$feel_trudeau by ces$gender
+## t = -6.9009, df = 31483, p-value = 5.266e-12
+## alternative hypothesis: true difference in means between group Man and group Woman is not equal to 0
+## 95 percent confidence interval:
+##  -3.319280 -1.850828
+## sample estimates:
+##   mean in group Man mean in group Woman 
+##            43.35218            45.93724</code></pre>
+<div id="age" class="section level4" number="4.2.5.1">
+<h4>
+<span class="header-section-number">4.2.5.1</span> Age<a class="anchor" aria-label="anchor" href="#age"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">agegrp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (agegrp)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   agegrp   avg
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 18-34   49.1
+## 2 35-54   43.2
+## 3 55+     43.7</code></pre>
+</div>
+<div id="education" class="section level4" number="4.2.5.2">
+<h4>
+<span class="header-section-number">4.2.5.2</span> Education<a class="anchor" aria-label="anchor" href="#education"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">educ</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (educ)
+## summarise: now 5 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   educ         avg
+##   &lt;fct&gt;      &lt;dbl&gt;
+## 1 HS or less  38.0
+## 2 Some PSE    42.3
+## 3 Bachelors   51.3
+## 4 Postgrad    52.1
+## 5 &lt;NA&gt;        38.1</code></pre>
+</div>
+<div id="ideology" class="section level4" number="4.2.5.3">
+<h4>
+<span class="header-section-number">4.2.5.3</span> Ideology<a class="anchor" aria-label="anchor" href="#ideology"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">leftrightgrp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (leftrightgrp)
+## summarise: now 4 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   leftrightgrp   avg
+##   &lt;fct&gt;        &lt;dbl&gt;
+## 1 Left          59.4
+## 2 Centre        42.9
+## 3 Right         37.8
+## 4 &lt;NA&gt;          43.6</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">3</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></div>
+<div class="next"><a href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">5</span> Lecture 3: Core Concepts of Experimental Design</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lecture-exercises-1"><span class="header-section-number">4</span> Lecture Exercises 1</a></li>
+<li><a class="nav-link" href="#main-exercise"><span class="header-section-number">4.1</span> Main Exercise</a></li>
+<li>
+<a class="nav-link" href="#additional-exercises"><span class="header-section-number">4.2</span> Additional Exercises:</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#stop"><span class="header-section-number">4.2.1</span> STOP!!</a></li>
+<li><a class="nav-link" href="#continue"><span class="header-section-number">4.2.2</span> Continue</a></li>
+<li><a class="nav-link" href="#overall-ratings-of-trudeau"><span class="header-section-number">4.2.3</span> Overall ratings of Trudeau</a></li>
+<li><a class="nav-link" href="#trudeau-ratings-by-groups"><span class="header-section-number">4.2.4</span> Trudeau ratings by groups</a></li>
+<li><a class="nav-link" href="#gender"><span class="header-section-number">4.2.5</span> Gender</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/04-exercises1.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/04-exercises1.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-02-27.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
