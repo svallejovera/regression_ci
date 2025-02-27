@@ -1,0 +1,6 @@
+# Tutorial 2: Key Concepts
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here]. The tutorial will quiz you on key concepts from Chapter 1 of "Causal Inference: What If" by Hernán and Robins as well as Chapter 3 ("Describing Variables") of "The Effect" by Huntington-Klein.
+

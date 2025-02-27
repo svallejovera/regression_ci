@@ -1,7 +1,5 @@
 fig:week2slides
 fig:week3slides
-eq:binom
-thm:tri
 about-tutorials
 prerequisites
 running-a-tutorial
@@ -50,10 +48,7 @@ solutions-to-common-problems
 lecture-3-core-concepts-of-experimental-design
 introduction-2
 vignette-3.1
-blocks
-equations
-theorems-and-proofs
-callout-blocks
+tutorial-2-key-concepts
 sharing-your-book
 publishing
 pages

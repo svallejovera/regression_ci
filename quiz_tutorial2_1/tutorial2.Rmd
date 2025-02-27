@@ -1,0 +1,116 @@
+---
+title: "Tutorial 2: Key Concepts"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+This tutorial will test your understanding of key concepts from Chapter 1 of "Causal Inference: What If" by Hernán and Robins as well as Chapter 3 ("Describing Variables") of "The Effect" by Huntington-Klein. In this session, you will be asked to answer short quizzes about the content covered in the readings.
+
+## Causal Effect Measures
+
+Let's review the different ways to measure and communicate causal effects in potential outcomes models:
+
+-   **Risk Difference:** The difference in the risk of the outcome when the entire population is treated versus when the entire population is untreated.
+
+-   **Risk Ratio:** The ratio of the risk of the outcome under treatment to the risk of the outcome under no treatment, in the entire population
+
+-   **Odds Ratio:** The ratio of the odds of the outcome under treatment to the odds of the outcome under no treatment, in the entire population.
+
+```{r causal-measures-quiz}
+
+quiz(
+  question("Suppose the risk of developing a certain disease in a population of interest is 0.2 if treated and 0.3 if untreated. What is the correct interpretation of the causal risk difference?",
+    answer("The risk of developing the disease increases by 0.1 in the treated group.", message = "Incorrect. Try to remember the definition of causal risk difference."),
+    answer("The risk of developing the disease decreases by 0.1 if treated.", correct = TRUE),
+    answer("The risk of developing the disease is 1.5 times higher in the untreated group.", message = "Incorrect. This interpretation corresponds to the risk ratio."),
+    allow_retry = TRUE
+  ),
+  question("What is a causal risk ratio of 1.2?",
+    answer("The treatment increases the risk of the outcome by 20%.", correct = TRUE),
+    answer("The treatment decreases the risk of the outcome by 20%.", message = "Incorrect. Try to remember the definition of causal risk ratio."),
+    answer("The treatment has no causal effect on the outcome.", message = "Incorrect. A causal risk ratio of 1.0 would mean that the treatment has no causal effect on the outcome."),
+    allow_retry = TRUE
+  ),
+  question("Suppose a treatment reduces the risk of an outcome from 60% to 40%. Which of the following causal measures would be equal to -0.2 in this scenario?",
+    answer("Causal Risk Ratio", message = "Incorrect. The risk ratio would be expressed as 0.4/0.6"),
+    answer("Causal Odds Ratio", message = "Incorrect. The odds ratio is (0.4/0.6)/(0.6/0.4)"),
+    answer("Causal Risk Difference", correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question("Which of the following causal measures is specifically designed to address the question: What is the average causal effect of treatment among those who actually received the treatment?",
+    answer(withMathJax("$$E[Y^{a=1} - Y^{a=0}]$$"), message = "This is the Average Treatment Effect (ATE)"),
+    answer(withMathJax("$$E[Y^{a=1} - Y^{a=0} | A=1]$$"), correct = TRUE, message = "Correct, this is the Average Treatment Effect on the Treated (ATT)"),
+    answer(withMathJax("$$P(Y^{a=1}=1 - P(Y^{a=0}=1)$$"), message = "This is the Risk Difference"),
+    answer(withMathJax("$$P(Y^{a=1}=1) / P(Y^{a=0}=1)$$"), message = "This is the Risk Ratio"),
+    allow_retry = TRUE
+  ))
+```
+
+## Random Variability
+
+Even if the treatment has no causal effect on average in the population, we might observe an association in a particular study due to random variability (chance). Additionally, if dealing with nondeterministic counterfactuals, the lack of observed association in a sample is not necessarily indicative that a causal effect does not exist in the population. The larger the sample, and the more knowledge we have about the process we're interested in explaining, the less likely it is that chance plays a major role in our conclusions.
+
+```{r random-variability-quiz}
+
+quiz(
+  question("Why is it important to consider random variability when interpreting the results of a study?",
+    answer("Because the treatment effect might be constant across all individuals.", message = "Incorrect. Random variability does not refer to systematic differences between individuals."),
+    answer("Because an observed association - or lack thereof - might be due to chance or nondeterministic counterfactuals, even if a causal effect exists or is not present in a sample.", correct = TRUE),
+    answer("Because random variability ensures that the study results are generalizable to the entire population.", message = "Incorrect. Generalizability is related to external validity and the quality of the sample, not random variability."),
+    allow_retry = TRUE
+  )
+)
+```
+
+This next set of questions is based on Chapter 3 ("Describing Variables") of "The Effect" and will assess your understanding of the basic properties of variables and how to work with them. 
+
+```{r variables-quiz}
+quiz(
+  question("A researcher is studying income inequality and collects data on household annual income. The variable is initially recorded in exact dollar amounts but is later grouped into categories (e.g., '$0-$25,000', '$25,001-$50,000', etc.). What type of information loss occurs in this transformation?",
+    answer("No information loss occurs since we can still order the categories.", message = "While ordinal relationships are preserved, we lose the ability to measure exact differences between values."),
+    answer("The variable changes from ratio to ordinal level, losing information about both exact differences and ratios between values.", correct = TRUE),
+    answer("Only the ability to calculate ratios between values is lost.", message = "The transformation loses both ratio and interval properties of the data."),
+    answer("The variable becomes nominal, losing all quantitative properties.", message = "The categories still maintain an natural order, making it ordinal rather than nominal."),
+    allow_retry = TRUE
+  ),
+  
+  question("Which of the following is a valid way to describe the central tendency of a binary variable (e.g., whether someone has health insurance)?",
+    answer("The median value would be most appropriate since it's resistant to outliers.", message = "Binary variables don't have outliers, and the median may not be meaningful for this type of data."),
+    answer("The mode should be used since binary variables are categorical.", message = "While the mode can be used, it's not the most informative measure for binary variables."),
+    answer("The proportion or percentage of cases with value 1 (e.g., percentage with insurance).", correct = TRUE),
+    answer("The geometric mean of the two categories.", message = "Geometric means are not appropriate for binary variables."),
+    allow_retry = TRUE
+  ),
+  
+  question("A researcher wants to study the relationship between education level (measured in years) and job satisfaction (measured on a 1-5 scale). What is the most appropriate way to visualize this relationship?",
+    answer("A pie chart showing the distribution of job satisfaction scores.", message = "Pie charts don't show relationships between variables."),
+    answer("A scatter plot, treating job satisfaction as continuous.", message = "While common, this might not be the best way to handle Likert scale data."),
+    answer("A grouped bar chart showing job satisfaction categories for different education levels.", correct = TRUE),
+    answer("A line graph connecting individual data points.", message = "This would imply continuity in the satisfaction measure that may not exist."),
+    allow_retry = TRUE
+  ),
+  
+  question("When working with skewed continuous variables (like income or housing prices), which of the following transformations is most commonly used to make the distribution more symmetric?",
+    answer("Square root transformation", message = "While this can help with moderate skew, it's not the most common for heavily skewed economic variables."),
+    answer("Natural logarithm transformation", correct = TRUE),
+    answer("Inverse transformation", message = "This is rarely used as it makes interpretation difficult."),
+    answer("Standardization (z-score)", message = "Standardization doesn't address skewness, only scale."),
+    allow_retry = TRUE
+  ))
+```
+
+That is all for this tutorial, see you next week!
