@@ -1,4 +1,4 @@
-# Lecture Exercises 1
+# Lecture 2 Exercises
 
 *This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
 
@@ -18,7 +18,7 @@ library(psych)
 data("fertil2")
 ```
 
-(i) Find the smallest and largest values of children in the sample. What is the average of children?
+**(i) Find the smallest and largest values of children in the sample. What is the average of children?**
 
 Using Base R...
 
@@ -39,7 +39,7 @@ describe(fertil2$children)
 ```
 
 
-(ii) What percentage of women have electricity in the home?
+**(ii) What percentage of women have electricity in the home?**
 
 Using Base...
 
@@ -57,7 +57,7 @@ fertil2%>%
 
 14% of women have electricity.
 
-(iii) Compute the average of children for those without electricity and do the same for those with electricity.
+**(iii) Compute the average of children for those without electricity and do the same for those with electricity.**
 
 
 Using Base to manually calculate averages from subsets...
@@ -98,18 +98,17 @@ fertil2 %>%
 ```
 
 
-(iv) From part (iii), can you infer that having electricity "causes" women to have fewer children?
+**(iv) From part (iii), can you infer that having electricity "causes" women to have fewer children?**
 
 While women with electricity, on average, have fewer children than women without electricity, and this relationship is statistically significant, we cannot necessarily infer that having electricity "causes" women to have fewer children. We would need a mechanism to link electricity to having children to conclude that electricity is the cause.
 
 Perhaps, electricity is spurious and the common cause is SES.
 
-
 --------------------------------------------------------------------------------
 
 ## Additional Exercises:
 
-Use the {ces.Rda} data provided...
+Use the {ces.Rda} data found [here](https://github.com/svallejovera/regression_ci/blob/main/Sample_data/ces.rda).
 
 **Overall ratings of Trudeau**
 

@@ -1,0 +1,345 @@
+# Lecture 3 Exercises
+
+*This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
+
+Before we start with the exercises, we will take a look at `{dplyr}` and pipping.
+
+## `{dplyr}` primer
+
+`{dplyr}` is an `R` package that is part of the `{tidyverse}` family of packages. `{tidyverse}` provides a unified "grammar" of coding, as opposed to the idiosyncratic conventions of Base `R`. 
+
+`{dplyr}` focuses on data management/transformation. 
+
+For our purposes, some of the most used `{dplyr}` functions include:
+
+- `select()`: pick a column (i.e. a variable) or multiple columns in a data frame.
+- `mutate()`: create a new column.
+- `summarise()`: create a new column that is calculated from an existing column.
+- `group_by()`: precedes the `summarise()` command and tells `R` by which other column you want to summarise.
+- `filter()`: pick rows (i.e. cases) according to criterion/criteria.
+
+The other nifty thing about `{dplyr}` (and the `{tidyverse}` more generally) is the use of "pipelines," which are created using the pipe operator, `%>%`. This means you only need to identify the data frame with which you are working once and then "pipe it through" a "pipeline of operations", which saves time and reduces the chance of coding errors. 
+
+(Note: RStudio also has a "native pipe operator", `|>`, but this only works on newer versions of `R` and is not yet universally adopted.)
+
+
+### The `select()` command in action
+
+
+Say we wanted to pick out the feeling thermometer questions in our sample CES data set. 
+
+Here are the column names:
+
+
+```{r}
+load("Sample_data/ces.rda")
+names(ces)
+```
+
+
+Let's pull those columns using Base `R` and put them into a new data frame called "feelings_base". I'm feeling lazy, so I'm just going to do the parties.
+
+
+```{r}
+feelings_base <- data.frame(
+  feel_lib = ces$feel_lib,
+  feel_cpc = ces$feel_cpc,
+  feel_ndp = ces$feel_ndp,
+  feel_bloc = ces$feel_bloc,
+  feel_green = ces$feel_green,
+  feel_ppc = ces$feel_ppc
+)
+head(feelings_base)
+```
+
+
+We could also pull these columns by using their index numbers, but this isn't recommended because index numbers could change depending on the version of a data set or previous operations performed on it. 
+
+
+```{r}
+feelings_numsel <- ces[32:43]
+head(feelings_numsel)
+```
+
+The `{dplyr}` way is more efficient:
+
+
+```{r}
+library(dplyr)
+feelings_dplyr <- select(ces, c(feel_lib:feel_blanchet))
+head(feelings_dplyr)
+```
+
+
+You could get even fancier and use the `starts_with()` command to select every column whose column name starts with the character string "feel_":
+
+
+```{r}
+feelings_dplyr2 <- select(ces, starts_with("feel_"))
+head(feelings_dplyr2)
+```
+
+
+### Using `{summarise}` to calculate summary statistics
+
+
+Let's say we want to calculate the sample mean for each feeling thermometer score. In Base, we might do something like the following, where we have a separate line of code for each calculation. (Again, because I'm lazy, I've only done three, but there would be 12 lines in total.)
+
+
+```{r}
+mean(ces$feel_lib, na.rm = TRUE)
+mean(ces$feel_cpc, na.rm = TRUE)
+mean(ces$feel_ndp, na.rm = TRUE)
+```
+
+
+The `{dplyr}` way is more efficient, thanks to the `%>%` operator, which allows us to only write the name of the data frame once and then "pipe it through" the entire chain of commands.
+
+
+```{r}
+ces %>%
+  select(starts_with("feel_")) %>%
+  summarise(across(everything(), 
+                   list(mean), 
+                   na.rm = TRUE))
+```
+
+### The `{group_by}` and `{summarise}` combo
+
+
+Calculating group-wise summary statistics in Base is a bit clunky. Recall from last week, Base `R` uses square brackets for selection and subsetting. If we want to calculate the average rating for the PPC among Western Canadians versus everyone else, we could have to do something like this:
+
+```{r}
+mean(ces$feel_ppc[ces$reg_west==1], na.rm = TRUE)
+mean(ces$feel_ppc[ces$reg_west==0], na.rm = TRUE)
+```
+
+The `{dplyr}` way of doing the same is:
+
+```{r}
+ces %>%
+  group_by(reg_west) %>% 
+  summarise(mean_ppc = mean(feel_ppc, na.rm = TRUE))
+```
+
+
+At first, you might think the `{dplyr}` way is longer because it has three instead of two lines of code. However, it is more efficient because there is less duplication of code. 
+
+Where `{dplyr}` really starts to show an advantage is when you have to performan many calculations (more variables, more groupings, and/or more summary statistics).
+
+If we want to calculate dispersion of the distributions (SD) or the uncertainty associated with the estimated means (SE), this is what it looks like in Base `R`:
+
+
+```{r}
+sd(ces$feel_ppc[ces$reg_west==1], na.rm = TRUE)
+sd(ces$feel_ppc[ces$reg_west==0], na.rm = TRUE)
+sd(ces$feel_ppc[ces$reg_west==1], na.rm = TRUE) / 
+  sqrt(sum(!is.na(ces$feel_ppc[ces$reg_west==1])))
+sd(ces$feel_ppc[ces$reg_west==0], na.rm = TRUE) / 
+  sqrt(sum(!is.na(ces$feel_ppc[ces$reg_west==0])))
+```
+
+
+The `{dplyr}` way:
+
+
+```{r}
+ces %>%
+  group_by(reg_west) %>% 
+  summarise(mean_ppc = mean(feel_ppc, na.rm = TRUE),
+            sd_ppc = sd(feel_ppc, na.rm = TRUE),
+            n_ppc = sum(!is.na(feel_ppc)),
+            semean_ppc = sd_ppc / sqrt(n_ppc)
+            )
+```
+
+
+## Lecture 3 Exercises
+
+Using the ’fertil2’ dataset from ’wooldridge’ on women living in the Republic of Botswana in 1988,
+
+**(i) Calculate the means and mean differences between those with and without electricity for the following two characteristics:**
+
+* education (*educ*)
+* age when first child was born (*agefbrth*)
+
+We'll start by loading the dataset.
+
+```{r}
+library(wooldridge)
+cupcakes <- get(data('fertil2'))
+head(cupcakes)
+data("fertil2")
+head(fertil2)
+```
+
+After loading the dataset, let's look at the summary statistics (also known as *descriptive statistics* or simply *descriptives*) for each of the variables we're about to analyze. When looking at these, keep in mine the units of analysis and whether there are missing values that we should deal with as we analyze the data.
+
+
+```{r}
+summary(fertil2$electric)
+summary(fertil2$educ)
+summary(fertil2$agefbrth)
+```
+
+Now we can calculate our summary statistics by group for each of our two variables.
+
+```{r}
+library(dplyr)
+fertil2 %>%
+  group_by(electric) %>%
+  summarise(mean_educ = mean(educ, na.rm = TRUE))
+```
+
+Difference in education attainment between those without (0) and those with (1) electricity.
+
+* Without (0) = 5.382 years
+* With (1) = 8.763 years
+* Difference = 8.763 - 5.382 == 3.381 years of schooling
+
+*(Note: This isn't important now, but the average among the NAs in the group often indicates if missingness could bias your results. In later methods courses, you'll learn about ways to test for and deal with this.)*
+
+
+```{r}
+fertil2 %>%
+  group_by(electric) %>%
+  summarise(mean_agefbrth = mean(agefbrth, na.rm = TRUE))
+```
+
+
+Difference in age when first child was born between those without (0) and those with (1) electricity.
+
+* Without (0) = 18.825 years old
+* With (1) = 20.162 years old
+* Difference = 20.162 - 18.825 == 1.337 years old
+
+
+**(ii) Evaluate if the mean differences are statistically significant at the 0.01 and 0.05 levels.**
+
+```{r}
+t.test(fertil2$educ ~ fertil2$electric)
+```
+
+For education, difference of means = 3.381 years, p = 2.2*10^-16 (which is less than 0.001), so the difference significant at both the 0.05 and 0.01 levels. In fact, it is even significant at the 0.001 level.
+
+Using the confidence interval approach, you could also say that the 95% confidence interval of the difference is -3.720 and -3.041, which does not include zero. This indicates the difference is statistically significant at the 0.05 level. 
+
+
+```{r}
+t.test(fertil2$agefbrth ~ fertil2$electric)
+```
+
+
+The code above uses "formula notation", where the quantitative variable is listed first, then a tilde ("~"), and then the categorical variable. 
+
+If you use formula notation in the incorrect order, it won't work, as in the following case: `t.test(fertil2$electric ~ fertil2$agefbrth)`.
+
+Specifying "vector notation" and specifying two complementary subsets (using square brackets, or `[]`) also works. The vector notation approach works regardless of the order you specify the two vectors, as can be seen in the example below:
+
+```{r}
+t.test(fertil2$agefbrth[fertil2$electric==1],fertil2$agefbrth[fertil2$electric==0])
+t.test(fertil2$agefbrth[fertil2$electric==0],fertil2$agefbrth[fertil2$electric==1])
+```
+
+
+Regardless of which approach you use, for age at birth of first child, difference of means = 1.337 years (p = 1.432*10^-13). So, this difference is significant at both the 0.05 and 0.01 levels. In fact, it is even significant at the 0.001 level.
+
+Using the confidence interval approach, you could also say that the 95% confidence interval of the difference is -1.683 and -0.990, which does not include zero. This indicates the difference is statistically significant at the 0.05 level. 
+
+*A note for Stata users: By default, `t.test()` uses unequal variances (as proposed by Welch). It is possible to perform the "vanilla" Student's t-test that assumes equal variances by specifying the option `var.equal = TRUE`. However, in practice, there is no reason to do so. Welch's t-test is more robust than Student's t-test when the assumptions of the test are violated, and it performs just as well in the (rare) cases when the assumptions are met. If you compare results between R and Stata, t-tests usually do not match because Stata, by default, assumes equal variances. You can get Stata to assume unequal variances by specifying it as an option (e.g. `ttest agefbrth, by(electric) unequal welch`).*
+
+**(iii) Interpret the results.**
+
+Women who have access to electricity have, on average, 3.4 years more education and were 1.3 years younger than women who do not have access to electricity. These mean differences are significant at the 0.01 and 0.05 levels.
+
+**(iv) From this analysis, would you say that the comparisons between women with and without electricity are apples-to-apples or apples-to-oranges?**
+
+These are apples-to-oranges comparisons. 
+
+**(v) How does that affect our ability to conclude anything about the relationship between access to electricity and number of children?**
+
+In the previous exercise, we found that women with access to electricity have, on average, fewer children than women who do not have access to electricity (mean difference = 0.43 children, p<0.001). Women with electricity are systematically different from women without electricity in terms of having more children, having children later, and having more years of schooling. Presumably, having more children, having more children, and having more years of schooling are also all related. So, we cannot be sure that there is a true link between access to electricity and the number of children a woman has without controlling for those other factors.
+
+```{r}
+fertil2 %>%
+  select(c(electric, educ, agefbrth)) %>%
+  filter(!is.na(electric)) %>%
+  group_by(electric) %>%
+  summarise(mean_agefbrth = mean(agefbrth, na.rm = TRUE),
+            mean_educ = mean(educ, na.rm = TRUE)) %>%
+  mutate(electric = factor(electric,
+                           levels = c(0,1),
+                           labels = c("No electricity",
+                                      "Electricity")))
+```
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+## Additional Exercises:
+
+1. Using the 'ces' dataset, calculate the means and mean differences of support for market liberalism (*marketlib*) across whether someone lives in Western Canada (*reg_west*) and between men and women (*gender*);
+2. evaluate if the mean differences are statistically significant at the 0.01 and 0.05 levels;
+3. interpret the results in the same way as you did the practice exercises from lecture;
+
+### STOP!!
+
+Before you continue, try solving the exercises on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+### Continue
+
+We'll start by loading the dataset and taking a look at the univariate summaries of each variable we'll be analyzing.
+
+
+```{r}
+load("Sample_data/ces.rda")
+summary(ces$marketlib)
+summary(ces$reg_west)
+summary(ces$gender)
+```
+
+
+Market liberalism is measured on a scale from 0 to 16 points, with an average of 8.59.
+
+Region West and gender are both binary variables.
+
+There are NAs in *marketlib* and *gender*.
+
+### Group-wise means, mean differences, and statistical significance
+
+I'm going to use `t.test()` here to get significance testing. The `{dplyr}` version follows, if you want to see it.
+
+```{r}
+t.test(ces$marketlib ~ ces$reg_west)
+```
+
+Among those who live in Western Canada, the average market liberalism score is 8.748. Among those who do not live in Western Canada, the score is 8.498. This means that, on average, those living in Western Canada are 0.25 points out of 16 more supportive of market liberalism than those living elsewhere in the country. This difference is significant at the 0.05 level (p=0.018).
+
+```{r}
+t.test(ces$marketlib ~ ces$gender)
+```
+
+Among those men, the average market liberalism score is 9.079. Among women, the score is 8.156. This means that, on average, men are those living in Western Canada are 0.923 points out of 16 more supportive of market liberalism than women. This difference is significant at the 0.001 level (p=<0.001).
+
+The `{dplyr}` version:
+
+```{r}
+ces %>%
+  group_by(reg_west) %>% 
+  summarise(mean_marketlib = mean(marketlib, na.rm = TRUE))
+```
+
+```{r}
+ces %>%
+  group_by(gender) %>% 
+  summarise(mean_marketlib = mean(marketlib, na.rm = TRUE))
+```
+
+### Interpretation of results
+
+Among both sets of comparisons here are statistically significant differences in support for the principle of market liberalism. However, for both gender and region, we cannot necessarily conclude that we've solved the reason why Westerners are more supportive of the free market than other Canadians or why men are more supportive of the free market than women. Moreover, for region, the magnitude of the difference is only about a quarter of a point on a 16 scale, which is of dubious *substantive* significance. 
+
+Both of these variables are usually referred to as *demographic characteristics*, or the personal attributes of an individual. They tend to be "far back" the processes that lead to outcomes of interest in political science (like policy preferences or vote choice) and they often exert their effect through *intervening variables*, or things that come in-between personal characteristics and outcomes. 

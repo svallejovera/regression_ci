@@ -1,0 +1,7 @@
+# Tutorial 3: More Key Concepts
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial3/). This tutorial will test your understanding of key concepts from Chapter 2 of "Causal Inference: What If" by Hernán and Robins, focusing on randomized experiments. You'll engage with both theoretical concepts and practical data analysis.
+
+

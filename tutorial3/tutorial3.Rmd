@@ -1,0 +1,425 @@
+---
+title: "Tutorial 3: More Key Concepts"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(wooldridge)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load the data we'll use for exercises
+data("wage1")
+data("wage2")
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+This tutorial will test your understanding of key concepts from Chapter 2 of "Causal Inference: What If" by Hernán and Robins, focusing on randomized experiments. You'll engage with both theoretical concepts and practical data analysis.
+
+## Randomization and Exchangeability
+
+In marginally randomized experiments, treatment is assigned randomly and independently for each individual. This creates exchangeability between the treated and untreated groups. In the authors' definition, exchangeability means that "the risk under the potential treatment value a among the treated, $Pr [Y^a = 1|A= 1]$, equals the risk under the potential treatment value a among the untreated, $Pr [Y^a = 1|A= 0]$, for both a = 0 and a = 1." (Hernán, Robins, 2024, p. 14)
+
+```{r exchangeability-quiz}
+
+quiz(
+  question("What are the attributes of an ideal randomized experiment according to the Hernán and Robins (2024)?",
+           answer("Single-blind assignment, full adherence to treatment, minimal loss to follow-up, and multiple versions of treatment to test robustness.",
+           message = "Not quite. While some of these might be desired in practical experiments, the 'ideal' scenario is more strict than this."),
+    answer("Double-blind assignment, full adherence to the assigned treatment, no loss to follow-up, and a single version of treatment.",
+           correct = TRUE,
+           message = "These are the characteristics that define an 'ideal' randomized experiment according to the description, aiming to minimize bias and maximize the clarity of the treatment effect."),
+    answer("Large sample size, double-blind assignment, exchangeability at baseline, and multiple treatment arms for comparison.",
+           message = "While large sample size and exchangeability are important for good experiments, and multiple arms can be useful, the 'ideal' experiment as described focuses on different attributes related to implementation."),
+    answer("Random assignment, ethical approval, precise measurement of outcomes, and generalizability to diverse populations.",
+           message = "These are all important aspects of a well-conducted study, but the 'ideal' randomized experiment in this specific context is defined by a different set of features related to treatment implementation and study execution."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("Which of the following expressions correctly represents ordinary exchangeability in a marginally randomized experiment?",
+    answer(withMathJax("$$Y^a \\perp\\!\\!\\perp A$$"), correct = TRUE, 
+           message = "This notation indicates that potential outcomes are independent of treatment assignment."),
+    answer(withMathJax("$$Y^a \\perp\\!\\!\\perp A|L$$"), 
+           message = "This represents conditional exchangeability given covariates L, which is a feature of conditionally randomized experiments."),
+    answer(withMathJax("$$E[Y|A=1] = E[Y|A=0]$$"), 
+           message = "This represents the absence of association between treatment and outcome, not exchangeability."),
+    allow_retry = TRUE
+  ),
+  
+  question("In a study of teaching methods, researchers found that students assigned to traditional vs. project-based teaching had equal average expected test scores, but the distribution of creativity scores differed between groups when looking at all potential outcomes simultaneously. Which type of exchangeability is present in this scenario?",
+ answer("Mean exchangeability",
+        correct = TRUE,
+        message = "This scenario shows mean exchangeability because only the expected values (average test scores) are equal between groups, while the full distributions of outcomes (creativity scores) differ. Mean exchangeability only requires E[Y^a|A=1] = E[Y^a|A=0], making it weaker than requiring equal distributions."),
+ answer("Full exchangeability",
+        message = "Full exchangeability would require that the joint distribution of ALL potential outcomes be independent of treatment assignment - (Y^a: a ∈ A) ⫫ A. Since the creativity score distributions differ between groups, full exchangeability doesn't hold here."),
+ answer("Ordinary exchangeability",
+        message = "Ordinary exchangeability (Y^a ⫫ A) would require that for each specific teaching method, the entire distribution of potential outcomes be independent of treatment assignment. The differing creativity score distributions tell us this stronger condition isn't met."),
+ answer("Both full and ordinary exchangeability",
+        message = "Neither full nor ordinary exchangeability is present here. Both require stronger conditions than just equal means - full exchangeability needs joint independence of all outcomes, and ordinary exchangeability needs independence for each specific treatment value."),
+ allow_retry = TRUE,
+ random_answer_order = TRUE
+))
+
+```
+
+To further illustrate these differences, consider a study on job training programs: Full exchangeability would mean that those who received training and those who didn't are comparable in terms of all possible employment outcomes (salary, job satisfaction, promotion rate, etc.) simultaneously. Ordinary exchangeability would mean that for each specific outcome (say, salary), those who received training and those who didn't are comparable in terms of what their salary would have been under either condition. Mean exchangeability only requires that the average potential salary under training would be the same for both groups, and the average potential salary under no training would be the same for both groups, even if the full distributions of these potential outcomes might differ. The key insight is that these conditions form a hierarchy: full exchangeability implies ordinary exchangeability, which implies mean exchangeability.
+
+```{r effects-quiz}
+    quiz(
+      question("In a marginally randomized experiment, which statement is true?",
+               answer("The treated and untreated groups will always have identical characteristics.", 
+           message = "Random assignment creates balance in expectation, but specific samples may still show imbalances."),
+    answer("The probability of receiving treatment is independent of both measured and unmeasured characteristics.", 
+           correct = TRUE),
+    answer("Randomization eliminates all forms of bias.", 
+           message = "While randomization eliminates confounding, other forms of bias like measurement error can still exist."),
+    allow_retry = TRUE
+  ),
+  
+  question("In a study examining the effect of a treatment, researchers find that the causal risk ratio differs between two strata (L=0 and L=1) of the population. What does this indicate?",
+    answer("The treatment assignment was not properly randomized.", 
+           message = "Different effects across strata can occur even with proper randomization."),
+    answer("The estimation of causal effects is invalid.", 
+           message = "Different stratum-specific effects can be valid and meaningful."),
+    answer("There is effect modification by L, meaning the treatment effect varies across levels of L.", 
+           correct = TRUE),
+    answer("The study needs a larger sample size.", 
+           message = "Sample size isn't related to whether effects differ across strata."),
+    allow_retry = TRUE
+  ),
+  
+  question("Which statement correctly distinguishes between marginally and conditionally randomized experiments?",
+  answer("In marginally randomized experiments, treatment is assigned completely at random, while in conditionally randomized experiments, treatment is assigned with equal probability within strata defined by L.",
+         correct = TRUE,
+         message = "Conditional randomization means probability of treatment depends on covariates L."),
+  answer("Marginally randomized experiments require larger sample sizes than conditionally randomized experiments.",
+         message = "Sample size requirements aren't inherently different between these designs."),
+  answer("Conditionally randomized experiments always provide more precise effect estimates than marginally randomized experiments.",
+         message = "While conditional randomization can increase precision in some cases, this isn't universally true."),
+  answer("Only conditionally randomized experiments can be used to estimate average causal effects.",
+         message = "Both types of randomization can be used to estimate average causal effects."),
+  allow_retry = TRUE
+),
+
+question("In a conditionally randomized experiment studying the effect of a tax credit for voters, condition L represents whether recipients belong to a high-income group or not. Which statement best describes the use of standardization in the estimation of causal effects?",
+ answer("It's a method to correct for imbalances in baseline characteristics between treatment groups.",
+        message = "While standardization can help with imbalances, this isn't its primary purpose."),
+ answer("It's a method to compute marginal counterfactual risks by taking a weighted average of stratum-specific risks, where weights correspond to the population distribution of L.",
+        correct = TRUE,
+        message = "Marginal counterfactual risks represent what would happen in an entire population if everyone received a particular treatment (or no treatment), regardless of their individual characteristics. Think of it as asking: What would be the risk of the outcome if we could intervene and give everyone in the population treatment A=1? or What would be the risk if we gave no one the treatment (A=0)? Here's a concrete example: Let's say we're studying a public health intervention. The stratum-specific risks might tell us that the intervention works better for urban residents (L=1) than rural residents (L=0). But to decide whether to implement the program nationally, we'd want to know the marginal counterfactual risk - the overall impact if we gave the intervention to everyone, regardless of where they live."),
+ answer("It's a technique that requires equal sample sizes across all strata.",
+        message = "Standardization works with unequal stratum sizes - it uses population proportions as weights."),
+ answer("It's only necessary when treatment assignment probabilities are equal across strata.",
+        message = "Standardization is useful because treatment probabilities can differ across strata."),
+ allow_retry = TRUE
+),
+
+question("In the context of conditionally randomized experiments, what is the key feature of inverse probability (IP) weighting?",
+ answer("It weights each individual by the inverse of their probability of receiving the treatment they actually received, simulating what would have happened if L had not influenced treatment assignment.",
+        correct = TRUE,
+        message = "Let's understand this with a concrete example: Imagine a conditionally randomized experiment studying a new teaching method where students in advanced classes (L=1) were assigned to treatment with 75% probability, while students in regular classes (L=0) were assigned with 25% probability. These probabilities were set by the experimental design, not observed from data.
+To analyze the overall causal effect as if treatment had been assigned with equal probability to everyone (marginal randomization), IP weighting gives a weight of 1/0.75 = 1.33 to treated advanced students and 1/0.25 = 4 to treated regular students. This creates a pseudo-population where treatment assignment is independent of class level, helping us estimate what would have happened if treatment probability hadn't varied by class type.
+This method works because we know the exact treatment assignment probabilities from the experimental design. The utility of IP weighting in conditionally randomized experiments is that it allows us to transform our analysis to answer questions about marginal effects, while still preserving the benefits of randomization within each stratum."),
+ answer("It assigns equal weights to all individuals in the study.",
+        message = "Actually, IP weighting assigns different weights based on treatment probability. This is crucial because different groups often have different probabilities of receiving treatment."),
+ answer("It requires larger sample sizes than standardization.",
+        message = "IP weighting and standardization are mathematically equivalent methods - neither inherently requires larger samples."),
+ answer("It can only be used with binary outcomes.",
+        message = "IP weighting works with any type of outcome variable - binary, continuous, or categorical."),
+ allow_retry = TRUE,
+ random_answer_order = TRUE
+)
+)
+
+```
+
+## Working with Data
+
+Let's practice analyzing data using what we've learned thus far. We'll use the `wage1` dataset from the `wooldridge` package as an example. While this isn't experimental data, we'll treat certain variables as if they were from an experiment for practice purposes.
+
+```{r wage-overview}
+# Display information about the dataset
+glimpse(wage1)
+```
+
+### Exercise 1: Data Manipulation
+
+Complete the code below to create a new variable that categorizes workers as "treated" (those with more than 12 years of education) and "untreated" (those with 12 or fewer years of education). Then calculate the mean wage for each group.
+
+```{r education-wage, exercise=TRUE, exercise.eval=FALSE}
+wage1 %>%
+  mutate(treated = ____) %>%  # Create a logical variable for education > 12
+  group_by(____) %>%          # Group by the treatment variable
+  summarise(
+    mean_wage = ____,         # Calculate mean wage
+    n = n()                   # Count observations in each group
+  )
+```
+
+```{r education-wage-solution}
+wage1 %>%
+  mutate(treated = educ > 12) %>%
+  group_by(treated) %>%
+  summarise(
+    mean_wage = mean(wage),
+    n = n()
+  )
+```
+
+### Exercise 2: Visualization
+
+Create a boxplot comparing the wage distribution between the treated and untreated groups:
+
+```{r wage-plot, exercise=TRUE, exercise.eval=FALSE}
+wage1 %>%
+  mutate(treated = educ > 12) %>%
+  ggplot(aes(x = ____, y = ____, fill = ____)) +  # Fill in appropriate variables
+  geom_boxplot() +
+  labs(
+    title = "Wage Distribution by Education Level",
+    x = "Treatment Status",
+    y = "Hourly Wage"
+  )
+```
+
+```{r wage-plot-solution}
+wage1 %>%
+  mutate(treated = educ > 12) %>%
+  ggplot(aes(x = treated, y = wage, fill = treated)) +
+  geom_boxplot() +
+  labs(
+    title = "Wage Distribution by Education Level",
+    x = "Treatment Status",
+    y = "Hourly Wage"
+  )
+```
+
+## Sample Size and Precision
+
+In randomized experiments, larger sample sizes generally lead to more precise effect estimates. Let's test your understanding of the utility of larger sample sizes with a short quiz:
+
+```{r precision-quiz}
+quiz(
+question("How does increasing sample size affect the precision of treatment effect estimates in a randomized experiment?",
+  answer("It reduces random error but doesn't affect systematic error.", 
+         correct = TRUE,
+         message = "Think of random error like noise in your data that occurs by chance. When you increase your sample size, you're essentially taking more measurements which helps average out this noise. For example, if you flip a coin 10 times, you might get 7 heads by chance (70%), but if you flip it 1000 times, you're much more likely to get closer to the true probability of 50%. However, systematic error (like using a biased coin or having selection bias in your study) won't be fixed just by collecting more data - it's a fundamental issue with how the study is designed or conducted. That's why careful experimental design is just as important as having a large sample."),
+  answer("It eliminates all sources of bias.",
+         message = "While a larger sample size helps with precision, it can't eliminate systematic biases. Consider a medical trial where healthier patients are more likely to participate - this selection bias would persist even with thousands of participants. Sample size helps reduce random variation but won't fix fundamental issues with study design."),
+  answer("It makes the treatment and control groups perfectly balanced.",
+         message = "While larger samples tend to be more balanced between groups, they won't be perfectly balanced. Think of it like this: if you flip a coin 1000 times, you'll likely get close to 500 heads and 500 tails, but you probably won't get exactly equal numbers. The same principle applies to randomized experiments - larger samples improve balance but don't guarantee perfection."),
+  allow_retry = TRUE
+),
+
+question("Which of these expressions correctly represents the variance of the sample average causal effect in a randomized experiment?",
+  answer(withMathJax("$$Var(\\hat{\\psi}) = \\frac{\\sigma^2_1}{n_1} + \\frac{\\sigma^2_0}{n_0}$$"),
+         correct = TRUE,
+         message = "This is the correct formula! Let's break down why: The variance (σ²) in each group (treated and control) might be different, which is why we have separate terms σ²₁ and σ²₀. We divide each by their respective sample sizes (n₁ and n₀) because larger samples give us more precise estimates. Adding these terms makes sense because when we're calculating a difference between groups (the causal effect), the variances add. Think of it like measuring a rectangle - if you have uncertainty in both length and width measurements, the uncertainty in the area calculation combines both sources of error."),
+  answer(withMathJax("$$Var(\\hat{\\psi}) = \\frac{\\sigma^2}{n}$$"),
+         message = "This formula assumes equal variances and sample sizes between groups, which is often unrealistic. In real experiments, the treated and control groups might have different variability in their outcomes, and group sizes might not be equal."),
+  answer(withMathJax("$$Var(\\hat{\\psi}) = \\sigma^2_1 + \\sigma^2_0$$"),
+         message = "This formula ignores how sample size affects variance. Remember that larger samples give us more precise estimates - that's why we need to divide by n₁ and n₀. Without accounting for sample size, we'd be overestimating our uncertainty."),
+  allow_retry = TRUE
+)
+)
+```
+
+## Effect Modification
+
+In this next activity, we will explore how treatment effects might vary across different subgroups. 
+
+Before we explore effect modification, let's understand two helpful R functions we'll use to analyze and present our results:
+
+The `diff()` function calculates differences between consecutive elements in a vector. When working with two group means (like treatment and control), `diff()` subtracts the first value from the second value. For example, if we have mean wages [10.5, 12.0], `diff()` would return 1.5 (12.0 - 10.5). This is particularly useful when calculating treatment effects as differences between groups.
+
+The `sprintf()` function helps us format our numerical results into readable text. It works like a template where we can insert values into specific spots. The template `"%.2f dollars per hour"` means:
+- `%.2f` is a placeholder for a number with 2 decimal places
+- The rest is plain text that will appear exactly as written
+For example, `sprintf("%.2f dollars per hour", 1.5)` would produce "1.50 dollars per hour"
+
+Let's use these functions together to analyze how education's effect on wages might differ between men and women::
+
+```{r effect-mod, exercise=TRUE, exercise.eval=FALSE}
+# Calculate mean wage difference by gender
+wage1 %>%
+  mutate(treated = educ > 12) %>%
+  group_by(____, ____) %>%    # Group by gender and treatment
+  summarise(
+    mean_wage = ____,
+    n = n()
+  ) %>%
+  group_by(_____) %>%
+  summarise(
+    wage_diff = diff(_____),
+    effect_size = sprintf("%.2f dollars per hour", _____)
+  )                      
+```
+
+```{r effect-mod-solution}
+wage1 %>%
+  mutate(treated = educ > 12) %>%
+  group_by(female, treated) %>%
+  summarise(
+    mean_wage = mean(wage),
+    n = n()
+  ) %>%
+  group_by(female) %>%
+  summarise(
+    wage_diff = diff(mean_wage),
+    effect_size = sprintf("%.2f dollars per hour", wage_diff)
+  )
+```
+Looking at the output, we see two key numbers:
+
+For men (female = 0): $2.47 per hour difference
+For women (female = 1): $1.98 per hour difference
+
+This tells us there's effect modification by gender - the impact of education on wages isn't the same for men and women. Having more than 12 years of education is associated with a $2.47 higher hourly wage for men, while for women, the advantage is slightly smaller at $1.98 per hour.
+To put this in perspective, over a full-time work year (roughly 2,000 hours), this educational difference would translate to approximately:
+
+Men: $4,940 more per year ($2.47 × 2,000)
+Women: $3,960 more per year ($1.98 × 2,000)
+
+This suggests that while additional education is beneficial for both genders, there's a concerning gender gap in how much that education translates into wage gains. The difference in effect sizes ($2.47 - $1.98 = $0.49) points to potential gender-based wage discrimination, even among workers with similar education levels.
+
+## Stratification and Causal Risk Ratios
+
+For our last task, let's practice calculating causal risk ratios using stratification. We'll use the `wage2` dataset to examine how work experience (our "treatment") affects the probability of having high wages (defined as being above the median), accounting for different education levels as strata.
+
+```{r wage2-overview}
+# Display information about the dataset
+glimpse(wage2)
+```
+
+First, let's understand what we're calculating:
+- We'll treat having 11 or more years of work experience as our treatment (A). 11 years is the median value of work experience in the sample, making it a reasonable cutoff.
+- Education level (college vs. no college) will be our stratifying variable (L)
+- Our outcome (Y) will be whether someone has above-median wages
+
+Remember that the calculation of the causal risk ratio through stratification involves:
+1. Calculating stratum-specific risk ratios
+2. Weighting these ratios by the proportion of individuals in each stratum
+3. Combining them to get the overall causal effect
+
+Let's work through this step by step:
+
+```{r stratification, exercise=TRUE, exercise.eval=FALSE}
+
+# Calculate median wage for our binary outcome
+median_wage <- ______
+
+# First, let's prepare our data
+wage_data <- wage2 %>%
+  mutate(
+    # Create binary variables for treatment, stratum, and outcome
+    treatment = ______, #Treatment is having 11 or more years of work experience (exper)
+    stratum = _______,  #Higher education as stratum, let's use 16 years as proxy (educ)
+    high_wage = wage > median_wage
+  )
+
+# Now calculate stratum-specific risks
+stratum_risks <- wage_data %>%
+  group_by(____, ____) %>%  # Group by stratum and treatment
+  summarise(
+    risk = mean(____),      # Calculate proportion of high wages
+    n = n()
+  ) %>%
+  ungroup()
+
+# Calculate stratum weights (proportion in each stratum)
+stratum_weights <- wage_data %>%
+  group_by(____) %>%        # Group by stratum
+  summarise(
+    weight = n() / nrow(wage_data)
+  )
+
+# Finally, calculate the weighted average causal risk ratio
+final_result <- stratum_risks %>%
+  group_by(stratum) %>%
+  summarise(
+    risk_ratio = risk[treatment == TRUE] / risk[treatment == FALSE],
+    weight = stratum_weights$weight[stratum == first(stratum)]
+  ) %>%
+  ungroup() %>%
+  summarise(
+    causal_risk_ratio = weighted.mean(____, ____)  # Use risk_ratio and weight
+  )
+```
+
+```{r stratification-solution, warning = F, message = F}
+# Calculate median wage for our binary outcome
+median_wage <- median(wage2$wage)
+
+# First, let's prepare our data
+wage_data <- wage2 %>%
+  mutate(
+    treatment = exper >= 11,
+    stratum = educ >= 16,
+    high_wage = wage > median_wage
+  )
+
+# Calculate stratum-specific risks
+stratum_risks <- wage_data %>%
+  group_by(stratum, treatment) %>%
+  summarise(
+    risk = mean(high_wage),
+    n = n()
+  ) %>%
+  ungroup()
+
+# Calculate stratum weights
+stratum_weights <- wage_data %>%
+  group_by(stratum) %>%
+  summarise(
+    weight = n() / nrow(wage_data)
+  )
+
+# Calculate the weighted average causal risk ratio
+final_result <- stratum_risks %>%
+  group_by(stratum) %>%
+  summarise(
+    risk_ratio = risk[treatment == TRUE] / risk[treatment == FALSE],
+    weight = stratum_weights$weight[stratum == first(stratum)]
+  ) %>%
+  ungroup() %>%
+  summarise(
+    causal_risk_ratio = weighted.mean(risk_ratio, weight)
+  )
+```
+
+When you complete this code correctly, you'll get the causal risk ratio that tells us how achieving the median value of work experience affects the probability of having high wages, accounting for education level. Think about these questions once you're done:
+
+1. Why do we calculate separate risk ratios for each stratum?
+2. What does it mean if the risk ratios differ between strata?
+3. How does weighting by stratum size affect our final estimate?
+4. What is the substantive interpretation of the causal risk ratio in this case?
+
+### STOP!!
+
+Before you continue, try answering the questions on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+### Continue
+
+Answers:
+
+1. Why do we calculate separate risk ratios for each stratum?
+We calculate separate risk ratios for each education stratum (college vs. non-college) because the effect of work experience on wages might operate differently at different education levels. By examining each stratum separately, we can identify whether work experience has a stronger or weaker effect depending on education level. This helps us understand not just the average effect, but how the causal relationship might vary across important subgroups of our population.
+2. What does it mean if the risk ratios differ between strata?
+If the risk ratios differ between education strata, we have evidence of effect modification - meaning that education modifies how work experience affects wages. For example, if we found that the risk ratio was 1.4 for college graduates but only 1.1 for non-college graduates, this would suggest that additional work experience has a stronger effect on achieving high wages among those with college degrees. This kind of variation in effects across strata can have important implications for understanding career development and wage inequality.
+3. How does weighting by stratum size affect our final estimate?
+Weighting by stratum size ensures our final estimate reflects the actual composition of our population. If 30% of our sample has a college degree and 70% doesn't, weighting gives appropriate influence to each group's risk ratio when calculating the overall effect. Without weighting, we might over- or under-represent certain groups, leading to a biased estimate of the average causal effect in our population. Think of it like taking a weighted average where larger groups have more influence on the final number.
+4. What is the substantive interpretation of the causal risk ratio in this case?
+The causal risk ratio tells us how much more likely workers are to earn above-median wages when they have 11 or more years of experience, compared to those with less experience. A ratio of 1.233, for example, means that workers with more experience are 23.3% more likely to earn above-median wages, after accounting for differences in education levels. This quantifies the "experience premium" in wages, helping us understand how much additional work experience typically contributes to earning potential. Remember that, due to selection bias and the lack of a randomized experimental design, we can't be sure of the causal nature of the effects in this particular case. 
+
+This completes the Week 3 tutorial, thanks for your work!

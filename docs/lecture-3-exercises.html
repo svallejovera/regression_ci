@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Lecture 3 Exercises | PS9591: Regressions and Causal Inference</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="This tutorial was created by John Santos (with minor adaptations from me). Before we start with the exercises, we will take a look at {dplyr} and pipping.  8.1 {dplyr} primer {dplyr} is an R...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Lecture 3 Exercises | PS9591: Regressions and Causal Inference">
+<meta property="og:type" content="book">
+<meta property="og:description" content="This tutorial was created by John Santos (with minor adaptations from me). Before we start with the exercises, we will take a look at {dplyr} and pipping.  8.1 {dplyr} primer {dplyr} is an R...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Lecture 3 Exercises | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="This tutorial was created by John Santos (with minor adaptations from me). Before we start with the exercises, we will take a look at {dplyr} and pipping.  8.1 {dplyr} primer {dplyr} is an R...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9591: Regressions and Causal Inference</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
+<li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
+<li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">2</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
+<li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">3</span> Lecture 2: Introduction to Causal Inference</a></li>
+<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">4</span> Tutorial 2: Key Concepts</a></li>
+<li><a class="" href="lecture-2-exercises.html"><span class="header-section-number">5</span> Lecture 2 Exercises</a></li>
+<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">6</span> Lecture 3: Core Concepts of Experimental Design</a></li>
+<li><a class="" href="tutorial-3-more-key-concepts.html"><span class="header-section-number">7</span> Tutorial 3: More Key Concepts</a></li>
+<li><a class="active" href="lecture-3-exercises.html"><span class="header-section-number">8</span> Lecture 3 Exercises</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture-3-exercises" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Lecture 3 Exercises<a class="anchor" aria-label="anchor" href="#lecture-3-exercises"><i class="fas fa-link"></i></a>
+</h1>
+<p><em>This tutorial was created by <a href="https://jb-santos.github.io/">John Santos</a></em> (with minor adaptations from me).</p>
+<p>Before we start with the exercises, we will take a look at <a href="https://dplyr.tidyverse.org">dplyr</a> and pipping.</p>
+<div id="dplyr-primer" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> <code>{dplyr}</code> primer<a class="anchor" aria-label="anchor" href="#dplyr-primer"><i class="fas fa-link"></i></a>
+</h2>
+<p><a href="https://dplyr.tidyverse.org">dplyr</a> is an <code>R</code> package that is part of the <a href="https://tidyverse.tidyverse.org">tidyverse</a> family of packages. <a href="https://tidyverse.tidyverse.org">tidyverse</a> provides a unified “grammar” of coding, as opposed to the idiosyncratic conventions of Base <code>R</code>.</p>
+<p><a href="https://dplyr.tidyverse.org">dplyr</a> focuses on data management/transformation.</p>
+<p>For our purposes, some of the most used <a href="https://dplyr.tidyverse.org">dplyr</a> functions include:</p>
+<ul>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>: pick a column (i.e. a variable) or multiple columns in a data frame.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>: create a new column.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>: create a new column that is calculated from an existing column.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code>: precedes the <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> command and tells <code>R</code> by which other column you want to summarise.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>: pick rows (i.e. cases) according to criterion/criteria.</li>
+</ul>
+<p>The other nifty thing about <a href="https://dplyr.tidyverse.org">dplyr</a> (and the <a href="https://tidyverse.tidyverse.org">tidyverse</a> more generally) is the use of “pipelines,” which are created using the pipe operator, <code>%&gt;%</code>. This means you only need to identify the data frame with which you are working once and then “pipe it through” a “pipeline of operations”, which saves time and reduces the chance of coding errors.</p>
+<p>(Note: RStudio also has a “native pipe operator”, <code>|&gt;</code>, but this only works on newer versions of <code>R</code> and is not yet universally adopted.)</p>
+<div id="the-select-command-in-action" class="section level3" number="8.1.1">
+<h3>
+<span class="header-section-number">8.1.1</span> The <code>select()</code> command in action<a class="anchor" aria-label="anchor" href="#the-select-command-in-action"><i class="fas fa-link"></i></a>
+</h3>
+<p>Say we wanted to pick out the feeling thermometer questions in our sample CES data set.</p>
+<p>Here are the column names:</p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ces</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##  [1] "weight"        "age"           "agegrp"        "age_18to34"    "age_35to54"   
+##  [6] "age_55plus"    "gender"        "woman"         "lang"          "province"     
+## [11] "region"        "reg_on"        "reg_qc"        "reg_atl"       "reg_west"     
+## [16] "educ"          "univ"          "relig"         "rel_catholic"  "rel_christian"
+## [21] "rel_other"     "rel_none"      "income"        "incomegrp"     "mostimp"      
+## [26] "turnout"       "leftright"     "leftrightgrp"  "lr_left"       "lr_centre"    
+## [31] "lr_right"      "feel_lib"      "feel_cpc"      "feel_ndp"      "feel_bloc"    
+## [36] "feel_green"    "feel_ppc"      "feel_trudeau"  "feel_scheer"   "feel_singh"   
+## [41] "feel_blanchet" "feel_may"      "feel_bernier"  "polinterest"   "marketlib"    
+## [46] "moraltrad"     "helpgroups"</code></pre>
+<p>Let’s pull those columns using Base <code>R</code> and put them into a new data frame called “feelings_base”. I’m feeling lazy, so I’m just going to do the parties.</p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feelings_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  feel_lib <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_lib</span>,</span>
+<span>  feel_cpc <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_cpc</span>,</span>
+<span>  feel_ndp <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_ndp</span>,</span>
+<span>  feel_bloc <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_bloc</span>,</span>
+<span>  feel_green <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_green</span>,</span>
+<span>  feel_ppc <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_base</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc
+## 1       52        0       64        NA         97        0
+## 2       51        0       64        40         88        0
+## 3       52       49       NA        NA         NA       NA
+## 4       30       85        0         0          0       30
+## 5       20       62       51        20         50       20
+## 6       81       31       79        NA         85        0</code></pre>
+<p>We could also pull these columns by using their index numbers, but this isn’t recommended because index numbers could change depending on the version of a data set or previous operations performed on it.</p>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feelings_numsel</span> <span class="op">&lt;-</span> <span class="va">ces</span><span class="op">[</span><span class="fl">32</span><span class="op">:</span><span class="fl">43</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_numsel</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau feel_scheer
+## 1       52        0       64        NA         97        0           55           0
+## 2       51        0       64        40         88        0           53           0
+## 3       52       49       NA        NA         NA       NA           74          24
+## 4       30       85        0         0          0       30            0          80
+## 5       20       62       51        20         50       20           30          60
+## 6       81       31       79        NA         85        0           81          35
+##   feel_singh feel_blanchet feel_may feel_bernier
+## 1         71            15       80            0
+## 2         NA            32       59            0
+## 3         63            NA       56           20
+## 4          0             0        0           10
+## 5         NA            50       60           30
+## 6         70            NA       74            3</code></pre>
+<p>The <a href="https://dplyr.tidyverse.org">dplyr</a> way is more efficient:</p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">feelings_dplyr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ces</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">feel_lib</span><span class="op">:</span><span class="va">feel_blanchet</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## select: dropped 37 variables (weight, age, agegrp, age_18to34, age_35to54, …)</code></pre>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_dplyr</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau feel_scheer
+## 1       52        0       64        NA         97        0           55           0
+## 2       51        0       64        40         88        0           53           0
+## 3       52       49       NA        NA         NA       NA           74          24
+## 4       30       85        0         0          0       30            0          80
+## 5       20       62       51        20         50       20           30          60
+## 6       81       31       79        NA         85        0           81          35
+##   feel_singh feel_blanchet
+## 1         71            15
+## 2         NA            32
+## 3         63            NA
+## 4          0             0
+## 5         NA            50
+## 6         70            NA</code></pre>
+<p>You could get even fancier and use the <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a></code> command to select every column whose column name starts with the character string “feel_”:</p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feelings_dplyr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ces</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"feel_"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## select: dropped 35 variables (weight, age, agegrp, age_18to34, age_35to54, …)</code></pre>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_dplyr2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau feel_scheer
+## 1       52        0       64        NA         97        0           55           0
+## 2       51        0       64        40         88        0           53           0
+## 3       52       49       NA        NA         NA       NA           74          24
+## 4       30       85        0         0          0       30            0          80
+## 5       20       62       51        20         50       20           30          60
+## 6       81       31       79        NA         85        0           81          35
+##   feel_singh feel_blanchet feel_may feel_bernier
+## 1         71            15       80            0
+## 2         NA            32       59            0
+## 3         63            NA       56           20
+## 4          0             0        0           10
+## 5         NA            50       60           30
+## 6         70            NA       74            3</code></pre>
+</div>
+<div id="using-summarise-to-calculate-summary-statistics" class="section level3" number="8.1.2">
+<h3>
+<span class="header-section-number">8.1.2</span> Using <code>{summarise}</code> to calculate summary statistics<a class="anchor" aria-label="anchor" href="#using-summarise-to-calculate-summary-statistics"><i class="fas fa-link"></i></a>
+</h3>
+<p>Let’s say we want to calculate the sample mean for each feeling thermometer score. In Base, we might do something like the following, where we have a separate line of code for each calculation. (Again, because I’m lazy, I’ve only done three, but there would be 12 lines in total.)</p>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_lib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 48.34366</code></pre>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_cpc</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 43.61424</code></pre>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ndp</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 50.03684</code></pre>
+<p>The <a href="https://dplyr.tidyverse.org">dplyr</a> way is more efficient, thanks to the <code>%&gt;%</code> operator, which allows us to only write the name of the data frame once and then “pipe it through” the entire chain of commands.</p>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"feel_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>                   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>, </span>
+<span>                   na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## select: dropped 35 variables (weight, age, agegrp, age_18to34, age_35to54, …)
+## summarise: now one row and 12 columns, ungrouped</code></pre>
+<pre><code>##   feel_lib_1 feel_cpc_1 feel_ndp_1 feel_bloc_1 feel_green_1 feel_ppc_1 feel_trudeau_1
+## 1   48.34366   43.61424   50.03684    23.33321     47.45785   25.81046       44.84804
+##   feel_scheer_1 feel_singh_1 feel_blanchet_1 feel_may_1 feel_bernier_1
+## 1      39.51979     50.36898        27.79471   46.85782       26.14414</code></pre>
+</div>
+<div id="the-group_by-and-summarise-combo" class="section level3" number="8.1.3">
+<h3>
+<span class="header-section-number">8.1.3</span> The <code>{group_by}</code> and <code>{summarise}</code> combo<a class="anchor" aria-label="anchor" href="#the-group_by-and-summarise-combo"><i class="fas fa-link"></i></a>
+</h3>
+<p>Calculating group-wise summary statistics in Base is a bit clunky. Recall from last week, Base <code>R</code> uses square brackets for selection and subsetting. If we want to calculate the average rating for the PPC among Western Canadians versus everyone else, we could have to do something like this:</p>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 27.04223</code></pre>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 25.25404</code></pre>
+<p>The <a href="https://dplyr.tidyverse.org">dplyr</a> way of doing the same is:</p>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">reg_west</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_ppc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_ppc</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (reg_west)
+## summarise: now 2 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   reg_west mean_ppc
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1        0     25.3
+## 2        1     27.0</code></pre>
+<p>At first, you might think the <a href="https://dplyr.tidyverse.org">dplyr</a> way is longer because it has three instead of two lines of code. However, it is more efficient because there is less duplication of code.</p>
+<p>Where <a href="https://dplyr.tidyverse.org">dplyr</a> really starts to show an advantage is when you have to performan many calculations (more variables, more groupings, and/or more summary statistics).</p>
+<p>If we want to calculate dispersion of the distributions (SD) or the uncertainty associated with the estimated means (SE), this is what it looks like in Base <code>R</code>:</p>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 26.75502</code></pre>
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 26.43218</code></pre>
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 0.2654482</code></pre>
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 0.1762576</code></pre>
+<p>The <a href="https://dplyr.tidyverse.org">dplyr</a> way:</p>
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">reg_west</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_ppc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_ppc</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            sd_ppc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">feel_ppc</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            n_ppc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">feel_ppc</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            semean_ppc <span class="op">=</span> <span class="va">sd_ppc</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_ppc</span><span class="op">)</span></span>
+<span>            <span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (reg_west)
+## summarise: now 2 rows and 5 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   reg_west mean_ppc sd_ppc n_ppc semean_ppc
+##      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1        0     25.3   26.4 22489      0.176
+## 2        1     27.0   26.8 10159      0.265</code></pre>
+</div>
+</div>
+<div id="lecture-3-exercises-1" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Lecture 3 Exercises<a class="anchor" aria-label="anchor" href="#lecture-3-exercises-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Using the ’fertil2’ dataset from ’wooldridge’ on women living in the Republic of Botswana in 1988,</p>
+<p><strong>(i) Calculate the means and mean differences between those with and without electricity for the following two characteristics:</strong></p>
+<ul>
+<li>education (<em>educ</em>)</li>
+<li>age when first child was born (<em>agefbrth</em>)</li>
+</ul>
+<p>We’ll start by loading the dataset.</p>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
+<span><span class="va">cupcakes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'fertil2'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cupcakes</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   mnthborn yearborn age electric radio tv bicycle educ ceb agefbrth children knowmeth
+## 1        5       64  24        1     1  1       1   12   0       NA        0        1
+## 2        1       56  32        1     1  1       1   13   3       25        3        1
+## 3        7       58  30        1     0  0       0    5   1       27        1        1
+## 4       11       45  42        1     0  1       0    4   3       17        2        1
+## 5        5       45  43        1     1  1       1   11   2       24        2        1
+## 6        8       52  36        1     0  0       0    7   1       26        1        1
+##   usemeth monthfm yearfm agefm idlnchld heduc agesq urban urb_educ spirit protest
+## 1       0      NA     NA    NA        2    NA   576     1       12      0       0
+## 2       1      11     80    24        3    12  1024     1       13      0       0
+## 3       0       6     83    24        5     7   900     1        5      1       0
+## 4       0       1     61    15        3    11  1764     1        4      0       0
+## 5       1       3     66    20        2    14  1849     1       11      0       1
+## 6       1      11     76    24        4     9  1296     1        7      0       0
+##   catholic frsthalf educ0 evermarr
+## 1        0        1     0        0
+## 2        0        1     0        1
+## 3        0        0     0        1
+## 4        0        0     0        1
+## 5        0        1     0        1
+## 6        0        0     0        1</code></pre>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   mnthborn yearborn age electric radio tv bicycle educ ceb agefbrth children knowmeth
+## 1        5       64  24        1     1  1       1   12   0       NA        0        1
+## 2        1       56  32        1     1  1       1   13   3       25        3        1
+## 3        7       58  30        1     0  0       0    5   1       27        1        1
+## 4       11       45  42        1     0  1       0    4   3       17        2        1
+## 5        5       45  43        1     1  1       1   11   2       24        2        1
+## 6        8       52  36        1     0  0       0    7   1       26        1        1
+##   usemeth monthfm yearfm agefm idlnchld heduc agesq urban urb_educ spirit protest
+## 1       0      NA     NA    NA        2    NA   576     1       12      0       0
+## 2       1      11     80    24        3    12  1024     1       13      0       0
+## 3       0       6     83    24        5     7   900     1        5      1       0
+## 4       0       1     61    15        3    11  1764     1        4      0       0
+## 5       1       3     66    20        2    14  1849     1       11      0       1
+## 6       1      11     76    24        4     9  1296     1        7      0       0
+##   catholic frsthalf educ0 evermarr
+## 1        0        1     0        0
+## 2        0        1     0        1
+## 3        0        0     0        1
+## 4        0        0     0        1
+## 5        0        1     0        1
+## 6        0        0     0        1</code></pre>
+<p>After loading the dataset, let’s look at the summary statistics (also known as <em>descriptive statistics</em> or simply <em>descriptives</em>) for each of the variables we’re about to analyze. When looking at these, keep in mine the units of analysis and whether there are missing values that we should deal with as we analyze the data.</p>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##  0.0000  0.0000  0.0000  0.1402  0.0000  1.0000       3</code></pre>
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   3.000   7.000   5.856   8.000  20.000</code></pre>
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   10.00   17.00   19.00   19.01   20.00   38.00    1088</code></pre>
+<p>Now we can calculate our summary statistics by group for each of our two variables.</p>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_educ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">educ</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (electric)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   electric mean_educ
+##      &lt;int&gt;     &lt;dbl&gt;
+## 1        0      5.38
+## 2        1      8.76
+## 3       NA      5.67</code></pre>
+<p>Difference in education attainment between those without (0) and those with (1) electricity.</p>
+<ul>
+<li>Without (0) = 5.382 years</li>
+<li>With (1) = 8.763 years</li>
+<li>Difference = 8.763 - 5.382 == 3.381 years of schooling</li>
+</ul>
+<p><em>(Note: This isn’t important now, but the average among the NAs in the group often indicates if missingness could bias your results. In later methods courses, you’ll learn about ways to test for and deal with this.)</em></p>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_agefbrth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">agefbrth</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (electric)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   electric mean_agefbrth
+##      &lt;int&gt;         &lt;dbl&gt;
+## 1        0          18.8
+## 2        1          20.2
+## 3       NA          18</code></pre>
+<p>Difference in age when first child was born between those without (0) and those with (1) electricity.</p>
+<ul>
+<li>Without (0) = 18.825 years old</li>
+<li>With (1) = 20.162 years old</li>
+<li>Difference = 20.162 - 18.825 == 1.337 years old</li>
+</ul>
+<p><strong>(ii) Evaluate if the mean differences are statistically significant at the 0.01 and 0.05 levels.</strong></p>
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">educ</span> <span class="op">~</span> <span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  fertil2$educ by fertil2$electric
+## t = -19.569, df = 790.18, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  -3.719608 -3.041416
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        5.382172        8.762684</code></pre>
+<p>For education, difference of means = 3.381 years, p = 2.2*10^-16 (which is less than 0.001), so the difference significant at both the 0.05 and 0.01 levels. In fact, it is even significant at the 0.001 level.</p>
+<p>Using the confidence interval approach, you could also say that the 95% confidence interval of the difference is -3.720 and -3.041, which does not include zero. This indicates the difference is statistically significant at the 0.05 level.</p>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span> <span class="op">~</span> <span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  fertil2$agefbrth by fertil2$electric
+## t = -7.5801, df = 562.66, p-value = 1.432e-13
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  -1.6827861 -0.9901586
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        18.82545        20.16193</code></pre>
+<p>The code above uses “formula notation”, where the quantitative variable is listed first, then a tilde (“~”), and then the categorical variable.</p>
+<p>If you use formula notation in the incorrect order, it won’t work, as in the following case: <code>t.test(fertil2$electric ~ fertil2$agefbrth)</code>.</p>
+<p>Specifying “vector notation” and specifying two complementary subsets (using square brackets, or <code>[]</code>) also works. The vector notation approach works regardless of the order you specify the two vectors, as can be seen in the example below:</p>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>,<span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  fertil2$agefbrth[fertil2$electric == 1] and fertil2$agefbrth[fertil2$electric == 0]
+## t = 7.5801, df = 562.66, p-value = 1.432e-13
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.9901586 1.6827861
+## sample estimates:
+## mean of x mean of y 
+##  20.16193  18.82545</code></pre>
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>,<span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  fertil2$agefbrth[fertil2$electric == 0] and fertil2$agefbrth[fertil2$electric == 1]
+## t = -7.5801, df = 562.66, p-value = 1.432e-13
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.6827861 -0.9901586
+## sample estimates:
+## mean of x mean of y 
+##  18.82545  20.16193</code></pre>
+<p>Regardless of which approach you use, for age at birth of first child, difference of means = 1.337 years (p = 1.432*10^-13). So, this difference is significant at both the 0.05 and 0.01 levels. In fact, it is even significant at the 0.001 level.</p>
+<p>Using the confidence interval approach, you could also say that the 95% confidence interval of the difference is -1.683 and -0.990, which does not include zero. This indicates the difference is statistically significant at the 0.05 level.</p>
+<p><em>A note for Stata users: By default, <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> uses unequal variances (as proposed by Welch). It is possible to perform the “vanilla” Student’s t-test that assumes equal variances by specifying the option <code>var.equal = TRUE</code>. However, in practice, there is no reason to do so. Welch’s t-test is more robust than Student’s t-test when the assumptions of the test are violated, and it performs just as well in the (rare) cases when the assumptions are met. If you compare results between R and Stata, t-tests usually do not match because Stata, by default, assumes equal variances. You can get Stata to assume unequal variances by specifying it as an option (e.g. <code>ttest agefbrth, by(electric) unequal welch</code>).</em></p>
+<p><strong>(iii) Interpret the results.</strong></p>
+<p>Women who have access to electricity have, on average, 3.4 years more education and were 1.3 years younger than women who do not have access to electricity. These mean differences are significant at the 0.01 and 0.05 levels.</p>
+<p><strong>(iv) From this analysis, would you say that the comparisons between women with and without electricity are apples-to-apples or apples-to-oranges?</strong></p>
+<p>These are apples-to-oranges comparisons.</p>
+<p><strong>(v) How does that affect our ability to conclude anything about the relationship between access to electricity and number of children?</strong></p>
+<p>In the previous exercise, we found that women with access to electricity have, on average, fewer children than women who do not have access to electricity (mean difference = 0.43 children, p&lt;0.001). Women with electricity are systematically different from women without electricity in terms of having more children, having children later, and having more years of schooling. Presumably, having more children, having more children, and having more years of schooling are also all related. So, we cannot be sure that there is a true link between access to electricity and the number of children a woman has without controlling for those other factors.</p>
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">electric</span>, <span class="va">educ</span>, <span class="va">agefbrth</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_agefbrth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">agefbrth</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            mean_educ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">educ</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>electric <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">electric</span>,</span>
+<span>                           levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                           labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"No electricity"</span>,</span>
+<span>                                      <span class="st">"Electricity"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## select: dropped 24 variables (mnthborn, yearborn, age, radio, tv, …)
+## filter: removed 3 rows (&lt;1%), 4,358 rows remaining
+## group_by: one grouping variable (electric)
+## summarise: now 2 rows and 3 columns, ungrouped
+## mutate: converted 'electric' from integer to factor (0 new NA)</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   electric       mean_agefbrth mean_educ
+##   &lt;fct&gt;                  &lt;dbl&gt;     &lt;dbl&gt;
+## 1 No electricity          18.8      5.38
+## 2 Electricity             20.2      8.76</code></pre>
+<hr>
+</div>
+<div id="additional-exercises-1" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Additional Exercises:<a class="anchor" aria-label="anchor" href="#additional-exercises-1"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>Using the ‘ces’ dataset, calculate the means and mean differences of support for market liberalism (<em>marketlib</em>) across whether someone lives in Western Canada (<em>reg_west</em>) and between men and women (<em>gender</em>);</li>
+<li>evaluate if the mean differences are statistically significant at the 0.01 and 0.05 levels;</li>
+<li>interpret the results in the same way as you did the practice exercises from lecture;</li>
+</ol>
+<div id="stop-1" class="section level3" number="8.3.1">
+<h3>
+<span class="header-section-number">8.3.1</span> STOP!!<a class="anchor" aria-label="anchor" href="#stop-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Before you continue, try solving the exercises on your own. It’s the only way you will learn. Then, come back to this page and see how well you did.</p>
+</div>
+<div id="continue-1" class="section level3" number="8.3.2">
+<h3>
+<span class="header-section-number">8.3.2</span> Continue<a class="anchor" aria-label="anchor" href="#continue-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>We’ll start by loading the dataset and taking a look at the univariate summaries of each variable we’ll be analyzing.</p>
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.0000  0.3145  1.0000  1.0000</code></pre>
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##   Man Woman  NA's 
+## 15517 21928   288</code></pre>
+<p>Market liberalism is measured on a scale from 0 to 16 points, with an average of 8.59.</p>
+<p>Region West and gender are both binary variables.</p>
+<p>There are NAs in <em>marketlib</em> and <em>gender</em>.</p>
+</div>
+<div id="group-wise-means-mean-differences-and-statistical-significance" class="section level3" number="8.3.3">
+<h3>
+<span class="header-section-number">8.3.3</span> Group-wise means, mean differences, and statistical significance<a class="anchor" aria-label="anchor" href="#group-wise-means-mean-differences-and-statistical-significance"><i class="fas fa-link"></i></a>
+</h3>
+<p>I’m going to use <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> here to get significance testing. The <a href="https://dplyr.tidyverse.org">dplyr</a> version follows, if you want to see it.</p>
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ces$marketlib by ces$reg_west
+## t = -2.3712, df = 3428.5, p-value = 0.01779
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  -0.4571754 -0.0433279
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        8.498180        8.748431</code></pre>
+<p>Among those who live in Western Canada, the average market liberalism score is 8.748. Among those who do not live in Western Canada, the score is 8.498. This means that, on average, those living in Western Canada are 0.25 points out of 16 more supportive of market liberalism than those living elsewhere in the country. This difference is significant at the 0.05 level (p=0.018).</p>
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ces$marketlib by ces$gender
+## t = 9.4086, df = 5012.2, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means between group Man and group Woman is not equal to 0
+## 95 percent confidence interval:
+##  0.7309037 1.1156689
+## sample estimates:
+##   mean in group Man mean in group Woman 
+##            9.079404            8.156118</code></pre>
+<p>Among those men, the average market liberalism score is 9.079. Among women, the score is 8.156. This means that, on average, men are those living in Western Canada are 0.923 points out of 16 more supportive of market liberalism than women. This difference is significant at the 0.001 level (p=&lt;0.001).</p>
+<p>The <a href="https://dplyr.tidyverse.org">dplyr</a> version:</p>
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">reg_west</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_marketlib <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (reg_west)
+## summarise: now 2 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   reg_west mean_marketlib
+##      &lt;dbl&gt;          &lt;dbl&gt;
+## 1        0           8.50
+## 2        1           8.75</code></pre>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_marketlib <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## group_by: one grouping variable (gender)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   gender mean_marketlib
+##   &lt;fct&gt;           &lt;dbl&gt;
+## 1 Man              9.08
+## 2 Woman            8.16
+## 3 &lt;NA&gt;             5.38</code></pre>
+</div>
+<div id="interpretation-of-results" class="section level3" number="8.3.4">
+<h3>
+<span class="header-section-number">8.3.4</span> Interpretation of results<a class="anchor" aria-label="anchor" href="#interpretation-of-results"><i class="fas fa-link"></i></a>
+</h3>
+<p>Among both sets of comparisons here are statistically significant differences in support for the principle of market liberalism. However, for both gender and region, we cannot necessarily conclude that we’ve solved the reason why Westerners are more supportive of the free market than other Canadians or why men are more supportive of the free market than women. Moreover, for region, the magnitude of the difference is only about a quarter of a point on a 16 scale, which is of dubious <em>substantive</em> significance.</p>
+<p>Both of these variables are usually referred to as <em>demographic characteristics</em>, or the personal attributes of an individual. They tend to be “far back” the processes that lead to outcomes of interest in political science (like policy preferences or vote choice) and they often exert their effect through <em>intervening variables</em>, or things that come in-between personal characteristics and outcomes.</p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="tutorial-3-more-key-concepts.html"><span class="header-section-number">7</span> Tutorial 3: More Key Concepts</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lecture-3-exercises"><span class="header-section-number">8</span> Lecture 3 Exercises</a></li>
+<li>
+<a class="nav-link" href="#dplyr-primer"><span class="header-section-number">8.1</span> {dplyr} primer</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-select-command-in-action"><span class="header-section-number">8.1.1</span> The select() command in action</a></li>
+<li><a class="nav-link" href="#using-summarise-to-calculate-summary-statistics"><span class="header-section-number">8.1.2</span> Using {summarise} to calculate summary statistics</a></li>
+<li><a class="nav-link" href="#the-group_by-and-summarise-combo"><span class="header-section-number">8.1.3</span> The {group_by} and {summarise} combo</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#lecture-3-exercises-1"><span class="header-section-number">8.2</span> Lecture 3 Exercises</a></li>
+<li>
+<a class="nav-link" href="#additional-exercises-1"><span class="header-section-number">8.3</span> Additional Exercises:</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#stop-1"><span class="header-section-number">8.3.1</span> STOP!!</a></li>
+<li><a class="nav-link" href="#continue-1"><span class="header-section-number">8.3.2</span> Continue</a></li>
+<li><a class="nav-link" href="#group-wise-means-mean-differences-and-statistical-significance"><span class="header-section-number">8.3.3</span> Group-wise means, mean differences, and statistical significance</a></li>
+<li><a class="nav-link" href="#interpretation-of-results"><span class="header-section-number">8.3.4</span> Interpretation of results</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/08-exercises3.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/08-exercises3.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-02-27.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
