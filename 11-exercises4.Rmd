@@ -65,7 +65,6 @@ data('fertil2')
 ```
 
 
-
 ### Q1. Produce a scatterplot with number of children (*children*) on the y axis and education (*educ*) on the $x$ axis
 
 

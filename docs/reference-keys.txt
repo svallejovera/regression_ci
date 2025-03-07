@@ -103,3 +103,4 @@ q6.-explain-what-might-be-in-the-u-term-of-the-model
 bonus-content
 looking-inside-model-objects
 how-se-t-and-p-are-calculated
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
