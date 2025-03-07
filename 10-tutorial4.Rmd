@@ -1,0 +1,8 @@
+# Tutorial 4: The Simple Regression Model I
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial4/). This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge's Introductory Econometrics and Huntington-Klein's The Effect. You'll engage with both theoretical foundations and practical applications of simple regression analysis and related measures of relationship between variables.
+
+
+

@@ -1,0 +1,621 @@
+# Lecture 3 Exercises
+
+*This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
+
+## Practice exercises
+
+From lecture:
+
+Using the "fertil2" dataset from "wooldridge" on women living in the Republic of Botswana in 1988,
+
+1. produce a scatterplot with number of children (children) on the y axis and education (educ) on the x axis;
+2. how do the two variables appear to be related?;
+3. estimate the regression equation of the number of children on education (note: we say to regress y on x);
+4. interpret $\hat{\beta_0}$ and $\hat{\beta_1}$ ;
+5. plot the regression line on the scatterplot;
+6. calculate $SST$, $SSE$ and $SSR$. Verify that $SST = SSE + SSR$;
+7. using $SST$ , $SSE$ and $SSR$, calculate the R 2 of the regression. Verify it is the same as the R 2 reported in the summary of your regression output;
+9. interpret the $R^2$ of the regression.
+
+From tutorial:
+
+Using the sample 2019 CES dataset provided by John, look at how feeling thermometer ratings of Justin Trudeau (*feel_trudeau*) vary by an individual's support for free market principles (*marketlib*). 
+
+1. Produce a scatterplot of the two variables with a regression line visualized;
+2. Describe the relationship (i.e. is it positive or negative);
+3. Run the regression and report the coefficients and what they mean;
+4. Calculate the predicted rating for Justin Trudeau at the following levels of market liberalism: the lower tertile (33rd percentile), the mean, the upper quartile (75 percentile), and the maximum; 
+5. Explain how well market liberalism explains how someone rates Justin Trudeau; and
+6. Explain what might be in the *u* term of the model.
+
+# Writing math in `RStudio` 
+
+We write math in `RStudio` by enclosing equations within dollar signs ($).
+
+$y = mx + b$
+
+We can centre an equation on a new line by enclosing it within two dollar signs.
+
+$$y = mx + b$$
+
+Subscript is denoted by an underscore (_) and superscript by a caret (^).
+
+$$y = B_0 + B_1x_1 + u$$
+
+Special symbols (greek letters, hats, etc.) are prefaced with a backslash (\\) and sometimes enclosed in curly braces ({}).
+
+$$ y = \beta_0 + \beta_1x_1 + u$$
+
+$$ \hat{y} = \hat{\beta_0} + \hat{\beta}_1x_1$$
+
+
+## STOP!!
+
+Before you continue, try solving the exercises on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+## Continue
+
+
+## Lecture exercises (Solutions)
+
+
+```{r}
+library(wooldridge)
+data('fertil2')
+```
+
+
+
+### Q1. Produce a scatterplot with number of children (*children*) on the y axis and education (*educ*) on the $x$ axis
+
+
+Here, I use `{ggplot2}` to make the scatterplot. You could also use Base `R` graphics, but I find `{ggplot2}` easier (especially because it's party of the `{tidyverse}` and follows the same conventions).
+
+Note, in `{ggplot2}`, you can have your command `ggplot()` command span several lines, which are connected using a `+` sign. This makes facilitates building your graph layer-by-layer, which is easier, more readable, and easier to troubleshoot.
+
+```{r}
+library(ggplot2)
+ggplot(fertil2) +
+  aes(x = educ, y = children) +
+  geom_point() + 
+  labs(x = "Education (years)", 
+       y = "Number of children",
+       title = "Number of children by years of education")
+```
+
+
+To add some random noise (a.k.a. *jitter*), include the argument `position = "jitter"` within the `geom_point()` function call.
+
+
+```{r}
+ggplot(fertil2) +
+  aes(x = educ, y = children) +
+  geom_point(position = "jitter") + 
+  labs(x = "Education (years)", 
+       y = "Number of children",
+       title = "Number of children by years of education (with jitter)")
+```
+
+
+
+### Q2. How do the two variables appear to be related?;
+
+
+There appears to be a *negative* relationship between the amount of education and the number of children. As the number of years of school attended increases, the number of children a women has tends to *decrease*.
+
+
+
+### Q3. Estimate the regression equation of the number of children on education (note: we say "to regress $y$ on $x$"); 
+
+
+```{r}
+library(dplyr)
+dat <- fertil2 %>%
+  select(c(children, educ)) %>%
+  na.omit()
+model1 <- lm(children ~ educ, data = dat)
+summary(model1)
+```
+
+
+Remember, the equation of the population model is:
+
+$$children = \beta_0 + \beta_1educ + \mu $$
+
+
+Our regression equation is:
+
+$$\hat{children} = 3.496 - .210educ$$
+
+$$n = 4361, R^2 = 0.137$$
+
+
+
+### Q4. Interpret  $\hat{\beta_0}$ and  $\hat{\beta_1}$;
+
+
+$\hat{\beta_0} = 3.5$. This is the intercept (or constant), which is the value of $\hat{y}$ when all coefficients equal 0. This means a woman with no education would be predicted to have 3.5 children. 
+
+$\hat{\beta_1} = -0.2$. This is the coefficient for *educ*. This means that, on average, for every additional year of schooling a women has, we would predict her to have 0.2 *fewer* children.  
+
+
+
+### Q5. Plot the regression line on the scatterplot; 
+
+
+There are a few ways to do this. First, we could generate predictions, save them to the data set, and then plot them.
+
+Running the `lm()` function automatically calculates the predictions (also know as fitted values or y-hats), so we can just extract them from the model object. They are stored in the slot `$fitted.values`.
+
+Here, I take the fitted values and store them in a new column called "yhat."
+
+
+```{r}
+dat$yhat <- model1$fitted.values
+```
+
+
+Another way to retrieve the fitted values is with the command `fitted.values()`. It produces *exactly* the same results as `$fitted.values`, as can be seen below.  
+
+```{r}
+dat$yhat2 <- fitted.values(model1)
+dat$yhat[1:10] == dat$yhat2[1:10]
+```
+
+
+If we plot just the fitted values against our x-axis, we'd get a graph that looks like this:
+
+
+```{r}
+library(ggplot2)
+ggplot(dat) +
+  aes(x = educ, y = yhat) +
+  geom_point() + 
+  labs(x = "Education (years)", 
+       y = "Predicted number of children",
+       title = "Predicted number of children by years of education")
+```
+
+
+There is a `predict()` function. This function is used to calculate predicted values, given some combination of values we input for the $x$'s in our model. 
+
+*Theoretically*, we could use this to get our y-hats by not specifying new values. However, because of the mechanics of how this function works, it doesn't produce *exactly* the same values as using `$fitted.values` or `fitted.values()` (though it comes very very very very close).
+
+
+```{r}
+dat$yhat3 <- predict(model1)
+dat$yhat[1:10] == dat$yhat3[1:10]
+```
+
+
+You could also calculate the predictions manually using the coefficients. In practice, you wouldn't actually do this; this is just to show you the math that `R` is doing behind-the-scenes.
+
+
+```{r}
+dat$calcpreds <- model1$coefficients[[1]] + (model1$coefficients[[2]] * dat$educ)
+tibble(
+  "fitted.values()" = dat$yhat,
+  "predict()" = dat$yhat3,
+  "Manual calculation" = dat$calcpreds) %>% 
+  head()
+```
+
+
+Finally, what you should avoid doing is to make your calculations by entering numbers manually (i.e. not retrieving them from the model object). You should put off rounding your numbers until the very end, lest it throw off subsequent calculations.
+
+In our example, the numbers aren't that different (see the 4th column below). But, that doesn't mean you'll always be able to get away with this.
+
+
+```{r}
+dat$roundpreds <- 3.496 + (-0.210 * dat$educ)
+tibble(
+  "fitted.values()" = dat$yhat,
+  "predict()" = dat$yhat3,
+  "Manual calculation" = dat$calcpreds,
+  "Rounded calculation" = dat$roundpreds) %>% 
+  head()
+```
+
+
+Regardless of how we calculate the predictions, we can add them to our original `ggplot()` statement as a `geom_line()`.
+
+
+```{r}
+ggplot(dat) +
+  geom_point(aes(x = educ, y = children), position = "jitter") + 
+  geom_line(aes(x = educ, y = yhat), color = "red", linewidth = 1) +
+  labs(x = "Education (years)", 
+       y = "Number of children",
+       title = "Number of children by years of education")
+```
+
+
+For a simple (or *bivariate*) regression, the simplest way to add a regression line is to make use of the command `geom_smooth()`, which is built into `{ggplot2}`.
+
+In this example, I've also added an addition `geom_point()` command with its own aesthetics mapped to the mean values for our predictor and response variables. This is to show that the point with the coordinates $[\bar{educ},\bar{children}]$ (i.e. $[5.9, 2.3]$ is always on the regression line.
+
+
+```{r}
+ggplot(dat, aes(x = educ, y = children)) +
+  geom_point(position = "jitter") + 
+  geom_smooth(method = "lm", fullrange = FALSE) +
+  labs(x = "Education (years)", 
+       y = "Number of children",
+       title = "Number of children by years of education") +
+  geom_point(aes(x = mean(dat$educ), y = mean(dat$children)), color = "red", size = 4)
+```
+
+
+### Q6. Calculate *SST*, *SSE* and *SSR.* Verify that $SST = SSE + SSR$;
+
+
+First, we'll generate our predictions.
+
+
+```{r}
+dat$childrenhat <- model1$fitted.values
+```
+
+
+Calculate $SST$ (sum of squares TOTAL).
+
+Our formula, in words, could be interpreted as, *the total sum of squares is equal to the sum of all of the squared differences between an observed Y and the average of Y*.
+
+
+$$SST = \Sigma{ ^n_{i=1} ( y_i - \bar{y} )^2 }$$
+
+```{r}
+model1_sst <- sum( (dat$children - mean(dat$children)) ^ 2 )
+model1_sst
+```
+
+
+Calculate $SSE$ (sum of squares EXPLAINED).
+
+In words, this formula could be interpreted as, *the explained sum of squares is equal to the sum of all of the squared differences between a predicted Y and the average of Y*.
+
+$$SSE = \Sigma{ ^n_{i=1} ( \hat{y}_i - \bar{y} )^2 }$$
+
+```{r}
+model1_sse <- sum( (dat$yhat - mean(dat$children)) ^ 2 )
+model1_sse
+```
+
+Calculate $SSR$ (sum of squares RESIDUAL).
+
+$$SST = \Sigma{ ^n_{i=1} \hat{u_i}^2 }$$
+
+```{r}
+model1_ssr <- model1_sst - model1_sse
+model1_ssr
+```
+
+
+A model's residuals are stored in the slot `$residuals`, and we can use those as inputs into the calculation. We can also retrieve them using the `resid()` function.
+
+
+```{r}
+sum(model1$residuals^2)
+sum(resid(model1)^2)
+```
+
+
+The manual calculations above are mostly for pedagogical purposes. In practice, there are pre-built functions that calculate these quantities for us.
+
+We can use the `anova()` function to display the ANOVA table of the regression, which shows the various sum-of-squares statistics.
+
+
+```{r}
+anova(model1)
+```
+
+
+Note that the total sum of squares is not reported in the ANOVA table, but is easily calculated.
+
+
+```{r}
+anova(model1)[1,2] + anova(model1)[2,2]
+```
+
+
+
+### Q7. Using $SST$, $SSE$ and $SSR$, calculate the $R^2$ of the regression. Verify it is the same as the $R^2$ reported in the summary of your regression output;
+
+
+The proportion of variance of Y explained by X is a simple ratio of $SSE/SST$.
+
+```{r}
+model1_sse / model1_sst
+```
+
+
+We can check this against what the model reports...
+
+
+```{r}
+summary(model1)
+```
+
+
+Note that the residual standard error is 2.064 on 4359 degrees of freedom. This is equal to the standard deviation of the residuals (${\sqrt{\hat{\sigma^2}}}$) *(which makes sense because we use a model's SDs as approximations for the population's SEs)*.
+
+
+```{r}
+sd(model1$residuals)
+```
+
+
+### Q8. Interpret the *R^2* of the regression.
+
+
+$R^2 = 0.137$. This means that education explains about 14% of the variation in the number of children.
+
+
+## Additional practice exercises
+
+
+Using the 2019 CES dataset, look at how feeling thermometer ratings of Justin Trudeau (*feel_trudeau*) vary by an individual's support for free market principles (*marketlib*). 
+
+For your analysis...
+
+1. Produce a scatterplot of the two variables with a regression line visualized;
+2. Describe the relationship (i.e. is it positive or negative);
+3. Run the regression and report the coefficients and what they mean;
+4. Calculate the predicted rating for Justin Trudeau at the following levels of market liberalism: the lower tertile (33rd percentile), the mean, the upper quartile (75 percentile), and the maximum; 
+5. Explain how well market liberalism explains how someone rates Justin Trudeau; and
+6. Explain what might be in the $\mu$ term of the model.
+
+## STOP!!
+
+Before you continue, try solving the exercises on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+## Continue
+
+Before I answer the questions, I'm going to start by looking at the summary statistics of my variables.
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+load("ces.Rda")
+```
+
+
+```{r}
+summary(ces$feel_trudeau)
+sd(ces$feel_trudeau, na.rm = TRUE)
+summary(ces$marketlib)
+sd(ces$marketlib, na.rm = TRUE)
+```
+
+
+On average, Canadians rate Trudeau about 45 points out of a 100 on the feeling thermometer scale (SD = 34.5), and score at about 8.6 on the market liberalism scale (SD = 3.5), which ranges from 0 to 16. 
+
+
+### Q1. Produce a scatterplot of the two variables with a regression line visualized
+
+
+```{r}
+ggplot(ces, aes(x = marketlib, y = feel_trudeau)) +
+  geom_point(position = "jitter") + 
+  geom_smooth(method = "lm") +
+  labs(x = "Market liberalism", 
+       y = "Feeling thermometer ratings of Trudeau",
+       title = "Trudeau ratings by market liberalism") +
+  theme_minimal()
+```
+
+
+### Q2. Describe the relationship (i.e. is it positive or negative)
+
+
+There appears to be a negative relationship between market liberalism and ratings of Trudeau--i.e. as support for free market principles increases, positive feelings towards Trudeau *decrease*.
+
+This can be difficult to see without the regression line because both variables have upper and lower bounds (i.e. they do not go onto infinity). 
+
+In these situations, look at diagonal pairs of corners that are denser than the opposite diagonal. Here, the top left and bottom right corners are denser than the bottom left and top right corners. 
+
+
+### Q3. Run the regression and report the coefficients and what they mean
+
+
+```{r}
+jtmod <- lm(feel_trudeau ~ marketlib, data = ces)
+summary(jtmod)
+```
+
+
+Regressing *feel_trudeau* on *marketlib* gives us the following regression equation:
+
+$$\hat{feel\_trudeau} = 68.399 + -2.852marketlib$$
+$$n = 4797, R^2 = 0.085$$
+
+Our results indicate that, for every one-point increase in market liberalism (on a scale from 0 to 16), the rating of Trudeau *decreases*, on average, by 2.9 points. Moving halfway (8 points) across the scale (e.g. the difference between the far left and the centre or between the centre and the far right) would result in a shift of about 23 points on average (2.9 * 8 = 23.2).  
+
+The intercept tells us that the average rating of Justin Trudeau when market liberalism is 0 (i.e. the left-most position) is 68.399. 
+
+
+### Q4. Calculate the predicted rating for Justin Trudeau at the following levels of market liberalism: the lower tertile (33rd percentile), the mean, the upper quartile (75 percentile), and the maximum
+
+
+First, let's find the ratings of Trudeau at the quantiles of interest.
+
+The `quantile()` function gives us the values at the 0th (min), 25th (lower quartile), 50th (i.e. median), 75th (upper quartile), and 100th (max) percentiles. Note, if your data set has missing values, you have to use the option `na.rm = TRUE`, otherwise the function does not work.
+
+
+```{r}
+quantile(ces$marketlib, na.rm = TRUE)
+```
+
+
+We can specify a specific value for the `quantile()` function to return to get the 33rd and 75th percentile.
+
+
+```{r}
+tibble(
+  "qtile33" = quantile(ces$marketlib, .33, na.rm = TRUE),
+  "mean" = mean(ces$marketlib, na.rm = TRUE),
+  "qtile75" = quantile(ces$marketlib, .75, na.rm = TRUE),
+  "max" = max(ces$marketlib, na.rm = TRUE))
+```
+
+
+There are a few ways we can calculate predicted probabilities.
+
+First, we could do the math manually and plug the value of market liberalism into our regression equation. Let's do that for the 33rd percentile of market liberalism ($marketlib=7$).
+
+
+```{r}
+68.399 + (-2.852 * 7)
+```
+
+
+To avoid rounding errors, it's better to use the actual coefficients returned by our model, which we can retrieve using `coefs()` or `$coefficients`. Here's what that looks like for the example above.
+
+
+```{r}
+jtmod$coefficients[[1]] + 
+  (jtmod$coefficients[[2]] *  quantile(ces$marketlib, .33, na.rm = TRUE))
+```
+
+Finally, we can also use the `predict()` function and specify the values for our coefficient using the argument `newdata=`. Here's the same example in that format.
+
+```{r}
+predict(jtmod, 
+        newdata = data.frame(
+          marketlib = quantile(ces$marketlib, .33, na.rm = TRUE)
+          )
+        ) %>% 
+  unname()
+```
+
+
+Let's continue using the `predict()` function to calculate our predicted values when *marketlib* is at the mean  (8.59).
+
+
+```{r}
+predict(jtmod, 
+        newdata = data.frame(marketlib = mean(ces$marketlib, na.rm = TRUE))) %>% 
+  unname()
+```
+
+
+Here, we predict *feel_trudeau* when *marketlib* is at the 75th percentile.
+
+
+```{r}
+predict(jtmod, 
+        newdata = data.frame((marketlib = quantile(ces$marketlib, .75, na.rm = TRUE)))) %>% 
+  unname()
+```
+
+
+`predict()` for the max value for *marketlib*.
+
+
+```{r}
+predict(jtmod, 
+        newdata = data.frame((marketlib = max(ces$marketlib, na.rm = TRUE)))) %>% 
+  unname()
+```
+
+
+### Q5. Explain how well market liberalism explains ratings of Justin Trudeau
+
+
+In our simple regression model, $R^2=0.085$. This means that market liberalism explains about 8.5% of the variation in feeling thermometer ratings of Justin Trudeau. Another way to think about this is that knowing someone's score on the market liberalism scale improves our ability to predict by 8.5% over a guess based on only knowing the average market liberalism of Canadians as a whole.
+
+This doesn't seem too surprising, given that we would expect self-reported ideology to have a relationship with ratings of a party leader, but so would many other factors.
+
+
+### Q6. Explain what might be in the *u* term of the model
+
+Obviously, there are many more things besides market liberalism that go into how someone rates Justin Trudeau. Some factors that are likely correlated with both market liberalism and ratings of Justin Trudeau---and, as such, are likely to be a source of omitted variable bias---include one's stand on social or moral issues (often called moral traditionalism), one's party identification, evaluations of economic conditions, and personal characteristics (often called "socio-demographics").
+
+
+--------------------------------------------------------------------------------
+
+
+## Bonus content
+
+
+### Looking inside model objects...
+
+
+Model objects created by `lm()` are a list that contain various quantities of interest. Let's take a look inside. We can do this using the command `View(model1)` (note the capital "V" in "View"). 
+
+We can also look at the names of each item in our `model1` object using the command `names(model1)`.
+
+
+```{r}
+# View(model1)
+names(model1)
+```
+
+
+Notice that while we can see the coefficients, we're missing things like the standard errors, t-statistics, and p-values. While it's actually relatively easy to calculate these by doing math on the variance-covariance matrix, we're not at that point yet. 
+
+The easiest way to get those quantities is by *getting them from the model summary table*.
+
+We're used to printing this out using the `summary()` command. However, we can also assign the output of that command to an object, and then get the values we want from the item `$coefficients`.
+
+
+```{r}
+mysummary <- summary(model1)
+names(mysummary)
+mysummary$coefficients
+```
+
+
+Note, if you assign `mysummary$coefficients` to a object, you'll find out that it's actually an array of numbers, which makes it a bit tricky to extract it's contents. 
+
+
+```{r}
+mycoefs <- mysummary$coefficients
+mycoefs
+class(mycoefs)
+```
+
+
+We can get around this by telling `R`  to treat the object like it's a data frame using the `as.data.frame()` command.
+
+
+```{r}
+mycoefs1 <- as.data.frame(mysummary$coefficients)
+class(mycoefs1)
+mycoefs1
+```
+
+Now we can work with it like other data frames and extract columns using the `$` operator. 
+
+Note, because of the space and special characters in some of the columns, we need to use backticks (i.e. the ` character, or the "lower-case tilde") around the variable names.
+
+
+```{r}
+mycoefs1$Estimate
+mycoefs1$`Std. Error`
+```
+
+
+### How SE, t, and p are calculated 
+
+If you're curious how we calculate the Standard Errors, t-values, and p-values of our coefficients, the chunk below shows the equations. 
+
+The SEs are the square root of the diagonal of the variance-covariance matrix (you won't have to know this for the course). 
+
+The t-values (or t-statistics) are the quotients of the coefficients divided by the SEs (i.e. $\frac{b_i}{SE_i}$).
+
+The p-values are the integrals of the t-distribution evaluated at the absolute values of the t-values, given the residual degrees of freedom of the model (for the course, you'll be doing this using a statistical table, but knowing how to do this in `R` comes in handy).
+
+
+```{r}
+data.frame(
+  b = model1$coefficients,
+  se = sqrt(diag(vcov(model1))),
+  t = model1$coefficients / sqrt(diag(vcov(model1))),
+  p = 2 * pt(abs(model1$coefficients / sqrt(diag(vcov(model1)))), 
+             model1$df.residual, lower.tail = FALSE))
+```
+
+
+

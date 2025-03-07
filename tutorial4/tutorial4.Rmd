@@ -1,0 +1,334 @@
+---
+title: "Tutorial 4: Simple Regression Model (SRM)"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(wooldridge)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load the data we'll use for exercises
+data("wage1")
+data("lawsch85")
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge's Introductory Econometrics and Huntington-Klein's The Effect. You'll engage with both theoretical foundations and practical applications of simple regression analysis and related measures of relationship between variables.
+
+## Understanding the Simple Regression Model
+
+The Simple Regression Model is a fundamental tool for understanding relationships between variables. Let's start by testing your understanding of its basic concepts.
+
+```{r srm-basics-quiz}
+quiz(
+  question("What is the key assumption of the Simple Regression Model regarding the relationship between variables?",
+    answer("The relationship between X and Y must be perfectly deterministic",
+           message = "The SRM actually allows for random variation around the relationship."),
+    answer("The relationship between X and Y must be linear in parameters",
+           correct = TRUE,
+           message = "Yes! The SRM assumes that the relationship can be described by a straight line, though the variables themselves can be transformed."),
+    answer("The relationship between X and Y must be positive",
+           message = "The relationship can be either positive or negative."),
+    answer("X and Y must be measured on the same scale",
+           message = "Variables can be measured on different scales."),
+    allow_retry = TRUE
+  ),
+  
+  question("Which of these correctly represents the simple linear regression model in the population?",
+    answer("Y = β₀ + β₁X",
+           message = "This is incomplete as it doesn't account for the error term."),
+    answer("Y = β₀ + β₁X + u",
+           correct = TRUE,
+           message = "Correct! This shows both the systematic part (β₀ + β₁X) and the random error or stochastic part (u)."),
+    answer("Y = b₀ + b₁X + e",
+           message = "This represents the sample regression equation, not the population model."),
+    answer("Y = X + u",
+           message = "This is missing the intercept and slope parameters."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("In a project using OLS to analyze the relationship between campaign spending and vote share, what would β₁ represent?",
+    answer("The total number of votes a candidate receives",
+           message = "This would be the Y variable, not β₁."),
+    answer("The average change in vote share associated with a one-unit increase in campaign spending, holding other factors constant",
+           correct = TRUE,
+           message = "Yes! β₁ represents the slope coefficient, showing how much Y changes for a one-unit change in X."),
+    answer("The minimum amount of campaign spending needed to win",
+           message = "This would be a threshold value, not the slope coefficient."),
+    answer("The error in predicting vote share",
+           message = "This would be represented by u, not β₁."),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Properties of OLS Estimators
+
+Let's examine the statistical properties that make Ordinary Least Squares (OLS) estimation valuable for studying relationships between variables.
+
+```{r ols-properties-quiz}
+quiz(
+  question("Under which of the following conditions will OLS estimators be unbiased?",
+    answer("Zero conditional mean of the error term, and independence in sampling",
+           correct = TRUE,
+           message = "These are key assumptions for unbiasedness - the error term should have a mean of zero conditional on X, and observations should be independently sampled."),
+    answer("Perfect multicollinearity between predictors",
+           message = "This actually prevents OLS estimation."),
+    answer("Homoskedasticity of error terms",
+           message = "While important for efficiency, this isn't necessary for unbiasedness."),
+    answer("Normal distribution of error terms",
+           message = "This matters for inference but isn't required for unbiasedness."),
+    allow_retry = TRUE
+  ),
+  
+  question("What does the Gauss-Markov theorem tell us about OLS estimators?",
+    answer("They are always normally distributed",
+           message = "The theorem doesn't make claims about the distribution."),
+    answer("They are the Best Linear Unbiased Estimators (BLUE)",
+           correct = TRUE,
+           message = "Correct! Under the classical assumptions, OLS provides the lowest variance among all linear unbiased estimators."),
+    answer("They are always consistent",
+           message = "Consistency requires additional assumptions beyond Gauss-Markov."),
+    answer("They eliminate all forms of bias",
+           message = "OLS can still be biased if key assumptions are violated."),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Working with Real Data
+
+Let's practice applying the Simple Regression Model to real data. We'll use the `lawsch85` dataset from Wooldridge to examine the relationship between LSAT scores and first-year GPA for students entering Law school.
+
+### Exercise 1: Examining the Relationship
+
+First, let's create a scatter plot with a regression line:
+
+```{r scatter-plot, exercise=TRUE, exercise.eval=FALSE}
+ggplot(lawsch85, aes(x = LSAT, y = GPA)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Relationship between LSAT Scores and First-Year GPA",
+    x = "LSAT Score",
+    y = "First-Year GPA"
+  )
+```
+
+### Exercise 2: Running and Interpreting a Simple Regression
+
+Complete the code below to run a simple regression and extract key statistics. Before we start, here are some important definitions you should keep in mind:
+
+Total Sum of Squares (TSS) and Residual Sum of Squares (RSS)
+In regression, fitted values are the ones you obtain from the base model after providing the actual values from observations contained in your dataset. The fitted values in the simple regression model are represented by the equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$. TSS measures the total variability in your dependent variable Y. It's calculated by summing the squared differences between each Y value and the mean of Y: TSS = Σ(Y - Ȳ)². RSS measures how much variability remains unexplained after fitting your regression line. It's calculated by summing the squared differences between each actual Y value and its predicted value: RSS = Σ(Y - Ŷ)². The difference between TSS and RSS tells us how much variation our model explains.
+
+R-squared combines TSS and RSS to tell us the proportion of variance in Y explained by our model. It's calculated as R² = 1 - (RSS/TSS). For example, if R² = 0.7, our model explains 70% of the variation in Y. R-squared ranges from 0 (model explains none of the variation) to 1 (model explains all variation). However, it's important to note that a high R-squared doesn't necessarily mean we have a good model - it just means our model fits the existing data well; this can happen with spurious data too, and a poor fit may indicate problems in measurement or complex causality, not necessarily a substantive lack of relationship between your key variables. In political science, we often work with R-squared values that might seem low by physical science standards (like 0.3 or 0.4) but can still represent meaningful relationships between variables.
+
+### Basic R Functions for Regression Analysis
+
+Before we dive into the exercises, here are the essential R functions you'll need:
+
+**Basic Statistical Functions**
+- `mean(x)` - Calculates the arithmetic mean of a vector
+- `sd(x)` - Calculates the standard deviation
+- `sum(x)` - Adds up all elements in a vector
+- `length(x)` - Returns the number of elements in a vector
+- `cor(x, y)` - Calculates Pearson correlation between two vectors
+- `cov(x, y)` - Calculates covariance between two vectors
+
+**Regression Functions**
+- `lm(y ~ x, data)` - Fits a linear model
+- `residuals(model)` - Extracts residuals from a model
+- `summary(model)` - Provides comprehensive model summary including R-squared
+- `coef(model)` - Extracts model coefficients
+
+**Helpful Tips:**
+- For manual calculations, remember that R can perform vector operations: `(x - mean(x))` will subtract the mean from every element in the vector x
+- Use `data$column` to access specific columns in your dataset
+- The `summary()` function provides already outputs R-squared, but calculating it manually helps understand what's happening "under the hood"
+- When calculating sums of squares manually, you can ask R to compute `sum((x - mean(x))^2)`, for example. 
+
+These functions will be particularly useful in the upcoming exercises where you'll calculate model fit statistics both manually and using R's built-in functions.
+
+```{r regression, exercise=TRUE, exercise.eval=FALSE}
+# Run the regression
+model <- lm(____ ~ ____, data = lawsch85) #y = GPA, x = LSAT
+
+# Get summary statistics
+summary(model)
+
+# Calculate R-squared manually
+y_mean <- mean(_____)
+tss <- sum((_____ - y_mean)^2)
+rss <- sum(residuals(model)^2)
+r_squared <- 1 - ____
+```
+
+```{r regression-solution}
+# Run the regression
+model <- lm(GPA ~ LSAT, data = lawsch85)
+
+# Get summary statistics
+summary(model)
+
+# Calculate R-squared manually
+y_mean <- mean(lawsch85$GPA)
+tss <- sum((lawsch85$GPA - y_mean)^2)
+rss <- sum(residuals(model)^2)
+r_squared <- 1 - rss/tss
+```
+
+### Exercise 3: Interpreting Results
+
+```{r interpretation-quiz}
+quiz(
+  question("Based on your regression results, which statement is most accurate?",
+    answer("The relationship between LSAT scores and GPA is negative",
+           message = "Check the sign of the coefficient."),
+    answer("LSAT scores explain all variation in first-year GPA",
+           message = "The R-squared value suggests otherwise."),
+    answer("Higher LSAT scores are associated with higher first-year GPA, but there's considerable unexplained variation",
+           correct = TRUE,
+           message = "The positive coefficient shows the relationship direction, while R-squared shows substantial unexplained variation."),
+    answer("LSAT scores have no significant relationship with GPA",
+           message = "The p-value suggests statistical significance."),
+    allow_retry = TRUE
+  ),
+  
+  question("Heteroskedasticity refers to cases when the variance of errors (residuals) in a regression model is not constant across different levels of the independent variable. In the context of our LSAT-GPA analysis, what might cause heteroskedasticity?",
+    answer("Random measurement error in LSAT scores",
+           message = "Measurement error in X leads to different issues."),
+    answer("The possibility that GPA variation differs across LSAT score ranges",
+           correct = TRUE,
+           message = "Yes! For instance, high LSAT scorers might show more consistent GPA performance than low scorers. For example, an LSAT score change of 10 going from 130 to 140 might not have as significant an effect on GPA as a 10-point change going from 160 to 170, where the top performers are located."),
+    answer("Using different scales for LSAT and GPA",
+           message = "Different scales don't necessarily cause heteroskedasticity."),
+    answer("The sample size being too small",
+           message = "Sample size affects precision but not heteroskedasticity."),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Understanding OLS: Residuals and Covariance
+
+```{r ols-concepts-quiz}
+quiz(
+  question("A researcher finds that for their regression line Y = 3 + 4X, an observation has X = 5 and Y = 25. What is the residual for this observation?",
+    answer("2", correct = TRUE,
+           message = "Correct! For X = 5, the predicted Y is 3 + 4(5) = 23. The residual is the actual Y (25) minus predicted Y (23) = 2."),
+    answer("23",
+           message = "This is the predicted value (3 + 4*5), not the residual."),
+    answer("25",
+           message = "This is the actual Y value, not the residual."),
+    answer("4",
+           message = "This is the slope coefficient, not the residual."),
+    allow_retry = TRUE
+  ),
+  
+  question("Which statement best describes how covariance is calculated?",
+    answer("It's the average of the summed products of de-meaned variables",
+           correct = TRUE,
+           message = "Yes! Covariance measures how two variables vary together by multiplying their de-meaned values and averaging the results."),
+    answer("It's the sum of squared differences between predicted and actual values",
+           message = "This describes the calculation of squared residuals, not covariance."),
+    answer("It's the ratio of the standard deviations of two variables",
+           message = "This is part of correlation calculation, not covariance."),
+    answer("It's the average distance between actual values and the regression line",
+           message = "This is more related to residuals than covariance."),
+    allow_retry = TRUE
+  ),
+  
+  question("In the equation VitaminE = .110 + .002BMI, how should we interpret the slope coefficient?",
+    answer("For every one unit increase in BMI, the proportion of people taking vitamin E increases by 0.2%",
+           correct = TRUE,
+           message = "Correct! Since vitamin E is binary, the .002 increase in conditional mean translates to a 0.2 percentage point increase."),
+    answer("For every 1% increase in BMI, vitamin E intake increases by 0.002 units",
+           message = "This misinterprets both the units and the relationship."),
+    answer("The correlation between BMI and vitamin E is 0.002",
+           message = "The correlation is actually .355, calculated using standard deviations."),
+    answer("11% of people take vitamin E regardless of their BMI",
+           message = "This incorrectly interprets the intercept term."),
+    allow_retry = TRUE
+  )
+)
+```
+
+### Exercise: Calculating Covariance and Correlation
+
+Let's practice calculating covariance and correlation manually, then compare the output with R's built-in functions. 
+Covariance measures how two variables change together. If one variable tends to be above its mean when another is above its mean (or both below their means together), they have positive covariance. The formula is the average of the product of each variable's deviation from its mean: Cov(X,Y) = Σ((X - X̄)(Y - Ȳ))/(n-1). However, covariance is scale-dependent, making it hard to interpret across variables that might have significantly different scales (e.g., y going from 0 to 1  in increments of 0.1 and x going from 1 to 7 in increments of 1). That's where correlation comes in. Correlation (specifically Pearson's correlation) rescales covariance to always fall between -1 and +1 by dividing covariance by the product of the standard deviations ($\sigma$): r = Cov(X,Y)/(σx*σy). A correlation of +1 indicates perfect positive relationship, -1 indicates perfect negative relationship, and 0 indicates no linear relationship.:
+
+```{r covariance-correlation, exercise=TRUE, exercise.eval=FALSE}
+# Create sample data
+set.seed(123)
+X <- c(2, 4, 6, 8, 10)
+Y <- c(3, 5, 8, 9, 12)
+
+# Calculate means
+mean_x <- mean(X)
+mean_y <- mean(Y)
+
+# Calculate covariance manually
+# Remember: covariance is the average of products of de-meaned variables
+manual_cov <- sum((_____) * (_____)) / (length(X) - 1)
+
+# Calculate correlation manually
+# Remember: correlation is covariance divided by product of standard deviations
+sd_x <- sd(X)
+sd_y <- sd(Y)
+manual_cor <- ____
+
+# Compare with R's built-in functions
+r_cov <- cov(X, Y)
+r_cor <- cor(X, Y)
+
+# Print results
+print(paste("Manual covariance:", manual_cov))
+print(paste("R's covariance:", r_cov))
+print(paste("Manual correlation:", manual_cor))
+print(paste("R's correlation:", r_cor))
+```
+
+```{r covariance-correlation-solution}
+# Create sample data
+set.seed(123)
+X <- c(2, 4, 6, 8, 10)
+Y <- c(3, 5, 8, 9, 12)
+
+# Calculate means
+mean_x <- mean(X)
+mean_y <- mean(Y)
+
+# Calculate covariance manually
+manual_cov <- sum((X - mean_x) * (Y - mean_y)) / (length(X) - 1)
+
+# Calculate correlation manually
+sd_x <- sd(X)
+sd_y <- sd(Y)
+manual_cor <- manual_cov / (sd_x * sd_y)
+
+# Compare with R's built-in functions
+r_cov <- cov(X, Y)
+r_cor <- cor(X, Y)
+
+# Print results
+print(paste("Manual covariance:", manual_cov))
+print(paste("R's covariance:", r_cov))
+print(paste("Manual correlation:", manual_cor))
+print(paste("R's correlation:", r_cor))
+```
+
+This completes the Week 4 tutorial on the Simple Regression Model, thank you for your attention!
