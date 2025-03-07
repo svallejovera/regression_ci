@@ -1,4 +1,4 @@
-# Lecture 3 Exercises
+# Lecture 4 Exercises
 
 *This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
 
@@ -28,7 +28,7 @@ Using the sample 2019 CES dataset provided by John, look at how feeling thermome
 5. Explain how well market liberalism explains how someone rates Justin Trudeau; and
 6. Explain what might be in the *u* term of the model.
 
-# Writing math in `RStudio` 
+## Writing math in `RStudio` 
 
 We write math in `RStudio` by enclosing equations within dollar signs ($).
 
@@ -377,7 +377,7 @@ Before I answer the questions, I'm going to start by looking at the summary stat
 ```{r}
 library(dplyr)
 library(ggplot2)
-load("ces.Rda")
+load("Sample_data/ces.rda")
 ```
 
 

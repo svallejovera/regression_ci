@@ -1,4 +1,4 @@
-# Lecture 5: The Simple Regression Model I
+# Lecture 4: The Simple Regression Model I
 
 ## Slides{.unnumbered}
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo=TRUE, warning=F, message=T, eval=T)
 In the previous lecture, we explored how we can understand causal inference and the importance of random assignment. Experiments allow us to randomize the treatment and create believable counterfactuals. But we cannot solely rely on experiments to estimate causal relations. Thus, we study regression... 
 The lecture slide are displayed in full below:
   
-```{r week4slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 5 The Simple Regression Model I."}
+```{r week5slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 4 The Simple Regression Model I."}
 knitr::include_graphics("slide/5_Simple_Regression_Model_I.pdf")
 ```
 

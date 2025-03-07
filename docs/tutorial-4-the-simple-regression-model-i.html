@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 1 Lecture 1: What is Causal Inference? | PS9591: Regressions and Causal Inference</title>
+<title>Chapter 10 Tutorial 4: The Simple Regression Model I | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 2 What is Causal Inference? (link)  1.1 Introduction On this first week, we introduce ‘causal inference’ as a concept of interest, and what are the main problems of determining causality...">
+<meta name="description" content="What is this tutorial about? You can access this tutorial by clicking here. This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge’s...">
 <meta name="generator" content="bookdown 0.42 with bs4_book()">
-<meta property="og:title" content="Chapter 1 Lecture 1: What is Causal Inference? | PS9591: Regressions and Causal Inference">
+<meta property="og:title" content="Chapter 10 Tutorial 4: The Simple Regression Model I | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 2 What is Causal Inference? (link)  1.1 Introduction On this first week, we introduce ‘causal inference’ as a concept of interest, and what are the main problems of determining causality...">
+<meta property="og:description" content="What is this tutorial about? You can access this tutorial by clicking here. This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge’s...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 1 Lecture 1: What is Causal Inference? | PS9591: Regressions and Causal Inference">
-<meta name="twitter:description" content="Slides 2 What is Causal Inference? (link)  1.1 Introduction On this first week, we introduce ‘causal inference’ as a concept of interest, and what are the main problems of determining causality...">
+<meta name="twitter:title" content="Chapter 10 Tutorial 4: The Simple Regression Model I | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="What is this tutorial about? You can access this tutorial by clicking here. This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge’s...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -43,7 +43,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
-<li><a class="active" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
+<li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
 <li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">2</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
 <li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">3</span> Lecture 2: Introduction to Causal Inference</a></li>
 <li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">4</span> Tutorial 2: Key Concepts</a></li>
@@ -52,7 +52,7 @@
 <li><a class="" href="tutorial-3-more-key-concepts.html"><span class="header-section-number">7</span> Tutorial 3: More Key Concepts</a></li>
 <li><a class="" href="lecture-3-exercises.html"><span class="header-section-number">8</span> Lecture 3 Exercises</a></li>
 <li><a class="" href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
-<li><a class="" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
+<li><a class="active" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
 <li><a class="" href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></li>
 </ul>
 
@@ -61,47 +61,31 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture-1-what-is-causal-inference" class="section level1" number="1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="tutorial-4-the-simple-regression-model-i" class="section level1" number="10">
 <h1>
-<span class="header-section-number">1</span> Lecture 1: What is Causal Inference?<a class="anchor" aria-label="anchor" href="#lecture-1-what-is-causal-inference"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I<a class="anchor" aria-label="anchor" href="#tutorial-4-the-simple-regression-model-i"><i class="fas fa-link"></i></a>
 </h1>
-<div id="slides" class="section level2 unnumbered">
-<h2>Slides<a class="anchor" aria-label="anchor" href="#slides"><i class="fas fa-link"></i></a>
+<div id="what-is-this-tutorial-about-2" class="section level2 unnumbered">
+<h2>What is this tutorial about?<a class="anchor" aria-label="anchor" href="#what-is-this-tutorial-about-2"><i class="fas fa-link"></i></a>
 </h2>
-<ul>
-<li>2 What is Causal Inference? (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/2%20What%20is%20Causal%20Inference.pptx">link</a>)</li>
-</ul>
-</div>
-<div id="introduction" class="section level2" number="1.1">
-<h2>
-<span class="header-section-number">1.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
-</h2>
-<p>On this first week, we introduce ‘causal inference’ as a concept of interest, and what are the main problems of determining causality from observational data. No fancy code for this week.</p>
-<p>The lecture slide are displayed in full below:</p>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:week2slides"></span>
-<embed src="slide/2_What_is_Causal_Inference.pdf" title="Slides for 2 What is Causal Inference?." width="100%" type="application/pdf"></embed><p class="caption">
-Figure 1.1: Slides for 2 What is Causal Inference?.
-</p>
-</div>
+<p>You can access this tutorial by clicking <a href="https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial4/">here</a>. This tutorial will test your understanding of the Simple Regression Model (SRM), building on concepts from Wooldridge’s Introductory Econometrics and Huntington-Klein’s The Effect. You’ll engage with both theoretical foundations and practical applications of simple regression analysis and related measures of relationship between variables.</p>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="index.html">“Regressions and Causal Inference”</a></div>
-<div class="next"><a href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">2</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></div>
+<div class="prev"><a href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></div>
+<div class="next"><a href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lecture-1-what-is-causal-inference"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
-<li><a class="nav-link" href="#slides">Slides</a></li>
-<li><a class="nav-link" href="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
+<li><a class="nav-link" href="#tutorial-4-the-simple-regression-model-i"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
+<li><a class="nav-link" href="#what-is-this-tutorial-about-2">What is this tutorial about?</a></li>
 </ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/01-lecture1.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/01-lecture1.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/10-tutorial4.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/10-tutorial4.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
