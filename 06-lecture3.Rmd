@@ -29,7 +29,7 @@ library(sjPlot) # to plot somse models
 library(readstata13) # to load .dta files
 ```
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 exp_data <- read.dta13("Sample_data/Data_WithAgeInconsistency.dta")
 ```
 
