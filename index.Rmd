@@ -123,9 +123,7 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 
 ## Final Exam
 
-The final exam will require students to replicate the findings from some papers, and interpret the results. For your Final Exam, I will post the required datasets for the replication exercise here:
-  
-  - COMING SOON... 
+The final exam will require students to replicate the findings from some papers, and interpret the results. For your Final Exam, I will post the required datasets for the analyses and replication exercises here: https://github.com/svallejovera/regression_ci/tree/main/Sample_data. 
 
 ## Acknowledgments 
 
