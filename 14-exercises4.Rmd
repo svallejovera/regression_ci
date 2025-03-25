@@ -1,0 +1,713 @@
+# Lecture 5 Exercises
+
+*This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
+
+
+## How to (nicely) display model results
+
+
+If we want to display models in a more aesthetically-pleasing format than with the `summary()` command, we have a few options. 
+
+Let's start by running some models.
+
+```{r}
+library(wooldridge)
+data("wage1")
+wage_mod1<- lm(wage ~ educ + exper, data=wage1)
+wage_mod1a<- lm(I(wage*100) ~ educ + exper, data=wage1)
+wage_mod2 <- lm(wage ~ educ, data=wage1)
+```
+
+### The boring, ugly way (Base `R`)
+
+```{r}
+summary(wage_mod1)
+summary(wage_mod1a)
+summary(wage_mod2)
+```
+
+
+### `{stargazer}`
+
+The easiest is to use the `{stargazer}` package and its eponymously-named function. This package is easy enough, flexible enough, but, unfortunately, no longer maintained. 
+
+```{r}
+library(stargazer)
+stargazer(wage_mod1, wage_mod1a, wage_mod2,
+          title = "Modeling wage versus education and experience",
+          type = "text")
+```
+
+
+For `{stargazer}`, you want to set the `type=` option to "text" while you work in RStudio, but change it to "html" or "latex" when you output your final document (respectively, as an HTML file or .tex file).
+
+
+### `{modelsummary}` 
+
+We can also use the package `{modelsummary}` and its function `msummary()`. This package is a little more involved, but produces a more flexible output, works with a wider variety of models, and is actively maintained.
+
+```{r}
+library(modelsummary)
+msummary(models = dvnames(list(wage_mod1, wage_mod1a, wage_mod2)),
+         statistic = c("std.error", "p.value"),
+         stars = TRUE,
+         title = "Modeling wage versus education and experience",
+         notes = "Cell entries are parameter estimates, standard errors, and p values")
+```
+
+
+--------------------------------------------------------------------------------
+
+
+## Functional form
+
+
+### Feelings towards the LPC  (quadratics)
+
+**Quadratics** on the right-hand-side (*RHS*) of a regression equation are useful for capturing non-linear relationships, especially when that relationship is *non-monotonic*.
+
+When a function is *non-monotonic*, it means that it switches direction (either positive to negative or negative to positive). 
+
+We'll demonstrate this by modelling feelings towards the Liberal Party of Canada and market liberalism.
+
+```{r}
+load("Sample_data/ces.rda")
+
+summary(ces$marketlib)
+summary(ces$feel_lib)
+
+ggplot(ces) +
+  aes(x = feel_lib, y = marketlib) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", 
+              formula = "y ~ x + I(x^2)", 
+              color = "red")
+
+feel1 <- lm(feel_lib ~ marketlib, data = ces)
+feel2 <- lm(feel_lib ~ marketlib + I(marketlib^2), data = ces)
+
+stargazer(feel1, feel2,
+          type = "text")
+```
+
+The effect of X on Y, or of *marketlib* on *feel_lib* requires both $\hat{\beta_1}$ and $\hat{\beta_2}$, as can be seen below.
+
+
+$$\begin{aligned}
+\hat{feellib} &= 60.439 + 0.654marketlib - 0.216marketlib^2 \\
+\Delta\hat{feellib} &= 0.654marketlib - 0.216marketlib^2 
+\end{aligned}$$
+
+
+The above has a convenient approximation of $\Delta{\hat{y}} &= \hat{\beta_1}x + \hat{\beta_2}x^2$, which is applied as follows:
+
+
+$$\begin{aligned}
+\Delta{\hat{y}} &= \hat{\beta_1}x + \hat{\beta_2}x^2  \\
+\Delta{\hat{y}} &\approx [\hat{\beta_1} + (2 \times \hat{\beta_2}x)] \Delta{x}  \\
+\Delta\hat{feellib} &\approx [0.654 - (2 \times 0.216marketlib)] \Delta{marketlib}  \\
+\Delta\hat{feellib} &\approx [0.654 - 0.432marketlib] \Delta{marketlib}  \\
+\Delta{marketlib} &= 1  && \text{(because we're looking at a one-unit change in marketlib)}  \\
+\Delta\hat{feellib} &\approx [0.654 - 0.432marketlib] 
+\end{aligned}$$
+
+
+#### Calculating the turning point of a quadratic
+
+
+The point (at least theoretically) at which a quadratic function changes direction is called the **turning point**, or the **inflection point**, or a functional **minimum**/**maximum**. It is often represented as $x\star$.
+
+Another way to think about this is the point at which the rate of change of Y across values of X equals 0, or more formally $\Delta{\hat{y}} = 0$.
+
+For quadratic equations of $\hat{y} = \hat\beta_0 + \hat\beta_1x + \hat\beta_2x^2$ this point can be calculated with the formula $x\star = -\hat\beta_1 / 2\hat\beta_2$.
+
+For the example above, this point is
+$$\begin{aligned}
+x\star &= -\hat\beta_1 / 2\hat\beta_2  \\
+x\star &= -0.654 / (2 \times 0.216)  \\
+x\star &= -0.654 / 0.432  \\
+x\star &= -1.513889
+\end{aligned}$$
+
+So, the turning point at which a one-unit change in *marketlib* causes feelings towards the LPC to change direction is -1.5. This is outside of the actual range of the *marketlib* variable, so it is of no relevance to us (hence why the turning point is sometimes only theoretical).
+
+You'll encounter this later in the course, so don't worry about this too much at this point.
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+### Occupational prestige (logarithms)
+
+
+**Logarithms** are useful on both the right- (predictor) and left-hand-side (outcome) of regression equations. 
+
+The log of $X$ is useful when that predictor has large effects on $Y$ at low levels of $X$ but smaller effects at higher levels of $X$. 
+
+It can also be useful in the converse situation.
+
+
+```{r, warning = "false"}
+library(tidyverse)
+library(ggplot2)
+library(carData)
+data(Prestige)
+
+summary(Prestige)
+
+ggplot(Prestige) +
+  aes(x = income, y = prestige) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  labs(title = "prestige ~ income")
+
+
+prest1 <- lm(prestige ~ income, data = Prestige)
+
+summary(prest1)
+```
+
+
+$$\hat{prestige} = 2.714 + 0.002897income$$
+
+
+For every increase in income of $1, prestige increases by about 0.002897 points on a scale from 14 to 87 points.
+
+Alternatively, for every increase in $1000, prestige increases by about 2.9 points (0.002897 * 1000 = 2.897).
+
+**BUT**..., is the relationship actually linear?
+
+
+```{r}
+ggplot(Prestige) +
+  aes(x = income, y = prestige) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", formula = "y ~ log(x)", color = "red") +
+  labs(title = "prestige ~ income")
+```
+
+
+It looks like a logarithmic function might work better, so let's try that.
+
+To make the coefficients easier to interpret, we'll make a new variable that is a transformation of income, but measured in thousands. 
+
+
+```{r}
+Prestige$income1000 <- Prestige$income / 1000
+prest1 <- lm(prestige ~ income1000, data = Prestige)
+prest2 <- lm(prestige ~ log(income1000), data = Prestige)
+prest3 <- lm(log(prestige) ~ income1000, data = Prestige)
+prest4 <- lm(log(prestige) ~ log(income1000), data = Prestige)
+
+library(stargazer)
+stargazer(prest1, prest2, prest3, prest4,
+          type = "text")
+```
+
+
+$$\begin{aligned}
+\hat{prestige} &= 27.141 + 2.897income   && \text{(eq 1: level-level)}  \\
+\hat{prestige} &= 9.050 + 21.556log(income)   && \text{(eq 2: level-log)}  \\
+\hat{log(prestige)} &= 3.353 + 0.062income   && \text{(eq 3: log-level)}  \\
+\hat{log(prestige)} &= 2.901 + 0.499log(income)   && \text{(eq 4: log-log)} 
+\end{aligned}$$
+
+Remembering our rules for interpreting models, which are...
+
+(1) **level-level** A unit increase in X results in a b unit increase in Y
+(2) **level-log** A percent increase in X results in a (b/100)*unit increase in Y
+(3) **log-level** A unit increase in X results in a 100*b% increase in Y
+(4) **log-log** A percent increase in X results in a b% increase in Y
+
+Therefore, the interpretation of each equation is as follows:
+
+(1) For every increase in income of $1 (thousand), prestige increases by about 2.897 points.
+(2) For every 1% increase in income (in thousands), prestige increases by .21556 points (i.e. $\hat\beta_1/100 = 21.556/100 == 0.21556$).
+(3) For every increase in income of \$1 (thousand), prestige increases 6.2% (i.e. $100 * \hat\beta_1 = 0.062/100 == 6.2\%$).
+(4) For every 1% increase in income (in thousands), prestige increases by 0.499%.
+
+
+```{r, warning = "false"}
+p1 <- ggplot(Prestige) +
+  aes(x = income, y = prestige) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  labs(title = "prestige ~ income")
+
+p2 <- ggplot(Prestige) +
+  aes(x = log(income), y = prestige) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  labs(title = "prestige ~ log(income)")
+
+p3 <- ggplot(Prestige) +
+  aes(x = income, y = log(prestige)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  labs(title = "log(prestige) ~ income")
+
+p4 <- ggplot(Prestige) +
+  aes(x = log(income), y = log(prestige)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  labs(title = "log(prestige) ~ log(income)")
+
+library(ggpubr)
+ggarrange(p1, p2, p3, p4)
+```
+
+
+
+--------------------------------------------------------------------------------
+
+### Automobile performance (logarithms)
+
+This is another exercise using the the *mtcars* dataset from the `carData` package. We'll model quarter-mile time (*qsec*) as a function of horsepower (*hp*).
+
+```{r, warning = "false"}
+library(tidyverse)
+library(ggplot2)
+data(mtcars)
+
+summary(mtcars)
+
+```
+
+
+```{r}
+hpqsec1 <- lm(qsec ~ hp, data = mtcars)
+hpqsec2 <- lm(qsec ~ log(hp), data = mtcars)
+hpqsec3 <- lm(log(qsec) ~ hp, data = mtcars)
+hpqsec4 <- lm(log(qsec) ~ log(hp), data = mtcars)
+
+library(stargazer)
+stargazer(hpqsec1, hpqsec2, hpqsec3, hpqsec4,
+          type = "text")
+```
+
+```{r}
+ggplot(mtcars) +
+  aes(x = hp, y = qsec) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", formula = y ~ log(x), color = "red") +
+  labs(title = "qsec ~ hp")
+
+ggplot(mtcars) +
+  aes(x = hp, y = log(qsec)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm", formula = y ~ x) +
+  labs(title = "log(qsec) ~ hp")
+
+ggplot(mtcars) +
+  aes(x = log(hp), y = log(qsec)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm", formula = y ~ x) +
+  labs(title = "log(qsec) ~ log(hp)")
+```
+
+
+--------------------------------------------------------------------------------
+
+## Practice exercises
+
+From lecture:
+
+Using the ‘fertil2’ dataset from ‘wooldridge’ on women living in the Republic of Botswana in 1988...
+
+1. Estimate the regression equation of the number of children on education, age of the mother, and electricity.
+2. Interpret $\hat{\beta}_0$, $\hat{\beta}_{education}$, $\hat{\beta}_{age}$, and $\hat{\beta}_{electric}$.
+3. Verify that sample covariance between predicted values and residuals = 0.
+4. Verify that sample covariance between education and residuals = 0.
+5. Re-estimate the regression equation of the number of children on education, age of the mother, and electricity but also include the square of the age of the mother. How do you now interpret the effect of age on the number of children?
+
+Using the ‘wage1’ datadest from ‘woolridge’ on US workers in 1976...
+
+6. Estimate the regression equation of the hourly wage (*wage*) in dollars on education (*educ*) and experience (*exper*).
+7. How do the coefficients change when the units of wages are in cents instead of dollars?
+8. Compare the estimated coefficient for education to the one obtained by regressing only the hourly wage on education. Interpret.
+
+
+Additional exercises for tutorial:
+
+There's an old saying (often attributed to Winston Churchill) that goes, "If you are not a liberal when you are young, you have no heart. If you are not a conservative when you are old, you have no brain." And, yet there have been activist left-wing groups comprised of seniors, like the Raging Grannies. 
+
+Using our sample CES dataset, explore the relationship between Canadians' support for free market principles ($marketlib$) and age ($age$)? Is there is a relationship? If so, is it *linear*? We're going to run two regression models. Model 1 will regress $marketlib$ on $age$, while controlling for $gender$. Model 2 will be the same as Model 1, except it will also include the quadratic term for $age$ (i.e. $age^2$). 
+
+## STOP!!
+
+Before you continue, try solving the exercises on your own. It's the only way you will learn. Then, come back to this page and see how well you did. 
+
+## Continue
+
+
+## Lecture exercises
+
+
+### Q1. Estimate the regression equation of the number of children on education, age of the mother, and electricity.
+
+
+Before I begin, I'm going to make a data frame that only contains the variables I need and then listiwise delete all NAs. This will make it easier to run the diagnostic tests.
+
+
+```{r}
+library(wooldridge)
+library(tidyverse)
+data("fertil2")
+dat <- fertil2 %>%
+  select(c(children, educ, age, electric)) %>%
+  na.omit()
+```
+
+
+Our population model is:
+
+$$children = \beta_0 + \beta_1educ + \beta_2age + \beta_3electric + u$$
+
+```{r}
+library(wooldridge)
+fertil2 <- get(data('fertil2'))
+library(dplyr)
+
+fmod1 <- lm(children ~ educ + age + electric, data = dat)
+
+summary(fmod1)
+```
+
+
+Our model returns a regression equation of:
+
+$$\hat{children} = -2.071 - 0.079educ + 0.177age - 0.362electric$$
+
+$$n = 4,358 \\
+R^2 = 0.562$$
+
+
+### Q2. Interpret $\hat{\beta}_0$, $\hat{\beta}_{education}$, $\hat{\beta}_{age}$, and $\hat{\beta}_{electric}$
+
+
+$\hat{\beta_0}$: This is the intercept, or the average predicted number of children when all three predictors are set to zero. It is -2.07 and is not theoretically meaningful (as you cannot have negative children).
+
+$\hat{\beta}_{education}$: For every additional year of education a woman has, we would predict her to have, on average, -0.08 fewer children, holding all other things constant.
+
+$\hat{\beta}_{age}$: For every additional year of age, we would predict a woman to have, on average, 0.18 more children, *ceteris paribus*.
+
+$\hat{\beta}_{electric}$: Women with electricity have, on average, 0.36 fewer children than women without electricity, *ceteris paribus*.
+
+
+### Q3. Verify that sample covariance between predicted values and residuals = 0.
+
+There are two ways to do this. Mathematically, we can use the `cov()` command with the fitted values and residuals as inputs into the function.
+
+
+```{r}
+cov(fmod1$fitted.values, fmod1$residuals)
+cov(fitted(fmod1), resid(fmod1))
+```
+
+While the covariance is not *exactly* 0, the number is so small, it is basically zero. 
+
+Note, finding the *correlation* between fitted values and residuals gets us to the same answer because a correlation coefficient is simply a mathematical transformation of the covariance that bounds the result to [-1,1].
+
+```{r}
+cor.test(fmod1$fitted.values, fmod1$residuals)
+```
+
+
+You might remember from earlier stats classes that 
+
+$$correlation = \frac{covariance(x,y)}{\sigma_x \sigma_y}$$
+
+So, the result of calculating the above equation manually should equal that of using the `cor()` command
+
+```{r}
+cov(fmod1$fitted.values, fmod1$residuals) / (sd(fmod1$fitted.values) * sd(fmod1$residuals))
+```
+
+
+We can also confirm that there is no relationship between the fitted values and residuals by plotting them.
+
+*(This is called a "residual versus fitted/predicted plot" and is a very useful tool in diagnosing models for potential problems like non-linearity, heteroskedasticity, and outliers. )*
+
+
+```{r}
+library(ggplot2)
+ggplot() + 
+  aes(x = fmod1$fitted.values, y = fmod1$residuals) +
+  geom_point(position = "jitter") + 
+  labs(x = "Predicted number of children", 
+       y = "Residual",
+       title = "Predicted versus residual plot") + 
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+### Q4. Verify that sample covariance between education and residuals = 0.
+
+
+We'll do the same here as we did with the fitted versus residuals. First, we'll use `R` to calculate the covariance.
+
+
+```{r}
+cov(dat$educ, resid(fmod1))
+```
+
+
+As with before, this number is not *exactly* zero, but it is basically zero.
+
+We can confirm this with visual inspection.
+
+
+```{r}
+ggplot() + 
+  aes(x = dat$educ, y = fmod1$residuals) +
+  geom_point(position = "jitter") + 
+  labs(x = "Education", 
+       y = "Residual",
+       title = "Education versus residual plot") + 
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+### Q5. Re-estimate the regression equation of the number of children on education, age of the mother, and electricity but also include the square of the age of the mother. How do you now interpret the effect of age on the number of children?
+
+
+Our population model is:
+
+$$children = \beta_0 + \beta_1educ + \beta_2age + \beta_3age^2 + \beta_4electric + u$$
+
+To include $age^2$ in the model, we can enclose it in parentheses and preface it with a capital "I" (i.e. `I(age^2)`). This tells the `lm()` command to calculate whatever is inside `I()`.
+
+
+```{r}
+fmod2 <- lm(children ~ educ + age + I(age^2) + electric, data = dat)
+summary(fmod2)
+```
+
+
+Our model returns a regression equation of:
+
+$$\hat{children} = -4.248 - 0.079educ + 0.337age - 0.0027age^2 - 0.362electric$$
+$$n = 4,358 \\
+R^2 = 0.572$$
+
+
+Adding the quadratic (i.e. squared) term for age to the model returns a positive coefficient for $age$ and a negative coefficient for $age^2$. This means that there is a positive relationship between age and the predicted number of children up until a point, and then the relationship becomes negative.
+
+You can check this result by using a graphing calculator app like Desmos (https://www.desmos.com/calculator) and entering a function that only includes the terms for $age$ and $age^2$ (i.e. you would enter $y = 0.337x - 0.0027x^2$ into the app).
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+Using the ‘wage1’ datadest from ‘woolridge’ on US workers in 1976...
+
+
+
+### Q6. Estimate the regression equation of the hourly wage ($wage$) in dollars on education ($educ$) and experience ($exper$).
+
+
+Our population model is:
+
+$$wage = \beta_0 + \beta_1educ + \beta_2exper + u$$
+
+
+```{r}
+library(wooldridge)
+data("wage1")
+wage_mod1<- lm(wage ~ educ + exper, data=wage1)
+summary(wage_mod1)
+```
+
+
+Our model returns a regression equation of:
+
+$$\hat{wage} = -3.391 - 0.644educ + 0.070exper$$
+$$n = 526 \\
+R^2 = 0.225$$
+
+The terms are:
+
+- $\hat{\beta}_{0}$ : This is the intercept, or the predicted wage when all education and experience are both zero. three predictors are set to zero. It is -3.39 and is not theoretically meaningful (as one does not typically pay to work).
+- $\hat{\beta}_{educ}$ : For every additional year of education a worker has, we would predict them to make, on average, an additional $0.64 per hour, *ceteris paribus*.
+- $\hat{\beta}_{exper}$ : For every additional year of experience a worker has, we would predict them to make, on average, an additional $0.07 per hour, *ceteris paribus*.
+
+
+### Q7. How do the coefficients change when the units of wages are in cents instead of dollars?
+
+
+The coefficients would all be multiplied by 100 (i.e. $Intercept = -339.05$, $educ = 64.43$, $exper = 7.01$). This is because there are 100 cents in every dollar, so multiplying the left-hand side of the regression equation (i.e. the side containing $\hat{wage}$) would require use to multiply the *entire* right hand side of the equation by 100 (i.e. the side that contains the terms $\hat{\beta_0}$, $\hat{\beta_{educ}}$, $\hat{\beta_{exper}}$. This is equivalent to multiplying every single term on the right-hand side by 100 (i.e. factoring in the 100).
+
+$$\begin{aligned}
+\hat{wage_{dollars}} &= -3.391 - 0.644educ + 0.070exper \\
+\hat{wage_{cents}} &= \hat{wage_{dollars}} \times 100 \\
+100 \times \hat{wage_{dollars}} &= [-3.391 - 0.644educ + 0.070exper] \times 100 \\
+100 \times \hat{wage_{dollars}} &= [-3.391 \times 100] - [0.644educ \times 100] + [0.070exper \times 100]  \\
+\hat{wage_{cents}} &= -339.1 - 64.4educ + 7.0exper \\
+\end{aligned}$$
+
+To confirm, let's convert the $wage$ variable to cents and run the model again.
+
+
+```{r}
+wage_mod1a<- lm(I(wage*100) ~ educ + exper, data=wage1)
+summary(wage_mod1a)
+```
+
+
+
+### Q8. Compare the estimated coefficient for education to the one obtained by regressing only the hourly wage on educaiton. Interpret.
+
+
+This population model is: 
+
+$$wage = \beta_0 + \beta_1educ + u$$
+
+
+```{r}
+wage_mod2 <- lm(wage ~ educ, data=wage1)
+summary(wage_mod2)
+```
+
+
+It returns a regression equation of:
+
+$$\hat{wage} = -0.905 - 0.541educ$$
+$$n = 526 \\
+R^2 = 0.165$$
+
+
+In a simple bivariate model of $wage$ regressed on $educ$, we get a coefficient of $\hat{\beta}_{educ} = 0.541$. This is lower than the coefficient from the multiple regression model, where the effect of age was $\hat{\beta}_{educ} = 0.644$. This suggests the omitted variable bias from not accounting for experience attenuates the estimated relationship between age and experience. 
+
+This shows that omitted variable bias does not always result in the overestimation of coefficients, but can also cause them to be *underestimated*.
+
+Looking at the scatterplot $wage$ versus $educ$, colour-coded by $exper$ gives some hints as to why we see this pattern. In the lower left-hand corner (i.e. low education and low wage), we see the greatest concentration of high to very high experience (green to yellow) versus other parts of the map. These could be older folks with lower levels of (formal) education and work in lower-paying "lower-skill" jobs. 
+
+While we see a clump of points that have low levels of experience (purple) in the lower left-hand corner, most of the the purple point tend to be above the simple bivariate regression line, which means they are outperforming what we would expect what we would expect in the model that does not account of experience.
+
+
+```{r}
+ggplot(wage1) + 
+  aes(x=wage, y=educ, color=exper) +
+  geom_point(position="jitter") + 
+  scale_color_viridis_c() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x="Education", 
+       y="Wage",
+       color="Exper",
+       title="Wage by education") 
+```
+
+
+--------------------------------------------------------------------------------
+
+
+## Additional practice questions
+
+
+There's an old saying (often attributed to Winston Churchill) that says, "If you are not a liberal when you are young, you have no heart. If you are not a conservative when you are old, you have no brain." And, yet there have been activist left-wing groups comprised of seniors, like the Raging Grannies. 
+
+Using our sample CES dataset, explore the relationship between Canadians' support for free market principles ($marketlib$) and age ($age$)? Is there is a relationship? If so, is it *linear*? 
+
+We're going to run two regression models. Model 1 will regress $marketlib$ on $age$, while controlling for $gender$. Model 2 will be the same as Model 1, except it will also include the quadratic term for $age$ (i.e. $age^2$). 
+
+
+```{r}
+load("Sample_data/ces.rda")
+```
+
+Before we begin, it's useful to look at the univariate distributions of out variables. Besides letting us know of missing values, it also helps with interpreting the substantive significance of any relationships we find.
+
+
+```{r}
+summary(ces$marketlib)
+sd(ces$marketlib, na.rm = TRUE)
+
+summary(ces$age)
+sd(ces$age, na.rm = TRUE)
+
+summary(ces$gender)
+table(ces$gender) %>% prop.table()
+```
+
+
+Market liberalism variable ranges from 0 to 16, with a mean of 8.59 (SD = 3.52). *(Note: this is a simple additive index, or summated rating scale, of four Likert-type items that has been commonly used in Canadian political science research.)*
+
+Age ranges from 18 to 99, with a mean of 49.0 (SD = 16.61).
+
+Gender is categorical variable, with about 58.6% being women and 41.4% being men.
+
+
+### 1. For both Model 1 and Model 2, write the equation of the population models.
+
+Our population models are:
+
+$$\begin{aligned} 
+marketlib &= \beta_0 + \beta_1gender + \beta_2age + \mu && \text{(Model 1)} \\
+marketlib &= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu && \text{(Model 2)} \\
+\end{aligned}$$
+
+
+
+### 2. Run the regressions and write out the equations for the estimated regression models.
+
+
+```{r}
+marketmod1 <- lm(marketlib ~ gender + age, data = ces)
+summary(marketmod1)
+```
+
+
+Our regression equation for Model 1 is:
+
+$$\hat{marketlib} = 8.309 - 0.855gender + 0.014age$$
+$$n = 5025 \\ R^2 = 0.021 $$
+
+```{r}
+marketmod2 <- lm(marketlib ~ gender + age + I(age^2), data = ces)
+summary(marketmod2)
+```
+
+
+Our regression equation for Model 2 is:
+
+$$\hat{marketlib} = 6.261 - 0.856gender + 0.100age -0.000824age^2$$
+$$n = 5025 \\ R^2 = 0.025 $$
+
+
+### 3. Explain what the coefficients mean in both models. How does the effect of age differ between Model 1 and Model 2?
+
+
+Model 1, our coefficients are:
+
+- $\hat{\beta_0}$: This is the intercept, or the average predicted market liberalism score for men and those 0 years old. While the value is 7.966, this value is not theoretically meaningful. 
+- $\hat{\beta}_{age}$: For every additional year of age, we would predict a Canadian, on average, to be 0.022 more supportive of free market principles, holding all other things constant. With continuous variables like age, it's often useful to convert the units--for example, we could represent this same relationship by saying that, on average, every increase of 10 years in age is associated with an increase of 0.220 on the market liberalism scale. (This also makes theoretical sense for a variable like age where we wouldn't really expect a huge change year-over-year, but we might expect that for a change over 10 years.)
+- $\hat{\beta}_{gender}$: *Ceteris paribus*, women score an average of 0.826 points lower than men on the market liberalism scale.
+
+
+Model 2, our coefficients are:
+
+- $\hat{\beta_0}$: This is the intercept, or the average predicted market liberalism score for men and those 0 years old. While the value is 6.782, this value is not theoretically meaningful. 
+- $\hat{\beta}_{age}$ and $\hat{\beta}_{age^2}$: To understand the effect of age, we cannot just look at the coefficients for $age$ and $age^2$ individually; we have to look at them together. So, the effect of age on market liberalism is $0.77age -0.000569age^2$. This is *non-linear*, meaning the rate of change is not the same across all possible changes across values of age. It also might be *non-monotonic*, meaning it is positive for some changes across values fo age and negative for others. *(If you want to see how we could graph this---which you don't have to know for Assignment #1---it's after Q4.)*
+- $\hat{\beta}_{gender}$: *Ceteris paribus*, women score an average of 0.827 points lower than men on the market liberalism scale.
+
+
+
+### 4. Which of the models better explains the relationship between $marketlib$ and $age$?
+
+
+The $R^2$ for Model 1 is 0.074 and for Model 2, it is 0.079. This suggests that Model 2 fits the data better than Model 1. There is a bit more to comparing model fit, and we'll get to that in a few weeks time, but this is the starting point.
+
+Also, empirical performance isn't everything. Fortunately, there are also theoretical reasons to suspect that the effect of age might not be a clear-cut linear relationship suggested by the old adage. Older folks typically have lower levels of income and tend to rely upon the welfare state more than younger folks (on average, and all other things being equal). So, life-cycle effects might cause their interests to change, and by extension, their orientations on how society ought to be run. 
+
+There is also the issue that comparing across ages at one point in time cannot separate life-cycle effects from generational effects, which neither of these models would be able to disentangle.
+
+

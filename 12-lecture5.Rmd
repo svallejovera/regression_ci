@@ -1,0 +1,239 @@
+# Lecture 5: The Simple Regression Model I
+
+## Slides{.unnumbered}
+
+- 5 The Simple Regression Model ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/6_Simple_Regression_Model_II.pptx)) 
+
+## Introduction
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=F, message=T, eval=T)
+```
+
+We continue studying the simple regression model. 
+  
+```{r week6slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 4 The Simple Regression Model I."}
+knitr::include_graphics("slide/6_Simple_Regression_Model_II.pdf")
+```
+
+## Vignette 5.1
+
+Let's create some data:
+
+```{r}
+## This is my population regression:
+df <- tibble(x=rnorm(1000000)) %>%
+  mutate(y = 1 + 2*x + rnorm(1000000))
+
+df %>%
+  ggplot(aes(x=x,y=y)) +
+  geom_point(color="royalblue3",alpha = .05) + 
+  theme_minimal() 
+
+model_pop <- lm(y~x,data = df)
+summary(model_pop)
+```
+
+### Theorem SLR.1: Unbiasedness of OLS:
+
+Let's say that I take n RANDOM samples of size N from the population:
+
+```{r}
+n_samples <- 200
+N_size <- 1000
+
+beta_coefs <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs <- cbind(beta_coefs,coef(model_sam)[2])
+}
+```
+
+Let's see the mean of these betas:
+
+```{r}
+mean(beta_coefs)
+hist(beta_coefs)
+```
+
+## Vignette 5.2
+
+### a. Increased variation in $\mu$
+
+```{r}
+## This is my population regression a:
+df_a <- tibble(x=rnorm(100000)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000,sd=1))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 1000
+
+beta_coefs_a <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_a %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_a <- rbind.data.frame(beta_coefs_a,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_a) <- "betas"
+beta_coefs_a$model <- "df_a"
+
+## This is my population regression b:
+df_b <- tibble(x=rnorm(100000)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000,sd=5))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 1000
+
+beta_coefs_b <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_b %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_b <- rbind.data.frame(beta_coefs_b,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_b) <- "betas"
+beta_coefs_b$model <- "df_b"
+
+## Now we compare:
+beta_coefs_comp <- rbind.data.frame(beta_coefs_a,beta_coefs_b)
+
+beta_coefs_comp %>%
+  group_by(model) %>%
+  mutate(mean_beta=mean(betas)) %>%
+  ungroup() %>%
+  ggplot(aes(x=betas,fill=model,color=model)) +
+  geom_density(alpha=0.5) + 
+  geom_vline(aes(xintercept=mean_beta,color=model),linetype="dashed") +
+  theme_minimal() 
+```
+
+### b. Increased variation in x is good:
+
+```{r}
+## This is my population regression a:
+df_a <- tibble(x=rnorm(100000,sd=1)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 1000
+
+beta_coefs_a <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_a %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_a <- rbind.data.frame(beta_coefs_a,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_a) <- "betas"
+beta_coefs_a$model <- "df_a"
+
+## This is my population regression b:
+df_b <- tibble(x=rnorm(100000,sd=5)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 1000
+
+beta_coefs_b <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_b %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_b <- rbind.data.frame(beta_coefs_b,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_b) <- "betas"
+beta_coefs_b$model <- "df_b"
+
+## Now we compare:
+beta_coefs_comp <- rbind.data.frame(beta_coefs_a,beta_coefs_b)
+
+beta_coefs_comp %>%
+  group_by(model) %>%
+  mutate(mean_beta=mean(betas)) %>%
+  ungroup() %>%
+  ggplot(aes(x=betas,fill=model,color=model)) +
+  geom_density(alpha=0.5) + 
+  geom_vline(aes(xintercept=mean_beta,color=model),linetype="dashed") +
+  theme_minimal() 
+```
+
+### c. Increased sample size is good:
+
+```{r}
+## This is my population regression a:
+df_a <- tibble(x=rnorm(100000)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 20
+
+beta_coefs_a <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_a %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_a <- rbind.data.frame(beta_coefs_a,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_a) <- "betas"
+beta_coefs_a$model <- "df_a"
+
+## This is my population regression b:
+df_b <- tibble(x=rnorm(100000)) %>%
+  mutate(y = 1 + 2*x + rnorm(100000))
+
+### Let's say that I take n RANDOM samples of size N from the population:
+n_samples <- 200
+N_size <- 2000
+
+beta_coefs_b <- NULL
+
+for(i in 1:n_samples){
+  df_sample <- df_b %>%
+    slice_sample(n=N_size)
+  model_sam <- lm(y~x,data = df_sample)
+  
+  beta_coefs_b <- rbind.data.frame(beta_coefs_b,coef(model_sam)[2])
+}
+
+colnames(beta_coefs_b) <- "betas"
+beta_coefs_b$model <- "df_b"
+
+## Now we compare:
+beta_coefs_comp <- rbind.data.frame(beta_coefs_a,beta_coefs_b)
+
+beta_coefs_comp %>%
+  group_by(model) %>%
+  mutate(mean_beta=mean(betas)) %>%
+  ungroup() %>%
+  ggplot(aes(x=betas,fill=model,color=model)) +
+  geom_density(alpha=0.5) + 
+  geom_vline(aes(xintercept=mean_beta,color=model),linetype="dashed") +
+  theme_minimal() 
+
+### NOTE: beta is unbiased!!
+```

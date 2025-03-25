@@ -1,0 +1,12 @@
+name: tutorial5
+title: tutorial5
+username: ci1yq0-sebastian0vallejo
+account: ci1yq0-sebastian0vallejo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14327739
+bundleId: 9996984
+url: https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial5/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

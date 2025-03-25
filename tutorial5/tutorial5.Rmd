@@ -1,0 +1,421 @@
+---
+title: "Tutorial 5: Simple Regression Model II"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(wooldridge)
+library(causaldata)
+library(modelsummary)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load the data we'll use for exercises
+data("wage1")
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+This tutorial will focus on the fundamental theory underlying regression analysis, based on knowledge presented in Achen (1982) and Huntington-Klein's The Effect (2024). You'll be asked about both theoretical foundations and practical applications of regression analysis and how to interpret your findings.
+
+## Understanding the Use of Regression in the Social Sciences
+
+Regression analysis is a useful tool available to social scientists, but its typical assumptions about functional form represent a significant challenge. Let's start by testing your understanding of how social scientists can fruitfully use this toolkit in their research.
+
+```{r srm-basics-quiz}
+quiz(
+  question("In Achen's (1982) assessment of quantitative social science methodology, he argues that social theories should specify direction and causality but not precise functional forms. What important methodological implication does this have for empirical social science research?",
+    answer("This limitation means we should adopt only non-parametric methods", message = "While non-parametric methods are valuable, Achen's point isn't about abandoning parametric approaches entirely, but rather about being thoughtful in how we connect theory to empirical specification."),
+    
+    answer("Theory guides us to which variables matter and their expected relationships, but we must empirically investigate the specific functional form that best represents these relationships while keeping in mind that this form is contingent and necessarily oversimplified", correct = TRUE, message = "This captures the nuanced relationship between theory and empirical work in the social scientists. By embracing complexity and the importance of good theory, we are better equipped to create useful models that can help us reach the best theory available to explain a phenomenon."),
+    
+    answer("We should avoid testing social science theories quantitatively", message = "This misinterprets Achen's critique. He argues for more careful connection between theory and empirics, not for abandoning quantitative analysis."),
+    answer("Social science research should focus only on identifying causal direction", message = "While causal direction is crucial, Achen's point is about the complementary roles of theory and empirical work in building understanding, not about limiting our research to only directional effects."),
+   allow_retry = TRUE,
+   random_answer_order = TRUE),
+    question("Veblen (1975) studied the influence of the Manchester Union Leader newspaper on New Hampshire elections from 1960-1972. The study measured newspaper bias ('slant') by counting the difference in favorable/neutral stories between the paper's preferred candidate and their opponent, divided by campaign days. He first ran a simple regression of vote difference (Manchester vs. rest of NH) on slant, then added variables for election type (primary vs. general) and their interaction. He found that the effects of slant on vote difference were higher in the leaner specification when compared to the one with the interaction terms.Why did the simple bivariate regression overestimate the effect of newspaper slant compared to the model with interaction terms?",
+    answer("The newspaper's bias was systematically worse during primary elections", 
+           message = "This is part of the explanation but not complete. While the paper did show more bias during primaries, the key issue was how this correlated with other factors."),
+    answer("The interaction term captured nonlinear effects in the relationship", 
+           message = "The study actually found the relationship appeared largely linear upon visual inspection."),
+    answer("The first model mistakenly attributes the general effect of primaries to newspaper slant due to correlation between these variables", 
+           correct = TRUE,
+           message = "The newspaper showed more bias in primaries, AND candidates supported by it generally did better in primaries. The simple regression couldn't distinguish these effects, so it attributed both to newspaper influence."),
+    answer("The model failed to control for partisan differences between Manchester and the rest of the state", 
+           message = "While partisan differences were important for interpreting the intercept in general elections, this wasn't why the bivariate regression overestimated the slant effect."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("In Veblen's (1975) study to analyze the relationship between newspaper slant and vote share, what would β₁ represent?",
+    answer("The total number of votes a candidate receives",
+           message = "This would be the Y variable, not β₁."),
+    answer("The average change in vote share associated with a one-unit increase in slant, holding other factors constant",
+           correct = TRUE,
+           message = "β₁ represents the slope coefficient, showing how much Y changes for a one-unit change in X."),
+    answer("The minimum amount of newspaper slant needed to win",
+           message = "This would be a threshold value, not the slope coefficient."),
+    answer("The error in predicting vote share",
+           message = "This would be represented by u, not β₁."),
+    allow_retry = TRUE
+  ),
+  
+  question("Based on what we've discussed about how Veblen (1975) built support for his claim that newspaper coverage influenced election outcomes in New Hampshire, which sequence BEST describes his analytical approach?",
+   answer("He first specified the correct functional form, then estimated regression coefficients, and finally tested if these coefficients were constant across time",
+          message = "Achen (1982) explicitly states there was 'no attempt at specifying the true functional form' and there was no pretense that coefficients were constant across time and space."),
+   answer("He began with visual analysis of the data, then tested different functional forms, and finally selected the most statistically significant model",
+          message = "While visual analysis was part of the process, the focus wasn't on finding the best statistical fit but on ruling out alternative explanations."),
+   answer("He constructed a basic descriptive model, tested alternative explanations, and verified findings using multiple data sources",
+          correct = TRUE,
+          message = "Achen (1982) describes how Veblen (1975) 'constructed a prima facie case' then systematically ruled out 'plausible alternate explanations' using multiple tests and data sources. This represents what the text calls 'good social data analysis oriented to theory construction.' The key was building credibility through theoretical knowledge and systematic elimination of alternative explanations rather than focusing on technical model specification."),
+   answer("He developed a saturated regression model incorporating all possible interactions, then simplified it based on theoretical predictions",
+          message = "While model saturation is mentioned in the text, it wasn't part of Veblen's analytical strategy."),
+   answer("He tested his theory using increasingly complex statistical models until finding one that confirmed his hypothesis",
+          message = "The goal wasn't to find a confirming model but to construct 'a statistical description faithful to the data' and evaluate competing explanations."),
+   allow_retry = TRUE,
+   random_answer_order = TRUE
+ )
+)
+```
+
+## Visual inspection and interpretation
+
+A useful skill to have when checking the appropriateness of a functional form is to visually inspect relationships between variables. In this next task, you will create a figure using data from the `wage1` dataset to visualize the relationship between years of education (x = `educ`) and wage earnings (y = `wage`). You will also fit a line representing how the relationship varies across local means (method = 'loess'). You will then be asked how you should interpret the functional form in the data and what it means for the relationship observed. 
+
+```{r wage-plot, exercise=TRUE}
+# Load required packages
+library(wooldridge)
+library(ggplot2)
+data("wage1")
+
+# Create scatterplot with smoothed line
+ggplot(data = _____, aes(x = _____, y = _____)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = _____, se = FALSE, color = 'red') +
+  labs(x = 'Years of Education',
+       y = 'Hourly Wage',
+       title = 'Education-Wage Relationship') +
+  theme_minimal()
+```
+
+```{r wage-plot-solution}
+# Load required packages
+library(wooldridge)
+library(ggplot2)
+data("wage1")
+
+# Create scatterplot with smoothed line
+ggplot(data = wage1, aes(x = educ, y = wage)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = 'loess', se = FALSE, color = 'red') +
+  labs(x = 'Years of Education',
+       y = 'Hourly Wage',
+       title = 'Education-Wage Relationship') +
+  theme_minimal()
+```
+
+Based on the visualization, answer the following questions about the relationship between years of education and wages:
+
+```{r wage-plot-question}
+quiz(
+  question("Which statement best describes the functional form of the education-wage relationship?",
+    answer("The relationship appears strongly nonlinear with clear diminishing returns to education",
+           message = "Look carefully at the smoothed line - while there is some variation, the departures from linearity aren't as dramatic as this suggests."),
+    answer("The relationship shows too much scatter to determine any clear functional form",
+           message = "While there is scatter in the individual points, the smoothed line helps us see the underlying pattern."),
+    answer("The relationship is approximately linear with some modest departures that might not be crucial for basic analysis, but potentially indicate heterogeneous effects on y across the range of x",
+           correct = TRUE,
+           message = "Like in Veblen's case, while the relationship may not be perfectly linear, the departures aren't so severe that they would invalidate a linear approximation for basic analysis."),
+    answer("The relationship is perfectly linear with no meaningful departures from the straight line",
+           message = "This overstates the case - there are some visible departures from linearity, even if they're not severe."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Looking at the scatter plot of education and wages, what pattern do you observe in the variability of wages?",
+    answer("The spread of wages remains roughly constant across all education levels",
+           message = "Look again at how the vertical spread of points changes from left to right."),
+    answer("The spread of wages increases substantially with higher levels of education", 
+           correct = TRUE,
+           message = "This 'fan shape' where wage variability increases with education suggests heteroskedasticity, which may affect the precision of our regression estimates."),
+    answer("The spread of wages is largest for middle levels of education",
+           message = "The pattern shows a clear trend of increasing spread as education increases, not a peak in the middle."),
+    answer("The spread of wages decreases with higher levels of education",
+           message = "The pattern shows the opposite - there is more variation in wages among those with higher education."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## The Effect: Using R to check relationships between variables
+
+For this section, we will go through the exercise found in Chapter 4 in Huntington-Klein's (2024) The Effect. This relies on data from Mroz (1987) that contains information on women's labour force participation (`lfp`) and earnings from 1975. You will be asked to:
+
+1. Load in the data and do a basic inspection of structure and content with `glimpse`
+2. Draw a scatterplot between log women’s earnings and log other income in the household, 
+among women who work
+3. Get the conditional mean of women’s earnings by whether
+they attended college
+4. Get the conditional mean of women’s earnings by
+different bins of other household earnings
+5. Draw the LOESS and linear regression curves of the mean
+of log women’s earnings conditional on the log amount of
+other earnings in the household
+6. Run a linear regression of log women’s earnings on log
+other earnings in the household, by itself and including
+controls for college attendance and the number of
+children under five in the household
+
+## 1. Load the package and dataset
+
+a. We need three key packages: one for data manipulation (tidyverse), one for model summaries (modelsummary), and one for the dataset (causaldata) we will use.
+b. The filter condition should keep only working women in the sample (lfp == TRUE).
+c. For the mutate step, we're creating a new variable (earn) by converting log wages (lwg) to actual wages using exp().
+
+```{r load-packages, exercise=TRUE, exercise.lines=10}
+library(___)
+library(___)
+library(___)
+
+df <- causaldata::Mroz %>%
+  filter(___ == TRUE) %>%
+  mutate(___ = exp(___))
+
+glimpse(__)
+```
+
+```{r load-packages-solution}
+library(tidyverse)
+library(modelsummary)
+library(causaldata)
+
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+glimpse(df)
+```
+
+## 2. Create the scatterplot
+
+a. For the axes: x should be household income (inc) and y should be earnings (earn).
+b. Both axes need to be log-scaled. Use scale_x_log10() and scale_y_log10().
+
+```{r create-scatter, exercise=TRUE, exercise.lines=5}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+ggplot(df, aes(x = ___, y = ___)) +
+  geom_point() +
+  scale_x___() +
+  scale_y___()
+```
+
+```{r create-scatter-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+ggplot(df, aes(x = inc, y = earn)) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+## 3. Conditional means by education
+
+a. Group by the college education indicator (wc).
+b. Create a meaningful name for your summary statistic (like mean_earnings) and calculate the mean of earn.
+
+```{r college-means, exercise=TRUE, exercise.lines=4}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+df %>%
+  group_by(___) %>%
+  summarize(___ = mean(___))
+```
+
+```{r college-means-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+df %>%
+  group_by(wc) %>%
+  summarize(mean_earnings = mean(earn))
+```
+
+## 4. Earnings by Income Bins
+
+a. The cut() function needs two arguments: the variable to cut (inc) and the number of bins (10).
+b. Group by your newly created inc_cut variable to get means for each bin.
+
+```{r income-bins, exercise=TRUE, exercise.lines=5}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+df %>%
+  mutate(inc_cut = cut(___, ___)) %>%
+  group_by(___) %>%
+  summarize(___ = mean(earn))
+```
+
+```{r income-bins-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+df %>%
+  mutate(inc_cut = cut(inc, 10)) %>%
+  group_by(inc_cut) %>%
+  summarize(mean_earnings = mean(earn))
+```
+
+## 5. LOESS and Linear Models
+
+a. Set se = FALSE to remove the standard error bands.
+b. Remember to use scale_x_log10() and scale_y_log10() for log scales.
+
+```{r loess-curve, exercise=TRUE, exercise.lines=6}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# LOESS curve
+ggplot(df, aes(x = inc, y = earn)) +
+  geom_point() +
+  geom_smooth(se = ___) +
+  scale___() +
+  scale___()
+```
+
+```{r loess-curve-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# LOESS curve
+ggplot(df, aes(x = inc, y = earn)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+a. "For linear regression, use method = 'lm' and set se = FALSE."
+
+```{r linear-curve, exercise=TRUE, exercise.lines=6}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# Linear regression curve
+ggplot(df, aes(x = inc, y = earn)) +
+  geom_point() +
+  geom_smooth(method = ___, se = ___) +
+  scale___() +
+  scale___()
+```
+
+```{r linear-curve-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# Linear regression curve
+ggplot(df, aes(x = inc, y = earn)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+## 6. Regression models
+
+a. Model 1 should regress log wages (lwg) on log income (log(inc)).
+b. Model 2 adds college education (wc) and number of young children (k5) as controls.
+c. In msummary(), list both models in order: list(model1, model2).
+
+```{r regression-models, exercise=TRUE, exercise.lines=8}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# Model 1: Basic regression
+model1 <- lm(___ ~ log(___), data = df)
+
+# Model 2: With controls
+model2 <- lm(___ ~ log(___) + ___ + ___, data = df)
+
+# Create summary table
+msummary(list(___, ___))
+```
+
+```{r regression-models-solution}
+df <- causaldata::Mroz %>%
+  filter(lfp == TRUE) %>%
+  mutate(earn = exp(lwg))
+
+# Model 1: Basic regression
+model1 <- lm(lwg ~ log(inc), data = df)
+
+# Model 2: With controls
+model2 <- lm(lwg ~ log(inc) + wc + k5, data = df)
+
+# Create summary table
+msummary(list(model1, model2))
+```
+
+## Interpreting Results
+
+```{r understanding-quiz, echo=FALSE}
+quiz(
+   question("Examining the regression results with and without controls, what can we conclude about the relationship between college education (wc) and women's earnings?",
+    answer("College education's effect is entirely explained by household income", message = "Check the coefficient on wc in the full model - it remains substantial even controlling for household income."),
+    answer("The college premium is independent of other factors", message = "While education matters, its effect size changes when we control for other factors, suggesting important interactions."),
+    answer("Education has both direct effects and indirect effects through household income", correct = TRUE, message = "The persistence of the education effect after controlling for household income, combined with changes in the income coefficient, suggests education operates both directly on women's earnings and indirectly through its relationship with household income - a classic case of partial mediation."),
+    answer("The education effect disappears with proper controls", message = "The data shows persistent education effects even with controls, indicating robust returns to education.")
+  ),
+  
+  question("When comparing the binned analysis with the regression models in this study, what specific insight about women's labor force participation might we gain from the binned analysis that the linear regression would mask?",
+    answer("The binned analysis reveals threshold effects at specific income levels where women's labor force participation patterns change substantially", correct = TRUE, message = "The binned analysis helps identify potential threshold effects in the relationship - for instance, it might show that the relationship between household income and women's earnings changes markedly at certain income levels, perhaps due to tax bracket effects, high household earners choosing to withdraw from the labour market, or changing marginal utility of additional income. This kind of non-linear pattern would be averaged out in a simple linear regression."),
+    
+    answer("The binned analysis shows greater statistical significance than regression", message = "This misses the point of binning - its strength isn't in statistical testing (where regression is actually superior) but in revealing patterns that might inform better model specification."),
+    
+    answer("The binned analysis demonstrates that all relationships are actually discrete rather than continuous", message = "While binning creates discrete categories, this doesn't mean the underlying relationship is inherently discrete. The choice of bins is somewhat arbitrary and shouldn't be interpreted as natural breakpoints."),
+    
+    answer("The binned analysis proves that parametric assumptions in regression are incorrect", message = "While binning can help identify potential violations of parametric assumptions, it doesn't 'prove' them wrong. Instead, it helps guide more appropriate model specification, perhaps suggesting the need for polynomial terms or splines in the regression."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+),
+  
+  question("Considering the coefficient on number of young children (k5) in the full regression model, what complex dynamics might explain its relationship with women's earnings?",
+    answer("Pure causal effect of children on productivity", message = "While children might affect productivity, this direct effect is likely only part of the story."),
+    answer("Complex interaction of labour supply decisions and childcare needs", correct = TRUE, message = "The coefficient likely captures multiple mechanisms: direct effects on labor supply (time constraints), selection effects (who remains in the labour force), and potential discrimination effects. This highlights why simple regression coefficients in labor economics often require careful interpretation considering multiple causal channels."),
+    answer("Statistical artifact of sample selection", message = "While sample selection is relevant, the relationship likely reflects real economic mechanisms rather than just statistical issues."),
+    answer("Simple measurement error", message = "The systematic nature of the relationship suggests more than just measurement error is at play.")
+  ),
+  
+  question("What does the change in the log(inc) coefficient between models suggest about omitted variable bias?",
+    answer("The initial model likely overestimates the relationship", correct = TRUE, message = "The reduction in the coefficient when adding controls suggests the simple model attributed to income some effects that actually work through education and family structure. This is a classic case where understanding omitted variable bias helps us interpret coefficient changes across specifications. Consider what other unmeasured variables might still affect our estimates."),
+    answer("The controls are irrelevant", message = "The substantial change in coefficients suggests the controls are indeed important for understanding the relationship."),
+    answer("The relationship is spurious", message = "The persistence of a significant relationship even with controls suggests a robust association, even if the initial estimate was biased."),
+    answer("The models are misspecified", message = "While all models are simplifications, the systematic change in coefficients more likely reflects omitted variable bias than misspecification.")
+  )
+)
+```
+
+This is all for today, thank you for your attention!

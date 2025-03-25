@@ -1,0 +1,8 @@
+# Tutorial 5: The Simple Regression Model II
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial5/). This tutorial will focus on the fundamental theory underlying regression analysis, based on knowledge presented in Achen (1982) and Huntington-Klein's The Effect (2024). You'll be asked about both theoretical foundations and practical applications of regression analysis and how to interpret your findings.
+
+
+
