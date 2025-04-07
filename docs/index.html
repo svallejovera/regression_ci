@@ -58,14 +58,14 @@
 <li><a class="" href="tutorial-5-the-simple-regression-model-ii.html"><span class="header-section-number">13</span> Tutorial 5: The Simple Regression Model II</a></li>
 <li><a class="" href="lecture-5-exercises.html"><span class="header-section-number">14</span> Lecture 5 Exercises</a></li>
 </ul>
-
-        <div class="book-extra">
+<div class="book-extra">
           <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><!--bookdown:title:end--><!--bookdown:title:start--><div id="regressions-and-causal-inference" class="section level1 unnumbered">
 <h1>“Regressions and Causal Inference”<a class="anchor" aria-label="anchor" href="#regressions-and-causal-inference"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#regressions-and-causal-inference"><i class="fas fa-link"></i></a>
 </h1>
 <p> </p>
 <p>Welcome to the site for the course PS9591: “Regressions and Causal Inference” at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the lecture slides, lecture code, lab exercises, and lab code for the corresponding topic.</p>
@@ -74,11 +74,13 @@
 <div id="about-tutorials" class="section level2" number="0.1">
 <h2>
 <span class="header-section-number">0.1</span> About Tutorials<a class="anchor" aria-label="anchor" href="#about-tutorials"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#about-tutorials"><i class="fas fa-link"></i></a>
 </h2>
 <p>The tutorials are interactive R documents that you can also run on your very own computer. This allows you to practice concepts and experiment with different approaches at your own pace. Here’s how to get started.</p>
 <div id="prerequisites" class="section level3" number="0.1.1">
 <h3>
 <span class="header-section-number">0.1.1</span> Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
 </h3>
 <p>Before running the tutorials, make sure you have:</p>
 <ol style="list-style-type: decimal">
@@ -87,7 +89,8 @@
 <li>The following R packages installed. You can install them by running these commands in R:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install required packages</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Install required packages</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"learnr"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wooldridge"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
@@ -98,11 +101,13 @@
 <div id="running-a-tutorial" class="section level3" number="0.1.2">
 <h3>
 <span class="header-section-number">0.1.2</span> Running a Tutorial<a class="anchor" aria-label="anchor" href="#running-a-tutorial"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#running-a-tutorial"><i class="fas fa-link"></i></a>
 </h3>
 <p>There are two ways to run a tutorial locally:</p>
 <div id="method-1-using-rstudio" class="section level4" number="0.1.2.1">
 <h4>
 <span class="header-section-number">0.1.2.1</span> Method 1: Using RStudio<a class="anchor" aria-label="anchor" href="#method-1-using-rstudio"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#method-1-using-rstudio"><i class="fas fa-link"></i></a>
 </h4>
 <ol style="list-style-type: decimal">
 <li>Download the tutorial file (it will have a .Rmd extension)</li>
@@ -114,16 +119,19 @@
 <div id="method-2-using-r-console" class="section level4" number="0.1.2.2">
 <h4>
 <span class="header-section-number">0.1.2.2</span> Method 2: Using R Console<a class="anchor" aria-label="anchor" href="#method-2-using-r-console"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#method-2-using-r-console"><i class="fas fa-link"></i></a>
 </h4>
 <p>If you have the tutorial file in your working directory, you can run:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu">run_tutorial</span><span class="op">(</span><span class="st">"filename"</span>, package <span class="op">=</span> <span class="st">"learnr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu">run_tutorial</span><span class="op">(</span><span class="st">"filename"</span>, package <span class="op">=</span> <span class="st">"learnr"</span><span class="op">)</span></span></code></pre></div>
 <p>Replace “filename” with the name of the tutorial file (without the .Rmd extension).</p>
 </div>
 </div>
 <div id="tips-for-success" class="section level3" number="0.1.3">
 <h3>
 <span class="header-section-number">0.1.3</span> Tips for Success<a class="anchor" aria-label="anchor" href="#tips-for-success"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#tips-for-success"><i class="fas fa-link"></i></a>
 </h3>
 <p>When working with tutorials locally:</p>
 <ul>
@@ -135,6 +143,7 @@
 <div id="troubleshooting-common-issues" class="section level3" number="0.1.4">
 <h3>
 <span class="header-section-number">0.1.4</span> Troubleshooting Common Issues<a class="anchor" aria-label="anchor" href="#troubleshooting-common-issues"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#troubleshooting-common-issues"><i class="fas fa-link"></i></a>
 </h3>
 <p>If you encounter problems:</p>
 <ol style="list-style-type: decimal">
@@ -151,6 +160,7 @@
 <div id="getting-help" class="section level3" number="0.1.5">
 <h3>
 <span class="header-section-number">0.1.5</span> Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#getting-help"><i class="fas fa-link"></i></a>
 </h3>
 <p>If you need assistance:</p>
 <ul>
@@ -165,6 +175,7 @@
 <div id="next-steps" class="section level3" number="0.1.6">
 <h3>
 <span class="header-section-number">0.1.6</span> Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#next-steps"><i class="fas fa-link"></i></a>
 </h3>
 <p>After getting the tutorials running locally, you can:</p>
 <ul>
@@ -179,9 +190,10 @@
 <div id="assignments" class="section level2" number="0.2">
 <h2>
 <span class="header-section-number">0.2</span> Assignments<a class="anchor" aria-label="anchor" href="#assignments"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#assignments"><i class="fas fa-link"></i></a>
 </h2>
 <p>This is a list of assignments for the course. All assignments must be handed in as pdf documents using R Markdown.</p>
-<div class="inline-table"><table class="table table-sm">
+<div class="inline-table"><div class="inline-table"><table class="table table-sm">
 <colgroup>
 <col width="53%">
 <col width="46%">
@@ -212,17 +224,19 @@
 <td>a) Problems 1, 2 and 3<br>b) Computer exercises: C2 and C3</td>
 </tr>
 </tbody>
-</table></div>
+</table></div></div>
 </div>
 <div id="final-exam" class="section level2" number="0.3">
 <h2>
 <span class="header-section-number">0.3</span> Final Exam<a class="anchor" aria-label="anchor" href="#final-exam"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#final-exam"><i class="fas fa-link"></i></a>
 </h2>
 <p>The final exam will require students to replicate the findings from some papers, and interpret the results. For your Final Exam, I will post the required datasets for the analyses and replication exercises here: <a href="https://github.com/svallejovera/regression_ci/tree/main/Sample_data" class="uri">https://github.com/svallejovera/regression_ci/tree/main/Sample_data</a>.</p>
 </div>
 <div id="acknowledgments" class="section level2" number="0.4">
 <h2>
 <span class="header-section-number">0.4</span> Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"><i class="fas fa-link"></i></a>
+<a class="anchor" aria-label="anchor" href="#acknowledgments"><i class="fas fa-link"></i></a>
 </h2>
 <p>The organization of this course is based on the great textbook ‘The Effect: An Introduction to Research Design and Causality’ by Nick Huntington-Klein, freely available at <a href="https://theeffectbook.net/">here</a>. The code used throughout for the main lectures is a patchwork of my own code, but my own code borrows heavily from the internet (but that’s true for all code). I try my best to give credit to the original authors of the code (when and if possible). The code for the labs was created and revised by two amazing doctoral students<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;I will update their status as they advance on their academic journey.&lt;/p&gt;"><sup>1</sup></a> at Western University, Hugo Machado and John Santos (and are posted here with their permission).</p>
 
@@ -232,6 +246,10 @@
   <div class="chapter-nav">
 <div class="empty"></div>
 <div class="next"><a href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></div>
+</div>
+<div class="chapter-nav">
+<div class="empty"></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -250,11 +268,9 @@
 <li><a class="nav-link" href="#final-exam"><span class="header-section-number">0.3</span> Final Exam</a></li>
 <li><a class="nav-link" href="#acknowledgments"><span class="header-section-number">0.4</span> Acknowledgments</a></li>
 </ul>
-
-      <div class="book-extra">
+<div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/index.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/index.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          
         </ul>
 </div>
     </nav>

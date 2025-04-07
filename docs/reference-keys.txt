@@ -140,3 +140,5 @@ for-both-model-1-and-model-2-write-the-equation-of-the-population-models.
 run-the-regressions-and-write-out-the-equations-for-the-estimated-regression-models.
 explain-what-the-coefficients-mean-in-both-models.-how-does-the-effect-of-age-differ-between-model-1-and-model-2
 which-of-the-models-better-explains-the-relationship-between-marketlib-and-age
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
+lecture-5-the-simple-regression-model-ii

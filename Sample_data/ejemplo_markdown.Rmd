@@ -1,0 +1,57 @@
+---
+title: "Tarea 1: Ejemplo"
+author: "Ricardo Graffe"
+date: "2025-03-07"
+output: 
+  html_document:
+    highlight: tango
+    center: TRUE
+    df_print: paged
+    toc: TRUE
+    toc_depth: 3
+    number_sections: TRUE     
+    toc_float: 
+      collapsed: TRUE
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tidylog)
+library(wooldridge)
+```
+
+# Sección
+
+Información sobre la primera sección. Esto incluye funciones: $y=x$.
+
+$$y=x$$
+
+## Sección más pequeña
+
+Un poco más de información. Para escribir una función lineal:
+
+$$y = B_0 + B_1x_1 + u^2 + w^{resultado}$$
+
+### Sección aún más pequeña
+
+Incluso más información. Los símbolos especiales llevan primero un backslash (\\) y en ocasiones los tienen que poner entre corchete ({}).
+
+$$ y = \beta_0 + \beta_1x_1 + \mu_{\gamma^2} $$
+
+o así
+
+$$ \hat{y} = \hat{\beta_0} + \hat{\beta}_1x_1 + \epsilon + \alpha^{\Delta} $$ \# Otra sección
+
+Entonces para abrir un chunk:
+
+```{r}
+y <- rnorm(100)
+x <- rnorm(100)
+
+xy <- bind_cols(x,y)
+
+xy %>%
+  ggplot(aes(x=x,y=y)) +
+  geom_point(alpha=.6, color = "peru")
+```
+
