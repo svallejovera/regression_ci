@@ -1,0 +1,654 @@
+---
+title: "Tutorial 5: Simple Regression Model II"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+
+# Create the dataset
+student_data <- tribble(
+  ~Student, ~GPA, ~ACT,
+  1, 2.8, 21,
+  2, 3.4, 24,
+  3, 3.0, 26,
+  4, 3.5, 27,
+  5, 3.6, 29,
+  6, 3.0, 25,
+  7, 2.7, 25,
+  8, 3.7, 30
+)
+
+library(wooldridge)
+
+# Load the k401k dataset
+k401k <- wooldridge::k401k
+
+# Load the sleep75 dataset
+sleep75 <- wooldridge::sleep75
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+## Problem 3
+
+In this tutorial, we will practice the skills you will need for Assignment 1 by solving other exercises from Chapter 2 of Wooldridge's book. We'll start this practice set by analyzing the relationship between ACT scores and GPA using Ordinary Least Squares (OLS) regression (Problem 1). We'll work through the process step by step, from understanding the basic concepts to interpreting the results.
+
+### Understanding OLS Regression
+
+OLS regression helps us understand the linear relationship between variables by finding the best-fitting straight line through our data points. The equation we'll work with is:
+
+$$GPA = \beta_0 + \beta_1*ACT$$
+
+where:
+- $\beta_0$ is the intercept (predicted GPA when ACT = 0)
+- $\beta_1$ is the slope (change in predicted GPA for a one-point increase in ACT)
+
+### Data Visualization
+
+Let's start by visualizing the relationship between ACT scores and GPA.
+
+```{r plot-exercise, exercise=TRUE}
+# Complete the code to create a scatter plot
+ggplot(student_data, aes(x = ____, y = ____)) +
+  geom_point() +
+  labs(
+    title = "Relationship between ACT Scores and GPA",
+    x = "ACT Score",
+    y = "Grade Point Average"
+  )
+```
+
+```{r plot-exercise-solution}
+ggplot(student_data, aes(x = ACT, y = GPA)) +
+  geom_point() +
+  labs(
+    title = "Relationship between ACT Scores and GPA",
+    x = "ACT Score",
+    y = "Grade Point Average"
+  )
+```
+
+### Calculating Regression Coefficients
+
+Now we'll calculate the regression coefficients using these formulas:
+
+$$\beta_1 = \sum(x-\bar{x})(y - \bar{y})/\sum(x-\bar{x})^2$$
+$$\beta_0 = \bar{y} - \beta_1\bar{x}$$
+
+```{r coef-exercise, exercise=TRUE}
+# Calculate means
+x_mean <- mean(student_data$____)  # Complete with ACT
+y_mean <- mean(student_data$____)  # Complete with GPA
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Print results
+cat("Slope (β₁):", round(beta1, 4), "\n")
+cat("Intercept (β₀):", round(beta0, 4))
+```
+
+```{r coef-exercise-solution}
+# Calculate means
+x_mean <- mean(student_data$ACT)
+y_mean <- mean(student_data$GPA)
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Print results
+cat("Slope (β₁):", round(beta1, 4), "\n")
+cat("Intercept (β₀):", round(beta0, 4))
+```
+
+### Interpreting Results
+
+Let's make sure we understand what these coefficients mean in context.
+
+```{r interpret-quiz}
+quiz(
+  question("What does the slope coefficient (β₁) represent in this context?",
+    answer("The average GPA of students",
+           message = "The slope represents the change in GPA per unit change in ACT score, not the average GPA."),
+    answer("The predicted increase in GPA for a one-point increase in ACT score", correct = TRUE,
+           message = "β₁ tells us how much we expect GPA to increase when ACT increases by one point."),
+    answer("The total change in GPA",
+           message = "The slope gives us the rate of change, not the total change in GPA."),
+    answer("The ACT score needed for a 4.0 GPA",
+           message = "The slope tells us about the rate of change, not what ACT score is needed for a particular GPA."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("If a student's ACT score is increased by 5 points, what would be the predicted change in GPA?",
+    answer("It would increase by exactly 5 points",
+           message = "This would only be true if the slope (β₁) was exactly 1."),
+    answer("It would increase by 5 × β₁", correct = TRUE,
+           message = "We multiply the change in ACT (5) by the slope (β₁) to get the predicted change in GPA."),
+    answer("It would increase by 5 × β₀",
+           message = "The intercept (β₀) isn't used to calculate changes in GPA."),
+    answer("It would increase by β₁",
+           message = "This would only be the change for a one-point increase in ACT."),
+    allow_retry = TRUE
+  )
+)
+```
+
+### Calculating Fitted Values and Residuals
+
+Now let's practice calculating fitted values (predicted GPAs) and residuals (actual minus predicted GPAs).
+
+```{r fitted-exercise, exercise=TRUE}
+# Calculate means
+x_mean <- mean(student_data$ACT)
+y_mean <- mean(student_data$GPA)
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Create a function to calculate fitted values
+calculate_fitted <- function(act_score, beta0, beta1) {
+  return(____)  # Complete the formula for predicted GPA
+}
+
+# Add fitted values and residuals to our data
+student_data %>%
+  mutate(
+    fitted_gpa = calculate_fitted(ACT, beta0, beta1),
+    residual = ____ - ____  # Calculate residuals
+  ) %>%
+  select(Student, ACT, GPA, fitted_gpa, residual)
+```
+
+```{r fitted-exercise-solution}
+# Calculate means
+x_mean <- mean(student_data$ACT)
+y_mean <- mean(student_data$GPA)
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Create a function to calculate fitted values
+calculate_fitted <- function(act_score, beta0, beta1) {
+  return(beta0 + beta1 * act_score)
+}
+
+# Add fitted values and residuals to our data
+student_data %>%
+  mutate(
+    fitted_gpa = calculate_fitted(ACT, beta0, beta1),
+    residual = GPA - fitted_gpa
+  ) %>%
+  select(Student, ACT, GPA, fitted_gpa, residual)
+```
+
+### Checking Your Understanding
+
+```{r residuals-quiz}
+quiz(
+  question("What does a positive residual indicate?",
+    answer("The student's actual GPA is higher than predicted by the model", correct = TRUE,
+           message = "A positive residual means the actual value is above the predicted value."),
+    answer("The student's actual GPA is lower than predicted by the model",
+           message = "A negative residual would indicate this."),
+    answer("The model perfectly predicts the student's GPA",
+           message = "A residual of zero would indicate this."),
+    answer("The student's ACT score is above the predicted average",
+           message = "Residuals compare actual to predicted GPAs, not ACT scores to their average."),
+    allow_retry = TRUE
+  ),
+  
+  question("What is true about the sum of residuals in OLS regression?",
+    answer("It equals zero", correct = TRUE,
+           message = "This is a key property of OLS regression - the residuals sum to zero."),
+    answer("It equals one",
+           message = "The sum of residuals in OLS regression is always zero."),
+    answer("It equals the sample size",
+           message = "The sum of residuals in OLS regression is always zero."),
+    answer("It depends on the correlation between variables",
+           message = "Regardless of the correlation, OLS residuals always sum to zero."),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Making Predictions
+
+Finally, let's practice using our regression equation to make predictions.
+
+```{r predict-exercise, exercise=TRUE}
+# Calculate means
+x_mean <- mean(student_data$ACT)
+y_mean <- mean(student_data$GPA)
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Function to predict GPA given an ACT score
+predict_gpa <- function(act_score) {
+  predicted <- ____  # Use beta0 and beta1 to make prediction
+  return(round(predicted, 2))
+}
+
+# Test the function with ACT = 20
+cat("Predicted GPA for ACT score of 20:", predict_gpa(20))
+```
+
+```{r predict-exercise-solution}
+# Calculate means
+x_mean <- mean(student_data$ACT)
+y_mean <- mean(student_data$GPA)
+
+# Calculate slope (beta1)
+beta1 <- sum((student_data$ACT - x_mean) * (student_data$GPA - y_mean)) / 
+         sum((student_data$ACT - x_mean)^2)
+
+# Calculate intercept (beta0)
+beta0 <- y_mean - beta1 * x_mean
+
+# Function to predict GPA given an ACT score
+predict_gpa <- function(act_score) {
+  predicted <- beta0 + beta1 * act_score
+  return(round(predicted, 2))
+}
+
+# Test the function with ACT = 20
+cat("Predicted GPA for ACT score of 20:", predict_gpa(20))
+```
+
+### Final Understanding Check
+
+```{r final-quiz}
+quiz(
+  question("Why might we be cautious about using this model to predict GPAs for ACT scores far outside our data range?",
+    answer("The linear relationship might not hold for extreme values", correct = TRUE,
+           message = "Extrapolating beyond our data range assumes the same linear relationship holds, which might not be true."),
+    answer("The calculation becomes more difficult",
+           message = "The calculation remains the same; the issue is with the reliability of predictions."),
+    answer("We need a different formula for extreme values",
+           message = "The formula remains the same, but its reliability for predictions may decrease."),
+    answer("The computer might make rounding errors",
+           message = "Computational accuracy isn't the main concern; it's about the validity of the linear assumption."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Computer Exercise 1
+
+In this section, we'll analyze the relationship between participation rates in 401(k) pension plans and the generosity of the plan's match rate. We'll work through each step of the analysis, from understanding the variables to interpreting regression results.
+
+### Understanding the Variables
+
+The key variables in our dataset are:
+- `prate`: The percentage of eligible workers with an active account (dependent variable)
+- `mrate`: The plan match rate (independent variable). For example, if mrate = 0.50, a $1 contribution by the worker is matched by a 50¢ contribution by the firm.
+
+### Concept Check
+
+```{r variables-quiz}
+quiz(
+  question("What does a match rate (mrate) of 0.75 mean?",
+    answer("The firm contributes 75¢ for every $1 the worker contributes", correct = TRUE),
+    answer("75% of workers participate in the plan"),
+    answer("The firm contributes $1 for every 75¢ the worker contributes"),
+    answer("Workers must contribute 75% of their salary"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 1: Calculating Sample Averages
+
+Let's start by finding the average participation rate and match rate.
+
+```{r means-exercise, exercise=TRUE}
+# Calculate the means
+mean_prate <- mean(k401k$____)  # Complete with prate
+mean_mrate <- mean(k401k$____)  # Complete with mrate
+
+# Print results
+cat("Average participation rate:", round(mean_prate, 2), "%\n")
+cat("Average match rate:", round(mean_mrate, 2))
+```
+
+```{r means-exercise-solution}
+# Calculate the means
+mean_prate <- mean(k401k$prate)
+mean_mrate <- mean(k401k$mrate)
+
+# Print results
+cat("Average participation rate:", round(mean_prate, 2), "%\n")
+cat("Average match rate:", round(mean_mrate, 2))
+```
+
+### Interpreting the Averages
+
+```{r means-quiz}
+quiz(
+  question("What does the average match rate tell us about typical 401(k) plans in our sample?",
+    answer("On average, firms match about 73% of worker contributions", correct = TRUE),
+    answer("73% of workers participate in their 401(k) plan"),
+    answer("Firms contribute 73 cents regardless of worker contributions"),
+    answer("Workers must contribute 73% of their salary"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 2: Simple Regression Analysis
+
+Now we'll estimate the regression equation:
+prate = β₀ + β₁mrate
+
+```{r regression2-exercise, exercise=TRUE}
+# Run the regression
+model <- lm(____ ~ ____, data = k401k)  # Complete with dependent and independent variables
+
+# Print results
+summary(model)
+```
+
+```{r regression2-exercise-solution}
+# Run the regression
+model <- lm(prate ~ mrate, data = k401k)
+
+# Print results
+summary(model)
+```
+
+### Understanding the Results
+
+```{r coef2-quiz}
+quiz(
+  question("What does the intercept (β₀) represent in this context?",
+    answer("The predicted participation rate when the firm offers no match", correct = TRUE),
+    answer("The average participation rate across all plans"),
+    answer("The minimum participation rate in any plan"),
+    answer("The match rate required for 100% participation"),
+    allow_retry = TRUE
+  ),
+  
+  question("How do we interpret the coefficient on mrate (β₁)?",
+    answer("A 0.1 increase in match rate is associated with about a 0.59 percentage point increase in participation", correct = TRUE),
+    answer("A $1 increase in contributions leads to a 5.86% increase in participation"),
+    answer("5.86% of workers participate for each dollar matched"),
+    answer("The match rate explains 5.86% of participation variation"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 3: Making Predictions
+
+Let's practice using our regression equation to make predictions.
+
+```{r predict2-exercise, exercise=TRUE}
+# Create prediction function
+predict_prate <- function(mrate_value) {
+  beta0 <- 83.08  # From our regression
+  beta1 <- 5.86   # From our regression
+  
+  predicted <- ____ + ____ * mrate_value  # Complete the prediction equation
+  return(round(predicted, 2))
+}
+
+# Test with mrate = 3.5
+cat("Predicted participation rate when mrate = 3.5:", predict_prate(3.5), "%")
+```
+
+```{r predict2-exercise-solution}
+# Create prediction function
+predict_prate <- function(mrate_value) {
+  beta0 <- 83.08
+  beta1 <- 5.86
+  
+  predicted <- beta0 + beta1 * mrate_value
+  return(round(predicted, 2))
+}
+
+# Test with mrate = 3.5
+cat("Predicted participation rate when mrate = 3.5:", predict_prate(3.5), "%")
+```
+
+### Evaluating Predictions
+
+```{r predict2-quiz}
+quiz(
+  question("Why might we be cautious about predicting participation rates for very high match rates?",
+    answer("Most of our data is for much lower match rates, so the linear relationship might not hold", correct = TRUE),
+    answer("The calculation becomes more complicated for large numbers"),
+    answer("High match rates are illegal"),
+    answer("Participation rates can't be negative"),
+    allow_retry = TRUE
+  ),
+  
+  question("The R-squared of our model is about 0.075. What does this tell us?",
+    answer("Only about 7.5% of the variation in participation rates is explained by match rates", correct = TRUE),
+    answer("The model is wrong 92.5% of the time"),
+    answer("Match rates explain 75% of participation variation"),
+    answer("We need 7.5 more variables in our model"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Computer Exercise 3
+
+In this section, we'll analyze the relationship between time spent sleeping and time spent working, using data from Biddle and Hamermesh (1990). This is based on question C3 from Chapter 2 of Wooldridge's book. We'll investigate whether there's a tradeoff between sleep time and work time.
+
+### Understanding the Variables
+
+Our key variables are:
+- `sleep`: Minutes spent sleeping at night per week (dependent variable)
+- `totwrk`: Total minutes worked during the week (independent variable)
+
+### Concept Check
+
+```{r variables2-quiz}
+quiz(
+  question("What are we investigating in this analysis?",
+    answer("Whether people who work more tend to sleep less", correct = TRUE),
+    answer("Whether people who sleep more earn higher wages"),
+    answer("Whether sleep affects job performance"),
+    answer("Whether work schedule affects sleep quality"),
+    allow_retry = TRUE
+  ),
+  
+  question("If we find a negative relationship between sleep and work, this means:",
+    answer("On average, people who work more minutes tend to sleep fewer minutes", correct = TRUE),
+    answer("Working causes poor sleep quality"),
+    answer("Everyone sacrifices exactly the same amount of sleep for work"),
+    answer("People should work less to sleep more"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 1: Data Visualization
+
+Let's start by visualizing the relationship between sleep and work time.
+
+```{r plot2-exercise, exercise=TRUE}
+# Create a scatter plot
+ggplot(sleep75, aes(x = ____, y = ____)) +  # Complete with totwrk and sleep
+  geom_point(alpha = 0.3) +
+  labs(
+    title = "Relationship between Work Time and Sleep Time",
+    x = "Minutes Worked per Week",
+    y = "Minutes of Sleep per Week"
+  )
+```
+
+```{r plot2-exercise-solution}
+ggplot(sleep75, aes(x = totwrk, y = sleep)) +
+  geom_point(alpha = 0.3) +
+  labs(
+    title = "Relationship between Work Time and Sleep Time",
+    x = "Minutes Worked per Week",
+    y = "Minutes of Sleep per Week"
+  )
+```
+
+## Part 2: Simple Regression Analysis
+
+We'll estimate the model:
+sleep = β₀ + β₁totwrk + u
+
+```{r regression3-exercise, exercise=TRUE}
+# Run the regression
+model <- lm(____ ~ ____, data = sleep75)  # Complete with sleep and totwrk
+
+# Print results
+summary(model)
+```
+
+```{r regression3-exercise-solution}
+# Run the regression
+model <- lm(sleep ~ totwrk, data = sleep75)
+
+# Print results
+summary(model)
+```
+
+### Interpreting the Results
+
+```{r coef3-quiz}
+quiz(
+  question("What does the intercept (β₀) represent in this context?",
+    answer("The predicted minutes of sleep per week for someone who doesn't work at all", correct = TRUE),
+    answer("The average amount of sleep across all people"),
+    answer("The minimum amount of sleep anyone gets"),
+    answer("The amount of work that results in no sleep"),
+    allow_retry = TRUE
+  ),
+  
+  question("How do we interpret the coefficient on totwrk (β₁)?",
+    answer("For each additional minute of work per week, sleep decreases by about 0.15 minutes per week", correct = TRUE),
+    answer("Working one more hour reduces sleep by 0.15 hours"),
+    answer("Working reduces sleep by 15%"),
+    answer("For each hour of work, sleep decreases by 15 minutes"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 3: Calculating Effects
+
+Let's calculate how much sleep changes when work time increases by 2 hours (120 minutes).
+
+```{r effects-exercise, exercise=TRUE}
+# Run the regression
+model <- lm(sleep ~ totwrk, data = sleep75)
+
+# Print results
+summary(model)
+
+# Get coefficient
+beta1 <- coef(model)[2]  # Coefficient on totwrk
+
+# Calculate effect of 2 hours increase
+hours_2_minutes <- 120  # Convert 2 hours to minutes
+effect <- ____ * ____  # Complete the calculation
+
+# Print result
+cat("If work time increases by 2 hours, sleep is estimated to change by", 
+    round(effect, 2), "minutes per week")
+```
+
+```{r effects-exercise-solution}
+# Run the regression
+model <- lm(sleep ~ totwrk, data = sleep75)
+
+# Print results
+summary(model)
+
+# Get coefficient
+beta1 <- coef(model)[2]
+
+# Calculate effect of 2 hours increase
+hours_2_minutes <- 120
+effect <- beta1 * hours_2_minutes
+
+# Print result
+cat("If work time increases by 2 hours, sleep is estimated to change by", 
+    round(effect, 2), "minutes per week")
+```
+
+### Evaluating the Effect
+
+```{r effect-quiz}
+quiz(
+  question("Is an 18-minute reduction in weekly sleep a large effect for a 2-hour increase in work?",
+    answer("No, it suggests people don't sacrifice much sleep for work", correct = TRUE),
+    answer("Yes, this would severely impact health"),
+    answer("Yes, it means no sleep after 40 hours of work"),
+    answer("No, it means work has no effect on sleep"),
+    allow_retry = TRUE
+  ),
+  
+  question("The R-squared is about 0.10. What does this mean?",
+    answer("Only about 10% of the variation in sleep time is explained by work time", correct = TRUE),
+    answer("The model is wrong 90% of the time"),
+    answer("People only sleep 10% of the time they're not working"),
+    answer("Work time predicts sleep time with 10% accuracy"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Part 4: Thinking About Causality
+
+```{r causality-quiz}
+quiz(
+  question("Which statement best describes what we can conclude from this analysis?",
+    answer("There is a modest negative correlation between work time and sleep time", correct = TRUE),
+    answer("Working more directly causes people to sleep less"),
+    answer("Sleeping less causes people to work more"),
+    answer("There is no relationship between sleep and work"),
+    allow_retry = TRUE
+  ),
+  
+  question("Why might we be cautious about interpreting this relationship as causal?",
+    answer("Other factors might affect both sleep and work decisions", correct = TRUE),
+    answer("The sample size is too small"),
+    answer("Sleep is impossible to measure accurately"),
+    answer("Work hours are always changing"),
+    allow_retry = TRUE
+  )
+)
+```
+
+These skills will help you tackle similar problems in your assignments. Remember to always think about the substantive meaning of your statistical results!

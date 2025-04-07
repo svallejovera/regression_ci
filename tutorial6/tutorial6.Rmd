@@ -1,0 +1,535 @@
+---
+title: "Tutorial 6: Regression Analysis and Interpretation"
+author: "Hugo Machado and Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(psre)
+library(modelsummary)
+library(stargazer)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load datasets we'll use for exercises
+
+# Load CES dataset from PSRE
+if(require(psre)){
+  data(ces)
+  
+  # Process CES data as in psre5.1.R
+  ces$rownum <- 1:nrow(ces)
+  
+  ces <- ces %>% 
+    mutate(gender = factor(gender, levels=c(1,5), labels=c("male", "female")), 
+           moral = (moral + 1)*50, 
+           leader_con = leader_con/20)
+  
+  # Extract the sample rows as in the example
+  rn <- c(52, 133, 175, 193, 285, 320, 336, 428, 543, 560, 650, 695, 709, 804, 913,
+          974,1065,1172,1186,1220,1235,1237,1307,1365,1420,1484,1517,1523,1554,1609,
+          1684,1690,1768,1918,1970,1986,2053,2067,2137,2229,2239,2371,2403,2432,2515,
+          2591,2594,2701,2759,2799)
+  
+  ces_samp <- ces %>% 
+    filter(rownum %in% rn)
+}
+
+# Load WVS data from PSRE if needed for later exercises
+if(require(psre)){
+  data(wvs)
+}
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+In this session, we'll deepen your understanding of regression models with some recall questions and complete-the-code tasks, focusing on:
+
+1. The theoretical foundations of linear regression
+2. How to build and interpret regression models in R
+3. How to effectively present regression results
+4. How to evaluate different model specifications
+
+## Understanding Regression Fundamentals
+
+Let's begin by testing your understanding of some fundamental concepts in regression analysis, based on Huntington-Klein's *The Effect*.
+
+```{r regression-basics-quiz}
+quiz(
+  question("What does ordinary least squares (OLS) regression do when fitting a line to data?",
+    answer("It finds the line that passes through the most data points"),
+    answer("It selects the line that minimizes the sum of squared residuals", correct = TRUE, message = "OLS minimizes the sum of squared residuals (the squared differences between observed values and predicted values)."),
+    answer("It maximizes the correlation between X and Y"),
+    answer("It draws the line connecting the minimum and maximum values of Y"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What is the difference between an error and a residual in regression analysis?",
+    answer("Errors are for simple regression; residuals are for multiple regression"),
+    answer("Errors are calculated for the training data; residuals are for test data"),
+    answer("A residual is the difference between an observed value and its predicted value; an error is the difference between an observed value and its true model value", correct = TRUE, message = "The residual is what we can calculate from our data (observed - predicted), while the error involves the unknown true model."),
+    answer("Errors are for continuous variables; residuals are for categorical variables"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What is the exogeneity assumption in regression analysis?",
+    answer("All variables in the model must be normally distributed"),
+    answer("The predictor variables must be uncorrelated with each other"),
+    answer("The predictor variables must be uncorrelated with the error term", correct = TRUE, message = "Exogeneity requires that predictor variables are uncorrelated with the error term. When this assumption is violated, we have endogeneity, which leads to biased estimates."),
+    answer("The dependent variable must be exogenous to the system being modeled"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("In a multiple regression context, what happens to the coefficient estimate when we control for a variable Z that is correlated with both our predictor X and outcome Y?",
+    answer("The coefficient for X will necessarily increase in magnitude"),
+    answer("The coefficient for X will necessarily decrease in magnitude"),
+    answer("The coefficient for X will change, but the direction and magnitude depend on the specific relationships between X, Y, and Z", correct = TRUE, message = "The change in X's coefficient depends on the structure of relationships. If Z suppresses the effect of X on Y, controlling for Z could increase X's coefficient. If Z mediates or confounds the relationship, X's coefficient might decrease."),
+    answer("The coefficient for X remains unchanged as long as the model is correctly specified"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("A social scientist runs two regression models: one with education as the only predictor of income, and another adding controls for parental education and occupation. The coefficient on education drops from 0.45 to 0.28. What substantive interpretation is most appropriate?",
+    answer("Education is less important than family background for determining income"),
+    answer("The first model was misspecified and should be discarded"),
+    answer("Part of education's apparent effect on income operates through family background as a confounder", correct = TRUE, message = "The drop in coefficient suggests that part of what the first model attributed to education actually reflects the confounding influence of family background. This doesn't mean education is unimportant (it still has a substantial direct effect of 0.28), but that family background explains some of the apparent relationship."),
+    answer("We should add more control variables until the education coefficient stabilizes"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What distinguishes a causally identified regression estimate from a descriptive association?",
+    answer("Causally identified estimates must come from experimental data"),
+    answer("Causally identified estimates always require instrumental variables"),
+    answer("Causally identified estimates occur when all back-door paths between predictor and outcome have been blocked", correct = TRUE, message = "A regression estimate can be considered causally identified when all back-door paths (confounding paths) between the predictor and outcome have been blocked, either through controlling for confounders, appropriate research design, or other identification strategies. This doesn't require experiments or specific techniques like IVs."),
+    answer("Causally identified estimates always have higher R² values"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("A political scientist running a regression analysis of voter turnout notices that adding control variables increases their R² from 0.24 to 0.38, but the coefficient on their variable of interest (public campaign financing) drops from statistically significant to non-significant. Which conclusion is most appropriate?",
+    answer("The relationship between campaign financing and turnout is purely spurious"),
+    answer("Adding too many control variables has introduced multicollinearity"),
+    answer("The original model was biased due to omitted variables, and the new model provides a more accurate estimate of the relationship between voter turnout and public campaign financing", correct = TRUE, message = "The drop in significance coupled with a substantial increase in R² suggests the original model attributed to campaign financing effects that were actually due to omitted variables."),
+    answer("We should revert to the original model since it produced statistically significant results"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("If a variable is endogenous in a regression model, which of the following is most likely to happen?",
+    answer("The coefficient estimate will be unbiased but inefficient"),
+    answer("The standard errors will be incorrect, but the coefficient will be estimated correctly"),
+    answer("The coefficient estimate will be biased, potentially substantially", correct = TRUE, message = "Endogeneity (correlation between a predictor and the error term) directly biases coefficient estimates - the regression no longer isolates the relationship of interest. This could be caused by omitted variables, reverse causality, measurement error, or sample selection issues."),
+    answer("The model's overall fit will be poor, but individual coefficient estimates remain unbiased"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Building Basic Regression Models
+
+Now let's practice implementing regression models in R. We'll use the CES (Canadian Election Study) dataset from the PSRE package to examine the relationship between moral traditionalism, gender, and feelings toward a conservative leader.
+
+First, let's look at the dataset structure:
+
+```{r explore-ces, exercise=TRUE}
+# Look at the structure of the ces_samp data
+str(ces_samp)
+
+# Examine the first few rows
+head(ces_samp)
+
+# Get summary statistics for key variables
+summary(ces_samp[c("moral", "leader_con", "gender")])
+```
+
+### Your First Model: Predicting Moral Traditionalism
+
+Let's create a simple regression model to predict moral traditionalism based on feelings toward the conservative leader.
+
+```{r simple-model, exercise=TRUE, exercise.lines=6}
+# Create a simple regression model
+model1 <- lm(moral ~ leader_con, data = ces_samp)
+
+# View the summary of the model
+summary(model1)
+```
+
+Now, let's add gender to our model and see how it affects our results:
+
+```{r multiple-model, exercise=TRUE, exercise.lines=10}
+# Create a model with just gender
+model2 <- lm(_____ ~ _____, data = ces_samp)
+
+# Create a multiple regression model with both predictors
+model3 <- lm(_____ ~ _____ + _____, data = ces_samp)
+
+# Compare models
+summary(model2)
+summary(model3)
+```
+
+```{r multiple-model-solution}
+# Create a model with just gender
+model2 <- lm(moral ~ gender, data = ces_samp)
+
+# Create a multiple regression model with both predictors
+model3 <- lm(moral ~ gender + leader_con, data = ces_samp)
+
+# Compare models
+summary(model2)
+summary(model3)
+```
+
+## Interpreting Regression Results
+
+Let's interpret the results from our previous models. First, complete this quiz about the basic interpretation:
+
+```{r interpret-quiz}
+quiz(
+  question("Based on model1, what happens to predicted moral traditionalism when the conservative leader feeling thermometer increases by 1 unit?",
+    answer("It increases by approximately 6.26 units", correct = TRUE, message = "The coefficient for leader_con is about 6.26, meaning moral traditionalism increases by about 6.26 units for each 1-unit increase in leader_con."),
+    answer("It decreases by approximately 6.26 units"),
+    answer("It increases by approximately 20.68 units"),
+    answer("The relationship is not statistically significant"),
+    allow_retry = TRUE
+  ),
+  
+  question("In model3, what is the interpretation of the gender coefficient (approximately -9.28)?",
+    answer("Men score 9.28 points higher than women on moral traditionalism, controlling for leader_con"),
+    answer("Women score 9.28 points higher than men on moral traditionalism, controlling for leader_con"),
+    answer("Women score 9.28 points lower than men on moral traditionalism, controlling for leader_con", correct = TRUE, message = "Correct! The coefficient is the effect of being female (relative to male), and it's negative, indicating women score about 9.28 points lower on moral traditionalism than men when controlling for feelings toward the conservative leader."),
+    answer("The gender effect is not statistically significant"),
+    allow_retry = TRUE
+  ),
+  
+  question("In model3, the intercept is approximately 24.93. What is the substantive interpretation of this value?",
+    answer("The average moral traditionalism score across all respondents is 24.93"),
+    answer("Male respondents with zero feelings toward the conservative leader have a predicted moral traditionalism score of 24.93", correct = TRUE, message = "The intercept represents the predicted value when all predictors equal zero. Since gender is coded with male as the reference category and leader_con=0 represents zero feelings, the intercept is the predicted moral traditionalism for males with zero feelings toward the conservative leader."),
+    answer("Women's moral traditionalism scores are 24.93 points lower than men's on average"),
+    answer("The model explains 24.93% of variance in moral traditionalism"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What happens to the leader_con coefficient when we add gender to the model (comparing model1 to model3)?",
+    answer("It increases substantially"),
+    answer("It remains essentially the same", correct = TRUE, message = "The leader_con coefficient changes only slightly (from about 6.26 to 6.40) when we add gender to the model, suggesting that gender doesn't confound the relationship between leader_con and moral traditionalism."),
+    answer("It decreases substantially"),
+    answer("It becomes statistically non-significant"),
+    allow_retry = TRUE
+  ),
+  
+  question("Looking at the R² values across the models, what can we conclude?",
+    answer("Gender explains more variation in moral traditionalism than leader_con"),
+    answer("Leader_con explains more variation in moral traditionalism than gender", correct = TRUE, message = "Model1 (leader_con only) has an R² of about 0.26, while model2 (gender only) has an R² of about 0.05, indicating leader_con explains more variation."),
+    answer("The combined model explains less variation than either predictor alone"),
+    answer("Gender and leader_con explain equal amounts of variation in moral traditionalism"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Visualizing Regression Models
+
+Visualizing our regression models helps us better understand the relationships between variables. Let's create a graph showing the relationship between conservative leader feelings, gender, and moral traditionalism.
+
+```{r plot-model, exercise=TRUE, exercise.lines=12}
+# First, let's fit our model with both predictors
+mod <- lm(moral ~ gender + leader_con, data = ces_samp)
+
+# Get coefficients
+b <- coef(mod)
+b0m <- b[1]               # Intercept for men
+b0f <- b[1] + b[2]         # Intercept for women
+bl <- b[3]                # Slope for leader_con
+
+# Create a basic plot
+ggplot(ces_samp, aes(x = _____, y = _____, color = _____)) +
+  geom_point() +
+  geom_abline(slope = _____, intercept = _____, lty = 1, color = "gray50") +
+  geom_abline(slope = _____, intercept = _____, lty = 2, color = "black") +
+  scale_color_manual(values = c("gray50", "black")) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(x = "Conservative Leader Feeling Thermometer",
+       y = "Moral Traditionalism",
+       color = "")
+```
+
+```{r plot-model-solution}
+# First, let's fit our model with both predictors
+mod <- lm(moral ~ gender + leader_con, data = ces_samp)
+
+# Get coefficients
+b <- coef(mod)
+b0m <- b[1]               # Intercept for men
+b0f <- b[1] + b[2]         # Intercept for women
+bl <- b[3]                # Slope for leader_con
+
+# Create a basic plot
+ggplot(ces_samp, aes(x = leader_con, y = moral, color = gender)) +
+  geom_point() +
+  geom_abline(slope = bl, intercept = b0m, lty = 1, color = "gray50") +
+  geom_abline(slope = bl, intercept = b0f, lty = 2, color = "black") +
+  scale_color_manual(values = c("gray50", "black")) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(x = "Conservative Leader Feeling Thermometer",
+       y = "Moral Traditionalism",
+       color = "")
+```
+
+### Interpreting the Visualization
+
+```{r viz-interpret-quiz}
+quiz(
+  question("What does the visualization tell us about the relationship between gender, conservative leader feelings, and moral traditionalism?",
+    answer("The effect of leader_con on moral traditionalism is different for men and women (different slopes)"),
+    answer("Men and women have different average levels of moral traditionalism at the same level of leader_con (different intercepts)", correct = TRUE, message = "The lines have the same slope but different intercepts, indicating that while the effect of leader_con is the same across genders, men tend to have higher moral traditionalism than women at the same level of leader_con."),
+    answer("There is no clear pattern between leader_con and moral traditionalism for either gender"),
+    answer("Men and women have the same average moral traditionalism but respond differently to leader_con"),
+    allow_retry = TRUE
+  ),
+  
+  question("When examining regression diagnostics, what would be the most likely pattern of residuals if our current linear model is adequate?",
+    answer("Residuals that decrease systematically as fitted values increase"),
+    answer("Residuals concentrated mostly among female respondents"),
+    answer("Residuals that show no systematic pattern with fitted values", correct = TRUE, message = "In a well-specified regression model, residuals should be randomly distributed around zero with no systematic pattern related to fitted values or predictors. This indicates that our linear model has captured the systematic relationship, leaving only random noise in the residuals."),
+    answer("Residuals that are largest at extreme values of leader_con"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What specific feature of the visualization provides evidence against including an interaction term between gender and leader_con in our model?",
+    answer("The fact that both lines are statistically significant"),
+    answer("The roughly parallel slopes of the regression lines for men and women", correct = TRUE, message = "The parallel slopes indicate that the effect of leader_con on moral traditionalism is approximately the same for both genders. If an interaction were present, we would see different slopes for men and women, suggesting the effect of leader_con varies by gender. The parallel lines provide visual evidence supporting an additive rather than interactive model."),
+    answer("The vertical distance between the lines stays exactly constant"),
+    answer("The similar distribution of data points for men and women"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Comparing Multiple Models
+
+In research, we often need to compare multiple regression models to determine the best approach. Let's practice this using the World Values Survey (WVS) data from the PSRE package.
+
+### Examining the Models from PSRE 5.2
+
+The example from PSRE shows four different models predicting emancipative values (resemaval). Let's analyze these models:
+
+```{r examine-wvs, exercise=TRUE}
+# Prepare the WVS data following the PSRE example
+wvs_data <- wvs %>% 
+  dplyr::select(pct_secondary, pct_some_univ, pct_univ_degree, 
+                pct_low_income, pct_high_income, pct_female, 
+                mean_lr, resemaval, sacsecval, moral, democrat) %>% 
+  na.omit() %>% 
+  mutate(pct_su_plus = pct_some_univ + pct_univ_degree)
+
+# Look at summary statistics for key variables
+summary(wvs_data[c("resemaval", "pct_su_plus", "pct_high_income", "pct_female", "democrat")])
+```
+
+Now, let's build the four models from PSRE 5.2 and compare them:
+
+`resemaval` = Emancipative values. 
+
+`pct_su_plus` = Percentage of sample with Post-secondary education. 
+
+`pct_high_income` = Percentage of sample in the highest income tercile. 
+
+`pct_female` = Percentage of sample who are female. 
+
+`democrat` = History of democratic government (1 = more than 15 years of democratic government). 
+
+
+```{r wvs-models, exercise=TRUE, exercise.lines=15}
+# Build the four models
+m1 <- lm(resemaval ~ _____ + democrat, data = wvs_data)
+m2 <- lm(resemaval ~ _____ + democrat, data = wvs_data)
+m3 <- lm(resemaval ~ _____ + democrat, data = wvs_data)
+m4 <- lm(resemaval ~ _____ + _____ + _____ + democrat, data = wvs_data)
+
+# Use modelsummary to show a comparison table
+modelsummary(list(m1, m2, m3, m4),
+             title = "Predicting Emancipative Values",
+             stars = TRUE)
+```
+
+```{r wvs-models-solution}
+#Load the data
+wvs_data <- wvs %>% 
+  dplyr::select(pct_secondary, pct_some_univ, pct_univ_degree, 
+                pct_low_income, pct_high_income, pct_female, 
+                mean_lr, resemaval, sacsecval, moral, democrat) %>% 
+  na.omit() %>% 
+  mutate(pct_su_plus = pct_some_univ + pct_univ_degree)
+# Build the four models
+m1 <- lm(resemaval ~ pct_su_plus + democrat, data = wvs_data)
+m2 <- lm(resemaval ~ pct_high_income + democrat, data = wvs_data)
+m3 <- lm(resemaval ~ pct_female + democrat, data = wvs_data)
+m4 <- lm(resemaval ~ pct_su_plus + pct_high_income + pct_female + democrat, data = wvs_data)
+
+# Use modelsummary to show a comparison table
+modelsummary(list(m1, m2, m3, m4),
+             title = "Predicting Emancipative Values",
+             stars = TRUE)
+```
+
+### Evaluating Model Fit and Comparing Models
+
+```{r model-comparison-quiz}
+quiz(
+  question("Based on the model summary, which variable shows the most consistent effect across all models?",
+    answer("pct_su_plus"),
+    answer("pct_high_income"),
+    answer("pct_female"),
+    answer("democrat", correct = TRUE, message = "Democrat shows a consistent, strong, and statistically significant effect across all four models, with relatively stable coefficient estimates."),
+    allow_retry = TRUE
+  ),
+  
+  question("When all predictors are included in model 4, what happens to the coefficient estimates compared to the single-predictor models?",
+    answer("They all increase substantially"),
+    answer("They all decrease substantially"),
+    answer("They all remain exactly the same"),
+    answer("They all decrease somewhat, suggesting some shared explanatory power", correct = TRUE, message = "When all predictors are included, the coefficient for each decreases somewhat compared to their respective single-predictor models, indicating that these predictors share some explanatory power."),
+    allow_retry = TRUE
+  ),
+  
+  question("Based on the AIC and BIC values, which model would be considered the most parsimonious and best-fitting?",
+    answer("Model 1"),
+    answer("Model 2"),
+    answer("Model 3"),
+    answer("Model 4", correct = TRUE, message = "Lower AIC and BIC values indicate better fit with penalty for complexity. Model 4 has the lowest values, suggesting it provides the best balance of explanatory power and parsimony."),
+    allow_retry = TRUE
+  ),
+  
+  question("Consider the standard errors for each predictor across models. What relationship do you observe between the standard errors and the consistency of coefficient estimates?",
+    answer("Variables with smaller standard errors show more consistent coefficient estimates across models", correct = TRUE, message = "Democrat has the smallest standard errors (around 0.015) and shows the most stable coefficients across models (0.126 to 0.115). In contrast, predictors with larger standard errors (like pct_female at 0.200) show greater coefficient changes across specifications. This illustrates how precision (inverse of variance) relates to stability of estimates under different model specifications."),
+    answer("Standard errors are inversely related to coefficient magnitude"),
+    answer("Standard errors increase proportionally with the number of predictors"),
+    answer("Standard errors are unrelated to coefficient stability"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Presenting Regression Results
+
+When writing up regression results, clarity and precision are essential. Here's an exercise on presenting regression results effectively.
+
+```{r present-results-quiz}
+quiz(
+  question("Which of the following is the most accurate way to interpret the coefficient on 'pct_female' in Model 4?",
+    answer("A 1% increase in the percentage of females is associated with a 0.404 increase in emancipative values"),
+    answer("A one percentage point increase in the percentage of females is associated with a 0.404 unit increase in emancipative values, controlling for education, income, and democratic history", correct = TRUE, message = "This interpretation correctly states the unit change, specifies the direction and magnitude, and notes the control variables."),
+    answer("Countries with more females have higher emancipative values"),
+    answer("The percentage of females has a statistically significant impact on emancipative values"),
+    allow_retry = TRUE
+  ),
+  
+  question("When reporting regression results in academic papers, which of the following should you include?",
+    answer("Only the statistically significant coefficients"),
+    answer("Only the variables and their p-values"),
+    answer("Coefficient estimates, standard errors (or t-statistics), significance levels, and model fit statistics", correct = TRUE, message = "Complete reporting includes coefficient estimates, standard errors or t-statistics, significance indicators, and model fit statistics like R², adjusted R², and sample size."),
+    answer("The raw data along with the regression output"),
+    allow_retry = TRUE
+  ),
+  
+  question("In scientific writing, how should you describe a non-significant finding?",
+    answer("By saying there is no relationship between the variables"),
+    answer("By omitting the variable from discussion entirely"),
+    answer("By stating that we failed to find evidence of a relationship, noting the estimate and its uncertainty", correct = TRUE, message = "Properly reporting non-significant findings involves acknowledging that we didn't find evidence of a relationship, while noting the estimated effect and its uncertainty."),
+    answer("By retesting with different models until significance is achieved"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Practice: Interpreting a Full Regression Table
+
+Let's practice interpreting a complete regression table like those you would see in academic papers. Based on the WVS models we created earlier, write a short paragraph summarizing the key findings.
+
+```{r interpret-full-table, exercise=TRUE, exercise.lines=15}
+# Load the data
+wvs_data <- wvs %>% 
+  dplyr::select(pct_secondary, pct_some_univ, pct_univ_degree, 
+                pct_low_income, pct_high_income, pct_female, 
+                mean_lr, resemaval, sacsecval, moral, democrat) %>% 
+  na.omit() %>% 
+  mutate(pct_su_plus = pct_some_univ + pct_univ_degree)
+# Re-create our models for reference
+m1 <- lm(resemaval ~ pct_su_plus + democrat, data = wvs_data)
+m2 <- lm(resemaval ~ pct_high_income + democrat, data = wvs_data)
+m3 <- lm(resemaval ~ pct_female + democrat, data = wvs_data)
+m4 <- lm(resemaval ~ pct_su_plus + pct_high_income + pct_female + democrat, data = wvs_data)
+
+# Display a table of results for reference
+modelsummary(list(m1, m2, m3, m4),
+             title = "Predicting Emancipative Values",
+             stars = TRUE)
+
+# Your interpretation here:
+# Write a 5-7 sentence paragraph describing the key findings from these models,
+# focusing on the full model (m4) and what it tells us about the factors
+# associated with emancipative values across countries.
+
+```
+
+```{r interpret-full-table-solution}
+# Re-create our models for reference
+m1 <- lm(resemaval ~ pct_su_plus + democrat, data = wvs_data)
+m2 <- lm(resemaval ~ pct_high_income + democrat, data = wvs_data)
+m3 <- lm(resemaval ~ pct_female + democrat, data = wvs_data)
+m4 <- lm(resemaval ~ pct_su_plus + pct_high_income + pct_female + democrat, data = wvs_data)
+
+# Display a table of results for reference
+modelsummary(list(m1, m2, m3, m4),
+             title = "Predicting Emancipative Values",
+             stars = TRUE)
+
+# Example interpretation:
+# Table 1 presents four models predicting emancipative values across countries. Model 4, 
+# which includes all predictors, provides the most comprehensive picture, explaining about
+# 46% of the variance (R² = 0.459). Higher education levels (as measured by pct_su_plus) 
+# are associated with greater emancipative values (β = 0.064, p < 0.1), though this effect 
+# is smaller than in the bivariate model. The percentage of high-income individuals shows 
+# a positive relationship (β = 0.180, p < 0.05), suggesting economic development contributes 
+# to emancipative value formation. The percentage of females in the country also shows a 
+# positive association (β = 0.404, p < 0.05). History of democratic government, measured by democrat, 
+# consistently shows the strongest effect across all models (β = 0.115, p < 0.01 in Model 4),
+# indicating the robust relationship between democratic institutions and 
+# emancipative values, even after controlling for socioeconomic factors.
+```
+
+## Conclusion and Key Takeaways
+
+Here are some key points to remember:
+
+1. **Regression fundamentals**: OLS regression finds the line that minimizes the sum of squared residuals, producing a "best linear approximation" of the relationship between predictors and the outcome.
+
+2. **Model building**: Start with simple models and add complexity thoughtfully. Consider both theoretical justification and empirical fit when adding predictors.
+
+3. **Interpretation**: Coefficients represent the expected change in Y for a one-unit change in X, holding other variables constant. Pay attention to both the magnitude and statistical significance of effects.
+
+4. **Visualization**: Plotting regression models helps understand relationships and identify potential issues like non-linearity or outliers.
+
+5. **Model comparison**: Use fit statistics like R², AIC, and BIC to compare models, but always prioritize theoretical considerations over purely statistical ones.
+
+6. **Presentation**: Report results clearly and completely, including coefficients, standard errors, significance levels, and model fit statistics. Using packages like `stargazer` and `modelsummary` is a good way of producing more professional tables that are easier to interpret.

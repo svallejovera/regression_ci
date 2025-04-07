@@ -1,0 +1,8 @@
+# Tutorial 6: Regression Analysis and Interpretation
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial6/). This tutorial we'll deepen your understanding of regression models with some recall questions and complete-the-code tasks.
+
+
+

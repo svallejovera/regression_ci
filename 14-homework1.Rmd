@@ -1,0 +1,8 @@
+# Homework 1 Practice:
+
+## What is this practice about? {.unnumbered}
+
+You can access this practice by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/homework1/). This practice will cover topics included in Homework 1. 
+
+
+

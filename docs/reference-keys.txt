@@ -114,7 +114,13 @@ a.-increased-variation-in-mu
 b.-increased-variation-in-x-is-good
 c.-increased-sample-size-is-good
 tutorial-5-the-simple-regression-model-ii
-lecture-5-exercises
+homework-1-practice
+lecture-6-the-multiple-regression-model-ii
+introduction-5
+vignette-6.1
+vignette-6.2
+tutorial-6-regression-analysis-and-interpretation
+lecture-6-exercises
 how-to-nicely-display-model-results
 the-boring-ugly-way-base-r
 stargazer
@@ -141,7 +147,3 @@ for-both-model-1-and-model-2-write-the-equation-of-the-population-models.
 run-the-regressions-and-write-out-the-equations-for-the-estimated-regression-models.
 explain-what-the-coefficients-mean-in-both-models.-how-does-the-effect-of-age-differ-between-model-1-and-model-2
 which-of-the-models-better-explains-the-relationship-between-marketlib-and-age
-lecture-6-the-multiple-regression-model-ii
-introduction-5
-vignette-6.1
-vignette-6.2
