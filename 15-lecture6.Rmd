@@ -1,0 +1,109 @@
+# Lecture 6: The Multiple Regression Model II
+
+## Slides{.unnumbered}
+
+- 5 The Simple Regression Model ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/7_Multiple_Regression_Model_I.pptx)) 
+
+## Introduction
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=F, message=T, eval=T)
+library(ggpubr)
+library(tidyverse)
+```
+
+We continue studying the simple regression model. 
+
+```{r week7slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 7 The Multiple Regression Model."}
+knitr::include_graphics("slide/7_Multiple_Regression_Model_I.pdf")
+```
+
+## Vignette 6.1
+
+Once again, let's simulate some data.  Maybe we are interested in urban and rural towns (70% are urban) :
+
+```{r}
+df <- tibble(urban = sample(c(0,1),500,replace=T,prob=c(.3,.7))) %>%
+  ## Urban towns spend, on average, $3 million more on wages than rural towns
+  mutate(expen_wages = 3*urban+runif(500,min=0,max=4)) %>%
+  ## Urban towns are also have greater incomes (e.g., from taxes), but these are reduced by their high wage expenditures:
+  mutate(log_income = 1 + 2*urban - .3*expen_wages + rnorm(500,mean=2)) ## <- Population Eq.
+```
+
+Now we can estimate the effect of wage expenditure on income:
+
+```{r}
+model_a <- lm(log_income ~ expen_wages, data = df) 
+summary(model_a) 
+```
+
+Wait what? *(Interpret a log ~ level)*
+
+## Vignette 6.2
+
+Let's see... How can we remove everything from wages that is explained by urban? How can we remove everything from income that is explained by urban?
+
+```{r}
+df %>% group_by(urban) %>%
+  summarise(income_urb= mean(log_income)) 
+
+df %>% group_by(urban) %>% 
+  summarise(expen_wages_urb = mean(expen_wages))
+```
+
+The difference between what is explained by urban of income/expendinture (mean) and the observed value of income/expenditure is... 
+
+```{r}
+df <- df %>% group_by(urban) %>%
+  mutate(log_income_residual = log_income - mean(log_income),
+         expen_wages_residual = expen_wages - mean(expen_wages)) %>%
+  ungroup()
+```
+
+The residual... what is not explained by urban!!
+
+```{r}
+model_b <- lm(log_income_residual ~ expen_wages_residual, data = df) 
+summary(model_b) ### CLOSER!
+```
+
+Let's plot:
+
+```{r}
+A <- ggplot(df, aes(x=expen_wages,y=log_income)) +
+  geom_point() +
+  labs(title = "0. Relation between wages and income. Beta = 0.13") +
+  geom_smooth(method = "lm") +
+  xlim(c(-3,7)) + ylim(c(-3,6))
+A
+
+B <- ggplot(df, aes(x=expen_wages,y=log_income,color = factor(urban))) +
+  geom_point() +
+  labs(title = "1. Relation between wages and income divided by urban.") +
+  xlim(c(-3,7)) + ylim(c(-3,6))
+B
+
+C <- ggplot(df, aes(x=expen_wages_residual,y=log_income,color = factor(urban))) +
+  geom_point() +
+  labs(title = "2. We remove the difference of wages explained by urban.")+
+  xlim(c(-3,7)) + ylim(c(-3,6))
+C
+
+D <- ggplot(df, aes(x=expen_wages_residual,y=log_income_residual,color = factor(urban))) +
+  geom_point() +
+  labs(title = "3. We remove the difference of income explained by urban.")+
+  xlim(c(-3,7)) + ylim(c(-3,6))
+D
+
+E <- ggplot(df, aes(expen_wages_residual,y=log_income_residual)) +
+  geom_point() +
+  labs(title = "4. We analize what is left. Beta = -0.22") +
+  geom_smooth(method = "lm")+
+  xlim(c(-3,7)) + ylim(c(-3,6))
+E
+
+ggarrange(A,B,C,D,E,
+          common.legend = T,
+          ncol = 2,
+          nrow = 3)
+```

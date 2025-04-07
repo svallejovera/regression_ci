@@ -3,6 +3,7 @@ fig:week3slides
 fig:week4slides
 fig:week5slides
 fig:week6slides
+fig:week7slides
 about-tutorials
 prerequisites
 running-a-tutorial
@@ -104,7 +105,7 @@ q6.-explain-what-might-be-in-the-u-term-of-the-model
 bonus-content
 looking-inside-model-objects
 how-se-t-and-p-are-calculated
-lecture-5-the-simple-regression-model-i
+lecture-5-the-simple-regression-model-ii
 introduction-4
 vignette-5.1
 theorem-slr.1-unbiasedness-of-ols
@@ -140,5 +141,7 @@ for-both-model-1-and-model-2-write-the-equation-of-the-population-models.
 run-the-regressions-and-write-out-the-equations-for-the-estimated-regression-models.
 explain-what-the-coefficients-mean-in-both-models.-how-does-the-effect-of-age-differ-between-model-1-and-model-2
 which-of-the-models-better-explains-the-relationship-between-marketlib-and-age
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-lecture-5-the-simple-regression-model-ii
+lecture-6-the-multiple-regression-model-ii
+introduction-5
+vignette-6.1
+vignette-6.2

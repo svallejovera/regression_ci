@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo=TRUE, warning=F, message=T, eval=T)
 
 We continue studying the simple regression model. 
   
-```{r week6slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 4 The Simple Regression Model I."}
+```{r week6slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 4 The Simple Regression Model II."}
 knitr::include_graphics("slide/6_Simple_Regression_Model_II.pdf")
 ```
 

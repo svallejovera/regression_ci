@@ -54,9 +54,10 @@
 <li><a class="" href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
 <li><a class="" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
 <li><a class="" href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></li>
-<li><a class="" href="lecture-5-the-simple-regression-model-i.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model I</a></li>
+<li><a class="" href="lecture-5-the-simple-regression-model-ii.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></li>
 <li><a class="" href="tutorial-5-the-simple-regression-model-ii.html"><span class="header-section-number">13</span> Tutorial 5: The Simple Regression Model II</a></li>
 <li><a class="active" href="lecture-5-exercises.html"><span class="header-section-number">14</span> Lecture 5 Exercises</a></li>
+<li><a class="" href="lecture-6-the-multiple-regression-model-ii.html"><span class="header-section-number">15</span> Lecture 6: The Multiple Regression Model II</a></li>
 </ul>
 
         <div class="book-extra">
@@ -75,7 +76,7 @@
 </h2>
 <p>If we want to display models in a more aesthetically-pleasing format than with the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command, we have a few options.</p>
 <p>Let’s start by running some models.</p>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage1"</span><span class="op">)</span></span>
 <span><span class="va">wage_mod1</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span> <span class="op">+</span> <span class="va">exper</span>, data<span class="op">=</span><span class="va">wage1</span><span class="op">)</span></span>
@@ -85,7 +86,7 @@
 <h3>
 <span class="header-section-number">14.1.1</span> The boring, ugly way (Base <code>R</code>)<a class="anchor" aria-label="anchor" href="#the-boring-ugly-way-base-r"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage_mod1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -106,7 +107,7 @@
 ## Residual standard error: 3.257 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
 ## F-statistic: 75.99 on 2 and 523 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage_mod1a</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -127,7 +128,7 @@
 ## Residual standard error: 325.7 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
 ## F-statistic: 75.99 on 2 and 523 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage_mod2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -153,14 +154,9 @@
 <span class="header-section-number">14.1.2</span> <code>{stargazer}</code><a class="anchor" aria-label="anchor" href="#stargazer"><i class="fas fa-link"></i></a>
 </h3>
 <p>The easiest is to use the <code>{stargazer}</code> package and its eponymously-named function. This package is easy enough, flexible enough, but, unfortunately, no longer maintained.</p>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Please cite as:</code></pre>
-<pre><code>##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
-<pre><code>##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer</code></pre>
-<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html">stargazer</a></span><span class="op">(</span><span class="va">wage_mod1</span>, <span class="va">wage_mod1a</span>, <span class="va">wage_mod2</span>,</span>
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html">stargazer</a></span><span class="op">(</span><span class="va">wage_mod1</span>, <span class="va">wage_mod1a</span>, <span class="va">wage_mod2</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"Modeling wage versus education and experience"</span>,</span>
 <span>          type <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -195,27 +191,9 @@
 <span class="header-section-number">14.1.3</span> <code>{modelsummary}</code><a class="anchor" aria-label="anchor" href="#modelsummary"><i class="fas fa-link"></i></a>
 </h3>
 <p>We can also use the package <a href="https://modelsummary.com">modelsummary</a> and its function <code><a href="https://modelsummary.com/man/msummary.html">msummary()</a></code>. This package is a little more involved, but produces a more flexible output, works with a wider variety of models, and is actively maintained.</p>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `modelsummary` 2.0.0 now uses `tinytable` as its default table-drawing backend. Learn more at:
-##   https://vincentarelbundock.github.io/tinytable/
-## 
-## Revert to `kableExtra` for one session:
-## 
-##   options(modelsummary_factory_default = 'kableExtra')
-##   options(modelsummary_factory_latex = 'kableExtra')
-##   options(modelsummary_factory_html = 'kableExtra')
-## 
-## Silence this message forever:
-## 
-##   config_modelsummary(startup_message = FALSE)</code></pre>
-<pre><code>## 
-## Attaching package: 'modelsummary'</code></pre>
-<pre><code>## The following object is masked from 'package:psych':
-## 
-##     SD</code></pre>
-<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://modelsummary.com/man/msummary.html">msummary</a></span><span class="op">(</span>models <span class="op">=</span> <span class="fu"><a href="https://modelsummary.com/man/dvnames.html">dvnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">wage_mod1</span>, <span class="va">wage_mod1a</span>, <span class="va">wage_mod2</span><span class="op">)</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/msummary.html">msummary</a></span><span class="op">(</span>models <span class="op">=</span> <span class="fu"><a href="https://modelsummary.com/man/dvnames.html">dvnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">wage_mod1</span>, <span class="va">wage_mod1a</span>, <span class="va">wage_mod2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>         statistic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"std.error"</span>, <span class="st">"p.value"</span><span class="op">)</span>,</span>
 <span>         stars <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>         title <span class="op">=</span> <span class="st">"Modeling wage versus education and experience"</span>,</span>
@@ -225,14 +203,14 @@
   
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tinytable_9s057nccheelaqs4hhnj</title>
+<title>tinytable_76jwgj0mx1wgbgvb6coa</title>
 <style>
-.table td.tinytable_css_kojhmya9hd6dc9lchpon, .table th.tinytable_css_kojhmya9hd6dc9lchpon {    border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_xyillnn7thusfcbhecp7, .table th.tinytable_css_xyillnn7thusfcbhecp7 {    text-align: left; }
-.table td.tinytable_css_5r6iiorrmar09q16cxpp, .table th.tinytable_css_5r6iiorrmar09q16cxpp {    text-align: center; }
-.table td.tinytable_css_vecwggkod8rtspl4herq, .table th.tinytable_css_vecwggkod8rtspl4herq {    text-align: center; }
-.table td.tinytable_css_vhs7ow7fx61a6bgga2bm, .table th.tinytable_css_vhs7ow7fx61a6bgga2bm {    text-align: center; }
-.table td.tinytable_css_095v7zdtil7cf17jwmck, .table th.tinytable_css_095v7zdtil7cf17jwmck {    border-bottom: solid 0.05em black; }
+.table td.tinytable_css_x2woddpkxxk88ugeohis, .table th.tinytable_css_x2woddpkxxk88ugeohis {    border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_678kwsz7z9lln6leyssg, .table th.tinytable_css_678kwsz7z9lln6leyssg {    text-align: left; }
+.table td.tinytable_css_24q9hpyo1403btztflkv, .table th.tinytable_css_24q9hpyo1403btztflkv {    text-align: center; }
+.table td.tinytable_css_twgeu3g1y9venpslq37q, .table th.tinytable_css_twgeu3g1y9venpslq37q {    text-align: center; }
+.table td.tinytable_css_vmcrzrpsta55fo65fb3i, .table th.tinytable_css_vmcrzrpsta55fo65fb3i {    text-align: center; }
+.table td.tinytable_css_ixb2cuhnb8z8w4vsivim, .table th.tinytable_css_ixb2cuhnb8z8w4vsivim {    border-bottom: solid 0.05em black; }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
     MathJax = {
@@ -244,7 +222,7 @@
       }
     };
     </script><div class="container">
-      <div class="inline-table"><table class="table table-borderless" id="tinytable_9s057nccheelaqs4hhnj" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_76jwgj0mx1wgbgvb6coa" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Modeling wage versus education and experience</caption>
               <tr>
@@ -373,12 +351,12 @@
 </div>
 
     <script>
-      function styleCell_tinytable_krf8sdkt7yvhm49g575j(i, j, css_id) {
-        var table = document.getElementById("tinytable_9s057nccheelaqs4hhnj");
+      function styleCell_tinytable_klgax6ym8m8n5ewzad35(i, j, css_id) {
+        var table = document.getElementById("tinytable_76jwgj0mx1wgbgvb6coa");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_9s057nccheelaqs4hhnj');
+        var table = document.getElementById('tinytable_76jwgj0mx1wgbgvb6coa');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -386,8 +364,8 @@
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_tinytable_krf8sdkt7yvhm49g575j(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_9s057nccheelaqs4hhnj");
+      function spanCell_tinytable_klgax6ym8m8n5ewzad35(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_76jwgj0mx1wgbgvb6coa");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -414,86 +392,86 @@
         targetCell.colSpan = colspan;
       }
 
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 0, 'tinytable_css_kojhmya9hd6dc9lchpon') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 1, 'tinytable_css_kojhmya9hd6dc9lchpon') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 2, 'tinytable_css_kojhmya9hd6dc9lchpon') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 3, 'tinytable_css_kojhmya9hd6dc9lchpon') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(1, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(2, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(3, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(4, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(5, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(6, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(7, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(8, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(10, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(11, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(12, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(13, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(14, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(15, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(16, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(17, 0, 'tinytable_css_xyillnn7thusfcbhecp7') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(1, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(2, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(3, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(4, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(5, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(6, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(7, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(8, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(10, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(11, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(12, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(13, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(14, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(15, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(16, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(17, 1, 'tinytable_css_5r6iiorrmar09q16cxpp') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(1, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(2, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(3, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(4, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(5, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(6, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(7, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(8, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(10, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(11, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(12, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(13, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(14, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(15, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(16, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(17, 2, 'tinytable_css_vecwggkod8rtspl4herq') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(0, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(1, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(2, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(3, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(4, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(5, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(6, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(7, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(8, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(10, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(11, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(12, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(13, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(14, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(15, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(16, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(17, 3, 'tinytable_css_vhs7ow7fx61a6bgga2bm') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 0, 'tinytable_css_095v7zdtil7cf17jwmck') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 1, 'tinytable_css_095v7zdtil7cf17jwmck') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 2, 'tinytable_css_095v7zdtil7cf17jwmck') })
-window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm49g575j(9, 3, 'tinytable_css_095v7zdtil7cf17jwmck') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 0, 'tinytable_css_x2woddpkxxk88ugeohis') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 1, 'tinytable_css_x2woddpkxxk88ugeohis') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 2, 'tinytable_css_x2woddpkxxk88ugeohis') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 3, 'tinytable_css_x2woddpkxxk88ugeohis') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(1, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(2, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(3, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(4, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(5, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(6, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(7, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(8, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(10, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(11, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(12, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(13, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(14, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(15, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(16, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(17, 0, 'tinytable_css_678kwsz7z9lln6leyssg') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(1, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(2, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(3, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(4, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(5, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(6, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(7, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(8, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(10, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(11, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(12, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(13, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(14, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(15, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(16, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(17, 1, 'tinytable_css_24q9hpyo1403btztflkv') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(1, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(2, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(3, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(4, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(5, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(6, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(7, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(8, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(10, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(11, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(12, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(13, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(14, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(15, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(16, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(17, 2, 'tinytable_css_twgeu3g1y9venpslq37q') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(0, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(1, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(2, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(3, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(4, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(5, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(6, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(7, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(8, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(10, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(11, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(12, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(13, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(14, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(15, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(16, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(17, 3, 'tinytable_css_vmcrzrpsta55fo65fb3i') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 0, 'tinytable_css_ixb2cuhnb8z8w4vsivim') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 1, 'tinytable_css_ixb2cuhnb8z8w4vsivim') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 2, 'tinytable_css_ixb2cuhnb8z8w4vsivim') })
+window.addEventListener('load', function () { styleCell_tinytable_klgax6ym8m8n5ewzad35(9, 3, 'tinytable_css_ixb2cuhnb8z8w4vsivim') })
     </script><hr>
 </div>
 </div>
@@ -508,17 +486,17 @@ window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm4
 <p><strong>Quadratics</strong> on the right-hand-side (<em>RHS</em>) of a regression equation are useful for capturing non-linear relationships, especially when that relationship is <em>non-monotonic</em>.</p>
 <p>When a function is <em>non-monotonic</em>, it means that it switches direction (either positive to negative or negative to positive).</p>
 <p>We’ll demonstrate this by modelling feelings towards the Liberal Party of Canada and market liberalism.</p>
-<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 ##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
-<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_lib</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 ##    0.00   16.00   54.00   48.34   77.00  100.00    2640</code></pre>
-<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ces</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">feel_lib</span>, y <span class="op">=</span> <span class="va">marketlib</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -528,7 +506,7 @@ window.addEventListener('load', function () { styleCell_tinytable_krf8sdkt7yvhm4
 <span>              color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-122-1.png" width="672"></div>
-<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feel1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">feel_lib</span> <span class="op">~</span> <span class="va">marketlib</span>, data <span class="op">=</span> <span class="va">ces</span><span class="op">)</span></span>
 <span><span class="va">feel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">feel_lib</span> <span class="op">~</span> <span class="va">marketlib</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">marketlib</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ces</span><span class="op">)</span></span>
 <span></span>
@@ -598,7 +576,7 @@ x\star &amp;= -1.513889
 <p><strong>Logarithms</strong> are useful on both the right- (predictor) and left-hand-side (outcome) of regression equations.</p>
 <p>The log of <span class="math inline">\(X\)</span> is useful when that predictor has large effects on <span class="math inline">\(Y\)</span> at low levels of <span class="math inline">\(X\)</span> but smaller effects at higher levels of <span class="math inline">\(X\)</span>.</p>
 <p>It can also be useful in the converse situation.</p>
-<div class="sourceCode" id="cb362"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">carData</a></span><span class="op">)</span></span>
@@ -612,7 +590,7 @@ x\star &amp;= -1.513889
 ##  Mean   :10.738   Mean   : 6798   Mean   :28.979   Mean   :46.83   Mean   :5402   NA's: 4  
 ##  3rd Qu.:12.648   3rd Qu.: 8187   3rd Qu.:52.203   3rd Qu.:59.27   3rd Qu.:8312            
 ##  Max.   :15.970   Max.   :25879   Max.   :97.510   Max.   :87.20   Max.   :9517</code></pre>
-<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">Prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">income</span>, y <span class="op">=</span> <span class="va">prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -620,7 +598,7 @@ x\star &amp;= -1.513889
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"prestige ~ income"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-123-1.png" width="672"></div>
-<div class="sourceCode" id="cb366"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prest1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">prestige</span> <span class="op">~</span> <span class="va">income</span>, data <span class="op">=</span> <span class="va">Prestige</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">prest1</span><span class="op">)</span></span></code></pre></div>
@@ -646,7 +624,7 @@ x\star &amp;= -1.513889
 <p>For every increase in income of $1, prestige increases by about 0.002897 points on a scale from 14 to 87 points.</p>
 <p>Alternatively, for every increase in $1000, prestige increases by about 2.9 points (0.002897 * 1000 = 2.897).</p>
 <p><strong>BUT</strong>…, is the relationship actually linear?</p>
-<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">Prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">income</span>, y <span class="op">=</span> <span class="va">prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -657,7 +635,7 @@ x\star &amp;= -1.513889
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-124-1.png" width="672"></div>
 <p>It looks like a logarithmic function might work better, so let’s try that.</p>
 <p>To make the coefficients easier to interpret, we’ll make a new variable that is a transformation of income, but measured in thousands.</p>
-<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Prestige</span><span class="op">$</span><span class="va">income1000</span> <span class="op">&lt;-</span> <span class="va">Prestige</span><span class="op">$</span><span class="va">income</span> <span class="op">/</span> <span class="fl">1000</span></span>
 <span><span class="va">prest1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">prestige</span> <span class="op">~</span> <span class="va">income1000</span>, data <span class="op">=</span> <span class="va">Prestige</span><span class="op">)</span></span>
 <span><span class="va">prest2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">prestige</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">income1000</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Prestige</span><span class="op">)</span></span>
@@ -715,7 +693,7 @@ x\star &amp;= -1.513889
 <li>For every increase in income of $1 (thousand), prestige increases 6.2% (i.e. <span class="math inline">\(100 * \hat\beta_1 = 0.062/100 == 6.2\%\)</span>).</li>
 <li>For every 1% increase in income (in thousands), prestige increases by 0.499%.</li>
 </ol>
-<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">Prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">income</span>, y <span class="op">=</span> <span class="va">prestige</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -740,16 +718,10 @@ x\star &amp;= -1.513889
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"log(prestige) ~ log(income)"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Attaching package: 'ggpubr'</code></pre>
-<pre><code>## The following objects are masked from 'package:tidylog':
-## 
-##     group_by, mutate</code></pre>
-<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 ## `geom_smooth()` using formula = 'y ~ x'
 ## `geom_smooth()` using formula = 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-126-1.png" width="672"></div>
@@ -760,7 +732,7 @@ x\star &amp;= -1.513889
 <span class="header-section-number">14.2.3</span> Automobile performance (logarithms)<a class="anchor" aria-label="anchor" href="#automobile-performance-logarithms"><i class="fas fa-link"></i></a>
 </h3>
 <p>This is another exercise using the the <em>mtcars</em> dataset from the <code>carData</code> package. We’ll model quarter-mile time (<em>qsec</em>) as a function of horsepower (<em>hp</em>).</p>
-<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
@@ -780,7 +752,7 @@ x\star &amp;= -1.513889
 ##  Mean   :0.4375   Mean   :0.4062   Mean   :3.688   Mean   :2.812  
 ##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
 ##  Max.   :1.0000   Max.   :1.0000   Max.   :5.000   Max.   :8.000</code></pre>
-<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hpqsec1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">qsec</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">hpqsec2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">qsec</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">hpqsec3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">qsec</span><span class="op">)</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
@@ -813,7 +785,7 @@ x\star &amp;= -1.513889
 ## F Statistic (df = 1; 30)      30.190*** 26.514*** 33.882*** 28.575***
 ## =====================================================================
 ## Note:                                     *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-<div class="sourceCode" id="cb382"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hp</span>, y <span class="op">=</span> <span class="va">qsec</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -822,14 +794,14 @@ x\star &amp;= -1.513889
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"qsec ~ hp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-129-1.png" width="672"></div>
-<div class="sourceCode" id="cb384"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">hp</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">qsec</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"log(qsec) ~ hp"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-129-2.png" width="672"></div>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">qsec</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -882,7 +854,7 @@ x\star &amp;= -1.513889
 <span class="header-section-number">14.6.1</span> Q1. Estimate the regression equation of the number of children on education, age of the mother, and electricity.<a class="anchor" aria-label="anchor" href="#q1.-estimate-the-regression-equation-of-the-number-of-children-on-education-age-of-the-mother-and-electricity."><i class="fas fa-link"></i></a>
 </h3>
 <p>Before I begin, I’m going to make a data frame that only contains the variables I need and then listiwise delete all NAs. This will make it easier to run the diagnostic tests.</p>
-<div class="sourceCode" id="cb386"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span>
@@ -892,7 +864,7 @@ x\star &amp;= -1.513889
 <pre><code>## select: dropped 23 variables (mnthborn, yearborn, radio, tv, bicycle, …)</code></pre>
 <p>Our population model is:</p>
 <p><span class="math display">\[children = \beta_0 + \beta_1educ + \beta_2age + \beta_3electric + u\]</span></p>
-<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="va">fertil2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'fertil2'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
@@ -939,15 +911,15 @@ R^2 = 0.562\]</span></p>
 <span class="header-section-number">14.6.3</span> Q3. Verify that sample covariance between predicted values and residuals = 0.<a class="anchor" aria-label="anchor" href="#q3.-verify-that-sample-covariance-between-predicted-values-and-residuals-0."><i class="fas fa-link"></i></a>
 </h3>
 <p>There are two ways to do this. Mathematically, we can use the <code><a href="https://rdrr.io/r/stats/cor.html">cov()</a></code> command with the fitted values and residuals as inputs into the function.</p>
-<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">$</span><span class="va">fitted.values</span>, <span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] -3.381377e-16</code></pre>
-<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html">fitted</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] -3.381377e-16</code></pre>
 <p>While the covariance is not <em>exactly</em> 0, the number is so small, it is basically zero.</p>
 <p>Note, finding the <em>correlation</em> between fitted values and residuals gets us to the same answer because a correlation coefficient is simply a mathematical transformation of the covariance that bounds the result to [-1,1].</p>
-<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">$</span><span class="va">fitted.values</span>, <span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  Pearson's product-moment correlation
@@ -963,12 +935,12 @@ R^2 = 0.562\]</span></p>
 <p>You might remember from earlier stats classes that</p>
 <p><span class="math display">\[correlation = \frac{covariance(x,y)}{\sigma_x \sigma_y}\]</span></p>
 <p>So, the result of calculating the above equation manually should equal that of using the <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> command</p>
-<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">$</span><span class="va">fitted.values</span>, <span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">$</span><span class="va">fitted.values</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] -1.380524e-16</code></pre>
 <p>We can also confirm that there is no relationship between the fitted values and residuals by plotting them.</p>
 <p><em>(This is called a “residual versus fitted/predicted plot” and is a very useful tool in diagnosing models for potential problems like non-linearity, heteroskedasticity, and outliers. )</em></p>
-<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fmod1</span><span class="op">$</span><span class="va">fitted.values</span>, y <span class="op">=</span> <span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span> <span class="op">+</span></span>
@@ -985,12 +957,12 @@ R^2 = 0.562\]</span></p>
 <span class="header-section-number">14.6.4</span> Q4. Verify that sample covariance between education and residuals = 0.<a class="anchor" aria-label="anchor" href="#q4.-verify-that-sample-covariance-between-education-and-residuals-0."><i class="fas fa-link"></i></a>
 </h3>
 <p>We’ll do the same here as we did with the fitted versus residuals. First, we’ll use <code>R</code> to calculate the covariance.</p>
-<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">educ</span>, <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">fmod1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1.216786e-15</code></pre>
 <p>As with before, this number is not <em>exactly</em> zero, but it is basically zero.</p>
 <p>We can confirm this with visual inspection.</p>
-<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">educ</span>, y <span class="op">=</span> <span class="va">fmod1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1008,7 +980,7 @@ R^2 = 0.562\]</span></p>
 <p>Our population model is:</p>
 <p><span class="math display">\[children = \beta_0 + \beta_1educ + \beta_2age + \beta_3age^2 + \beta_4electric + u\]</span></p>
 <p>To include <span class="math inline">\(age^2\)</span> in the model, we can enclose it in parentheses and preface it with a capital “I” (i.e. <code>I(age^2)</code>). This tells the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> command to calculate whatever is inside <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code>.</p>
-<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fmod2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">children</span> <span class="op">~</span> <span class="va">educ</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="va">electric</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fmod2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -1047,7 +1019,7 @@ R^2 = 0.572\]</span></p>
 </h3>
 <p>Our population model is:</p>
 <p><span class="math display">\[wage = \beta_0 + \beta_1educ + \beta_2exper + u\]</span></p>
-<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage1"</span><span class="op">)</span></span>
 <span><span class="va">wage_mod1</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span> <span class="op">+</span> <span class="va">exper</span>, data<span class="op">=</span><span class="va">wage1</span><span class="op">)</span></span>
@@ -1098,7 +1070,7 @@ R^2 = 0.225\]</span></p>
 \hat{wage_{cents}} &amp;= -339.1 - 64.4educ + 7.0exper \\
 \end{aligned}\]</span></p>
 <p>To confirm, let’s convert the <span class="math inline">\(wage\)</span> variable to cents and run the model again.</p>
-<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wage_mod1a</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">wage</span><span class="op">*</span><span class="fl">100</span><span class="op">)</span> <span class="op">~</span> <span class="va">educ</span> <span class="op">+</span> <span class="va">exper</span>, data<span class="op">=</span><span class="va">wage1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage_mod1a</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -1127,7 +1099,7 @@ R^2 = 0.225\]</span></p>
 </h3>
 <p>This population model is:</p>
 <p><span class="math display">\[wage = \beta_0 + \beta_1educ + u\]</span></p>
-<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wage_mod2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span>, data<span class="op">=</span><span class="va">wage1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wage_mod2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -1156,7 +1128,7 @@ R^2 = 0.165\]</span></p>
 <p>This shows that omitted variable bias does not always result in the overestimation of coefficients, but can also cause them to be <em>underestimated</em>.</p>
 <p>Looking at the scatterplot <span class="math inline">\(wage\)</span> versus <span class="math inline">\(educ\)</span>, colour-coded by <span class="math inline">\(exper\)</span> gives some hints as to why we see this pattern. In the lower left-hand corner (i.e. low education and low wage), we see the greatest concentration of high to very high experience (green to yellow) versus other parts of the map. These could be older folks with lower levels of (formal) education and work in lower-paying “lower-skill” jobs.</p>
 <p>While we see a clump of points that have low levels of experience (purple) in the lower left-hand corner, most of the the purple point tend to be above the simple bivariate regression line, which means they are outperforming what we would expect what we would expect in the model that does not account of experience.</p>
-<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">wage</span>, y<span class="op">=</span><span class="va">educ</span>, color<span class="op">=</span><span class="va">exper</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position<span class="op">=</span><span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1178,28 +1150,28 @@ R^2 = 0.165\]</span></p>
 <p>There’s an old saying (often attributed to Winston Churchill) that says, “If you are not a liberal when you are young, you have no heart. If you are not a conservative when you are old, you have no brain.” And, yet there have been activist left-wing groups comprised of seniors, like the Raging Grannies.</p>
 <p>Using our sample CES dataset, explore the relationship between Canadians’ support for free market principles (<span class="math inline">\(marketlib\)</span>) and age (<span class="math inline">\(age\)</span>)? Is there is a relationship? If so, is it <em>linear</em>?</p>
 <p>We’re going to run two regression models. Model 1 will regress <span class="math inline">\(marketlib\)</span> on <span class="math inline">\(age\)</span>, while controlling for <span class="math inline">\(gender\)</span>. Model 2 will be the same as Model 1, except it will also include the quadratic term for <span class="math inline">\(age\)</span> (i.e. <span class="math inline">\(age^2\)</span>).</p>
-<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span></code></pre></div>
 <p>Before we begin, it’s useful to look at the univariate distributions of out variables. Besides letting us know of missing values, it also helps with interpreting the substantive significance of any relationships we find.</p>
-<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 ##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
-<div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3.519915</code></pre>
-<div class="sourceCode" id="cb419"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    18.0    35.0    49.0    48.7    62.0    99.0</code></pre>
-<div class="sourceCode" id="cb421"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 16.60883</code></pre>
-<div class="sourceCode" id="cb423"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##   Man Woman  NA's 
 ## 15517 21928   288</code></pre>
-<div class="sourceCode" id="cb425"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##       Man     Woman 
@@ -1221,7 +1193,7 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 <h3>
 <span class="header-section-number">14.7.2</span> 2. Run the regressions and write out the equations for the estimated regression models.<a class="anchor" aria-label="anchor" href="#run-the-regressions-and-write-out-the-equations-for-the-estimated-regression-models."><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb427"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">marketmod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">marketlib</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">ces</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">marketmod1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -1247,7 +1219,7 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 <p>Our regression equation for Model 1 is:</p>
 <p><span class="math display">\[\hat{marketlib} = 8.309 - 0.855gender + 0.014age\]</span>
 <span class="math display">\[n = 5025 \\ R^2 = 0.021 \]</span></p>
-<div class="sourceCode" id="cb429"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">marketmod2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">marketlib</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">ces</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">marketmod2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -1310,15 +1282,9 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 </div>
 </div>
 </div>
-
-
-
-
-
-
   <div class="chapter-nav">
 <div class="prev"><a href="tutorial-5-the-simple-regression-model-ii.html"><span class="header-section-number">13</span> Tutorial 5: The Simple Regression Model II</a></div>
-<div class="empty"></div>
+<div class="next"><a href="lecture-6-the-multiple-regression-model-ii.html"><span class="header-section-number">15</span> Lecture 6: The Multiple Regression Model II</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -1377,7 +1343,7 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-03-24.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-04-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
