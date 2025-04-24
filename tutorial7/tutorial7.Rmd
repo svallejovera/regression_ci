@@ -1,0 +1,570 @@
+---
+title: "Tutorial 7: Multiple Regression Analysis"
+author: "Hugo Machado, Sebastián Vallejo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(wooldridge)
+library(causaldata)
+library(modelsummary)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load the data we'll use for exercises
+data("wage1")
+```
+
+## Introduction
+
+*This tutorial was created by [Hugo Machado](https://ca.linkedin.com/in/hugo-coimbra-machado/en)* (with minor adaptations from me).
+
+
+### What is Multiple Regression?
+
+Multiple regression analysis allows us to estimate the effect of several factors on a dependent variable, all at once. 
+
+In Wooldridge's words:
+
+> "Multiple regression analysis is more amenable to ceteris paribus analysis because it allows us to explicitly control for many other factors that simultaneously affect the dependent variable."
+
+The general multiple linear regression model can be written as:
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_k x_k + u$$
+
+where:
+- $y$ is the dependent variable
+- $x_1, x_2, ..., x_k$ are the independent variables
+- $\beta_0, \beta_1, \beta_2, ..., \beta_k$ are the unknown parameters
+- $u$ is the error term
+
+```{r multiple-regression-quiz, echo=FALSE}
+quiz(
+  question("What is the primary advantage of multiple regression over simple regression?",
+    answer("It always produces higher R-squared values"),
+    answer("It allows us to control for many factors that simultaneously affect the dependent variable", correct = TRUE),
+    answer("It eliminates all bias in parameter estimation"),
+    answer("It requires fewer observations to estimate"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("When we say a multiple regression model provides estimates 'holding other factors fixed', we mean:",
+    answer("The data must be collected in a way that keeps other variables constant"),
+    answer("We're estimating the effect of changing one variable while controlling for the effects of other variables in the model", correct = TRUE),
+    answer("We're assuming all other variables have no effect on the dependent variable"),
+    answer("We're keeping the coefficients of other variables constant across different model specifications"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+### The Gauss-Markov Assumptions for Multiple Regression
+
+The Gauss-Markov assumptions ensure that OLS estimators are the Best Linear Unbiased Estimators (BLUE).
+
+Here are the five assumptions:
+
+1. **MLR.1: Linear in Parameters** - The model can be written as $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_k x_k + u$
+
+2. **MLR.2: Random Sampling** - We have a random sample of n observations from the population
+
+3. **MLR.3: No Perfect Collinearity** - No independent variable is a perfect linear combination of the others
+
+4. **MLR.4: Zero Conditional Mean** - The error term has an expected value of zero given any values of the independent variables: $E(u|x_1, x_2, ..., x_k) = 0$
+
+5. **MLR.5: Homoskedasticity** - The error term has the same variance given any values of the independent variables: $Var(u|x_1, x_2, ..., x_k) = \sigma^2$
+
+```{r gauss-markov-quiz, echo=FALSE}
+quiz(
+  question("Which of the following is NOT one of the Gauss-Markov assumptions?",
+    answer("Linear in Parameters"),
+    answer("Random Sampling"),
+    answer("The error term follows a normal distribution", correct = TRUE),
+    answer("Zero Conditional Mean"),
+    answer("Homoskedasticity"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What does 'No Perfect Collinearity' mean?",
+    answer("All independent variables must be uncorrelated with each other"),
+    answer("No independent variable can be constant across all observations"),
+    answer("No independent variable can be a perfect linear combination of the others", correct = TRUE),
+    answer("All independent variables must have the same scale"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  
+  question("What does the 'Zero Conditional Mean' assumption imply?",
+    answer("The average of the error term is exactly zero in any sample"),
+    answer("The average value of the dependent variable is zero"),
+    answer("The average error is zero, regardless of the values of the independent variables", correct = TRUE),
+    answer("The error term is always zero when all independent variables are zero"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Properties of OLS Estimators
+
+### Unbiasedness of OLS
+
+Under assumptions MLR.1 through MLR.4, the OLS estimators are unbiased, meaning:
+
+$$E(\hat{\beta}_j) = \beta_j \text{ for all } j = 0, 1, 2, ..., k$$
+
+This means that, on average (across all possible random samples), the OLS estimators equal the population parameters.
+
+### The Variance of OLS Estimators
+
+Under all five Gauss-Markov assumptions (MLR.1-MLR.5), the variance of an OLS slope estimator is:
+
+$$Var(\hat{\beta}_j) = \frac{\sigma^2}{SST_j(1-R_j^2)}$$
+
+where:
+- $\sigma^2$ is the error variance
+- $SST_j$ is the total sample variation in $x_j$
+- $R_j^2$ is the R-squared from regressing $x_j$ on all other independent variables
+
+This variance formula reveals these important insights:
+
+1. The variance increases with the error variance $\sigma^2$
+2. The variance decreases as sample variation in $x_j$ increases
+3. The variance increases with the degree of multicollinearity (as $R_j^2$ approaches 1)
+
+```{r ols-properties-quiz, echo=FALSE}
+quiz(
+  question("Under which assumptions are the OLS estimators unbiased?",
+    answer("MLR.1 through MLR.3"),
+    answer("MLR.1 through MLR.4", correct = TRUE),
+    answer("MLR.1 through MLR.5"),
+    answer("Only MLR.4 and MLR.5"),
+    allow_retry = TRUE
+  ),
+  
+  question("What happens to the variance of an OLS estimator when multicollinearity increases?",
+    answer("The variance decreases"),
+    answer("The variance stays the same"),
+    answer("The variance increases", correct = TRUE),
+    answer("The effect on variance depends on sample size"),
+    allow_retry = TRUE
+  ),
+  
+  question("The Gauss-Markov theorem states that under the five Gauss-Markov assumptions, OLS estimators are:",
+    answer("Always consistent"),
+    answer("Normally distributed"),
+    answer("The Best Linear Unbiased Estimators (BLUE)", correct = TRUE),
+    answer("Always efficient regardless of the error distribution"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Interpreting Multiple Regression
+
+### Partial Effects and Ceteris Paribus Interpretation
+
+In a multiple regression model:
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_k x_k + u$$
+
+$\beta_j$ represents the **partial effect** of $x_j$ on $y$, holding all other independent variables fixed.
+
+For example, in the model:
+
+$$wage = \beta_0 + \beta_1 educ + \beta_2 exper + \beta_3 tenure + u$$
+
+$\beta_1$ measures the change in wage associated with one more year of education, holding experience and tenure fixed.
+
+### R-squared and Goodness-of-fit
+
+The R-squared ($R^2$) represents the proportion of the sample variation in the dependent variable that is explained by the independent variables:
+
+$$R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}$$
+
+where:
+- SST = Total Sum of Squares = $\sum_{i=1}^n (y_i - \bar{y})^2$
+- SSE = Explained Sum of Squares = $\sum_{i=1}^n (\hat{y}_i - \bar{y})^2$
+- SSR = Residual Sum of Squares = $\sum_{i=1}^n \hat{u}_i^2$
+
+```{r interpretation-quiz, echo=FALSE}
+quiz(
+  question("In the wage equation: wage = β₀ + β₁×educ + β₂×exper + β₃×tenure + u, what is the interpretation of β₁?",
+    answer("The average wage for someone with one year of education"),
+    answer("The percentage increase in wage from one more year of education"),
+    answer("The change in wage given one more year of education, holding experience and tenure fixed", correct = TRUE),
+    answer("The correlation between education and wage"),
+    allow_retry = TRUE
+  ),
+  
+  question("If R² = 0.65 in a multiple regression model, this means:",
+    answer("The model explains 65% of the sample variation in the dependent variable", correct = TRUE),
+    answer("The model is 65% likely to be correctly specified"),
+    answer("The correlation between the dependent and independent variables is 0.65"),
+    answer("65% of the observations are correctly predicted by the model"),
+    allow_retry = TRUE
+  ),
+  
+  question("Adding another independent variable to a multiple regression model will:",
+    answer("Always increase R² or leave it unchanged", correct = TRUE),
+    answer("Always increase the Standard Error of the Regression (SER)"),
+    answer("Always reduce the variance of existing coefficients"),
+    answer("Always make the model more accurate"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Common Issues in Multiple Regression
+
+### Omitted Variable Bias
+
+If we omit a relevant variable that is correlated with included variables, our estimates will typically be biased. 
+
+For a simple case with two independent variables, if we estimate:
+
+$$\tilde{y} = \tilde{\beta}_0 + \tilde{\beta}_1 x_1$$
+
+when the true model is:
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$$
+
+Then:
+
+$$E(\tilde{\beta}_1) = \beta_1 + \beta_2 \delta_1$$
+
+where $\delta_1$ is the slope coefficient from the regression of $x_2$ on $x_1$.
+
+The direction of the bias depends on the signs of $\beta_2$ and $\delta_1$:
+
+- If $\beta_2 > 0$ and $\delta_1 > 0$: Positive bias
+- If $\beta_2 > 0$ and $\delta_1 < 0$: Negative bias
+- If $\beta_2 < 0$ and $\delta_1 > 0$: Negative bias
+- If $\beta_2 < 0$ and $\delta_1 < 0$: Positive bias
+
+### Multicollinearity
+
+Multicollinearity occurs when independent variables are highly (but not perfectly) correlated.
+
+Consequences of multicollinearity:
+
+1. Increased variances of OLS estimators
+2. Difficult to separate the effects of collinear variables
+3. Parameter estimates become sensitive to small changes in the data
+
+However, multicollinearity does not violate any OLS assumptions. OLS remains BLUE, but with larger standard errors.
+
+```{r issues-quiz, echo=FALSE}
+quiz(
+  question("In the case of omitted variable bias, which of the following statements is true?",
+    answer("The OLS estimators are still unbiased but inefficient"),
+    answer("OLS is biased, but the direction of bias is always positive"),
+    answer("OLS is biased, and the direction of bias depends on the correlations between variables and the effect of the omitted variable", correct = TRUE),
+    answer("The bias disappears as sample size increases"),
+    allow_retry = TRUE
+  ),
+  
+  question("Which of the following statements about multicollinearity is FALSE?",
+    answer("Multicollinearity leads to biased OLS estimators", correct = TRUE),
+    answer("Multicollinearity increases the variances of the OLS estimators"),
+    answer("Multicollinearity makes it difficult to separate the effects of the collinear variables"),
+    answer("Multicollinearity does not violate the Gauss-Markov assumptions"),
+    allow_retry = TRUE
+  ),
+  
+  question("Which of the following helps reduce the variance of OLS estimators?",
+    answer("Increasing the sample size", correct = TRUE),
+    answer("Removing relevant variables from the model"),
+    answer("Increasing multicollinearity among independent variables"),
+    answer("Introducing heteroskedasticity"),
+    allow_retry = TRUE
+  )
+)
+```
+
+## Problem 5: Working with Survey Data on Student Time Allocation
+
+In this section, we'll work through Problem 5 from Wooldridge Chapter 3. The problem involves a survey of students about how they allocate their time across different activities.
+
+### Problem Statement
+
+In a study relating college grade point average to time spent in various activities, you distribute a survey to several students. The students are asked how many hours they spend each week in four activities: studying, sleeping, working, and leisure. Any activity is put into one of the four categories, so that for each student, the sum of hours in the four activities must be 168.
+
+(i) In the model
+GPA = β₀ + β₁study + β₂sleep + β₃work + β₄leisure + u,
+does it make sense to hold sleep, work, and leisure fixed, while changing study?
+
+(ii) Explain why this model violates Assumption MLR.3.
+
+(iii) How could you reformulate the model so that its parameters have a useful interpretation and it satisfies Assumption MLR.3?
+
+### Part (i): Understanding the constraint
+
+```{r problem5-1}
+quiz(
+  question("In the model GPA = β₀ + β₁study + β₂sleep + β₃work + β₄leisure + u, does it make sense to hold sleep, work, and leisure fixed, while changing study?",
+    answer("Yes, because we're interested in the partial effect of study time"),
+    answer("No, because the total hours must sum to 168, so we cannot change one variable while holding all others fixed", correct = TRUE),
+    answer("Yes, as long as we use the proper estimation technique"),
+    answer("No, because studying isn't related to GPA"),
+    allow_retry = TRUE
+  )
+)
+```
+
+<div id="problem5-1-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation:**
+
+No, it doesn't make sense to hold sleep, work, and leisure fixed while changing study time. This is because of the time constraint: the sum of all hours must equal 168 (the number of hours in a week).
+
+If we change the value of study, then at least one of the other variables must also change to maintain the constraint that all hours sum to 168. For example, if a student increases study time by 1 hour, then they must decrease some combination of sleep, work, and leisure by a total of 1 hour.
+
+This means we cannot interpret β₁ as the effect of increasing study time while holding all other time uses constant - it's physically impossible due to the time constraint.
+</div>
+
+### Part (ii): Understanding perfect collinearity
+
+```{r problem5-2}
+quiz(
+  question("Why does the model violate Assumption MLR.3 (No Perfect Collinearity)?",
+    answer("Because the variables are all measured in hours"),
+    answer("Because there are too many independent variables"),
+    answer("Because the variables sum to a constant (168), creating a perfect linear relationship", correct = TRUE),
+    answer("Because the error term is correlated with the independent variables"),
+    allow_retry = TRUE
+  )
+)
+```
+
+<div id="problem5-2-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation:**
+
+The model violates Assumption MLR.3 (No Perfect Collinearity) because the four time-use variables have a perfect linear relationship: 
+
+study + sleep + work + leisure = 168
+
+This can be rearranged as:
+
+study = 168 - sleep - work - leisure
+
+This means that any one variable is a perfect linear combination of the others (and a constant). When we have perfect collinearity, OLS cannot uniquely determine the coefficient estimates because there are infinitely many combinations of coefficients that would fit the data equally well.
+
+Technically, if we included all four variables plus an intercept in the model, the OLS estimation would fail because the design matrix would not have full rank.
+</div>
+
+### Part (iii): Reformulating the model
+
+```{r problem5-3}
+quiz(
+  question("How could you reformulate the model to have a useful interpretation and satisfy Assumption MLR.3?",
+    answer("Include only study as an independent variable"),
+    answer("Drop the intercept term from the model"),
+    answer("Drop one of the four time-use variables from the model", correct = TRUE),
+    answer("Take the logarithm of all variables"),
+    allow_retry = TRUE
+  )
+)
+```
+
+<div id="problem5-3-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation:**
+
+To reformulate the model, we should drop one of the four time-use variables. For example, we could use:
+
+GPA = β₀ + β₁study + β₂sleep + β₃work + u
+
+By omitting leisure, we avoid the perfect collinearity problem. The interpretation of the coefficients now changes:
+
+- β₁ is the effect of increasing study time by one hour, while decreasing leisure time by one hour (holding sleep and work constant)
+- β₂ is the effect of increasing sleep time by one hour, while decreasing leisure time by one hour (holding study and work constant)
+- β₃ is the effect of increasing work time by one hour, while decreasing leisure time by one hour (holding study and sleep constant)
+
+More generally, each coefficient measures the effect of shifting one hour from the omitted category (leisure) to the respective activity.
+
+We could alternatively choose to omit any one of the four variables - the variable we choose to omit becomes the "reference" category. The interpretation of each coefficient would then be relative to that reference activity.
+</div>
+
+## Computer Exercise C9: Analyzing Charity Donations
+
+For this exercise, we'll be analyzing the `charity` dataset, which contains data on charitable giving.
+
+Let's first explore the dataset to understand the relevant variables.
+
+```{r charity-data, echo=TRUE}
+# Display the structure of the dataset
+str(charity)
+
+# Summary statistics
+summary(charity[c("gift", "mailsyear", "giftlast", "propresp", "avggift")])
+```
+
+### Part (i): Estimating the model
+
+Let's estimate the equation: 
+gift = β₀ + β₁mailsyear + β₂giftlast + β₃propresp + u
+
+```{r c9-part1, echo=TRUE}
+# Estimate the multiple regression model
+model1 <- lm(gift ~ mailsyear + giftlast + propresp, data = charity)
+
+# Display the results
+summary(model1)
+
+# Calculate R-squared from simple regression (without giftlast and propresp)
+model_simple <- lm(gift ~ mailsyear, data = charity)
+r_squared_simple <- summary(model_simple)$r.squared
+r_squared_multiple <- summary(model1)$r.squared
+
+# Compare R-squared values
+cat("R-squared from simple regression:", round(r_squared_simple, 4), "\n")
+cat("R-squared from multiple regression:", round(r_squared_multiple, 4), "\n")
+cat("Increase in R-squared:", round(r_squared_multiple - r_squared_simple, 4), "\n")
+```
+
+<div id="c9-part1-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation of Results:**
+
+We've estimated the model: gift = β₀ + β₁mailsyear + β₂giftlast + β₃propresp + u
+
+The R-squared from this multiple regression is substantially higher than from the simple regression with only mailsyear (0.0833 vs. 0.0137). This indicates that adding giftlast and propresp explains much more variation in gift amounts.
+
+The multiple regression model explains about 8.33% of the variation in gift amounts. While this might seem low in absolute terms, it represents a substantial improvement over the simple model with just mailsyear (which explained only about 1.37% of the variation).
+</div>
+
+### Part (ii): Interpreting the coefficient on mailsyear
+
+```{r c9-part2, echo=TRUE}
+# Compare coefficients
+coef_simple <- coef(model_simple)["mailsyear"]
+coef_multiple <- coef(model1)["mailsyear"]
+
+cat("Coefficient on mailsyear from simple regression:", round(coef_simple, 4), "\n")
+cat("Coefficient on mailsyear from multiple regression:", round(coef_multiple, 4), "\n")
+```
+
+<div id="c9-part2-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Interpretation:**
+
+The coefficient on mailsyear in the multiple regression is approximately 2.16, which means that an additional mailing per year is associated with an expected increase in gift amount of about $2.17, holding constant the most recent gift (giftlast) and the proportion of solicitations responded to (propresp).
+
+This coefficient is smaller than in the simple regression (where it was about 2.65), suggesting that when we don't control for giftlast and propresp, we overestimate the effect of additional mailings. This makes sense because people who receive more mailings might also be those who have given larger amounts in the past (giftlast) or who respond more frequently to solicitations (propresp).
+
+The interpretation is causal only if we believe that the model includes all relevant factors that might be correlated with both mailsyear and gift amounts. The R-squared is still relatively low (0.0833), suggesting there are many other factors influencing gift amounts that we haven't accounted for.
+</div>
+
+### Part (iii): Interpreting the coefficient on propresp
+
+```{r c9-part3, echo=TRUE}
+# Extract and interpret coefficient on propresp
+coef_propresp <- coef(model1)["propresp"]
+cat("Coefficient on propresp:", round(coef_propresp, 4), "\n")
+
+# Calculate the effect of a 0.1 increase in propresp
+effect_01_increase <- 0.1 * coef_propresp
+cat("Effect of a 0.1 (10 percentage point) increase in propresp:", round(effect_01_increase, 4), "\n")
+```
+
+<div id="c9-part3-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Interpretation:**
+
+The coefficient on propresp is approximately 15.35, which requires careful interpretation because of how propresp is measured. 
+
+The variable propresp represents the proportion (not percentage) of solicitations that the person has responded to in the past. It ranges from 0 to 1, where 0 means they never responded to any solicitations and 1 means they responded to all solicitations.
+
+Therefore, the coefficient 15.3361 means that if a person's response rate increases by 1 (from never responding to always responding - a 100 percentage point increase), we would expect their gift amount to increase by about $15.34, holding mailsyear and giftlast constant.
+
+More practically, a 0.1 increase in propresp (a 10 percentage point increase in response rate) is associated with an expected increase in gift amount of about $1.53, holding other factors constant.
+
+This positive coefficient makes intuitive sense: people who respond more frequently to solicitations tend to give larger amounts when they do give.
+</div>
+
+### Part (iv): Adding avggift to the equation
+
+```{r c9-part4, echo=TRUE}
+# Estimate the model with avggift included
+model2 <- lm(gift ~ mailsyear + giftlast + propresp + avggift, data = charity)
+
+# Display the results
+summary(model2)
+
+# Compare coefficients on mailsyear
+cat("Coefficient on mailsyear without avggift:", round(coef(model1)["mailsyear"], 4), "\n")
+cat("Coefficient on mailsyear with avggift:", round(coef(model2)["mailsyear"], 4), "\n")
+```
+
+<div id="c9-part4-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation:**
+
+When we add avggift (the average gift amount from the person in the past) to the model, the coefficient on mailsyear changes dramatically from 2.166 to 1.201 (about 45% reduction). 
+
+This change suggests that:
+
+1. There is a positive correlation between mailsyear and avggift in the data. This makes sense: the charity probably sends more solicitations to people who have given larger amounts in the past.
+
+2. When we don't control for avggift, the coefficient on mailsyear is capturing both the direct effect of additional mailings and the indirect effect that people who receive more mailings tend to be more generous donors in general.
+
+3. After controlling for the average gift amount, the effect of mailsyear becomes slightly negative. This might indicate that, for people with the same giving history, more solicitations could actually lead to slightly smaller gifts, possibly due to "donor fatigue" or annoyance from excessive mailings.
+
+The substantial change in the mailsyear coefficient highlights the importance of controlling for relevant variables to avoid omitted variable bias.
+</div>
+
+### Part (v): Effect on giftlast coefficient
+
+```{r c9-part5, echo=TRUE}
+# Compare coefficients on giftlast
+cat("Coefficient on giftlast without avggift:", round(coef(model1)["giftlast"], 4), "\n")
+cat("Coefficient on giftlast with avggift:", round(coef(model2)["giftlast"], 4), "\n")
+```
+
+<div id="c9-part5-explanation" style="padding: 10px; background-color: #f5f5f5; margin-bottom: 20px;">
+**Explanation:**
+
+The coefficient on giftlast decreases substantially from 0.006 (in the model without avggift) to -0.26 (in the model with avggift). This change is even more substantial than what we observed with mailsyear.
+
+This pattern suggests that:
+
+1. There is a strong positive correlation between giftlast (the most recent gift amount) and avggift (the average gift amount).
+
+2. In the original model without avggift, the coefficient on giftlast was capturing both the effect of the most recent gift and the overall giving pattern of the donor.
+
+3. After controlling for avggift, the effect of giftlast becomes much smaller. This indicates that it's the person's overall giving pattern (captured by avggift) that strongly predicts current gifts, not just their most recent gift.
+
+4. The dramatic reduction in the giftlast coefficient shows that most of its predictive power was due to its correlation with avggift, which appears to be a stronger predictor of current giving.
+
+This highlights the potential for correlated predictors to lead to misleading interpretations if important variables are omitted from the model.
+</div>
+
+## Summary of Key Concepts
+
+Here's a summary of the key concepts we've covered:
+
+1. **Multiple Regression Fundamentals**:
+   - Multiple regression allows us to estimate the effect of several factors on a dependent variable simultaneously
+   - It provides a "ceteris paribus" or "holding other factors fixed" interpretation
+
+2. **The Gauss-Markov Assumptions**:
+   - Linear in Parameters
+   - Random Sampling
+   - No Perfect Collinearity
+   - Zero Conditional Mean
+   - Homoskedasticity
+
+3. **Properties of OLS Estimators**:
+   - Unbiasedness under MLR.1-MLR.4
+   - BLUE (Best Linear Unbiased Estimator) under MLR.1-MLR.5
+   - Variance formula and factors affecting precision
+
+4. **Interpretation and Practical Issues**:
+   - Partial effects and their interpretation
+   - R-squared as a measure of goodness-of-fit
+   - Consequences of omitted variables
+   - Problems with multicollinearity

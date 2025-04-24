@@ -1,8 +1,8 @@
-# Lecture 6: The Multiple Regression Model II
+# Lecture 6: The Multiple Regression Model I
 
 ## Slides{.unnumbered}
 
-- 5 The Simple Regression Model ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/7_Multiple_Regression_Model_I.pptx)) 
+- 7 The Multiple Regression Model ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/7_Multiple_Regression_Model_I.pptx)) 
 
 ## Introduction
 

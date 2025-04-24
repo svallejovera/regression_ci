@@ -1,0 +1,8 @@
+# Tutorial 7: Multiple Regression Analysis
+
+## What is this tutorial about? {.unnumbered}
+
+You can access this tutorial by clicking [here](https://ci1yq0-sebastian0vallejo.shinyapps.io/tutorial7/). In this tutorial we reinforce your understanding of the fundamental logic and assumptions underlying multiple regression models. We also go over a couple of selected exercises from Wooldridge Chapter 3.
+
+
+

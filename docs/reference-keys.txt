@@ -4,6 +4,7 @@ fig:week4slides
 fig:week5slides
 fig:week6slides
 fig:week7slides
+fig:week8slides
 about-tutorials
 prerequisites
 running-a-tutorial
@@ -115,7 +116,7 @@ b.-increased-variation-in-x-is-good
 c.-increased-sample-size-is-good
 tutorial-5-the-simple-regression-model-ii
 homework-1-practice
-lecture-6-the-multiple-regression-model-ii
+lecture-6-the-multiple-regression-model-i
 introduction-5
 vignette-6.1
 vignette-6.2
@@ -147,3 +148,5 @@ for-both-model-1-and-model-2-write-the-equation-of-the-population-models.
 run-the-regressions-and-write-out-the-equations-for-the-estimated-regression-models.
 explain-what-the-coefficients-mean-in-both-models.-how-does-the-effect-of-age-differ-between-model-1-and-model-2
 which-of-the-models-better-explains-the-relationship-between-marketlib-and-age
+lecture-7-the-multiple-regression-model-ii
+tutorial-7-multiple-regression-analysis

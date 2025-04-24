@@ -1,0 +1,11 @@
+# Lecture 7: The Multiple Regression Model II
+
+## Slides{.unnumbered}
+
+- 8 The Multiple Regression Model II ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/8_Multiple_Regression_Model_and_Interpretation.pptx)) 
+
+No fancy code from this Lecture :( ... 
+
+```{r week8slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 8 The Multiple Regression Model II."}
+knitr::include_graphics("slide/8_Multiple_Regression_Model_and_Interpretation.pdf")
+```
