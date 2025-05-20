@@ -1,0 +1,785 @@
+# Lecture 9 Exercises
+
+*This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me). This tutorial covers carrying out hypothesis testing in R.
+
+
+```{css, echo=FALSE}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
+```
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(fig.width=5, fig.height=3.5, fig.align="center",
+                      echo=TRUE, warning=FALSE, message=FALSE)
+library(ggplot2)
+theme_set(theme_classic())
+```
+
+
+```{r}
+library(tidyverse)
+library(car)
+load("Sample_data/ces.rda")
+mod <- lm(feel_cpc ~ woman + age + univ + 
+            marketlib + moraltrad, data = ces)
+summary(mod)
+```
+
+## The `{car}` package and the functions `linearHypothesis()` and `Anova()`
+
+(Not to be confused with Base R's `anova()`)
+
+While you will learn how to conduct hypothesis testing manually using re-parameterized models, in practice, we often use pre-programmed functions, such as the `linearHypothesis()` function from the `{car}` package. 
+
+For our purposes, it takes two arguments: 
+
+- `object` = our model object (in this case, `mod`)
+- the hypothesis or hypotheses to be tested in quotes (in the following case, `"marketlib = 0"`)
+- note: multiple hypotheses can be tested if they are enclosed in separate quoted equations and combined with the `c()` command (e.g. `c("age = 0", "univ = 0")`)
+
+
+### A basic test of one term's statistical significance, e.g. is marketlib != 0?
+
+We would never use this because we could just look at the summary table, but it does work.
+
+This is also useful to show that F-tests and t-tests sort of do the same thing, but in different ways. The tests in the model summary table are t-tests of a term against 0, so they return t-statistics. `linearHypothesis()` uses an F-test, so it returns F-statistics. 
+
+But, you can see the F-statistics and t-statistics return the same p-values.
+
+```{r}
+library(car)
+
+linearHypothesis(mod, "marketlib=0") 
+```
+
+```{r}
+linearHypothesis(mod, "marketlib=0") %>% as_tibble()
+summary(mod)$coefficients 
+```
+
+
+### Testing whether one term is different from another, e.g. is marketlib != moraltrad?
+
+The effect of moraltrad is a about 0.1 larger than that of marketlib, but is this difference statistically significant?
+
+```{r}
+linearHypothesis(mod, "marketlib = moraltrad")
+```
+
+
+Notice how the `linearHypothesis()` function reformulates "marketlib != moraltrad" to "marketlib - moraltrad == 0" (just like a t-test).
+
+```{r}
+linearHypothesis(mod, "marketlib - moraltrad = 0")
+```
+
+
+### Testing the joint significance of multiple variables, e.g. "age and univ are jointly != 0":
+
+
+```{r}
+linearHypothesis(mod, c("age = 0", "univ = 0"))
+```
+
+
+### Testing if at least one term in the model is significant
+
+This test asks if at least one of woman, age, univ, marketlib, or moraltrad is different from zero.
+
+```{r}
+linearHypothesis(mod, c("woman = 0",
+                        "age = 0",
+                        "univ = 0",
+                        "marketlib = 0",
+                        "moraltrad = 0"))
+```
+
+Note, this is the same as the F-test for the overall significance of a regression, which is reported in the model summary table.
+
+
+```{r}
+summary(mod)
+```
+
+
+--------------------------------------------------------------------------------
+
+
+## Calculating p values of t statistics using `R`
+
+
+We can also use `R` to calculate p values for a t test using the function `pt()`. 
+
+Recall, the summary table for the model. I extract this manually because the printout from the `summary()` command rounds p values to 2e-16.
+
+```{r}
+summary(mod)$coefficients
+```
+
+For a one-tailed test for marketlib >= 0...
+
+
+```{r}
+pt(-summary(mod)$coefficients[5,3], mod$df, lower = FALSE)
+```
+
+For a one-tailed test for marketlib <= 0...
+
+
+```{r}
+pt(-summary(mod)$coefficients[5,3], mod$df, lower = TRUE)
+```
+
+For a two-tailed test for marketlib = 0...
+
+
+```{r}
+2*pt(abs(summary(mod)$coefficients[5,3]), mod$df, lower = FALSE)
+```
+
+
+--------------------------------------------------------------------------------
+
+## Confidence intervals
+
+Recall, the formula for constructing a confidence interval is 
+
+$$CI_{\beta_j} = \hat{\beta}_j \pm (c \times se_{\hat{\beta}_j})$$,
+
+where $c$ is the percentile in the $t_{n-k-1}$ distribution that corresponds to our confidence interval. For the 90%, 95%, and 99% confidence intervals, this corresponds to, respectively, 1.64, 1.96, and 2.57.
+
+So, if we wanted to build a CI around the coefficient for marketlib, we first have to pull up the table of coefficients
+
+```{r}
+summary(mod)$coefficients
+```
+
+
+and note that the coefficient for marketlib is in [5,1] and the SE is in [5,2]
+
+```{r}
+summary(mod)$coefficients[5,1]
+summary(mod)$coefficients[5,2]
+```
+
+and then use the formula to calculate the lower bound
+
+```{r}
+summary(mod)$coefficients[5,1] - (1.96 * summary(mod)$coefficients[5,2])
+```
+
+and the upper bound.
+
+```{r}
+summary(mod)$coefficients[5,1] + (1.96 * summary(mod)$coefficients[5,2])
+```
+
+The above can be vectorized:
+
+B + ( c(-1,1) * (1.96 * SE) )
+
+```{r}
+summary(mod)$coefficients[5,1] + (c(-1,1) * (1.96 * summary(mod)$coefficients[5,2]))
+```
+
+You could also use `{tidyverse}` conventions to calculate all of the confidence intervals:
+
+```{r}
+summary(mod)$coefficients %>%
+  as.data.frame() %>%
+  mutate(lower90 = Estimate - (`Std. Error` * 1.64),
+         upper90 = Estimate + (`Std. Error` * 1.64),
+         lower95 = Estimate - (`Std. Error` * 1.96),
+         upper95 = Estimate + (`Std. Error` * 1.96),
+         lower99 = Estimate - (`Std. Error` * 2.57),
+         upper99 = Estimate + (`Std. Error` * 2.57)) 
+```
+
+
+If you're really lazy, you can also have `{stargazer}` do it for you.
+
+```{r}
+library(stargazer)
+stargazer(mod,
+          ci = TRUE,
+          ci.level = 0.95, 
+          type = "html")
+```
+
+
+## Manually calculating SE, t, and p
+
+
+```{r}
+summary(mod)$coefficients 
+```
+
+```{r}
+(b <- mod$coefficients)
+```
+
+```{r}
+(se <- sqrt(diag(vcov(mod))))
+```
+
+```{r}
+(t <- mod$coefficients / se)
+```
+
+```{r}
+(p <- 2*pt(abs(t), mod$df, lower = FALSE))
+```
+
+```{r}
+tibble(
+  term = names(mod$coefficients),
+  estimate = b,
+  se = se,
+  t = t,
+  p = p)
+```
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+## Hypothesis Testing Exercises: CIs, testing coefficients, F-test
+
+Using the 'fertil2' dataset from 'wooldridge' on women living in the Republic of Botswana in 1988, estimate the regression equation of the number of children on education (educ), age of the mother (age) and its square, electricity (electric), husband's education (heduc), and whether the women has a radio (radio) and/or a TV (tv ) at home. 
+
+Construct a 90% and 95% confidence interval for electric. Interpret.
+
+
+```{r run regression model}
+library(wooldridge)
+data("fertil2")
+
+fertil2.mod <- lm(children ~ educ + age + I(age^2) + electric + heduc + radio + tv, data = fertil2)
+
+summary(fertil2.mod)
+```
+
+
+```{r, results = "asis"}
+library(stargazer)
+stargazer(fertil2.mod, type = "html", single.row=TRUE)
+```
+
+
+### Constructing confidence intervals
+
+You have two options here: do it manually or use {`stargazer`}.
+
+
+#### Manual calculation using rounded numbers
+
+```{r cis manually}
+# Recall: B_elec = -0.245 (se = 0.138)
+
+# CI bounds = B +/- (SE * [crit value])
+
+# Lower 90%
+-0.245 - (0.138 * 1.645)
+
+# Upper 90%
+-0.245 + (0.138 * 1.645)
+
+# Lower and upper 95%, vectorized
+-0.245 + ( c(-1,1) * (0.138 * 1.960) )
+
+```
+
+
+The above is slightly off because I used rounded numbers instead of estimates extracted from the model.
+
+
+#### Manual calculation using actual values
+
+
+It's better to extract vectors of betas and SEs and perform vectorized calculations on all terms in the model. (This is useful when you want to create a coefficient plot.)
+
+
+```{r}
+# Recall, the coefficients and their statistics can be found in the summary table
+summary(fertil2.mod)$coefficients
+coef(summary(fertil2.mod))
+```
+
+
+
+```{r cis manually using actuals}
+
+
+library(dplyr)
+
+ci_table <- data.frame(
+  coef = coef(fertil2.mod),
+  lower90 = coef(fertil2.mod) - (coef(summary(fertil2.mod))[, 2] * 1.645),
+  upper90 = coef(fertil2.mod) + (coef(summary(fertil2.mod))[, 2] * 1.645),
+  lower95 = coef(fertil2.mod) - (coef(summary(fertil2.mod))[, 2] * 1.960),
+  upper95 = coef(fertil2.mod) + (coef(summary(fertil2.mod))[, 2] * 1.960)
+  )
+
+ci_table
+
+
+```
+
+
+
+```{r 90p cis in stargazer 1, results = "asis"}
+library(stargazer)
+stargazer(fertil2.mod, type = "html", no.space=TRUE,
+          ci = TRUE, ci.level = 0.90, single.row=TRUE,
+          title = "Regression results with 90% CIs")
+```
+
+
+```{r 95p cis in stargazer, results = "asis"}
+stargazer(fertil2.mod, type = "html", no.space=TRUE,
+          ci = TRUE, ci.level = 0.95, single.row=TRUE,
+          title = "Regression results with 95% CIs")
+```
+
+
+
+
+
+
+### Evaluate the following hypotheses at the 5% and 1% levels of significance. Interpret.
+
+
+
+#### 1.
+
+$H0 : B_{educ} = B{heduc}$
+   
+$H1 : B_{educ} < B_{heduc}$
+
+```{r h1}
+library(car)
+linearHypothesis(fertil2.mod, "educ = heduc")
+
+```
+
+The p-value = 0.402 of F-test that $B_{educ} = B_{heduc}$. Therefore we cannot reject the null hypothesis at either the 10% or 5% significance level and do not have sufficient evidence that suggests the father's level of education is more predictive of fertility than the mother's level of education.
+
+
+
+
+#### 2
+
+$H0 : B_{radio} = 0; B_{tv} = 0$
+
+$H1 : H0$ is not true
+
+```{r h2}
+
+linearHypothesis(fertil2.mod, c("radio = 0", "tv = 0"))
+
+```
+
+This hypothesis asks if *radio* and *tv* improve model fit, once the other five variables are accounted for--i.e. is the model without these two terms statistically distinguishable from a model that does include them?
+
+An F-test testing whether both $B_{radio}$ and $B_{TV} = 0$ returns a p-value of 0.01779. This means we can reject the null hypothesis that they both equal 0 at the 0.05 significance level but not at the 0.01 significance level. 
+
+So, we have mixed evidence that they can be safely excluded from the model.
+
+
+
+
+#### 2a. Using car::anova for a restricted models F-test
+
+
+The code below is functionally equivalent to the code above, assuming the same number of cases are used to estimate both.
+
+```{r other comparisons}
+
+fertil2.mod.restricted <- lm(children ~ educ + age + I(age^2) + electric + heduc, data = fertil2)
+
+anova(fertil2.mod, fertil2.mod.restricted)
+
+```
+
+
+
+
+#### 2b. Using R^2 form of F test
+
+```{r}
+summary(fertil2.mod)
+summary(fertil2.mod.restricted)
+```
+
+
+
+```{r}
+
+# R^2 forumula 
+((0.4302 - 0.4278) / 2) / ((1-0.4302) / (1953 - 7 - 1))
+
+# SSR formula
+((5874.3 - 5850.1) / 2) / (5850.1 / (1953 - 7 - 1))
+
+```
+
+The F-value for the test is 4.022923, which is greater than the critical value for 95% (3.00) but not 99% (4.61).
+
+
+--------------------------------------------------------------------------------
+
+
+#### 3. 
+
+$H0 : B_{educ} = B_{age} = B_{electric} = B_{heduc} = B_{radio} = B_{tv} = 0$
+
+$H1 : H0$ is not true
+   
+```{r h3}
+
+linearHypothesis(fertil2.mod, c( "educ = 0", 
+                                 "age = 0", 
+                                 "I(age^2) = 0", 
+                                 "electric = 0", 
+                                 "heduc = 0", 
+                                 "radio = 0", 
+                                 "tv = 0")) 
+
+```
+
+This is an F-test for the overall significance of the regression (i.e. whether or not any of the slope coefficients are different from zero, or if a model with the terms performs better than  model with just the intercept).
+
+The p-value on this F-test is very small (16 zeros after the decimal place). Therefore we can reject the null hypothesis that all of the coefficients in the model are equal to zero, which means at least one of them is non-zero.
+
+
+--------------------------------------------------------------------------------
+
+
+## Turning points and Heteroskedasticity
+
+
+Using the 'fertil2' dataset from 'wooldridge' on women living in the Republic of Botswana in 1988, estimate the regression equation of the number of children (*children*) on education (*educ*), age of the mother (*age*) and its square, electricity (*electric*), husband's education (*heduc*), and whether the women has a radio (*radio*) and/or a TV (*tv*) at home.
+
+Our population model is:
+
+
+$$children = \beta_0 + \beta_1educ + \beta_2age + \beta_3age^2 + \beta_4electric + \beta_5heduc + \beta_6radio + \beta_7tv + u$$
+
+*(Note: To start, I create a new dataframe with just the variables I need and listwise delete any observations with missing values. This will make it easier to run diagnostics later.)*
+
+```{r}
+library(tidyverse)
+library(wooldridge)
+fertil2 <- get(data("fertil2"))
+dat <- fertil2 %>%
+  select(c(children, educ, age, electric, heduc, radio, tv)) %>%
+  na.omit()
+  
+mod1 <- lm(children ~ educ + age + I(age^2) + electric + heduc + radio + tv, data = dat)
+summary(mod1)
+```
+
+
+```{r, results="asis"}
+library(stargazer)
+stargazer(mod1, 
+          digits = 4,
+          header = FALSE,
+          no.space = TRUE,
+          align = TRUE,
+          type = "html")
+```
+
+
+Our regression model gives us an equation of
+
+$$\hat{children} = -7.107 - 0.062educ + 0.533age - 0.0055age^2 - 0.245electric - 0.045heduc + 0.146radio  - 0.385tv$$
+$$n = 1953, R^2 = 0.430$$
+
+
+
+### 1. Interpret the effect of *age* on *children* and find the turning point.
+
+Even without doing any calculations, we can know something about the relationship between age and number of children just by looking at the table.
+
+The negative sign on $age^2$ tells us that the effect starts out as positive and then diminishes in strength until it reaches a certain point (the *maximum* of the function). After that maximum, the effect is negative.
+
+
+#### The effect of *age*
+
+To calculate the (approximate) effect of $age$ on $children$, we can apply the *power rule* to a quadratic term (i.e. where the exponent is $n=2$):
+
+$$\begin{aligned}
+\frac{d}{dx}[x^n] &= nx^{n-1}   \\
+n &= 2   \\
+\frac{d}{dx}[x^2] &= 2x^{2-1}   \\
+\frac{d}{dx}[x^2] &= 2x
+\end{aligned}$$
+
+Applying this to our example gives the the approximation of the effect of $age$ on $children$ (on average, and holding all other variables constant): 
+
+$$\begin{aligned}
+\Delta\hat{children} &= \hat{\beta}_2\Delta{age} + \hat{\beta}_3\Delta{age^2} \\
+\Delta\hat{children} &\approx [(\hat{\beta}_2 + 2\hat{\beta}_3{age}]\Delta{age} \\
+\Delta\hat{children} &\approx [0.533 + 2(-0.0055 \times age)]\Delta{age} \\
+\Delta\hat{children} &\approx [0.533 - 0.011age]\Delta{age} \\
+\end{aligned}$$
+
+
+#### Calculating the *turning point* 
+
+To calculate the *turning point* (also known as the *inflection point*), we use our formula:
+
+$$\begin{aligned}
+age\star &= - \hat{\beta}_2 / (2 * \hat{\beta}_3) \\
+age\star &= - 0.533 / (2 * -0.0055) \\
+age\star &= - 0.533 / (-0.011) \\
+age\star &=  48.5
+\end{aligned}$$
+
+
+```{r}
+- mod1$coefficients[3] / (2 * mod1$coefficients[4])
+```
+
+Thus, the point at which $\hat{children}$ stops increasing and starts decreasing is--on average and holding all other factors in the model constant--48.5 years.
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+### 2. Replace the quadratic functional form of $age$ for a logarithmic form instead, that is, replace $age$ and its square with just $log(age)$. What do you conclude?
+
+
+```{r, results="asis"}
+mod2 <- lm(children ~ educ + log(age) + electric + heduc + radio + tv, data = fertil2)
+stargazer(mod1, mod2, 
+          no.space = TRUE,
+          header = FALSE,
+          align = TRUE,
+          type = "html")
+```
+
+
+Note, $\beta_2$, or 5.402 is the predicted increase in $\hat{children}$ for a one-unit increase in $log(age)$, *ceteris paribus*. To facilitate interpretation (following the approximations in Wooldridge p.44), we can divide $\beta_2$ by 100 to find out how much $\hat{children}$ increases (in its own units) for a 1% increase in $age$.
+
+$$\begin{aligned}
+\Delta \hat{children} &\approx (\beta_2 /100)(\text{%} \Delta{age})  \\
+\Delta \hat{children} &\approx (5.40185 /100)(\text{%} \Delta{age} ) \\
+\Delta \hat{children} &\approx 0.054(\text{%} \Delta{age})  \\
+\end{aligned}$$
+
+Therefore, for every 1% increase in a woman's age, the model predicts an increase of 0.054 children on average, holding all other factors constant.
+
+The model with the logarithmic term does not fit the model as well as the model with the quadratic term (adjusted R^2 = 0.420 versus 0.428, respectively; SER = 1.734 versus 1.747). On that basis, one might pick Model 1 over Model 2.
+
+
+
+#### Comparing models visually
+
+
+```{r}
+library(ggeffects)
+plot.sqmod <- ggpredict(mod1, "age") %>% plot() + ggtitle("age + age^2")
+plot.logmod <- ggpredict(mod2, "age") %>% plot() + ggtitle("log(age)")
+library(ggpubr)
+ggarrange(plot.sqmod, plot.logmod)
+```
+
+
+
+--------------------------------------------------------------------------------
+
+
+### 3. Test the regression model for heteroskedasticity by using the three steps presented above and comparing it with the function provided in R for the Breusch-Pagan test.
+
+The B-P test  consists of a regression of the squared residuals on the constituent terms and then evaluating the resulting F-test for the overall significance of that regression. 
+
+
+#### Manual procedure
+
+We'll start by running the test models for both Model 1 (quadratic) and Model 2 (logarithmic). 
+
+
+```{r}
+# Mod 1 (quad)
+dat$m1_resid <- resid(mod1)
+dat$m1_residsq <- dat$m1_resid ^2
+bptest_m1 <- lm(m1_residsq ~ educ + age + I(age^2) + electric + heduc + radio + tv, data = dat)
+```
+
+
+```{r}
+# Mod 2 (log)
+dat$m2_resid <- resid(mod2)
+dat$m2_resid2sq <- dat$m2_resid ^2
+bptest_m2 <- lm(m2_resid2sq ~ educ + log(age) + electric + heduc + radio + tv, data = dat)
+```
+
+
+
+```{r, results = "asis", warning = FALSE}
+stargazer(bptest_m1, bptest_m2,
+          header = FALSE,
+          no.space = FALSE,
+          align = TRUE,
+          type = "html")
+```
+
+
+Because we automatically get the F-statistic and its associated p-value with our model outputs, we see that we get a positive test result for both our quadratic and logarithmic form models.
+
+For thoroughness, we can calculate F-statistics manually and then calculate their p-values.
+
+Calculate the F statistic for the BP Test on Model 1:
+
+$$\begin{aligned}
+F &= \frac{ R^2_{\hat{u}^2} / k }{ (1 - R^2_{\hat{u}^2}) / (n - k - 1) }   \\
+F &= \frac{ (0.1681318 / 7) }  { ((1-0.1681318) / (1953-7-1)) }   \\
+F &= 56.1587   \\
+\end{aligned}$$
+
+```{r}
+(summary(bptest_m1)$r.squared / 7) / 
+  ((1 - summary(bptest_m1)$r.squared) / (bptest_m1$df.residual))
+pf(56.1587, 7, 1945, lower.tail = FALSE)
+```
+
+Calculate the F statistic for the BP Test on Model 2:
+
+$$\begin{aligned}
+F &= \frac{ R^2_{\hat{u}^2} / k }{ (1 - R^2_{\hat{u}^2}) / (n - k - 1) }   \\
+F &= \frac{ (0.1585037 / 6) }  { ((1-0.1585037) / (1953-6-1)) }   \\
+F &= 61.09122   \\
+\end{aligned}$$
+
+```{r}
+(summary(bptest_m2)$r.squared / 6) / 
+  ((1 - summary(bptest_m2)$r.squared) / (bptest_m2$df.residual))
+pf(61.09122, 6, 1946, lower.tail = FALSE)
+```
+
+
+
+#### Calculating the LM statistic
+
+
+To calculate the LM statistic, we'll use the formula provided:
+
+$$\begin{aligned}
+LM &= n \times R^2_{\hat{u}^2}   \\
+LM &= 1953 \times 0.1681318   \\
+LM &= 328.3614
+\end{aligned}$$
+
+```{r}
+1953 * (summary(bptest_m1)$r.squared)
+pchisq(328.3615, 7, lower.tail = FALSE)
+```
+
+The manual B-P test (i.e. a regression of the squared residuals on the constituent terms) on Model 1 (quadratic) returns a result that is significant at the 0.001 level. This is confirmed by using `lmtest::bptest()`.
+
+```{r}
+library(lmtest)
+bp1 <- bptest(mod1)
+bp1 
+```
+
+
+
+Calculate the LM statistic for Model 2:
+
+$$\begin{aligned}
+LM &= n \times R^2_{\hat{u}^2}   \\
+LM &= 1953 \times 0.1585037   \\
+LM &= 309.5577
+\end{aligned}$$
+
+```{r}
+1953 * (summary(bptest_m2)$r.squared)
+pchisq(309.5577, 6, lower.tail = FALSE)
+```
+
+
+
+#### Using the `bptest()` function from `{lmtest}`
+
+```{r}
+library(lmtest)
+bp2 <- bptest(mod2)
+bp2
+```
+
+The B-P test also returns a significant result at the 0.001 level for the $log(age)$ model.
+
+
+
+## Dealing with heteroskedasticity: Calculating robust SEs
+
+
+The `sandwich` and `lmtest` packages facilitate the calculation of heteroskedastic-corrected SEs and then using them to re-test our coefficients.
+
+First, we use `sandwich::vcovHC()` to extract a model's variance-covariance matrix and adjust it to account for heteroskedasticity.
+
+
+```{r}
+library(sandwich)
+mod1.hcvcov <- vcovHC(mod1)
+mod2.hcvcov <- vcovHC(mod2)
+```
+
+
+To test our coefficients, we can use `lmtest::coeftest()` and specify our adjusted variance-covariance matrix.
+
+```{r}
+library(lmtest)
+coeftest(mod1, vcov = mod1.hcvcov)
+```
+
+
+```{r}
+coeftest(mod2, vcov = mod2.hcvcov)  
+```
+
+
+
+#### Using robust SEs in a `stargazer` table
+
+
+Instead of using the `coeftest()` function, it's usually more practical to replace the unadjusted SEs with robust SEs in a model reporting function.
+
+To do this, we first have to calculate our heteroskedastic-robust SEs by taking the square-root of the diagonal of the adjusted variance-covariance matrix.
+
+```{r}
+mod1.robustse <- sqrt(diag(mod1.hcvcov))
+```
+
+
+```{r}
+mod2.robustse <- sqrt(diag(mod2.hcvcov))
+```
+
+These vectors can be used in place of the standard SEs in a `stargazer` table using the `se = list()` argument.
+
+
+```{r, results="asis"}
+stargazer(mod1, mod1, mod2, mod2, 
+          se = list(NULL, mod1.robustse, NULL, mod2.robustse), 
+          column.labels = c("M1 Default","M1 Robust", "M2 Default","M2 Robust"), 
+          no.space = FALSE,
+          align = TRUE,
+          header = FALSE,
+          title = "Comparing normal vs robust SEs in Model 1 and Model 2",
+          type = "html")
+```
+
+
+--------------------------------------------------------------------------------
+
+

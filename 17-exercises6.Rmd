@@ -2,7 +2,6 @@
 
 *This tutorial was created by [John Santos](https://jb-santos.github.io/)* (with minor adaptations from me).
 
-
 ## How to (nicely) display model results
 
 If we want to display models in a more aesthetically-pleasing format than with the `summary()` command, we have a few options. 

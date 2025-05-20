@@ -1,0 +1,11 @@
+# Lecture 8: The Multiple Regression Model: Interpretation
+
+## Slides{.unnumbered}
+
+- 9 The Multiple Regression Model: Interpretation ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx)) 
+
+No fancy code from this Lecture :( ... 
+
+```{r week9slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: Interpretation."}
+knitr::include_graphics("slide/9_Interpretation.pdf")
+```
