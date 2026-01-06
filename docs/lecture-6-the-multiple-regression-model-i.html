@@ -119,19 +119,23 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## lm(formula = log_income ~ expen_wages, data = df)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.3529 -0.7474 -0.0107  0.7696  3.4804 
+##      Min       1Q   Median       3Q      Max 
+## -2.87350 -0.73285 -0.02755  0.71395  2.80270 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.94527    0.11899  24.752   &lt;2e-16 ***
-## expen_wages  0.05542    0.02647   2.093   0.0368 *  
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  2.86883    0.13149   21.82   &lt;2e-16
+## expen_wages  0.05115    0.02857    1.79    0.074
+##                
+## (Intercept) ***
+## expen_wages .  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.086 on 498 degrees of freedom
-## Multiple R-squared:  0.008723,   Adjusted R-squared:  0.006733 
-## F-statistic: 4.382 on 1 and 498 DF,  p-value: 0.03682</code></pre>
+## Residual standard error: 1.105 on 498 degrees of freedom
+## Multiple R-squared:  0.006394,   Adjusted R-squared:  0.004399 
+## F-statistic: 3.205 on 1 and 498 DF,  p-value: 0.07402</code></pre>
 <p>Wait what? <em>(Interpret a log ~ level)</em></p>
 </div>
 <div id="vignette-6.2" class="section level2" number="15.3">
@@ -146,8 +150,8 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <pre><code>## # A tibble: 2 × 2
 ##   urban income_urb
 ##   &lt;dbl&gt;      &lt;dbl&gt;
-## 1     0       2.54
-## 2     1       3.44</code></pre>
+## 1     0       2.39
+## 2     1       3.32</code></pre>
 <div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">urban</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>expen_wages_urb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">expen_wages</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -155,8 +159,8 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <pre><code>## # A tibble: 2 × 2
 ##   urban expen_wages_urb
 ##   &lt;dbl&gt;           &lt;dbl&gt;
-## 1     0            1.86
-## 2     1            5.04</code></pre>
+## 1     0            2.00
+## 2     1            5.02</code></pre>
 <p>The difference between what is explained by urban of income/expendinture (mean) and the observed value of income/expenditure is…</p>
 <div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">urban</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -174,18 +178,22 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -2.32648 -0.63083 -0.00077  0.58448  2.83280 
+## -2.69359 -0.67340 -0.01516  0.66530  2.69418 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)           2.371e-16  4.213e-02   0.000        1    
-## expen_wages_residual -3.228e-01  3.742e-02  -8.627   &lt;2e-16 ***
+##                        Estimate Std. Error
+## (Intercept)          -1.412e-16  4.370e-02
+## expen_wages_residual -2.929e-01  3.863e-02
+##                      t value Pr(&gt;|t|)    
+## (Intercept)            0.000        1    
+## expen_wages_residual  -7.583 1.66e-13 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.942 on 498 degrees of freedom
-## Multiple R-squared:   0.13,  Adjusted R-squared:  0.1283 
-## F-statistic: 74.42 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 0.9771 on 498 degrees of freedom
+## Multiple R-squared:  0.1035, Adjusted R-squared:  0.1017 
+## F-statistic: 57.51 on 1 and 498 DF,  p-value: 1.663e-13</code></pre>
 <p>Let’s plot:</p>
 <div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">expen_wages</span>,y<span class="op">=</span><span class="va">log_income</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -266,7 +274,7 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-05-19.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

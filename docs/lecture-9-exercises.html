@@ -96,15 +96,23 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 ## -79.594 -22.510  -0.289  22.511  86.068 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  5.67469    3.00978   1.885 0.059496 .  
-## woman       -4.53724    1.24012  -3.659 0.000259 ***
-## age         -0.02066    0.03947  -0.524 0.600618    
-## univ         0.50494    1.26471   0.399 0.689739    
-## marketlib    2.71180    0.18729  14.479  &lt; 2e-16 ***
-## moraltrad    2.83293    0.18193  15.572  &lt; 2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  5.67469    3.00978   1.885 0.059496
+## woman       -4.53724    1.24012  -3.659 0.000259
+## age         -0.02066    0.03947  -0.524 0.600618
+## univ         0.50494    1.26471   0.399 0.689739
+## marketlib    2.71180    0.18729  14.479  &lt; 2e-16
+## moraltrad    2.83293    0.18193  15.572  &lt; 2e-16
+##                
+## (Intercept) .  
+## woman       ***
+## age            
+## univ           
+## marketlib   ***
+## moraltrad   ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 29.49 on 2375 degrees of freedom
 ##   (35352 observations deleted due to missingness)
@@ -141,27 +149,38 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 ## Model 1: restricted model
 ## Model 2: feel_cpc ~ woman + age + univ + marketlib + moraltrad
 ## 
-##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
-## 1   2376 2247929                                  
-## 2   2375 2065588  1    182341 209.65 &lt; 2.2e-16 ***
+##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)
+## 1   2376 2247929                              
+## 2   2375 2065588  1    182341 209.65 &lt; 2.2e-16
+##      
+## 1    
+## 2 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode" id="cb454"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html">linearHypothesis</a></span><span class="op">(</span><span class="va">mod</span>, <span class="st">"marketlib=0"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 2 × 6
-##   Res.Df      RSS    Df `Sum of Sq`     F  `Pr(&gt;F)`
-##    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-## 1   2376 2247929.    NA         NA    NA  NA       
-## 2   2375 2065588.     1     182341.  210.  1.35e-45</code></pre>
+##   Res.Df     RSS    Df `Sum of Sq`     F  `Pr(&gt;F)`
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1   2376  2.25e6    NA         NA    NA  NA       
+## 2   2375  2.07e6     1     182341.  210.  1.35e-45</code></pre>
 <div class="sourceCode" id="cb456"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span> </span></code></pre></div>
-<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)
-## (Intercept)  5.67469015 3.00978465  1.8854140 5.949593e-02
-## woman       -4.53724017 1.24012170 -3.6587056 2.590110e-04
-## age         -0.02066458 0.03946767 -0.5235825 6.006178e-01
-## univ         0.50494416 1.26470847  0.3992574 6.897395e-01
-## marketlib    2.71180033 0.18728635 14.4794339 1.349400e-45
-## moraltrad    2.83292849 0.18192678 15.5718055 3.914799e-52</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept)  5.67469015 3.00978465  1.8854140
+## woman       -4.53724017 1.24012170 -3.6587056
+## age         -0.02066458 0.03946767 -0.5235825
+## univ         0.50494416 1.26470847  0.3992574
+## marketlib    2.71180033 0.18728635 14.4794339
+## moraltrad    2.83292849 0.18192678 15.5718055
+##                 Pr(&gt;|t|)
+## (Intercept) 5.949593e-02
+## woman       2.590110e-04
+## age         6.006178e-01
+## univ        6.897395e-01
+## marketlib   1.349400e-45
+## moraltrad   3.914799e-52</code></pre>
 </div>
 <div id="testing-whether-one-term-is-different-from-another-e.g.-is-marketlib-moraltrad" class="section level3" number="21.1.2">
 <h3>
@@ -234,11 +253,15 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 ## Model 1: restricted model
 ## Model 2: feel_cpc ~ woman + age + univ + marketlib + moraltrad
 ## 
-##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
-## 1   2380 2789889                                  
-## 2   2375 2065588  5    724301 166.56 &lt; 2.2e-16 ***
+##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)
+## 1   2380 2789889                              
+## 2   2375 2065588  5    724301 166.56 &lt; 2.2e-16
+##      
+## 1    
+## 2 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Note, this is the same as the F-test for the overall significance of a regression, which is reported in the model summary table.</p>
 <div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
@@ -252,15 +275,23 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 ## -79.594 -22.510  -0.289  22.511  86.068 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  5.67469    3.00978   1.885 0.059496 .  
-## woman       -4.53724    1.24012  -3.659 0.000259 ***
-## age         -0.02066    0.03947  -0.524 0.600618    
-## univ         0.50494    1.26471   0.399 0.689739    
-## marketlib    2.71180    0.18729  14.479  &lt; 2e-16 ***
-## moraltrad    2.83293    0.18193  15.572  &lt; 2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  5.67469    3.00978   1.885 0.059496
+## woman       -4.53724    1.24012  -3.659 0.000259
+## age         -0.02066    0.03947  -0.524 0.600618
+## univ         0.50494    1.26471   0.399 0.689739
+## marketlib    2.71180    0.18729  14.479  &lt; 2e-16
+## moraltrad    2.83293    0.18193  15.572  &lt; 2e-16
+##                
+## (Intercept) .  
+## woman       ***
+## age            
+## univ           
+## marketlib   ***
+## moraltrad   ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 29.49 on 2375 degrees of freedom
 ##   (35352 observations deleted due to missingness)
@@ -277,13 +308,20 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 <p>Recall, the summary table for the model. I extract this manually because the printout from the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command rounds p values to 2e-16.</p>
 <div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span></span></code></pre></div>
-<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)
-## (Intercept)  5.67469015 3.00978465  1.8854140 5.949593e-02
-## woman       -4.53724017 1.24012170 -3.6587056 2.590110e-04
-## age         -0.02066458 0.03946767 -0.5235825 6.006178e-01
-## univ         0.50494416 1.26470847  0.3992574 6.897395e-01
-## marketlib    2.71180033 0.18728635 14.4794339 1.349400e-45
-## moraltrad    2.83292849 0.18192678 15.5718055 3.914799e-52</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept)  5.67469015 3.00978465  1.8854140
+## woman       -4.53724017 1.24012170 -3.6587056
+## age         -0.02066458 0.03946767 -0.5235825
+## univ         0.50494416 1.26470847  0.3992574
+## marketlib    2.71180033 0.18728635 14.4794339
+## moraltrad    2.83292849 0.18192678 15.5718055
+##                 Pr(&gt;|t|)
+## (Intercept) 5.949593e-02
+## woman       2.590110e-04
+## age         6.006178e-01
+## univ        6.897395e-01
+## marketlib   1.349400e-45
+## moraltrad   3.914799e-52</code></pre>
 <p>For a one-tailed test for marketlib &gt;= 0…</p>
 <div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fl">5</span>,<span class="fl">3</span><span class="op">]</span>, <span class="va">mod</span><span class="op">$</span><span class="va">df</span>, lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -308,13 +346,20 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 <p>So, if we wanted to build a CI around the coefficient for marketlib, we first have to pull up the table of coefficients</p>
 <div class="sourceCode" id="cb476"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span></span></code></pre></div>
-<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)
-## (Intercept)  5.67469015 3.00978465  1.8854140 5.949593e-02
-## woman       -4.53724017 1.24012170 -3.6587056 2.590110e-04
-## age         -0.02066458 0.03946767 -0.5235825 6.006178e-01
-## univ         0.50494416 1.26470847  0.3992574 6.897395e-01
-## marketlib    2.71180033 0.18728635 14.4794339 1.349400e-45
-## moraltrad    2.83292849 0.18192678 15.5718055 3.914799e-52</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept)  5.67469015 3.00978465  1.8854140
+## woman       -4.53724017 1.24012170 -3.6587056
+## age         -0.02066458 0.03946767 -0.5235825
+## univ         0.50494416 1.26470847  0.3992574
+## marketlib    2.71180033 0.18728635 14.4794339
+## moraltrad    2.83292849 0.18192678 15.5718055
+##                 Pr(&gt;|t|)
+## (Intercept) 5.949593e-02
+## woman       2.590110e-04
+## age         6.006178e-01
+## univ        6.897395e-01
+## marketlib   1.349400e-45
+## moraltrad   3.914799e-52</code></pre>
 <p>and note that the coefficient for marketlib is in [5,1] and the SE is in [5,2]</p>
 <div class="sourceCode" id="cb478"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">]</span></span></code></pre></div>
@@ -345,20 +390,34 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 <span>         upper95 <span class="op">=</span> <span class="va">Estimate</span> <span class="op">+</span> <span class="op">(</span><span class="va">`Std. Error`</span> <span class="op">*</span> <span class="fl">1.96</span><span class="op">)</span>,</span>
 <span>         lower99 <span class="op">=</span> <span class="va">Estimate</span> <span class="op">-</span> <span class="op">(</span><span class="va">`Std. Error`</span> <span class="op">*</span> <span class="fl">2.57</span><span class="op">)</span>,</span>
 <span>         upper99 <span class="op">=</span> <span class="va">Estimate</span> <span class="op">+</span> <span class="op">(</span><span class="va">`Std. Error`</span> <span class="op">*</span> <span class="fl">2.57</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)     lower90     upper90
-## (Intercept)  5.67469015 3.00978465  1.8854140 5.949593e-02  0.73864332 10.61073697
-## woman       -4.53724017 1.24012170 -3.6587056 2.590110e-04 -6.57103977 -2.50344058
-## age         -0.02066458 0.03946767 -0.5235825 6.006178e-01 -0.08539156  0.04406239
-## univ         0.50494416 1.26470847  0.3992574 6.897395e-01 -1.56917773  2.57906605
-## marketlib    2.71180033 0.18728635 14.4794339 1.349400e-45  2.40465072  3.01894995
-## moraltrad    2.83292849 0.18192678 15.5718055 3.914799e-52  2.53456857  3.13128842
-##                 lower95     upper95    lower99     upper99
-## (Intercept) -0.22448777 11.57386806 -2.0604564 13.40983669
-## woman       -6.96787871 -2.10660163 -7.7243530 -1.35012739
-## age         -0.09802121  0.05669205 -0.1220965  0.08076733
-## univ        -1.97388444  2.98377276 -2.7453566  3.75524492
-## marketlib    2.34471908  3.07888158  2.2304744  3.19312625
-## moraltrad    2.47635199  3.18950499  2.3653767  3.30048033</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept)  5.67469015 3.00978465  1.8854140
+## woman       -4.53724017 1.24012170 -3.6587056
+## age         -0.02066458 0.03946767 -0.5235825
+## univ         0.50494416 1.26470847  0.3992574
+## marketlib    2.71180033 0.18728635 14.4794339
+## moraltrad    2.83292849 0.18192678 15.5718055
+##                 Pr(&gt;|t|)     lower90     upper90
+## (Intercept) 5.949593e-02  0.73864332 10.61073697
+## woman       2.590110e-04 -6.57103977 -2.50344058
+## age         6.006178e-01 -0.08539156  0.04406239
+## univ        6.897395e-01 -1.56917773  2.57906605
+## marketlib   1.349400e-45  2.40465072  3.01894995
+## moraltrad   3.914799e-52  2.53456857  3.13128842
+##                 lower95     upper95    lower99
+## (Intercept) -0.22448777 11.57386806 -2.0604564
+## woman       -6.96787871 -2.10660163 -7.7243530
+## age         -0.09802121  0.05669205 -0.1220965
+## univ        -1.97388444  2.98377276 -2.7453566
+## marketlib    2.34471908  3.07888158  2.2304744
+## moraltrad    2.47635199  3.18950499  2.3653767
+##                 upper99
+## (Intercept) 13.40983669
+## woman       -1.35012739
+## age          0.08076733
+## univ         3.75524492
+## marketlib    3.19312625
+## moraltrad    3.30048033</code></pre>
 <p>If you’re really lazy, you can also have <code>{stargazer}</code> do it for you.</p>
 <div class="sourceCode" id="cb490"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
@@ -402,29 +461,44 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 </h2>
 <div class="sourceCode" id="cb492"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span> </span></code></pre></div>
-<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)
-## (Intercept)  5.67469015 3.00978465  1.8854140 5.949593e-02
-## woman       -4.53724017 1.24012170 -3.6587056 2.590110e-04
-## age         -0.02066458 0.03946767 -0.5235825 6.006178e-01
-## univ         0.50494416 1.26470847  0.3992574 6.897395e-01
-## marketlib    2.71180033 0.18728635 14.4794339 1.349400e-45
-## moraltrad    2.83292849 0.18192678 15.5718055 3.914799e-52</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept)  5.67469015 3.00978465  1.8854140
+## woman       -4.53724017 1.24012170 -3.6587056
+## age         -0.02066458 0.03946767 -0.5235825
+## univ         0.50494416 1.26470847  0.3992574
+## marketlib    2.71180033 0.18728635 14.4794339
+## moraltrad    2.83292849 0.18192678 15.5718055
+##                 Pr(&gt;|t|)
+## (Intercept) 5.949593e-02
+## woman       2.590110e-04
+## age         6.006178e-01
+## univ        6.897395e-01
+## marketlib   1.349400e-45
+## moraltrad   3.914799e-52</code></pre>
 <div class="sourceCode" id="cb494"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">b</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## (Intercept)       woman         age        univ   marketlib   moraltrad 
-##  5.67469015 -4.53724017 -0.02066458  0.50494416  2.71180033  2.83292849</code></pre>
+<pre><code>## (Intercept)       woman         age        univ 
+##  5.67469015 -4.53724017 -0.02066458  0.50494416 
+##   marketlib   moraltrad 
+##  2.71180033  2.83292849</code></pre>
 <div class="sourceCode" id="cb496"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">se</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html">vcov</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## (Intercept)       woman         age        univ   marketlib   moraltrad 
-##  3.00978465  1.24012170  0.03946767  1.26470847  0.18728635  0.18192678</code></pre>
+<pre><code>## (Intercept)       woman         age        univ 
+##  3.00978465  1.24012170  0.03946767  1.26470847 
+##   marketlib   moraltrad 
+##  0.18728635  0.18192678</code></pre>
 <div class="sourceCode" id="cb498"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">t</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">coefficients</span> <span class="op">/</span> <span class="va">se</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## (Intercept)       woman         age        univ   marketlib   moraltrad 
-##   1.8854140  -3.6587056  -0.5235825   0.3992574  14.4794339  15.5718055</code></pre>
+<pre><code>## (Intercept)       woman         age        univ 
+##   1.8854140  -3.6587056  -0.5235825   0.3992574 
+##   marketlib   moraltrad 
+##  14.4794339  15.5718055</code></pre>
 <div class="sourceCode" id="cb500"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span>, <span class="va">mod</span><span class="op">$</span><span class="va">df</span>, lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  (Intercept)        woman          age         univ    marketlib    moraltrad 
-## 5.949593e-02 2.590110e-04 6.006178e-01 6.897395e-01 1.349400e-45 3.914799e-52</code></pre>
+<pre><code>##  (Intercept)        woman          age 
+## 5.949593e-02 2.590110e-04 6.006178e-01 
+##         univ    marketlib    moraltrad 
+## 6.897395e-01 1.349400e-45 3.914799e-52</code></pre>
 <div class="sourceCode" id="cb502"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span>,</span>
@@ -466,17 +540,27 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {color: #4F2683; }
 ## -5.8086 -0.9290  0.0464  1.0729  7.2573 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -7.1070688  0.6531876 -10.881  &lt; 2e-16 ***
-## educ        -0.0624920  0.0131587  -4.749 2.19e-06 ***
-## age          0.5326561  0.0401685  13.261  &lt; 2e-16 ***
-## I(age^2)    -0.0054912  0.0005966  -9.205  &lt; 2e-16 ***
-## electric    -0.2453435  0.1377525  -1.781   0.0751 .  
-## heduc       -0.0449532  0.0112074  -4.011 6.27e-05 ***
-## radio        0.1457302  0.0914020   1.594   0.1110    
-## tv          -0.3849668  0.1605246  -2.398   0.0166 *  
+##               Estimate Std. Error t value
+## (Intercept) -7.1070688  0.6531876 -10.881
+## educ        -0.0624920  0.0131587  -4.749
+## age          0.5326561  0.0401685  13.261
+## I(age^2)    -0.0054912  0.0005966  -9.205
+## electric    -0.2453435  0.1377525  -1.781
+## heduc       -0.0449532  0.0112074  -4.011
+## radio        0.1457302  0.0914020   1.594
+## tv          -0.3849668  0.1605246  -2.398
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## educ        2.19e-06 ***
+## age          &lt; 2e-16 ***
+## I(age^2)     &lt; 2e-16 ***
+## electric      0.0751 .  
+## heduc       6.27e-05 ***
+## radio         0.1110    
+## tv            0.0166 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.734 on 1945 degrees of freedom
 ##   (2408 observations deleted due to missingness)
@@ -670,26 +754,44 @@ F Statistic
 <div class="sourceCode" id="cb513"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Recall, the coefficients and their statistics can be found in the summary table</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2.mod</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span></span></code></pre></div>
-<pre><code>##                 Estimate  Std. Error    t value     Pr(&gt;|t|)
-## (Intercept) -7.107068766 0.653187623 -10.880593 8.298592e-27
-## educ        -0.062491970 0.013158660  -4.749113 2.192456e-06
-## age          0.532656067 0.040168495  13.260543 1.740455e-38
-## I(age^2)    -0.005491249 0.000596579  -9.204563 8.590393e-20
-## electric    -0.245343458 0.137752499  -1.781045 7.506105e-02
-## heduc       -0.044953170 0.011207360  -4.011040 6.273806e-05
-## radio        0.145730153 0.091402002   1.594387 1.110119e-01
-## tv          -0.384966792 0.160524586  -2.398180 1.657049e-02</code></pre>
+<pre><code>##                 Estimate  Std. Error    t value
+## (Intercept) -7.107068766 0.653187623 -10.880593
+## educ        -0.062491970 0.013158660  -4.749113
+## age          0.532656067 0.040168495  13.260543
+## I(age^2)    -0.005491249 0.000596579  -9.204563
+## electric    -0.245343458 0.137752499  -1.781045
+## heduc       -0.044953170 0.011207360  -4.011040
+## radio        0.145730153 0.091402002   1.594387
+## tv          -0.384966792 0.160524586  -2.398180
+##                 Pr(&gt;|t|)
+## (Intercept) 8.298592e-27
+## educ        2.192456e-06
+## age         1.740455e-38
+## I(age^2)    8.590393e-20
+## electric    7.506105e-02
+## heduc       6.273806e-05
+## radio       1.110119e-01
+## tv          1.657049e-02</code></pre>
 <div class="sourceCode" id="cb515"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2.mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##                 Estimate  Std. Error    t value     Pr(&gt;|t|)
-## (Intercept) -7.107068766 0.653187623 -10.880593 8.298592e-27
-## educ        -0.062491970 0.013158660  -4.749113 2.192456e-06
-## age          0.532656067 0.040168495  13.260543 1.740455e-38
-## I(age^2)    -0.005491249 0.000596579  -9.204563 8.590393e-20
-## electric    -0.245343458 0.137752499  -1.781045 7.506105e-02
-## heduc       -0.044953170 0.011207360  -4.011040 6.273806e-05
-## radio        0.145730153 0.091402002   1.594387 1.110119e-01
-## tv          -0.384966792 0.160524586  -2.398180 1.657049e-02</code></pre>
+<pre><code>##                 Estimate  Std. Error    t value
+## (Intercept) -7.107068766 0.653187623 -10.880593
+## educ        -0.062491970 0.013158660  -4.749113
+## age          0.532656067 0.040168495  13.260543
+## I(age^2)    -0.005491249 0.000596579  -9.204563
+## electric    -0.245343458 0.137752499  -1.781045
+## heduc       -0.044953170 0.011207360  -4.011040
+## radio        0.145730153 0.091402002   1.594387
+## tv          -0.384966792 0.160524586  -2.398180
+##                 Pr(&gt;|t|)
+## (Intercept) 8.298592e-27
+## educ        2.192456e-06
+## age         1.740455e-38
+## I(age^2)    8.590393e-20
+## electric    7.506105e-02
+## heduc       6.273806e-05
+## radio       1.110119e-01
+## tv          1.657049e-02</code></pre>
 <div class="sourceCode" id="cb517"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -702,15 +804,33 @@ F Statistic
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">ci_table</span></span></code></pre></div>
-<pre><code>##                     coef      lower90      upper90      lower95      upper95
-## (Intercept) -7.107068766 -8.181562406 -6.032575125 -8.387316507 -5.826821024
-## educ        -0.062491970 -0.084137965 -0.040845974 -0.088282943 -0.036700996
-## age          0.532656067  0.466578892  0.598733241  0.453925816  0.611386317
-## I(age^2)    -0.005491249 -0.006472622 -0.004509877 -0.006660544 -0.004321954
-## electric    -0.245343458 -0.471946320 -0.018740597 -0.515338357  0.024651440
-## heduc       -0.044953170 -0.063389277 -0.026517063 -0.066919595 -0.022986745
-## radio        0.145730153 -0.004626141  0.296086447 -0.033417771  0.324878077
-## tv          -0.384966792 -0.649029736 -0.120903848 -0.699594981 -0.070338603</code></pre>
+<pre><code>##                     coef      lower90
+## (Intercept) -7.107068766 -8.181562406
+## educ        -0.062491970 -0.084137965
+## age          0.532656067  0.466578892
+## I(age^2)    -0.005491249 -0.006472622
+## electric    -0.245343458 -0.471946320
+## heduc       -0.044953170 -0.063389277
+## radio        0.145730153 -0.004626141
+## tv          -0.384966792 -0.649029736
+##                  upper90      lower95
+## (Intercept) -6.032575125 -8.387316507
+## educ        -0.040845974 -0.088282943
+## age          0.598733241  0.453925816
+## I(age^2)    -0.004509877 -0.006660544
+## electric    -0.018740597 -0.515338357
+## heduc       -0.026517063 -0.066919595
+## radio        0.296086447 -0.033417771
+## tv          -0.120903848 -0.699594981
+##                  upper95
+## (Intercept) -5.826821024
+## educ        -0.036700996
+## age          0.611386317
+## I(age^2)    -0.004321954
+## electric     0.024651440
+## heduc       -0.022986745
+## radio        0.324878077
+## tv          -0.070338603</code></pre>
 <div class="sourceCode" id="cb519"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html">stargazer</a></span><span class="op">(</span><span class="va">fertil2.mod</span>, type <span class="op">=</span> <span class="st">"html"</span>, no.space<span class="op">=</span><span class="cn">TRUE</span>,</span>
@@ -1075,7 +1195,8 @@ F Statistic
 ## 1   1947 5874.3                              
 ## 2   1945 5850.1  2    24.289 4.0377 0.01779 *
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>This hypothesis asks if <em>radio</em> and <em>tv</em> improve model fit, once the other five variables are accounted for–i.e. is the model without these two terms statistically distinguishable from a model that does include them?</p>
 <p>An F-test testing whether both <span class="math inline">\(B_{radio}\)</span> and <span class="math inline">\(B_{TV} = 0\)</span> returns a p-value of 0.01779. This means we can reject the null hypothesis that they both equal 0 at the 0.05 significance level but not at the 0.01 significance level.</p>
 <p>So, we have mixed evidence that they can be safely excluded from the model.</p>
@@ -1098,7 +1219,8 @@ F Statistic
 ## 1   1945 5850.1                              
 ## 2   1947 5874.3 -2   -24.289 4.0377 0.01779 *
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div id="b.-using-r2-form-of-f-test" class="section level4" number="21.5.2.4">
 <h4>
@@ -1116,17 +1238,27 @@ F Statistic
 ## -5.8086 -0.9290  0.0464  1.0729  7.2573 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -7.1070688  0.6531876 -10.881  &lt; 2e-16 ***
-## educ        -0.0624920  0.0131587  -4.749 2.19e-06 ***
-## age          0.5326561  0.0401685  13.261  &lt; 2e-16 ***
-## I(age^2)    -0.0054912  0.0005966  -9.205  &lt; 2e-16 ***
-## electric    -0.2453435  0.1377525  -1.781   0.0751 .  
-## heduc       -0.0449532  0.0112074  -4.011 6.27e-05 ***
-## radio        0.1457302  0.0914020   1.594   0.1110    
-## tv          -0.3849668  0.1605246  -2.398   0.0166 *  
+##               Estimate Std. Error t value
+## (Intercept) -7.1070688  0.6531876 -10.881
+## educ        -0.0624920  0.0131587  -4.749
+## age          0.5326561  0.0401685  13.261
+## I(age^2)    -0.0054912  0.0005966  -9.205
+## electric    -0.2453435  0.1377525  -1.781
+## heduc       -0.0449532  0.0112074  -4.011
+## radio        0.1457302  0.0914020   1.594
+## tv          -0.3849668  0.1605246  -2.398
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## educ        2.19e-06 ***
+## age          &lt; 2e-16 ***
+## I(age^2)     &lt; 2e-16 ***
+## electric      0.0751 .  
+## heduc       6.27e-05 ***
+## radio         0.1110    
+## tv            0.0166 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.734 on 1945 degrees of freedom
 ##   (2408 observations deleted due to missingness)
@@ -1144,15 +1276,23 @@ F Statistic
 ## -5.8892 -0.9183  0.0350  1.0893  7.1715 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -6.9725803  0.6515291 -10.702  &lt; 2e-16 ***
-## educ        -0.0647434  0.0127459  -5.080 4.14e-07 ***
-## age          0.5317886  0.0400575  13.276  &lt; 2e-16 ***
-## I(age^2)    -0.0054960  0.0005956  -9.227  &lt; 2e-16 ***
-## electric    -0.3880371  0.1238214  -3.134  0.00175 ** 
-## heduc       -0.0468908  0.0110680  -4.237 2.38e-05 ***
+##               Estimate Std. Error t value
+## (Intercept) -6.9725803  0.6515291 -10.702
+## educ        -0.0647434  0.0127459  -5.080
+## age          0.5317886  0.0400575  13.276
+## I(age^2)    -0.0054960  0.0005956  -9.227
+## electric    -0.3880371  0.1238214  -3.134
+## heduc       -0.0468908  0.0110680  -4.237
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## educ        4.14e-07 ***
+## age          &lt; 2e-16 ***
+## I(age^2)     &lt; 2e-16 ***
+## electric     0.00175 ** 
+## heduc       2.38e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.737 on 1947 degrees of freedom
 ##   (2408 observations deleted due to missingness)
@@ -1197,11 +1337,15 @@ F Statistic
 ## Model 2: children ~ educ + age + I(age^2) + electric + heduc + radio + 
 ##     tv
 ## 
-##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
-## 1   1952 10266.4                                  
-## 2   1945  5850.1  7    4416.4 209.76 &lt; 2.2e-16 ***
+##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)
+## 1   1952 10266.4                              
+## 2   1945  5850.1  7    4416.4 209.76 &lt; 2.2e-16
+##      
+## 1    
+## 2 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>This is an F-test for the overall significance of the regression (i.e. whether or not any of the slope coefficients are different from zero, or if a model with the terms performs better than model with just the intercept).</p>
 <p>The p-value on this F-test is very small (16 zeros after the decimal place). Therefore we can reject the null hypothesis that all of the coefficients in the model are equal to zero, which means at least one of them is non-zero.</p>
 <hr>
@@ -1236,17 +1380,27 @@ F Statistic
 ## -5.8086 -0.9290  0.0464  1.0729  7.2573 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -7.1070688  0.6531876 -10.881  &lt; 2e-16 ***
-## educ        -0.0624920  0.0131587  -4.749 2.19e-06 ***
-## age          0.5326561  0.0401685  13.261  &lt; 2e-16 ***
-## I(age^2)    -0.0054912  0.0005966  -9.205  &lt; 2e-16 ***
-## electric    -0.2453435  0.1377525  -1.781   0.0751 .  
-## heduc       -0.0449532  0.0112074  -4.011 6.27e-05 ***
-## radio        0.1457302  0.0914020   1.594   0.1110    
-## tv          -0.3849668  0.1605246  -2.398   0.0166 *  
+##               Estimate Std. Error t value
+## (Intercept) -7.1070688  0.6531876 -10.881
+## educ        -0.0624920  0.0131587  -4.749
+## age          0.5326561  0.0401685  13.261
+## I(age^2)    -0.0054912  0.0005966  -9.205
+## electric    -0.2453435  0.1377525  -1.781
+## heduc       -0.0449532  0.0112074  -4.011
+## radio        0.1457302  0.0914020   1.594
+## tv          -0.3849668  0.1605246  -2.398
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## educ        2.19e-06 ***
+## age          &lt; 2e-16 ***
+## I(age^2)     &lt; 2e-16 ***
+## electric      0.0751 .  
+## heduc       6.27e-05 ***
+## radio         0.1110    
+## tv            0.0166 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.734 on 1945 degrees of freedom
 ## Multiple R-squared:  0.4302, Adjusted R-squared:  0.4281 
@@ -2336,32 +2490,51 @@ LM &amp;= 309.5577
 <pre><code>## 
 ## t test of coefficients:
 ## 
-##                Estimate  Std. Error  t value  Pr(&gt;|t|)    
-## (Intercept) -7.10706877  0.62615271 -11.3504 &lt; 2.2e-16 ***
-## educ        -0.06249197  0.01242771  -5.0284 5.399e-07 ***
-## age          0.53265607  0.04183773  12.7315 &lt; 2.2e-16 ***
-## I(age^2)    -0.00549125  0.00066975  -8.1989 4.352e-16 ***
-## electric    -0.24534346  0.13398537  -1.8311  0.067235 .  
-## heduc       -0.04495317  0.01053909  -4.2654 2.091e-05 ***
-## radio        0.14573015  0.09499743   1.5340  0.125182    
-## tv          -0.38496679  0.14793897  -2.6022  0.009333 ** 
+##                Estimate  Std. Error  t value
+## (Intercept) -7.10706877  0.62615271 -11.3504
+## educ        -0.06249197  0.01242771  -5.0284
+## age          0.53265607  0.04183773  12.7315
+## I(age^2)    -0.00549125  0.00066975  -8.1989
+## electric    -0.24534346  0.13398537  -1.8311
+## heduc       -0.04495317  0.01053909  -4.2654
+## radio        0.14573015  0.09499743   1.5340
+## tv          -0.38496679  0.14793897  -2.6022
+##              Pr(&gt;|t|)    
+## (Intercept) &lt; 2.2e-16 ***
+## educ        5.399e-07 ***
+## age         &lt; 2.2e-16 ***
+## I(age^2)    4.352e-16 ***
+## electric     0.067235 .  
+## heduc       2.091e-05 ***
+## radio        0.125182    
+## tv           0.009333 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode" id="cb570"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html">coeftest</a></span><span class="op">(</span><span class="va">mod2</span>, vcov <span class="op">=</span> <span class="va">mod2.hcvcov</span><span class="op">)</span>  </span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
-##               Estimate Std. Error  t value  Pr(&gt;|t|)    
-## (Intercept) -14.599084   0.580554 -25.1468 &lt; 2.2e-16 ***
-## educ         -0.064415   0.012578  -5.1214 3.332e-07 ***
-## log(age)      5.401854   0.174558  30.9459 &lt; 2.2e-16 ***
-## electric     -0.233198   0.135629  -1.7194   0.08570 .  
-## heduc        -0.043244   0.010679  -4.0492 5.340e-05 ***
-## radio         0.170769   0.095975   1.7793   0.07534 .  
-## tv           -0.360619   0.149204  -2.4170   0.01574 *  
+##               Estimate Std. Error  t value
+## (Intercept) -14.599084   0.580554 -25.1468
+## educ         -0.064415   0.012578  -5.1214
+## log(age)      5.401854   0.174558  30.9459
+## electric     -0.233198   0.135629  -1.7194
+## heduc        -0.043244   0.010679  -4.0492
+## radio         0.170769   0.095975   1.7793
+## tv           -0.360619   0.149204  -2.4170
+##              Pr(&gt;|t|)    
+## (Intercept) &lt; 2.2e-16 ***
+## educ        3.332e-07 ***
+## log(age)    &lt; 2.2e-16 ***
+## electric      0.08570 .  
+## heduc       5.340e-05 ***
+## radio         0.07534 .  
+## tv            0.01574 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div id="using-robust-ses-in-a-stargazer-table" class="section level4" number="21.7.0.1">
 <h4>
 <span class="header-section-number">21.7.0.1</span> Using robust SEs in a <code>stargazer</code> table<a class="anchor" aria-label="anchor" href="#using-robust-ses-in-a-stargazer-table"><i class="fas fa-link"></i></a>
@@ -3000,7 +3173,7 @@ F Statistic
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-05-19.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

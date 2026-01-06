@@ -103,12 +103,17 @@
 ## -5.5532 -1.9801 -0.7071  1.2030 15.8370 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -3.39054    0.76657  -4.423 1.18e-05 ***
-## educ         0.64427    0.05381  11.974  &lt; 2e-16 ***
-## exper        0.07010    0.01098   6.385 3.78e-10 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -3.39054    0.76657  -4.423 1.18e-05
+## educ         0.64427    0.05381  11.974  &lt; 2e-16
+## exper        0.07010    0.01098   6.385 3.78e-10
+##                
+## (Intercept) ***
+## educ        ***
+## exper       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.257 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
@@ -124,12 +129,17 @@
 ## -555.32 -198.01  -70.71  120.30 1583.70 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -339.054     76.657  -4.423 1.18e-05 ***
-## educ          64.427      5.381  11.974  &lt; 2e-16 ***
-## exper          7.010      1.098   6.385 3.78e-10 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -339.054     76.657  -4.423 1.18e-05
+## educ          64.427      5.381  11.974  &lt; 2e-16
+## exper          7.010      1.098   6.385 3.78e-10
+##                
+## (Intercept) ***
+## educ        ***
+## exper       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 325.7 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
@@ -145,11 +155,15 @@
 ## -5.3396 -2.1501 -0.9674  1.1921 16.6085 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.90485    0.68497  -1.321    0.187    
-## educ         0.54136    0.05325  10.167   &lt;2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.90485    0.68497  -1.321    0.187
+## educ         0.54136    0.05325  10.167   &lt;2e-16
+##                
+## (Intercept)    
+## educ        ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.378 on 524 degrees of freedom
 ## Multiple R-squared:  0.1648, Adjusted R-squared:  0.1632 
@@ -219,8 +233,8 @@
 
     <script>
 
-      function styleCell_mbf808wsusn0xxtp1og0(i, j, css_id) {
-          var table = document.getElementById("tinytable_mbf808wsusn0xxtp1og0");
+      function styleCell_tke7d7nxxqdwslc2bvwg(i, j, css_id) {
+          var table = document.getElementById("tinytable_tke7d7nxxqdwslc2bvwg");
           var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -230,7 +244,7 @@
           }
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_mbf808wsusn0xxtp1og0');
+        var table = document.getElementById('tinytable_tke7d7nxxqdwslc2bvwg');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -238,8 +252,8 @@
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_mbf808wsusn0xxtp1og0(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_mbf808wsusn0xxtp1og0");
+      function spanCell_tke7d7nxxqdwslc2bvwg(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_tke7d7nxxqdwslc2bvwg");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -269,36 +283,36 @@
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 17, j: 1 }, { i: 17, j: 2 }, { i: 17, j: 3 },  ], css_id: 'tinytable_css_quqrwyynbg9ujnp6a83l',}, 
-          { positions: [ { i: 9, j: 1 }, { i: 9, j: 2 }, { i: 9, j: 3 },  ], css_id: 'tinytable_css_9orn8lgxsqiky2sakikk',}, 
-          { positions: [ { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 4, j: 2 }, { i: 6, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 12, j: 2 }, { i: 5, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 12, j: 3 }, { i: 10, j: 1 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 4, j: 3 }, { i: 10, j: 2 }, { i: 11, j: 2 }, { i: 7, j: 3 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 16, j: 2 }, { i: 3, j: 3 }, { i: 5, j: 2 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 11, j: 3 }, { i: 8, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 15, j: 3 }, { i: 16, j: 3 }, { i: 13, j: 3 }, { i: 10, j: 3 }, { i: 14, j: 3 },  ], css_id: 'tinytable_css_hg3p77cvqalquh52fefi',}, 
-          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_jk89p7iqkmpl6n2vt99o',}, 
-          { positions: [ { i: 17, j: 0 },  ], css_id: 'tinytable_css_95pfnfn5yj1y709loaxs',}, 
-          { positions: [ { i: 9, j: 0 },  ], css_id: 'tinytable_css_8tagmyepx5d03adiqp55',}, 
-          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 13, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 },  ], css_id: 'tinytable_css_ign6q4x300lz9r7bkwxp',}, 
-          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_58u9f5fkrjlae315w9ys',}, 
+          { positions: [ { i: 17, j: 1 }, { i: 17, j: 2 }, { i: 17, j: 3 },  ], css_id: 'tinytable_css_t04nbmd141w7evjf1o2i',}, 
+          { positions: [ { i: 9, j: 1 }, { i: 9, j: 2 }, { i: 9, j: 3 },  ], css_id: 'tinytable_css_3cjqgoe5u09f8xzvpj53',}, 
+          { positions: [ { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 4, j: 2 }, { i: 6, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 12, j: 2 }, { i: 5, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 12, j: 3 }, { i: 10, j: 1 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 4, j: 3 }, { i: 10, j: 2 }, { i: 11, j: 2 }, { i: 7, j: 3 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 16, j: 2 }, { i: 3, j: 3 }, { i: 5, j: 2 }, { i: 1, j: 3 }, { i: 2, j: 3 }, { i: 11, j: 3 }, { i: 8, j: 3 }, { i: 5, j: 3 }, { i: 6, j: 3 }, { i: 15, j: 3 }, { i: 16, j: 3 }, { i: 13, j: 3 }, { i: 10, j: 3 }, { i: 14, j: 3 },  ], css_id: 'tinytable_css_sssatl12mm6ntbh2k6r7',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_owku8l9xjxp23ktf3ek1',}, 
+          { positions: [ { i: 17, j: 0 },  ], css_id: 'tinytable_css_7fq9mq0l0idwqa19dgdh',}, 
+          { positions: [ { i: 9, j: 0 },  ], css_id: 'tinytable_css_6drzzevgt8lwqes49nch',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 13, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 },  ], css_id: 'tinytable_css_8jzq6l8ho6fo37w2g1xh',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_bf1dv1d1hco28csvhodm',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_mbf808wsusn0xxtp1og0(cell.i, cell.j, group.css_id);
+                  styleCell_tke7d7nxxqdwslc2bvwg(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_quqrwyynbg9ujnp6a83l, .table th.tinytable_css_quqrwyynbg9ujnp6a83l { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_9orn8lgxsqiky2sakikk, .table th.tinytable_css_9orn8lgxsqiky2sakikk { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_hg3p77cvqalquh52fefi, .table th.tinytable_css_hg3p77cvqalquh52fefi { text-align: center; }
-      .table td.tinytable_css_jk89p7iqkmpl6n2vt99o, .table th.tinytable_css_jk89p7iqkmpl6n2vt99o { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_95pfnfn5yj1y709loaxs, .table th.tinytable_css_95pfnfn5yj1y709loaxs { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_8tagmyepx5d03adiqp55, .table th.tinytable_css_8tagmyepx5d03adiqp55 { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_ign6q4x300lz9r7bkwxp, .table th.tinytable_css_ign6q4x300lz9r7bkwxp { text-align: left; }
-      .table td.tinytable_css_58u9f5fkrjlae315w9ys, .table th.tinytable_css_58u9f5fkrjlae315w9ys { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_t04nbmd141w7evjf1o2i, .table th.tinytable_css_t04nbmd141w7evjf1o2i { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_3cjqgoe5u09f8xzvpj53, .table th.tinytable_css_3cjqgoe5u09f8xzvpj53 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_sssatl12mm6ntbh2k6r7, .table th.tinytable_css_sssatl12mm6ntbh2k6r7 { text-align: center; }
+      .table td.tinytable_css_owku8l9xjxp23ktf3ek1, .table th.tinytable_css_owku8l9xjxp23ktf3ek1 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_7fq9mq0l0idwqa19dgdh, .table th.tinytable_css_7fq9mq0l0idwqa19dgdh { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_6drzzevgt8lwqes49nch, .table th.tinytable_css_6drzzevgt8lwqes49nch { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_8jzq6l8ho6fo37w2g1xh, .table th.tinytable_css_8jzq6l8ho6fo37w2g1xh { text-align: left; }
+      .table td.tinytable_css_bf1dv1d1hco28csvhodm, .table th.tinytable_css_bf1dv1d1hco28csvhodm { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <div class="inline-table"><table class="table table-borderless" id="tinytable_mbf808wsusn0xxtp1og0" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_tke7d7nxxqdwslc2bvwg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Modeling wage versus education and experience</caption>
               <tr>
@@ -444,12 +458,16 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    6.00    9.00    8.59   11.00   16.00 
+##    NA's 
+##   32684</code></pre>
 <div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_lib</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00   16.00   54.00   48.34   77.00  100.00    2640</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   16.00   54.00   48.34   77.00  100.00 
+##    NA's 
+##    2640</code></pre>
 <div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ces</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">feel_lib</span>, y <span class="op">=</span> <span class="va">marketlib</span><span class="op">)</span> <span class="op">+</span></span>
@@ -537,13 +555,20 @@ x\star &amp;= -1.513889
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Prestige</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Prestige</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    education          income          women           prestige         census    
-##  Min.   : 6.380   Min.   :  611   Min.   : 0.000   Min.   :14.80   Min.   :1113  
-##  1st Qu.: 8.445   1st Qu.: 4106   1st Qu.: 3.592   1st Qu.:35.23   1st Qu.:3120  
-##  Median :10.540   Median : 5930   Median :13.600   Median :43.60   Median :5135  
-##  Mean   :10.738   Mean   : 6798   Mean   :28.979   Mean   :46.83   Mean   :5402  
-##  3rd Qu.:12.648   3rd Qu.: 8187   3rd Qu.:52.203   3rd Qu.:59.27   3rd Qu.:8312  
-##  Max.   :15.970   Max.   :25879   Max.   :97.510   Max.   :87.20   Max.   :9517  
+<pre><code>##    education          income     
+##  Min.   : 6.380   Min.   :  611  
+##  1st Qu.: 8.445   1st Qu.: 4106  
+##  Median :10.540   Median : 5930  
+##  Mean   :10.738   Mean   : 6798  
+##  3rd Qu.:12.648   3rd Qu.: 8187  
+##  Max.   :15.970   Max.   :25879  
+##      women           prestige         census    
+##  Min.   : 0.000   Min.   :14.80   Min.   :1113  
+##  1st Qu.: 3.592   1st Qu.:35.23   1st Qu.:3120  
+##  Median :13.600   Median :43.60   Median :5135  
+##  Mean   :28.979   Mean   :46.83   Mean   :5402  
+##  3rd Qu.:52.203   3rd Qu.:59.27   3rd Qu.:8312  
+##  Max.   :97.510   Max.   :87.20   Max.   :9517  
 ##    type   
 ##  bc  :44  
 ##  prof:31  
@@ -572,11 +597,15 @@ x\star &amp;= -1.513889
 ## -33.007  -8.378  -2.378   8.432  32.084 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 2.714e+01  2.268e+00   11.97   &lt;2e-16 ***
-## income      2.897e-03  2.833e-04   10.22   &lt;2e-16 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 2.714e+01  2.268e+00   11.97   &lt;2e-16
+## income      2.897e-03  2.833e-04   10.22   &lt;2e-16
+##                
+## (Intercept) ***
+## income      ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 12.09 on 100 degrees of freedom
 ## Multiple R-squared:  0.5111, Adjusted R-squared:  0.5062 
@@ -699,27 +728,34 @@ x\star &amp;= -1.513889
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##       mpg             cyl             disp             hp             drat      
-##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0   Min.   :2.760  
-##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5   1st Qu.:3.080  
-##  Median :19.20   Median :6.000   Median :196.3   Median :123.0   Median :3.695  
-##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7   Mean   :3.597  
-##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0   3rd Qu.:3.920  
-##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0   Max.   :4.930  
-##        wt             qsec             vs               am              gear      
-##  Min.   :1.513   Min.   :14.50   Min.   :0.0000   Min.   :0.0000   Min.   :3.000  
-##  1st Qu.:2.581   1st Qu.:16.89   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:3.000  
-##  Median :3.325   Median :17.71   Median :0.0000   Median :0.0000   Median :4.000  
-##  Mean   :3.217   Mean   :17.85   Mean   :0.4375   Mean   :0.4062   Mean   :3.688  
-##  3rd Qu.:3.610   3rd Qu.:18.90   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000  
-##  Max.   :5.424   Max.   :22.90   Max.   :1.0000   Max.   :1.0000   Max.   :5.000  
-##       carb      
-##  Min.   :1.000  
-##  1st Qu.:2.000  
-##  Median :2.000  
-##  Mean   :2.812  
-##  3rd Qu.:4.000  
-##  Max.   :8.000</code></pre>
+<pre><code>##       mpg             cyl             disp      
+##  Min.   :10.40   Min.   :4.000   Min.   : 71.1  
+##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8  
+##  Median :19.20   Median :6.000   Median :196.3  
+##  Mean   :20.09   Mean   :6.188   Mean   :230.7  
+##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0  
+##  Max.   :33.90   Max.   :8.000   Max.   :472.0  
+##        hp             drat             wt       
+##  Min.   : 52.0   Min.   :2.760   Min.   :1.513  
+##  1st Qu.: 96.5   1st Qu.:3.080   1st Qu.:2.581  
+##  Median :123.0   Median :3.695   Median :3.325  
+##  Mean   :146.7   Mean   :3.597   Mean   :3.217  
+##  3rd Qu.:180.0   3rd Qu.:3.920   3rd Qu.:3.610  
+##  Max.   :335.0   Max.   :4.930   Max.   :5.424  
+##       qsec             vs        
+##  Min.   :14.50   Min.   :0.0000  
+##  1st Qu.:16.89   1st Qu.:0.0000  
+##  Median :17.71   Median :0.0000  
+##  Mean   :17.85   Mean   :0.4375  
+##  3rd Qu.:18.90   3rd Qu.:1.0000  
+##  Max.   :22.90   Max.   :1.0000  
+##        am              gear            carb      
+##  Min.   :0.0000   Min.   :3.000   Min.   :1.000  
+##  1st Qu.:0.0000   1st Qu.:3.000   1st Qu.:2.000  
+##  Median :0.0000   Median :4.000   Median :2.000  
+##  Mean   :0.4062   Mean   :3.688   Mean   :2.812  
+##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :1.0000   Max.   :5.000   Max.   :8.000</code></pre>
 <div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hpqsec1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">qsec</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">hpqsec2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">qsec</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
@@ -829,7 +865,8 @@ x\star &amp;= -1.513889
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">children</span>, <span class="va">educ</span>, <span class="va">age</span>, <span class="va">electric</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## select: dropped 23 variables (mnthborn, yearborn, radio, tv, bicycle, …)</code></pre>
+<pre><code>## select: dropped 23 variables (mnthborn, yearborn,
+## radio, tv, bicycle, …)</code></pre>
 <p>Our population model is:</p>
 <p><span class="math display">\[children = \beta_0 + \beta_1educ + \beta_2age + \beta_3electric + u\]</span></p>
 <div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
@@ -849,13 +886,19 @@ x\star &amp;= -1.513889
 ## -6.6019 -0.6814 -0.0619  0.7476  7.1061 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -2.071091   0.094741 -21.861  &lt; 2e-16 ***
-## educ        -0.078751   0.006319 -12.462  &lt; 2e-16 ***
-## age          0.176999   0.002729  64.855  &lt; 2e-16 ***
-## electric    -0.361758   0.068032  -5.317  1.1e-07 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -2.071091   0.094741 -21.861  &lt; 2e-16
+## educ        -0.078751   0.006319 -12.462  &lt; 2e-16
+## age          0.176999   0.002729  64.855  &lt; 2e-16
+## electric    -0.361758   0.068032  -5.317  1.1e-07
+##                
+## (Intercept) ***
+## educ        ***
+## age         ***
+## electric    ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.471 on 4354 degrees of freedom
 ## Multiple R-squared:  0.5621, Adjusted R-squared:  0.5618 
@@ -960,14 +1003,21 @@ R^2 = 0.562\]</span></p>
 ## -5.8576 -0.7153 -0.0005  0.7186  7.4868 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.2475679  0.2406003 -17.654  &lt; 2e-16 ***
-## educ        -0.0788944  0.0062513 -12.620  &lt; 2e-16 ***
-## age          0.3370397  0.0165166  20.406  &lt; 2e-16 ***
-## I(age^2)    -0.0026696  0.0002718  -9.822  &lt; 2e-16 ***
-## electric    -0.3777901  0.0673176  -5.612 2.12e-08 ***
+##               Estimate Std. Error t value
+## (Intercept) -4.2475679  0.2406003 -17.654
+## educ        -0.0788944  0.0062513 -12.620
+## age          0.3370397  0.0165166  20.406
+## I(age^2)    -0.0026696  0.0002718  -9.822
+## electric    -0.3777901  0.0673176  -5.612
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## educ         &lt; 2e-16 ***
+## age          &lt; 2e-16 ***
+## I(age^2)     &lt; 2e-16 ***
+## electric    2.12e-08 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.455 on 4353 degrees of freedom
 ## Multiple R-squared:  0.5716, Adjusted R-squared:  0.5712 
@@ -1001,12 +1051,17 @@ R^2 = 0.572\]</span></p>
 ## -5.5532 -1.9801 -0.7071  1.2030 15.8370 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -3.39054    0.76657  -4.423 1.18e-05 ***
-## educ         0.64427    0.05381  11.974  &lt; 2e-16 ***
-## exper        0.07010    0.01098   6.385 3.78e-10 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -3.39054    0.76657  -4.423 1.18e-05
+## educ         0.64427    0.05381  11.974  &lt; 2e-16
+## exper        0.07010    0.01098   6.385 3.78e-10
+##                
+## (Intercept) ***
+## educ        ***
+## exper       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.257 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
@@ -1050,12 +1105,17 @@ R^2 = 0.225\]</span></p>
 ## -555.32 -198.01  -70.71  120.30 1583.70 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -339.054     76.657  -4.423 1.18e-05 ***
-## educ          64.427      5.381  11.974  &lt; 2e-16 ***
-## exper          7.010      1.098   6.385 3.78e-10 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -339.054     76.657  -4.423 1.18e-05
+## educ          64.427      5.381  11.974  &lt; 2e-16
+## exper          7.010      1.098   6.385 3.78e-10
+##                
+## (Intercept) ***
+## educ        ***
+## exper       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 325.7 on 523 degrees of freedom
 ## Multiple R-squared:  0.2252, Adjusted R-squared:  0.2222 
@@ -1079,11 +1139,15 @@ R^2 = 0.225\]</span></p>
 ## -5.3396 -2.1501 -0.9674  1.1921 16.6085 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.90485    0.68497  -1.321    0.187    
-## educ         0.54136    0.05325  10.167   &lt;2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.90485    0.68497  -1.321    0.187
+## educ         0.54136    0.05325  10.167   &lt;2e-16
+##                
+## (Intercept)    
+## educ        ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.378 on 524 degrees of freedom
 ## Multiple R-squared:  0.1648, Adjusted R-squared:  0.1632 
@@ -1123,8 +1187,10 @@ R^2 = 0.165\]</span></p>
 <p>Before we begin, it’s useful to look at the univariate distributions of out variables. Besides letting us know of missing values, it also helps with interpreting the substantive significance of any relationships we find.</p>
 <div class="sourceCode" id="cb434"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    6.00    9.00    8.59   11.00   16.00 
+##    NA's 
+##   32684</code></pre>
 <div class="sourceCode" id="cb436"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3.519915</code></pre>
@@ -1173,12 +1239,17 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 ## -9.3775 -2.2386  0.2442  2.5586  8.2885 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  8.309741   0.195029  42.608  &lt; 2e-16 ***
-## genderWoman -0.855020   0.099390  -8.603  &lt; 2e-16 ***
-## age          0.013516   0.003192   4.234 2.34e-05 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  8.309741   0.195029  42.608  &lt; 2e-16
+## genderWoman -0.855020   0.099390  -8.603  &lt; 2e-16
+## age          0.013516   0.003192   4.234 2.34e-05
+##                
+## (Intercept) ***
+## genderWoman ***
+## age         ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.474 on 5022 degrees of freedom
 ##   (32708 observations deleted due to missingness)
@@ -1199,13 +1270,19 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 ## -9.2733 -2.2700  0.4905  2.5909  8.9988 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  6.2610833  0.5002976  12.515  &lt; 2e-16 ***
-## genderWoman -0.8560525  0.0992055  -8.629  &lt; 2e-16 ***
-## age          0.0996610  0.0196397   5.074 4.03e-07 ***
-## I(age^2)    -0.0008238  0.0001853  -4.445 8.97e-06 ***
+##               Estimate Std. Error t value
+## (Intercept)  6.2610833  0.5002976  12.515
+## genderWoman -0.8560525  0.0992055  -8.629
+## age          0.0996610  0.0196397   5.074
+## I(age^2)    -0.0008238  0.0001853  -4.445
+##             Pr(&gt;|t|)    
+## (Intercept)  &lt; 2e-16 ***
+## genderWoman  &lt; 2e-16 ***
+## age         4.03e-07 ***
+## I(age^2)    8.97e-06 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 3.467 on 5021 degrees of freedom
 ##   (32708 observations deleted due to missingness)
@@ -1311,7 +1388,7 @@ marketlib &amp;= \beta_0 + \beta_1gender + \beta_2age + \beta_3age^2 + \mu &amp;
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-05-19.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -107,18 +107,30 @@
 <div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ces</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] "weight"        "age"           "agegrp"        "age_18to34"   
-##  [5] "age_35to54"    "age_55plus"    "gender"        "woman"        
-##  [9] "lang"          "province"      "region"        "reg_on"       
-## [13] "reg_qc"        "reg_atl"       "reg_west"      "educ"         
-## [17] "univ"          "relig"         "rel_catholic"  "rel_christian"
-## [21] "rel_other"     "rel_none"      "income"        "incomegrp"    
-## [25] "mostimp"       "turnout"       "leftright"     "leftrightgrp" 
-## [29] "lr_left"       "lr_centre"     "lr_right"      "feel_lib"     
-## [33] "feel_cpc"      "feel_ndp"      "feel_bloc"     "feel_green"   
-## [37] "feel_ppc"      "feel_trudeau"  "feel_scheer"   "feel_singh"   
-## [41] "feel_blanchet" "feel_may"      "feel_bernier"  "polinterest"  
-## [45] "marketlib"     "moraltrad"     "helpgroups"</code></pre>
+<pre><code>##  [1] "weight"        "age"          
+##  [3] "agegrp"        "age_18to34"   
+##  [5] "age_35to54"    "age_55plus"   
+##  [7] "gender"        "woman"        
+##  [9] "lang"          "province"     
+## [11] "region"        "reg_on"       
+## [13] "reg_qc"        "reg_atl"      
+## [15] "reg_west"      "educ"         
+## [17] "univ"          "relig"        
+## [19] "rel_catholic"  "rel_christian"
+## [21] "rel_other"     "rel_none"     
+## [23] "income"        "incomegrp"    
+## [25] "mostimp"       "turnout"      
+## [27] "leftright"     "leftrightgrp" 
+## [29] "lr_left"       "lr_centre"    
+## [31] "lr_right"      "feel_lib"     
+## [33] "feel_cpc"      "feel_ndp"     
+## [35] "feel_bloc"     "feel_green"   
+## [37] "feel_ppc"      "feel_trudeau" 
+## [39] "feel_scheer"   "feel_singh"   
+## [41] "feel_blanchet" "feel_may"     
+## [43] "feel_bernier"  "polinterest"  
+## [45] "marketlib"     "moraltrad"    
+## [47] "helpgroups"</code></pre>
 <p>Let’s pull those columns using Base <code>R</code> and put them into a new data frame called “feelings_base”. I’m feeling lazy, so I’m just going to do the parties.</p>
 <div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feelings_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
@@ -130,72 +142,102 @@
 <span>  feel_ppc <span class="op">=</span> <span class="va">ces</span><span class="op">$</span><span class="va">feel_ppc</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_base</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc
-## 1       52        0       64        NA         97        0
-## 2       51        0       64        40         88        0
-## 3       52       49       NA        NA         NA       NA
-## 4       30       85        0         0          0       30
-## 5       20       62       51        20         50       20
-## 6       81       31       79        NA         85        0</code></pre>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green
+## 1       52        0       64        NA         97
+## 2       51        0       64        40         88
+## 3       52       49       NA        NA         NA
+## 4       30       85        0         0          0
+## 5       20       62       51        20         50
+## 6       81       31       79        NA         85
+##   feel_ppc
+## 1        0
+## 2        0
+## 3       NA
+## 4       30
+## 5       20
+## 6        0</code></pre>
 <p>We could also pull these columns by using their index numbers, but this isn’t recommended because index numbers could change depending on the version of a data set or previous operations performed on it.</p>
 <div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feelings_numsel</span> <span class="op">&lt;-</span> <span class="va">ces</span><span class="op">[</span><span class="fl">32</span><span class="op">:</span><span class="fl">43</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_numsel</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau
-## 1       52        0       64        NA         97        0           55
-## 2       51        0       64        40         88        0           53
-## 3       52       49       NA        NA         NA       NA           74
-## 4       30       85        0         0          0       30            0
-## 5       20       62       51        20         50       20           30
-## 6       81       31       79        NA         85        0           81
-##   feel_scheer feel_singh feel_blanchet feel_may feel_bernier
-## 1           0         71            15       80            0
-## 2           0         NA            32       59            0
-## 3          24         63            NA       56           20
-## 4          80          0             0        0           10
-## 5          60         NA            50       60           30
-## 6          35         70            NA       74            3</code></pre>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green
+## 1       52        0       64        NA         97
+## 2       51        0       64        40         88
+## 3       52       49       NA        NA         NA
+## 4       30       85        0         0          0
+## 5       20       62       51        20         50
+## 6       81       31       79        NA         85
+##   feel_ppc feel_trudeau feel_scheer feel_singh
+## 1        0           55           0         71
+## 2        0           53           0         NA
+## 3       NA           74          24         63
+## 4       30            0          80          0
+## 5       20           30          60         NA
+## 6        0           81          35         70
+##   feel_blanchet feel_may feel_bernier
+## 1            15       80            0
+## 2            32       59            0
+## 3            NA       56           20
+## 4             0        0           10
+## 5            50       60           30
+## 6            NA       74            3</code></pre>
 <p>The <a href="https://dplyr.tidyverse.org">dplyr</a> way is more efficient:</p>
 <div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">feelings_dplyr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ces</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">feel_lib</span><span class="op">:</span><span class="va">feel_blanchet</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## select: dropped 37 variables (weight, age, agegrp, age_18to34, age_35to54, …)</code></pre>
+<pre><code>## select: dropped 37 variables (weight, age,
+## agegrp, age_18to34, age_35to54, …)</code></pre>
 <div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_dplyr</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau
-## 1       52        0       64        NA         97        0           55
-## 2       51        0       64        40         88        0           53
-## 3       52       49       NA        NA         NA       NA           74
-## 4       30       85        0         0          0       30            0
-## 5       20       62       51        20         50       20           30
-## 6       81       31       79        NA         85        0           81
-##   feel_scheer feel_singh feel_blanchet
-## 1           0         71            15
-## 2           0         NA            32
-## 3          24         63            NA
-## 4          80          0             0
-## 5          60         NA            50
-## 6          35         70            NA</code></pre>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green
+## 1       52        0       64        NA         97
+## 2       51        0       64        40         88
+## 3       52       49       NA        NA         NA
+## 4       30       85        0         0          0
+## 5       20       62       51        20         50
+## 6       81       31       79        NA         85
+##   feel_ppc feel_trudeau feel_scheer feel_singh
+## 1        0           55           0         71
+## 2        0           53           0         NA
+## 3       NA           74          24         63
+## 4       30            0          80          0
+## 5       20           30          60         NA
+## 6        0           81          35         70
+##   feel_blanchet
+## 1            15
+## 2            32
+## 3            NA
+## 4             0
+## 5            50
+## 6            NA</code></pre>
 <p>You could get even fancier and use the <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a></code> command to select every column whose column name starts with the character string “feel_”:</p>
 <div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feelings_dplyr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ces</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"feel_"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## select: dropped 35 variables (weight, age, agegrp, age_18to34, age_35to54, …)</code></pre>
+<pre><code>## select: dropped 35 variables (weight, age,
+## agegrp, age_18to34, age_35to54, …)</code></pre>
 <div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">feelings_dplyr2</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green feel_ppc feel_trudeau
-## 1       52        0       64        NA         97        0           55
-## 2       51        0       64        40         88        0           53
-## 3       52       49       NA        NA         NA       NA           74
-## 4       30       85        0         0          0       30            0
-## 5       20       62       51        20         50       20           30
-## 6       81       31       79        NA         85        0           81
-##   feel_scheer feel_singh feel_blanchet feel_may feel_bernier
-## 1           0         71            15       80            0
-## 2           0         NA            32       59            0
-## 3          24         63            NA       56           20
-## 4          80          0             0        0           10
-## 5          60         NA            50       60           30
-## 6          35         70            NA       74            3</code></pre>
+<pre><code>##   feel_lib feel_cpc feel_ndp feel_bloc feel_green
+## 1       52        0       64        NA         97
+## 2       51        0       64        40         88
+## 3       52       49       NA        NA         NA
+## 4       30       85        0         0          0
+## 5       20       62       51        20         50
+## 6       81       31       79        NA         85
+##   feel_ppc feel_trudeau feel_scheer feel_singh
+## 1        0           55           0         71
+## 2        0           53           0         NA
+## 3       NA           74          24         63
+## 4       30            0          80          0
+## 5       20           30          60         NA
+## 6        0           81          35         70
+##   feel_blanchet feel_may feel_bernier
+## 1            15       80            0
+## 2            32       59            0
+## 3            NA       56           20
+## 4             0        0           10
+## 5            50       60           30
+## 6            NA       74            3</code></pre>
 </div>
 <div id="using-summarise-to-calculate-summary-statistics" class="section level3" number="8.1.2">
 <h3>
@@ -220,12 +262,14 @@
 <span>                   na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## select: dropped 35 variables (weight, age, agegrp, age_18to34, age_35to54, …)
 ## summarise: now one row and 12 columns, ungrouped</code></pre>
-<pre><code>##   feel_lib_1 feel_cpc_1 feel_ndp_1 feel_bloc_1 feel_green_1 feel_ppc_1
-## 1   48.34366   43.61424   50.03684    23.33321     47.45785   25.81046
-##   feel_trudeau_1 feel_scheer_1 feel_singh_1 feel_blanchet_1 feel_may_1
-## 1       44.84804      39.51979     50.36898        27.79471   46.85782
-##   feel_bernier_1
-## 1       26.14414</code></pre>
+<pre><code>##   feel_lib_1 feel_cpc_1 feel_ndp_1 feel_bloc_1
+## 1   48.34366   43.61424   50.03684    23.33321
+##   feel_green_1 feel_ppc_1 feel_trudeau_1
+## 1     47.45785   25.81046       44.84804
+##   feel_scheer_1 feel_singh_1 feel_blanchet_1
+## 1      39.51979     50.36898        27.79471
+##   feel_may_1 feel_bernier_1
+## 1   46.85782       26.14414</code></pre>
 </div>
 <div id="the-group_by-and-summarise-combo" class="section level3" number="8.1.3">
 <h3>
@@ -300,64 +344,96 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="va">cupcakes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'fertil2'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cupcakes</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   mnthborn yearborn age electric radio tv bicycle educ ceb agefbrth children
-## 1        5       64  24        1     1  1       1   12   0       NA        0
-## 2        1       56  32        1     1  1       1   13   3       25        3
-## 3        7       58  30        1     0  0       0    5   1       27        1
-## 4       11       45  42        1     0  1       0    4   3       17        2
-## 5        5       45  43        1     1  1       1   11   2       24        2
-## 6        8       52  36        1     0  0       0    7   1       26        1
-##   knowmeth usemeth monthfm yearfm agefm idlnchld heduc agesq urban urb_educ spirit
-## 1        1       0      NA     NA    NA        2    NA   576     1       12      0
-## 2        1       1      11     80    24        3    12  1024     1       13      0
-## 3        1       0       6     83    24        5     7   900     1        5      1
-## 4        1       0       1     61    15        3    11  1764     1        4      0
-## 5        1       1       3     66    20        2    14  1849     1       11      0
-## 6        1       1      11     76    24        4     9  1296     1        7      0
-##   protest catholic frsthalf educ0 evermarr
-## 1       0        0        1     0        0
-## 2       0        0        1     0        1
-## 3       0        0        0     0        1
-## 4       0        0        0     0        1
-## 5       1        0        1     0        1
-## 6       0        0        0     0        1</code></pre>
+<pre><code>##   mnthborn yearborn age electric radio tv bicycle
+## 1        5       64  24        1     1  1       1
+## 2        1       56  32        1     1  1       1
+## 3        7       58  30        1     0  0       0
+## 4       11       45  42        1     0  1       0
+## 5        5       45  43        1     1  1       1
+## 6        8       52  36        1     0  0       0
+##   educ ceb agefbrth children knowmeth usemeth
+## 1   12   0       NA        0        1       0
+## 2   13   3       25        3        1       1
+## 3    5   1       27        1        1       0
+## 4    4   3       17        2        1       0
+## 5   11   2       24        2        1       1
+## 6    7   1       26        1        1       1
+##   monthfm yearfm agefm idlnchld heduc agesq urban
+## 1      NA     NA    NA        2    NA   576     1
+## 2      11     80    24        3    12  1024     1
+## 3       6     83    24        5     7   900     1
+## 4       1     61    15        3    11  1764     1
+## 5       3     66    20        2    14  1849     1
+## 6      11     76    24        4     9  1296     1
+##   urb_educ spirit protest catholic frsthalf educ0
+## 1       12      0       0        0        1     0
+## 2       13      0       0        0        1     0
+## 3        5      1       0        0        0     0
+## 4        4      0       0        0        0     0
+## 5       11      0       1        0        1     0
+## 6        7      0       0        0        0     0
+##   evermarr
+## 1        0
+## 2        1
+## 3        1
+## 4        1
+## 5        1
+## 6        1</code></pre>
 <div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   mnthborn yearborn age electric radio tv bicycle educ ceb agefbrth children
-## 1        5       64  24        1     1  1       1   12   0       NA        0
-## 2        1       56  32        1     1  1       1   13   3       25        3
-## 3        7       58  30        1     0  0       0    5   1       27        1
-## 4       11       45  42        1     0  1       0    4   3       17        2
-## 5        5       45  43        1     1  1       1   11   2       24        2
-## 6        8       52  36        1     0  0       0    7   1       26        1
-##   knowmeth usemeth monthfm yearfm agefm idlnchld heduc agesq urban urb_educ spirit
-## 1        1       0      NA     NA    NA        2    NA   576     1       12      0
-## 2        1       1      11     80    24        3    12  1024     1       13      0
-## 3        1       0       6     83    24        5     7   900     1        5      1
-## 4        1       0       1     61    15        3    11  1764     1        4      0
-## 5        1       1       3     66    20        2    14  1849     1       11      0
-## 6        1       1      11     76    24        4     9  1296     1        7      0
-##   protest catholic frsthalf educ0 evermarr
-## 1       0        0        1     0        0
-## 2       0        0        1     0        1
-## 3       0        0        0     0        1
-## 4       0        0        0     0        1
-## 5       1        0        1     0        1
-## 6       0        0        0     0        1</code></pre>
+<pre><code>##   mnthborn yearborn age electric radio tv bicycle
+## 1        5       64  24        1     1  1       1
+## 2        1       56  32        1     1  1       1
+## 3        7       58  30        1     0  0       0
+## 4       11       45  42        1     0  1       0
+## 5        5       45  43        1     1  1       1
+## 6        8       52  36        1     0  0       0
+##   educ ceb agefbrth children knowmeth usemeth
+## 1   12   0       NA        0        1       0
+## 2   13   3       25        3        1       1
+## 3    5   1       27        1        1       0
+## 4    4   3       17        2        1       0
+## 5   11   2       24        2        1       1
+## 6    7   1       26        1        1       1
+##   monthfm yearfm agefm idlnchld heduc agesq urban
+## 1      NA     NA    NA        2    NA   576     1
+## 2      11     80    24        3    12  1024     1
+## 3       6     83    24        5     7   900     1
+## 4       1     61    15        3    11  1764     1
+## 5       3     66    20        2    14  1849     1
+## 6      11     76    24        4     9  1296     1
+##   urb_educ spirit protest catholic frsthalf educ0
+## 1       12      0       0        0        1     0
+## 2       13      0       0        0        1     0
+## 3        5      1       0        0        0     0
+## 4        4      0       0        0        0     0
+## 5       11      0       1        0        1     0
+## 6        7      0       0        0        0     0
+##   evermarr
+## 1        0
+## 2        1
+## 3        1
+## 4        1
+## 5        1
+## 6        1</code></pre>
 <p>After loading the dataset, let’s look at the summary statistics (also known as <em>descriptive statistics</em> or simply <em>descriptives</em>) for each of the variables we’re about to analyze. When looking at these, keep in mine the units of analysis and whether there are missing values that we should deal with as we analyze the data.</p>
 <div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##  0.0000  0.0000  0.0000  0.1402  0.0000  1.0000       3</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.0000  0.1402  0.0000  1.0000 
+##    NA's 
+##       3</code></pre>
 <div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   0.000   3.000   7.000   5.856   8.000  20.000</code></pre>
 <div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">agefbrth</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   10.00   17.00   19.00   19.01   20.00   38.00    1088</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.00   17.00   19.00   19.01   20.00   38.00 
+##    NA's 
+##    1088</code></pre>
 <p>Now we can calculate our summary statistics by group for each of our two variables.</p>
 <div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
@@ -419,7 +495,8 @@
 ##  Welch Two Sample t-test
 ## 
 ## data:  fertil2$agefbrth by fertil2$electric
-## t = -7.5801, df = 562.66, p-value = 1.432e-13
+## t = -7.5801, df = 562.66, p-value =
+## 1.432e-13
 ## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 ## 95 percent confidence interval:
 ##  -1.6827861 -0.9901586
@@ -448,7 +525,8 @@
 ##  Welch Two Sample t-test
 ## 
 ## data:  fertil2$agefbrth[fertil2$electric == 0] and fertil2$agefbrth[fertil2$electric == 1]
-## t = -7.5801, df = 562.66, p-value = 1.432e-13
+## t = -7.5801, df = 562.66, p-value =
+## 1.432e-13
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -1.6827861 -0.9901586
@@ -510,8 +588,10 @@
 <div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    6.00    9.00    8.59   11.00   16.00   32684</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    6.00    9.00    8.59   11.00   16.00 
+##    NA's 
+##   32684</code></pre>
 <div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">reg_west</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -632,7 +712,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2025-05-19.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
