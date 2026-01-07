@@ -75,119 +75,14 @@
 <h1>“Regressions and Causal Inference”<a class="anchor" aria-label="anchor" href="#regressions-and-causal-inference"><i class="fas fa-link"></i></a>
 </h1>
 <p> </p>
-<p>Welcome to the site for the course PS9591: “Regressions and Causal Inference” at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the lecture slides, lecture code, tutorial exercises, and tutorial code for the corresponding topic.</p>
-<p>The class is divided into <em>lectures</em> and <em>tutorials</em>. We will go through the lectures and tutorials simultaneously. Thus, I have arranged the website in a way that shows the suggested order in which each lectures or tutorials should be carried out.</p>
-<p>Before you start, don’t forget to read the <a href="https://github.com/svallejovera/regression_ci/blob/main/files/9591B_Regression_and_Causal_Inference_2026.pdf">Syllabus</a> and check Perusall for the readings for the course. This site will be corrected/updated throughout the semester(s).</p>
-<div id="about-tutorials" class="section level2" number="0.1">
+<p>Welcome to the site for the course PS9591: “Regressions and Causal Inference” at Western University, taught by Sebastián Vallejo Vera. Each week, you will find the lecture slides, lecture code, tutorial exercises, and tutorial code for the corresponding topic.</p>
+<p>The class is divided into <em>lectures</em> and <em>tutorials</em>. We will go through the lectures and tutorials simultaneously. Thus, I have arranged the website in a way that shows the suggested order in which each lecture or tutorial should be carried out.</p>
+<p>Before you start, don’t forget to read the <a href="https://github.com/svallejovera/regression_ci/blob/main/files/9591B_Regression_and_Causal_Inference_2026.pdf">Syllabus</a> and check Perusall for the course readings. This site will be corrected and updated throughout the semester.</p>
+<div id="assignments" class="section level2" number="0.1">
 <h2>
-<span class="header-section-number">0.1</span> About Tutorials<a class="anchor" aria-label="anchor" href="#about-tutorials"><i class="fas fa-link"></i></a>
+<span class="header-section-number">0.1</span> Assignments<a class="anchor" aria-label="anchor" href="#assignments"><i class="fas fa-link"></i></a>
 </h2>
-<p>The tutorials are interactive R documents that you can also run on your very own computer. This allows you to practice concepts and experiment with different approaches at your own pace. Here’s how to get started.</p>
-<div id="prerequisites" class="section level3" number="0.1.1">
-<h3>
-<span class="header-section-number">0.1.1</span> Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
-</h3>
-<p>Before running the tutorials, make sure you have:</p>
-<ol style="list-style-type: decimal">
-<li>R installed on your computer (version 4.0.0 or higher)</li>
-<li>RStudio installed (any recent version)</li>
-<li>The following R packages installed. You can install them by running these commands in R:</li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install required packages</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"learnr"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wooldridge"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidylog"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">sjPlot</span><span class="op">)</span> <span class="co"># to plot some models</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">readstata13</span><span class="op">)</span> <span class="co"># to load .dta files</span></span></code></pre></div>
-</div>
-<div id="running-a-tutorial" class="section level3" number="0.1.2">
-<h3>
-<span class="header-section-number">0.1.2</span> Running a Tutorial<a class="anchor" aria-label="anchor" href="#running-a-tutorial"><i class="fas fa-link"></i></a>
-</h3>
-<p>There are two ways to run a tutorial locally:</p>
-<div id="method-1-using-rstudio" class="section level4" number="0.1.2.1">
-<h4>
-<span class="header-section-number">0.1.2.1</span> Method 1: Using RStudio<a class="anchor" aria-label="anchor" href="#method-1-using-rstudio"><i class="fas fa-link"></i></a>
-</h4>
-<ol style="list-style-type: decimal">
-<li>Download the tutorial file (it will have a .Rmd extension)</li>
-<li>Open it in RStudio</li>
-<li>Click the “Run Document” button at the top of the editor</li>
-<li>The tutorial will open in a new window</li>
-</ol>
-</div>
-<div id="method-2-using-r-console" class="section level4" number="0.1.2.2">
-<h4>
-<span class="header-section-number">0.1.2.2</span> Method 2: Using R Console<a class="anchor" aria-label="anchor" href="#method-2-using-r-console"><i class="fas fa-link"></i></a>
-</h4>
-<p>If you have the tutorial file in your working directory, you can run:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu">run_tutorial</span><span class="op">(</span><span class="st">"filename"</span>, package <span class="op">=</span> <span class="st">"learnr"</span><span class="op">)</span></span></code></pre></div>
-<p>Replace “filename” with the name of the tutorial file (without the .Rmd extension).</p>
-</div>
-</div>
-<div id="tips-for-success" class="section level3" number="0.1.3">
-<h3>
-<span class="header-section-number">0.1.3</span> Tips for Success<a class="anchor" aria-label="anchor" href="#tips-for-success"><i class="fas fa-link"></i></a>
-</h3>
-<p>When working with tutorials locally:</p>
-<ul>
-<li>Make sure all required packages are loaded in the tutorial’s setup chunk</li>
-<li>If you modify the tutorial code, save the file before running</li>
-<li>To clear the tutorial cache and start fresh, just click on the “Start Over” button on the bottom left corner.</li>
-</ul>
-</div>
-<div id="troubleshooting-common-issues" class="section level3" number="0.1.4">
-<h3>
-<span class="header-section-number">0.1.4</span> Troubleshooting Common Issues<a class="anchor" aria-label="anchor" href="#troubleshooting-common-issues"><i class="fas fa-link"></i></a>
-</h3>
-<p>If you encounter problems:</p>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Tutorial won’t knit</strong>: Check that all required packages are installed</li>
-<li>
-<strong>Exercise chunks don’t run</strong>: Verify that learnr is properly loaded</li>
-<li>
-<strong>Previous answers persist</strong>: Clear the cache using the code provided above</li>
-<li>
-<strong>Package not found</strong>: Run <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> for the missing package</li>
-</ol>
-</div>
-<div id="getting-help" class="section level3" number="0.1.5">
-<h3>
-<span class="header-section-number">0.1.5</span> Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"><i class="fas fa-link"></i></a>
-</h3>
-<p>If you need assistance:</p>
-<ul>
-<li>Check the tutorial error messages for specific package requirements</li>
-<li>Review the setup chunk for any missing dependencies</li>
-<li>Consult the <a href="https://rstudio.github.io/learnr/">learnr documentation</a>
-</li>
-<li>Ask questions during office hours or send me an e-mail</li>
-<li>Ask ChatGPT (?)</li>
-</ul>
-</div>
-<div id="next-steps" class="section level3" number="0.1.6">
-<h3>
-<span class="header-section-number">0.1.6</span> Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"><i class="fas fa-link"></i></a>
-</h3>
-<p>After getting the tutorials running locally, you can:</p>
-<ul>
-<li>Experiment with modifying the code</li>
-<li>Create your own practice exercises</li>
-<li>Try different approaches to the analysis tasks</li>
-<li>Save your work for future reference</li>
-</ul>
-<p>Remember that these tutorials are learning tools. Feel free to experiment and try different approaches – that’s how we learn best!</p>
-</div>
-</div>
-<div id="assignments" class="section level2" number="0.2">
-<h2>
-<span class="header-section-number">0.2</span> Assignments<a class="anchor" aria-label="anchor" href="#assignments"><i class="fas fa-link"></i></a>
-</h2>
-<p>This is a list of assignments for the course. All assignments must be handed in as pdf documents using R Markdown.</p>
+<p>This is a list of assignments for the course. All assignments must be handed in as PDF documents using R Markdown.</p>
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
 <col width="53%">
@@ -220,13 +115,118 @@
 </tr>
 </tbody>
 </table></div>
-<p>Additionally, throughout the semester and after every other lecture, I will post an exercise aimed to challenge you and apply a key concept from class. You have to submit the solution to <em>three</em> exercises by March 27th.</p>
+<p>Additionally, throughout the semester, and after every other lecture, I will post an exercise aimed at challenging you and helping you apply a key concept from class. You must submit solutions to <em>three</em> exercises by March 27.</p>
 </div>
-<div id="final-exam" class="section level2" number="0.3">
+<div id="final-exam" class="section level2" number="0.2">
 <h2>
-<span class="header-section-number">0.3</span> Final Exam<a class="anchor" aria-label="anchor" href="#final-exam"><i class="fas fa-link"></i></a>
+<span class="header-section-number">0.2</span> Final Exam<a class="anchor" aria-label="anchor" href="#final-exam"><i class="fas fa-link"></i></a>
 </h2>
-<p>The final exam will require students to replicate the findings from some papers, and interpret the results. For your Final Exam, I will post the required datasets for the analyses and replication exercises here: <a href="https://github.com/svallejovera/regression_ci/tree/main/Sample_data" class="uri">https://github.com/svallejovera/regression_ci/tree/main/Sample_data</a>.</p>
+<p>The final exam will require students to replicate the findings from selected papers and interpret the results. For the final exam, I will post the required datasets for the analyses and replication exercises here: <a href="https://github.com/svallejovera/regression_ci/tree/main/Sample_data" class="uri">https://github.com/svallejovera/regression_ci/tree/main/Sample_data</a>.</p>
+</div>
+<div id="about-tutorials" class="section level2" number="0.3">
+<h2>
+<span class="header-section-number">0.3</span> About Tutorials<a class="anchor" aria-label="anchor" href="#about-tutorials"><i class="fas fa-link"></i></a>
+</h2>
+<p>The tutorials are interactive R documents that you can also run on your very own computer. This allows you to practice concepts and experiment with different approaches at your own pace. Here’s how to get started.</p>
+<div id="prerequisites" class="section level3" number="0.3.1">
+<h3>
+<span class="header-section-number">0.3.1</span> Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"><i class="fas fa-link"></i></a>
+</h3>
+<p>Before running the tutorials, make sure you have:</p>
+<ol style="list-style-type: decimal">
+<li>R installed on your computer (version 4.0.0 or higher)</li>
+<li>RStudio installed (any recent version)</li>
+<li>The following R packages installed. You can install them by running these commands in R:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install required packages</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"learnr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"wooldridge"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidylog"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">sjPlot</span><span class="op">)</span> <span class="co"># to plot some models</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">readstata13</span><span class="op">)</span> <span class="co"># to load .dta files</span></span></code></pre></div>
+</div>
+<div id="running-a-tutorial" class="section level3" number="0.3.2">
+<h3>
+<span class="header-section-number">0.3.2</span> Running a Tutorial<a class="anchor" aria-label="anchor" href="#running-a-tutorial"><i class="fas fa-link"></i></a>
+</h3>
+<p>There are two ways to run a tutorial locally:</p>
+<div id="method-1-using-rstudio" class="section level4" number="0.3.2.1">
+<h4>
+<span class="header-section-number">0.3.2.1</span> Method 1: Using RStudio<a class="anchor" aria-label="anchor" href="#method-1-using-rstudio"><i class="fas fa-link"></i></a>
+</h4>
+<ol style="list-style-type: decimal">
+<li>Download the tutorial file (it will have a .Rmd extension)</li>
+<li>Open it in RStudio</li>
+<li>Click the “Run Document” button at the top of the editor</li>
+<li>The tutorial will open in a new window</li>
+</ol>
+</div>
+<div id="method-2-using-r-console" class="section level4" number="0.3.2.2">
+<h4>
+<span class="header-section-number">0.3.2.2</span> Method 2: Using R Console<a class="anchor" aria-label="anchor" href="#method-2-using-r-console"><i class="fas fa-link"></i></a>
+</h4>
+<p>If you have the tutorial file in your working directory, you can run:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu">run_tutorial</span><span class="op">(</span><span class="st">"filename"</span>, package <span class="op">=</span> <span class="st">"learnr"</span><span class="op">)</span></span></code></pre></div>
+<p>Replace “filename” with the name of the tutorial file (without the .Rmd extension).</p>
+</div>
+</div>
+<div id="tips-for-success" class="section level3" number="0.3.3">
+<h3>
+<span class="header-section-number">0.3.3</span> Tips for Success<a class="anchor" aria-label="anchor" href="#tips-for-success"><i class="fas fa-link"></i></a>
+</h3>
+<p>When working with tutorials locally:</p>
+<ul>
+<li>Make sure all required packages are loaded in the tutorial’s setup chunk</li>
+<li>If you modify the tutorial code, save the file before running</li>
+<li>To clear the tutorial cache and start fresh, just click on the “Start Over” button on the bottom left corner.</li>
+</ul>
+</div>
+<div id="troubleshooting-common-issues" class="section level3" number="0.3.4">
+<h3>
+<span class="header-section-number">0.3.4</span> Troubleshooting Common Issues<a class="anchor" aria-label="anchor" href="#troubleshooting-common-issues"><i class="fas fa-link"></i></a>
+</h3>
+<p>If you encounter problems:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Tutorial won’t knit</strong>: Check that all required packages are installed</li>
+<li>
+<strong>Exercise chunks don’t run</strong>: Verify that learnr is properly loaded</li>
+<li>
+<strong>Previous answers persist</strong>: Clear the cache using the code provided above</li>
+<li>
+<strong>Package not found</strong>: Run <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> for the missing package</li>
+</ol>
+</div>
+<div id="getting-help" class="section level3" number="0.3.5">
+<h3>
+<span class="header-section-number">0.3.5</span> Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"><i class="fas fa-link"></i></a>
+</h3>
+<p>If you need assistance:</p>
+<ul>
+<li>Check the tutorial error messages for specific package requirements</li>
+<li>Review the setup chunk for any missing dependencies</li>
+<li>Consult the <a href="https://rstudio.github.io/learnr/">learnr documentation</a>
+</li>
+<li>Ask questions during office hours or send me an e-mail</li>
+<li>Ask ChatGPT (?)</li>
+</ul>
+</div>
+<div id="next-steps" class="section level3" number="0.3.6">
+<h3>
+<span class="header-section-number">0.3.6</span> Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"><i class="fas fa-link"></i></a>
+</h3>
+<p>After getting the tutorials running locally, you can:</p>
+<ul>
+<li>Experiment with modifying the code</li>
+<li>Create your own practice exercises</li>
+<li>Try different approaches to the analysis tasks</li>
+<li>Save your work for future reference</li>
+</ul>
+<p>Remember that these tutorials are learning tools. Feel free to experiment and try different approaches – that’s how we learn best!</p>
+</div>
 </div>
 <div id="acknowledgments" class="section level2" number="0.4">
 <h2>
@@ -244,18 +244,18 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#regressions-and-causal-inference">“Regressions and Causal Inference”</a></li>
+<li><a class="nav-link" href="#assignments"><span class="header-section-number">0.1</span> Assignments</a></li>
+<li><a class="nav-link" href="#final-exam"><span class="header-section-number">0.2</span> Final Exam</a></li>
 <li>
-<a class="nav-link" href="#about-tutorials"><span class="header-section-number">0.1</span> About Tutorials</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#prerequisites"><span class="header-section-number">0.1.1</span> Prerequisites</a></li>
-<li><a class="nav-link" href="#running-a-tutorial"><span class="header-section-number">0.1.2</span> Running a Tutorial</a></li>
-<li><a class="nav-link" href="#tips-for-success"><span class="header-section-number">0.1.3</span> Tips for Success</a></li>
-<li><a class="nav-link" href="#troubleshooting-common-issues"><span class="header-section-number">0.1.4</span> Troubleshooting Common Issues</a></li>
-<li><a class="nav-link" href="#getting-help"><span class="header-section-number">0.1.5</span> Getting Help</a></li>
-<li><a class="nav-link" href="#next-steps"><span class="header-section-number">0.1.6</span> Next Steps</a></li>
+<a class="nav-link" href="#about-tutorials"><span class="header-section-number">0.3</span> About Tutorials</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#prerequisites"><span class="header-section-number">0.3.1</span> Prerequisites</a></li>
+<li><a class="nav-link" href="#running-a-tutorial"><span class="header-section-number">0.3.2</span> Running a Tutorial</a></li>
+<li><a class="nav-link" href="#tips-for-success"><span class="header-section-number">0.3.3</span> Tips for Success</a></li>
+<li><a class="nav-link" href="#troubleshooting-common-issues"><span class="header-section-number">0.3.4</span> Troubleshooting Common Issues</a></li>
+<li><a class="nav-link" href="#getting-help"><span class="header-section-number">0.3.5</span> Getting Help</a></li>
+<li><a class="nav-link" href="#next-steps"><span class="header-section-number">0.3.6</span> Next Steps</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#assignments"><span class="header-section-number">0.2</span> Assignments</a></li>
-<li><a class="nav-link" href="#final-exam"><span class="header-section-number">0.3</span> Final Exam</a></li>
 <li><a class="nav-link" href="#acknowledgments"><span class="header-section-number">0.4</span> Acknowledgments</a></li>
 </ul>
 

@@ -6,9 +6,9 @@
 
 ## Introduction
 
-We now dive deeper into causal inference and the counterfactual problem. We show why randomized trails solve that counterfactual problem, but also how the counterfactual problem is still a problem when using observational data. 
+We now dive deeper into causal inference and the counterfactual problem. We show why randomized trials solve the counterfactual problem, but also why it remains a challenge when using observational data.
 
-The lecture slide are displayed in full below:
+The lecture slides are displayed in full below:
 
 ```{r week3slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 3 Introduction to Causal Inference."}
 knitr::include_graphics("slide/3_Introduction_to_Causal_Inference.pdf")
@@ -22,7 +22,7 @@ library(tidylog) # to know what we are wrangling
 
 ## Vignette 2.1
 
-Usually, we do not know the data generation process, but here, we are gods. Let's create a world where taking a *treatment A* (e.g., taking a pill) positively *affect Y* (e.g., health) by one unit. Let's run an experiment.
+Usually, we do not know the data-generating process, but here, we are gods. Let's create a world where taking *treatment A* (e.g., taking a pill) positively *affects Y* (e.g., health) by one unit. Let's run an experiment.
 
 ```{r}
 df <- data.frame(health_no_pill= rnorm(5000),
@@ -70,7 +70,7 @@ df <- df %>%
 head(df,10)
 ```
 
-We can see the average effect of the pill on the treated group (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+We can see the average effect of the pill on the treated group (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment and those who do not):
 
 ```{r}
 df %>%
@@ -109,7 +109,7 @@ df <- data.frame(income = runif(10000)) %>%
 head(df,10)
 ```
 
-Let's see what happens now to the estimated mean average 'effect' (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+Let's see what happens now to the estimated mean average 'effect' (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment and those who do not):
 
 ```{r}
 df %>%

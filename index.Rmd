@@ -16,11 +16,34 @@ github-repo: svallejovera/regression_ci
   
 &nbsp;
 
-Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the lecture slides, lecture code, tutorial exercises, and tutorial code for the corresponding topic. 
+Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. Each week, you will find the lecture slides, lecture code, tutorial exercises, and tutorial code for the corresponding topic.
 
-The class is divided into *lectures* and *tutorials*. We will go through the lectures and tutorials simultaneously. Thus, I have arranged the website in a way that shows the suggested order in which each lectures or tutorials should be carried out. 
+The class is divided into *lectures* and *tutorials*. We will go through the lectures and tutorials simultaneously. Thus, I have arranged the website in a way that shows the suggested order in which each lecture or tutorial should be carried out.
 
-Before you start, don't forget to read the [Syllabus](https://github.com/svallejovera/regression_ci/blob/main/files/9591B_Regression_and_Causal_Inference_2026.pdf) and check Perusall for the readings for the course. This site will be corrected/updated throughout the semester(s).
+Before you start, don't forget to read the [Syllabus](https://github.com/svallejovera/regression_ci/blob/main/files/9591B_Regression_and_Causal_Inference_2026.pdf) and check Perusall for the course readings. This site will be corrected and updated throughout the semester.
+
+## Assignments
+
+This is a list of assignments for the course. All assignments must be handed in as PDF documents using R Markdown.
+
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- "
+| Chapter          | Exercises           |
+|---------------|-------------|
+| Chapter 2     | a) Problems 1, 4, and 6<br>b) Computer exercises: C2, C4, and C7 |
+| Chapter 3     | a) Problems 1, 3, 5, and 7<br>b) Computer exercises: C2, C6, and C9     |
+| Chapter 4 | a) Problems 1, 2, 5, and 9<br>b) Computer exercises: C1, C5, and C6            |
+| Chapter 6 | a) Problems 3 and 7<br>b) Computer exercises: C2           |
+| Chapter 7 | a) Problems 1, 2 and 3<br>b) Computer exercises: C2 and C3       |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+Additionally, throughout the semester, and after every other lecture, I will post an exercise aimed at challenging you and helping you apply a key concept from class. You must submit solutions to *three* exercises by March 27.
+
+## Final Exam
+
+The final exam will require students to replicate the findings from selected papers and interpret the results. For the final exam, I will post the required datasets for the analyses and replication exercises here: https://github.com/svallejovera/regression_ci/tree/main/Sample_data. 
 
 ## About Tutorials
 
@@ -102,29 +125,6 @@ After getting the tutorials running locally, you can:
 -   Save your work for future reference
 
 Remember that these tutorials are learning tools. Feel free to experiment and try different approaches – that's how we learn best!
-
-## Assignments
-
-This is a list of assignments for the course. All assignments must be handed in as pdf documents using R Markdown. 
-
-```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
-tabl <- "
-| Chapter          | Exercises           |
-|---------------|-------------|
-| Chapter 2     | a) Problems 1, 4, and 6<br>b) Computer exercises: C2, C4, and C7 |
-| Chapter 3     | a) Problems 1, 3, 5, and 7<br>b) Computer exercises: C2, C6, and C9     |
-| Chapter 4 | a) Problems 1, 2, 5, and 9<br>b) Computer exercises: C1, C5, and C6            |
-| Chapter 6 | a) Problems 3 and 7<br>b) Computer exercises: C2           |
-| Chapter 7 | a) Problems 1, 2 and 3<br>b) Computer exercises: C2 and C3       |
-"
-cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
-```
-
-Additionally, throughout the semester and after every other lecture, I will post an exercise aimed to challenge you and apply a key concept from class. You have to submit the solution to *three* exercises by March 27th. 
-
-## Final Exam
-
-The final exam will require students to replicate the findings from some papers, and interpret the results. For your Final Exam, I will post the required datasets for the analyses and replication exercises here: https://github.com/svallejovera/regression_ci/tree/main/Sample_data. 
 
 ## Acknowledgments 
 

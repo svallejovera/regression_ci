@@ -6,7 +6,7 @@
 
 ## Introduction
 
-On this first week, we introduce 'causal inference' as a concept of interest, and what are the main problems of determining causality from observational data. No fancy code for this week. 
+On this first week, we introduce “causal inference” as a concept of interest and discuss the main challenges of determining causality from observational data. No fancy code this week.
 
 The lecture slides are displayed in full below:
 

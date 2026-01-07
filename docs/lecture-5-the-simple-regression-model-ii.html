@@ -121,17 +121,17 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ## 
 ## Residuals:
 ##     Min      1Q  Median 
-## -5.0909 -0.6750 -0.0009 
+## -4.4653 -0.6747 -0.0010 
 ##      3Q     Max 
-##  0.6761  4.9137 
+##  0.6760  4.5239 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept) 0.998288
-## x           2.000993
+##              Estimate
+## (Intercept) 1.0006791
+## x           2.0014909
 ##             Std. Error t value
-## (Intercept)   0.001000   997.9
-## x             0.001001  2000.0
+## (Intercept)  0.0010002    1001
+## x            0.0009986    2004
 ##             Pr(&gt;|t|)    
 ## (Intercept)   &lt;2e-16 ***
 ## x             &lt;2e-16 ***
@@ -141,8 +141,8 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1 on 999998 degrees of freedom
-## Multiple R-squared:    0.8,  Adjusted R-squared:    0.8 
-## F-statistic: 4e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Multiple R-squared:  0.8007, Adjusted R-squared:  0.8007 
+## F-statistic: 4.017e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div id="theorem-slr.1-unbiasedness-of-ols" class="section level3" number="12.2.1">
 <h3>
 <span class="header-section-number">12.2.1</span> Theorem SLR.1: Unbiasedness of OLS:<a class="anchor" aria-label="anchor" href="#theorem-slr.1-unbiasedness-of-ols"><i class="fas fa-link"></i></a>
@@ -364,7 +364,7 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 <p>Let’s see the mean of these betas:</p>
 <div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 2.000232</code></pre>
+<pre><code>## [1] 2.007071</code></pre>
 <div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-114-1.png" width="672"></div>

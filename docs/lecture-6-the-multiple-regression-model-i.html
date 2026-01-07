@@ -120,28 +120,28 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## 
 ## Residuals:
 ##     Min      1Q  Median 
-## -3.6061 -0.7891  0.0153 
+## -3.3535 -0.7322  0.0187 
 ##      3Q     Max 
-##  0.7659  3.8861 
+##  0.7594  4.6337 
 ## 
 ## Coefficients:
 ##             Estimate
-## (Intercept)  2.90770
-## expen_wages  0.07156
+## (Intercept)  2.84470
+## expen_wages  0.08744
 ##             Std. Error t value
-## (Intercept)    0.12781  22.750
-## expen_wages    0.02872   2.491
+## (Intercept)    0.12388   22.96
+## expen_wages    0.02839    3.08
 ##             Pr(&gt;|t|)    
-## (Intercept)   &lt;2e-16 ***
-## expen_wages   0.0131 *  
+## (Intercept)  &lt; 2e-16 ***
+## expen_wages  0.00218 ** 
 ## ---
 ## Signif. codes:  
 ##   0 '***' 0.001 '**' 0.01
 ##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.197 on 498 degrees of freedom
-## Multiple R-squared:  0.01231,    Adjusted R-squared:  0.01033 
-## F-statistic: 6.206 on 1 and 498 DF,  p-value: 0.01305</code></pre>
+## Residual standard error: 1.137 on 498 degrees of freedom
+## Multiple R-squared:  0.01869,    Adjusted R-squared:  0.01672 
+## F-statistic: 9.487 on 1 and 498 DF,  p-value: 0.002183</code></pre>
 <p>Wait what? <em>(Interpret a log ~ level)</em></p>
 </div>
 <div id="vignette-6.2" class="section level2" number="15.3">
@@ -157,8 +157,8 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <pre><code>## # A tibble: 2 × 2
 ##   urban income_urb
 ##   &lt;dbl&gt;      &lt;dbl&gt;
-## 1     0       2.50
-## 2     1       3.48</code></pre>
+## 1     0       2.51
+## 2     1       3.52</code></pre>
 <div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">urban</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>expen_wages_urb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">expen_wages</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -167,8 +167,8 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <pre><code>## # A tibble: 2 × 2
 ##   urban expen_wages_urb
 ##   &lt;dbl&gt;           &lt;dbl&gt;
-## 1     0            1.77
-## 2     1            4.98</code></pre>
+## 1     0            1.96
+## 2     1            4.94</code></pre>
 <p>The difference between what is explained by urban of income/expendinture (mean) and the observed value of income/expenditure is…</p>
 <div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">urban</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -187,23 +187,23 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## 
 ## Residuals:
 ##     Min      1Q  Median 
-## -2.4746 -0.7386 -0.0292 
+## -3.2752 -0.6694  0.0493 
 ##      3Q     Max 
-##  0.7410  3.2940 
+##  0.6682  3.7809 
 ## 
 ## Coefficients:
 ##                        Estimate
-## (Intercept)           5.244e-17
-## expen_wages_residual -2.945e-01
+## (Intercept)          -1.646e-16
+## expen_wages_residual -2.963e-01
 ##                      Std. Error
-## (Intercept)           4.764e-02
-## expen_wages_residual  4.092e-02
+## (Intercept)           4.430e-02
+## expen_wages_residual  3.930e-02
 ##                      t value
-## (Intercept)            0.000
-## expen_wages_residual  -7.196
+## (Intercept)             0.00
+## expen_wages_residual   -7.54
 ##                      Pr(&gt;|t|)
 ## (Intercept)                 1
-## expen_wages_residual 2.29e-12
+## expen_wages_residual 2.24e-13
 ##                         
 ## (Intercept)             
 ## expen_wages_residual ***
@@ -212,9 +212,9 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ##   0 '***' 0.001 '**' 0.01
 ##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.065 on 498 degrees of freedom
-## Multiple R-squared:  0.0942, Adjusted R-squared:  0.09238 
-## F-statistic: 51.79 on 1 and 498 DF,  p-value: 2.287e-12</code></pre>
+## Residual standard error: 0.9906 on 498 degrees of freedom
+## Multiple R-squared:  0.1025, Adjusted R-squared:  0.1007 
+## F-statistic: 56.85 on 1 and 498 DF,  p-value: 2.24e-13</code></pre>
 <p>Let’s plot:</p>
 <div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">expen_wages</span>,y<span class="op">=</span><span class="va">log_income</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>

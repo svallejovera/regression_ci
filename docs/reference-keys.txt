@@ -6,6 +6,8 @@ fig:week6slides
 fig:week7slides
 fig:week8slides
 fig:week9slides
+assignments
+final-exam
 about-tutorials
 prerequisites
 running-a-tutorial
@@ -15,8 +17,6 @@ tips-for-success
 troubleshooting-common-issues
 getting-help
 next-steps
-assignments
-final-exam
 acknowledgments
 lecture-1-what-is-causal-inference
 introduction
