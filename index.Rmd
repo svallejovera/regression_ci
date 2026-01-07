@@ -16,7 +16,7 @@ github-repo: svallejovera/regression_ci
   
 &nbsp;
 
-Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the lecture slides, lecture code, lab exercises, and lab code for the corresponding topic. 
+Welcome to the site for the course PS9591: "Regressions and Causal Inference" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the lecture slides, lecture code, tutorial exercises, and tutorial code for the corresponding topic. 
 
 The class is divided into *lectures* and *tutorials*. We will go through the lectures and tutorials simultaneously. Thus, I have arranged the website in a way that shows the suggested order in which each lectures or tutorials should be carried out. 
 
