@@ -120,6 +120,7 @@ tabl <- "
 cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
+Additionally, throughout the semester and after every other lecture, I will post an exercise aimed to challenge you and apply a key concept from class. You have to submit the solution to *three* exercises by March 27th. 
 
 ## Final Exam
 
