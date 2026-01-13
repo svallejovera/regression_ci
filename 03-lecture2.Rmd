@@ -1,4 +1,4 @@
-# Lecture 2: Introduction to Causal Inference
+# Lecture 2: Introduction to Causal Inference {#lecture2}
 
 ## Slides{.unnumbered}
 
@@ -25,9 +25,14 @@ library(tidylog) # to know what we are wrangling
 Usually, we do not know the data-generating process, but here, we are gods. Let's create a world where taking *treatment A* (e.g., taking a pill) positively *affects Y* (e.g., health) by one unit. Let's run an experiment.
 
 ```{r}
-df <- data.frame(health_no_pill= rnorm(5000),
-                 # Randomly assign a treatment
-                 pill=sample(c(0,1),5000,replace=T))
+df <- data.frame(
+  # Simulate baseline health outcomes *without* treatment for 5,000 individuals
+  health_no_pill = rnorm(5000),
+  # Randomly assign treatment: pill = 1 (treated) or 0 (control)
+  pill = sample(c(0, 1), 5000, replace = TRUE)
+)
+
+# Visualize the distribution of baseline (no-pill) health outcomes
 hist(df$health_no_pill)
 ```
 
@@ -39,41 +44,59 @@ Now we can create our counterfactual:
 
 ```{r}
 df <- df %>%
-  mutate(health_w_pill = health_no_pill + 1) # Our Y when A=1 aka our counterfactual
+  # Define the potential outcome under treatment (A = 1):
+  # health_w_pill = health_no_pill + 1 implies a constant treatment effect of +1 for everyone.
+  mutate(health_w_pill = health_no_pill + 1) # Y(1): the potential outcome if treated
+
 ```
 
 Let's look at our counterfactual:
 
 ```{r}
-health_w_pill <- cbind.data.frame(df$health_w_pill,"with Pill")
-colnames(health_w_pill) <- c("health","treatment")
-health_no_pill <- cbind.data.frame(df$health_no_pill,"without Pill")
-colnames(health_no_pill) <- c("health","treatment")
-comparison_y <- rbind.data.frame(health_w_pill,health_no_pill)
+# Reshape the two potential outcomes into a long format for easy plotting/comparison
+health_w_pill <- cbind.data.frame(df$health_w_pill, "with Pill")
+colnames(health_w_pill) <- c("health", "treatment")
+
+health_no_pill <- cbind.data.frame(df$health_no_pill, "without Pill")
+colnames(health_no_pill) <- c("health", "treatment")
+
+# Stack the two datasets to compare distributions under treatment vs. no treatment
+comparison_y <- rbind.data.frame(health_w_pill, health_no_pill)
 
 comparison_y %>%
   group_by(treatment) %>%
+  # Compute group means (used to add mean lines to the plot)
   mutate(mean_health = mean(health)) %>%
   ungroup() %>%
-  ggplot(aes(x=health,fill = treatment,color = treatment)) +
-  geom_density(alpha = .5) +
+  ggplot(aes(x = health, fill = treatment, color = treatment)) +
+  # Plot the distribution of health outcomes under each condition
+  geom_density(alpha = 0.5) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
-  geom_vline(aes(xintercept = mean_health, color = treatment ),
-             linetype = "dashed")
+  # Add dashed vertical lines at the mean health for each condition
+  geom_vline(
+    aes(xintercept = mean_health, color = treatment),
+    linetype = "dashed"
+  )
 ```
 
 Now let's give each individual the treatment (either the pill or a placebo):
 
 ```{r}
 df <- df %>%
-  mutate(health_obs = ifelse(pill==1,health_w_pill,health_no_pill))
-head(df,10)
+  # Construct the observed outcome:
+  # - if pill == 1, we observe the treated potential outcome Y(1)
+  # - if pill == 0, we observe the untreated potential outcome Y(0)
+  mutate(health_obs = ifelse(pill == 1, health_w_pill, health_no_pill))
+
+# Inspect the first 10 rows to verify the observed outcome was assigned correctly
+head(df, 10)
 ```
 
 We can see the average effect of the pill on the treated group (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment and those who do not):
 
 ```{r}
 df %>%
+  # Compare average observed health outcomes for treated (pill = 1) vs. control (pill = 0)
   group_by(pill) %>%
   summarize(health = mean(health_obs))
 ```
@@ -83,13 +106,18 @@ Or we can plot it:
 ```{r}
 df %>%
   group_by(pill) %>%
+  # Compute the mean observed health within treated vs. control groups
   mutate(mean_health_obs = mean(health_obs)) %>%
   ungroup() %>%
-  ggplot(aes(x=health_obs,fill = factor(pill),color = factor(pill))) +
-  geom_density(alpha = .5) +
+  ggplot(aes(x = health_obs, fill = factor(pill), color = factor(pill))) +
+  # Plot the distribution of observed outcomes by treatment status
+  geom_density(alpha = 0.5) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
-  geom_vline(aes(xintercept = mean_health_obs, color = factor(pill) ),
-             linetype = "dashed")
+  # Add dashed vertical lines at the group means
+  geom_vline(
+    aes(xintercept = mean_health_obs, color = factor(pill)),
+    linetype = "dashed"
+  )
 
 ```
 
@@ -99,14 +127,23 @@ Ok... but what happens if we cannot randomize? What if we have observational dat
 
 ```{r}
 df <- data.frame(income = runif(10000)) %>%
-  # In this case, your health is determined randomly AND by your levels of income
-  mutate(health_no_pill = rnorm(10000) + income,
-         health_w_pill = health_no_pill + 1) %>%
-  # Now we give the pill only to people that have money
-  mutate(pill = income > .7,
-         health_obs = ifelse(pill==1,health_w_pill,health_no_pill))
+  # Simulate baseline health without treatment (Y(0)).
+  # Here, health depends on a random component plus income (so income confounds health).
+  mutate(
+    health_no_pill = rnorm(10000) + income,
+    # Define the treated potential outcome (Y(1)) with a constant +1 treatment effect
+    health_w_pill = health_no_pill + 1
+  ) %>%
+  # Assign treatment non-randomly: only higher-income individuals receive the pill
+  mutate(
+    pill = income > 0.7,
+    # Construct the observed outcome based on treatment assignment
+    health_obs = ifelse(pill == 1, health_w_pill, health_no_pill)
+  )
 
-head(df,10)
+# Inspect the first 10 rows
+head(df, 10)
+
 ```
 
 Let's see what happens now to the estimated mean average 'effect' (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment and those who do not):
@@ -117,13 +154,20 @@ df %>%
   summarize(health = mean(health_obs))
 ```
 
-Oh no! That is more than the actual effect of the pill, which we *know* is 1 since we created it. However, if we were to properly model (this is an RDD!), then (remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment, and those who do not):
+Oh no! That is more than the true effect of the pill, which we *know* is 1 because we created it. However, if we model this properly (this is an RDD!), then—remember from the lecture that the *effect* is, in essence, the *difference* between those who receive the treatment and those who do not:
 
 ```{r}
 df %>%
-  filter(abs(income-.7)<.01) %>%
+  # Keep observations close to the cutoff (income = 0.7),
+  # mimicking the local comparison at the heart of a regression discontinuity design (RDD)
+  filter(abs(income - 0.7) < 0.01) %>%
+  # Compare mean observed outcomes just below vs. just above the cutoff
   group_by(pill) %>%
-  summarize(health = mean(health_obs)) ## BOOM!!
+  summarize(health = mean(health_obs)) # BOOM!!
 ```
 
+## Lecture Assignment 
 
+1. Using simulated data, describe (in text) and show (with plots) a plausible situation where a treatment has an effect, but the observed outcome is null. **Tip:** Before committing to an example, remember that a difference-in-differences approach requires two periods (change over time) and two groups (treatment and control).
+
+2. Using a [difference-in-differences approach](#lecture9), show how to estimate the *true* effect from your example.
