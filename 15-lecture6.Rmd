@@ -1,4 +1,4 @@
-# Lecture 6: The Multiple Regression Model I
+# Lecture 6: The Multiple Regression Model I {#lecture6}
 
 ## Slides{.unnumbered}
 

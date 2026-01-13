@@ -7,7 +7,7 @@
 <title>Chapter 11 Lecture 4 Exercises | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
 <meta name="description" content="This tutorial was created by John Santos (with minor adaptations from me).  11.1 Practice exercises From lecture: Using the “fertil2” dataset from “wooldridge” on women living in the Republic of...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="Chapter 11 Lecture 4 Exercises | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
 <meta property="og:description" content="This tutorial was created by John Santos (with minor adaptations from me).  11.1 Practice exercises From lecture: Using the “fertil2” dataset from “wooldridge” on women living in the Republic of...">
@@ -43,9 +43,9 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
-<li><a class="" href="lecture-1-what-is-causal-inference.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
+<li><a class="" href="lecture1.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
 <li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">2</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
-<li><a class="" href="lecture-2-introduction-to-causal-inference.html"><span class="header-section-number">3</span> Lecture 2: Introduction to Causal Inference</a></li>
+<li><a class="" href="lecture2.html"><span class="header-section-number">3</span> Lecture 2: Introduction to Causal Inference</a></li>
 <li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">4</span> Tutorial 2: Key Concepts</a></li>
 <li><a class="" href="lecture-2-exercises.html"><span class="header-section-number">5</span> Lecture 2 Exercises</a></li>
 <li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">6</span> Lecture 3: Core Concepts of Experimental Design</a></li>
@@ -54,10 +54,10 @@
 <li><a class="" href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
 <li><a class="" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
 <li><a class="active" href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></li>
-<li><a class="" href="lecture-5-the-simple-regression-model-ii.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></li>
+<li><a class="" href="lecture5.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></li>
 <li><a class="" href="tutorial-5-the-simple-regression-model-ii.html"><span class="header-section-number">13</span> Tutorial 5: The Simple Regression Model II</a></li>
 <li><a class="" href="homework-1-practice.html"><span class="header-section-number">14</span> Homework 1 Practice:</a></li>
-<li><a class="" href="lecture-6-the-multiple-regression-model-i.html"><span class="header-section-number">15</span> Lecture 6: The Multiple Regression Model I</a></li>
+<li><a class="" href="lecture6.html"><span class="header-section-number">15</span> Lecture 6: The Multiple Regression Model I</a></li>
 <li><a class="" href="tutorial-6-regression-analysis-and-interpretation.html"><span class="header-section-number">16</span> Tutorial 6: Regression Analysis and Interpretation</a></li>
 <li><a class="" href="lecture-6-exercises.html"><span class="header-section-number">17</span> Lecture 6 Exercises</a></li>
 <li><a class="" href="lecture-7-the-multiple-regression-model-ii.html"><span class="header-section-number">18</span> Lecture 7: The Multiple Regression Model II</a></li>
@@ -132,7 +132,7 @@
 <h2>
 <span class="header-section-number">11.5</span> Lecture exercises (Solutions)<a class="anchor" aria-label="anchor" href="#lecture-exercises-solutions"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'fertil2'</span><span class="op">)</span></span></code></pre></div>
 <div id="q1.-produce-a-scatterplot-with-number-of-children-children-on-the-y-axis-and-education-educ-on-the-x-axis" class="section level3" number="11.5.1">
@@ -141,7 +141,7 @@
 </h3>
 <p>Here, I use <a href="https://ggplot2.tidyverse.org">ggplot2</a> to make the scatterplot. You could also use Base <code>R</code> graphics, but I find <a href="https://ggplot2.tidyverse.org">ggplot2</a> easier (especially because it’s party of the <a href="https://tidyverse.tidyverse.org">tidyverse</a> and follows the same conventions).</p>
 <p>Note, in <a href="https://ggplot2.tidyverse.org">ggplot2</a>, you can have your command <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> command span several lines, which are connected using a <code>+</code> sign. This makes facilitates building your graph layer-by-layer, which is easier, more readable, and easier to troubleshoot.</p>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">children</span><span class="op">)</span> <span class="op">+</span></span>
@@ -149,16 +149,16 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Education (years)"</span>, </span>
 <span>       y <span class="op">=</span> <span class="st">"Number of children"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Number of children by years of education"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-72-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-72-1.png" alt="" width="672"></div>
 <p>To add some random noise (a.k.a. <em>jitter</em>), include the argument <code>position = "jitter"</code> within the <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> function call.</p>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">children</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Education (years)"</span>, </span>
 <span>       y <span class="op">=</span> <span class="st">"Number of children"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Number of children by years of education (with jitter)"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-73-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-73-1.png" alt="" width="672"></div>
 </div>
 <div id="q2.-how-do-the-two-variables-appear-to-be-related" class="section level3" number="11.5.2">
 <h3>
@@ -170,15 +170,13 @@
 <h3>
 <span class="header-section-number">11.5.3</span> Q3. Estimate the regression equation of the number of children on education (note: we say “to regress <span class="math inline">\(y\)</span> on <span class="math inline">\(x\)</span>”);<a class="anchor" aria-label="anchor" href="#q3.-estimate-the-regression-equation-of-the-number-of-children-on-education-note-we-say-to-regress-y-on-x"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">children</span>, <span class="va">educ</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## select: dropped 25 variables
-## (mnthborn, yearborn, age,
-## electric, radio, …)</code></pre>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<pre><code>## select: dropped 25 variables (mnthborn, yearborn, age, electric, radio, …)</code></pre>
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">children</span> <span class="op">~</span> <span class="va">educ</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -186,25 +184,15 @@
 ## lm(formula = children ~ educ, data = dat)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q 
-## -3.495 -1.496 -0.399  1.182 
-##    Max 
-##  9.505 
+##    Min     1Q Median     3Q    Max 
+## -3.495 -1.496 -0.399  1.182  9.505 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.49554
-## educ        -0.20965
-##             Std. Error t value
-## (Intercept)    0.05612   62.28
-## educ           0.00796  -26.34
-##             Pr(&gt;|t|)    
-## (Intercept)   &lt;2e-16 ***
-## educ          &lt;2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.49554    0.05612   62.28   &lt;2e-16 ***
+## educ        -0.20965    0.00796  -26.34   &lt;2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.064 on 4359 degrees of freedom
 ## Multiple R-squared:  0.1373, Adjusted R-squared:  0.1371 
@@ -229,16 +217,15 @@
 <p>There are a few ways to do this. First, we could generate predictions, save them to the data set, and then plot them.</p>
 <p>Running the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function automatically calculates the predictions (also know as fitted values or y-hats), so we can just extract them from the model object. They are stored in the slot <code>$fitted.values</code>.</p>
 <p>Here, I take the fitted values and store them in a new column called “yhat.”</p>
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">yhat</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">fitted.values</span></span></code></pre></div>
 <p>Another way to retrieve the fitted values is with the command <code><a href="https://rdrr.io/r/stats/fitted.values.html">fitted.values()</a></code>. It produces <em>exactly</em> the same results as <code>$fitted.values</code>, as can be seen below.</p>
-<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">yhat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html">fitted.values</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="va">dat</span><span class="op">$</span><span class="va">yhat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> <span class="op">==</span> <span class="va">dat</span><span class="op">$</span><span class="va">yhat2</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code></pre></div>
-<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE
-##  [6] TRUE TRUE TRUE TRUE TRUE</code></pre>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
 <p>If we plot just the fitted values against our x-axis, we’d get a graph that looks like this:</p>
-<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">yhat</span><span class="op">)</span> <span class="op">+</span></span>
@@ -246,17 +233,15 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Education (years)"</span>, </span>
 <span>       y <span class="op">=</span> <span class="st">"Predicted number of children"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Predicted number of children by years of education"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-77-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-77-1.png" alt="" width="672"></div>
 <p>There is a <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function. This function is used to calculate predicted values, given some combination of values we input for the <span class="math inline">\(x\)</span>’s in our model.</p>
 <p><em>Theoretically</em>, we could use this to get our y-hats by not specifying new values. However, because of the mechanics of how this function works, it doesn’t produce <em>exactly</em> the same values as using <code>$fitted.values</code> or <code><a href="https://rdrr.io/r/stats/fitted.values.html">fitted.values()</a></code> (though it comes very very very very close).</p>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">yhat3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="va">dat</span><span class="op">$</span><span class="va">yhat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> <span class="op">==</span> <span class="va">dat</span><span class="op">$</span><span class="va">yhat3</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE
-##  [5] FALSE FALSE FALSE FALSE
-##  [9] FALSE FALSE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
 <p>You could also calculate the predictions manually using the coefficients. In practice, you wouldn’t actually do this; this is just to show you the math that <code>R</code> is doing behind-the-scenes.</p>
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">calcpreds</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span> <span class="va">dat</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  <span class="st">"fitted.values()"</span> <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">yhat</span>,</span>
@@ -264,19 +249,17 @@
 <span>  <span class="st">"Manual calculation"</span> <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">calcpreds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
-##   `fitted.values()` `predict()`
-##               &lt;dbl&gt;       &lt;dbl&gt;
-## 1             0.980       0.980
-## 2             0.770       0.770
-## 3             2.45        2.45 
-## 4             2.66        2.66 
-## 5             1.19        1.19 
-## 6             2.03        2.03 
-## # ℹ 1 more variable:
-## #   `Manual calculation` &lt;dbl&gt;</code></pre>
+##   `fitted.values()` `predict()` `Manual calculation`
+##               &lt;dbl&gt;       &lt;dbl&gt;                &lt;dbl&gt;
+## 1             0.980       0.980                0.980
+## 2             0.770       0.770                0.770
+## 3             2.45        2.45                 2.45 
+## 4             2.66        2.66                 2.66 
+## 5             1.19        1.19                 1.19 
+## 6             2.03        2.03                 2.03</code></pre>
 <p>Finally, what you should avoid doing is to make your calculations by entering numbers manually (i.e. not retrieving them from the model object). You should put off rounding your numbers until the very end, lest it throw off subsequent calculations.</p>
 <p>In our example, the numbers aren’t that different (see the 4th column below). But, that doesn’t mean you’ll always be able to get away with this.</p>
-<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">roundpreds</span> <span class="op">&lt;-</span> <span class="fl">3.496</span> <span class="op">+</span> <span class="op">(</span><span class="op">-</span><span class="fl">0.210</span> <span class="op">*</span> <span class="va">dat</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  <span class="st">"fitted.values()"</span> <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">yhat</span>,</span>
@@ -285,29 +268,26 @@
 <span>  <span class="st">"Rounded calculation"</span> <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">roundpreds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
-##   `fitted.values()` `predict()`
-##               &lt;dbl&gt;       &lt;dbl&gt;
-## 1             0.980       0.980
-## 2             0.770       0.770
-## 3             2.45        2.45 
-## 4             2.66        2.66 
-## 5             1.19        1.19 
-## 6             2.03        2.03 
-## # ℹ 2 more variables:
-## #   `Manual calculation` &lt;dbl&gt;,
-## #   `Rounded calculation` &lt;dbl&gt;</code></pre>
+##   `fitted.values()` `predict()` `Manual calculation` `Rounded calculation`
+##               &lt;dbl&gt;       &lt;dbl&gt;                &lt;dbl&gt;                 &lt;dbl&gt;
+## 1             0.980       0.980                0.980                 0.976
+## 2             0.770       0.770                0.770                 0.766
+## 3             2.45        2.45                 2.45                  2.45 
+## 4             2.66        2.66                 2.66                  2.66 
+## 5             1.19        1.19                 1.19                  1.19 
+## 6             2.03        2.03                 2.03                  2.03</code></pre>
 <p>Regardless of how we calculate the predictions, we can add them to our original <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> statement as a <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code>.</p>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">children</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">yhat</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Education (years)"</span>, </span>
 <span>       y <span class="op">=</span> <span class="st">"Number of children"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Number of children by years of education"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-81-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-81-1.png" alt="" width="672"></div>
 <p>For a simple (or <em>bivariate</em>) regression, the simplest way to add a regression line is to make use of the command <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code>, which is built into <a href="https://ggplot2.tidyverse.org">ggplot2</a>.</p>
 <p>In this example, I’ve also added an addition <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> command with its own aesthetics mapped to the mean values for our predictor and response variables. This is to show that the point with the coordinates <span class="math inline">\([\bar{educ},\bar{children}]\)</span> (i.e. <span class="math inline">\([5.9, 2.3]\)</span> is always on the regression line.</p>
-<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">educ</span>, y <span class="op">=</span> <span class="va">children</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, fullrange <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -315,66 +295,57 @@
 <span>       y <span class="op">=</span> <span class="st">"Number of children"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Number of children by years of education"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">children</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula
-## = 'y ~ x'</code></pre>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-82-1.png" width="672"></div>
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-82-1.png" alt="" width="672"></div>
 </div>
 <div id="q6.-calculate-sst-sse-and-ssr.-verify-that-sst-sse-ssr" class="section level3" number="11.5.6">
 <h3>
 <span class="header-section-number">11.5.6</span> Q6. Calculate <em>SST</em>, <em>SSE</em> and <em>SSR.</em> Verify that <span class="math inline">\(SST = SSE + SSR\)</span>;<a class="anchor" aria-label="anchor" href="#q6.-calculate-sst-sse-and-ssr.-verify-that-sst-sse-ssr"><i class="fas fa-link"></i></a>
 </h3>
 <p>First, we’ll generate our predictions.</p>
-<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">childrenhat</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">fitted.values</span></span></code></pre></div>
 <p>Calculate <span class="math inline">\(SST\)</span> (sum of squares TOTAL).</p>
 <p>Our formula, in words, could be interpreted as, <em>the total sum of squares is equal to the sum of all of the squared differences between an observed Y and the average of Y</em>.</p>
 <p><span class="math display">\[SST = \Sigma{ ^n_{i=1} ( y_i - \bar{y} )^2 }\]</span></p>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1_sst</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span> <span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">children</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">children</span><span class="op">)</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span> <span class="op">)</span></span>
 <span><span class="va">model1_sst</span></span></code></pre></div>
 <pre><code>## [1] 21527.18</code></pre>
 <p>Calculate <span class="math inline">\(SSE\)</span> (sum of squares EXPLAINED).</p>
 <p>In words, this formula could be interpreted as, <em>the explained sum of squares is equal to the sum of all of the squared differences between a predicted Y and the average of Y</em>.</p>
 <p><span class="math display">\[SSE = \Sigma{ ^n_{i=1} ( \hat{y}_i - \bar{y} )^2 }\]</span></p>
-<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1_sse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span> <span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">yhat</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">children</span><span class="op">)</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span> <span class="op">)</span></span>
 <span><span class="va">model1_sse</span></span></code></pre></div>
 <pre><code>## [1] 2955.401</code></pre>
 <p>Calculate <span class="math inline">\(SSR\)</span> (sum of squares RESIDUAL).</p>
 <p><span class="math display">\[SST = \Sigma{ ^n_{i=1} \hat{u_i}^2 }\]</span></p>
-<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1_ssr</span> <span class="op">&lt;-</span> <span class="va">model1_sst</span> <span class="op">-</span> <span class="va">model1_sse</span></span>
 <span><span class="va">model1_ssr</span></span></code></pre></div>
 <pre><code>## [1] 18571.78</code></pre>
 <p>A model’s residuals are stored in the slot <code>$residuals</code>, and we can use those as inputs into the calculation. We can also retrieve them using the <code><a href="https://rdrr.io/r/stats/residuals.html">resid()</a></code> function.</p>
-<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">residuals</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 18571.78</code></pre>
-<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 18571.78</code></pre>
 <p>The manual calculations above are mostly for pedagogical purposes. In practice, there are pre-built functions that calculate these quantities for us.</p>
 <p>We can use the <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> function to display the ANOVA table of the regression, which shows the various sum-of-squares statistics.</p>
-<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: children
-##             Df  Sum Sq Mean Sq
-## educ         1  2955.4 2955.40
-## Residuals 4359 18571.8    4.26
-##           F value    Pr(&gt;F)
-## educ       693.67 &lt; 2.2e-16
-## Residuals                  
-##              
-## educ      ***
-## Residuals    
+##             Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## educ         1  2955.4 2955.40  693.67 &lt; 2.2e-16 ***
+## Residuals 4359 18571.8    4.26                      
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Note that the total sum of squares is not reported in the ANOVA table, but is easily calculated.</p>
-<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## [1] 21527.18</code></pre>
 </div>
@@ -383,42 +354,32 @@
 <span class="header-section-number">11.5.7</span> Q7. Using <span class="math inline">\(SST\)</span>, <span class="math inline">\(SSE\)</span> and <span class="math inline">\(SSR\)</span>, calculate the <span class="math inline">\(R^2\)</span> of the regression. Verify it is the same as the <span class="math inline">\(R^2\)</span> reported in the summary of your regression output;<a class="anchor" aria-label="anchor" href="#q7.-using-sst-sse-and-ssr-calculate-the-r2-of-the-regression.-verify-it-is-the-same-as-the-r2-reported-in-the-summary-of-your-regression-output"><i class="fas fa-link"></i></a>
 </h3>
 <p>The proportion of variance of Y explained by X is a simple ratio of <span class="math inline">\(SSE/SST\)</span>.</p>
-<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1_sse</span> <span class="op">/</span> <span class="va">model1_sst</span></span></code></pre></div>
 <pre><code>## [1] 0.137287</code></pre>
 <p>We can check this against what the model reports…</p>
-<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = children ~ educ, data = dat)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q 
-## -3.495 -1.496 -0.399  1.182 
-##    Max 
-##  9.505 
+##    Min     1Q Median     3Q    Max 
+## -3.495 -1.496 -0.399  1.182  9.505 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.49554
-## educ        -0.20965
-##             Std. Error t value
-## (Intercept)    0.05612   62.28
-## educ           0.00796  -26.34
-##             Pr(&gt;|t|)    
-## (Intercept)   &lt;2e-16 ***
-## educ          &lt;2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.49554    0.05612   62.28   &lt;2e-16 ***
+## educ        -0.20965    0.00796  -26.34   &lt;2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.064 on 4359 degrees of freedom
 ## Multiple R-squared:  0.1373, Adjusted R-squared:  0.1371 
 ## F-statistic: 693.7 on 1 and 4359 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Note that the residual standard error is 2.064 on 4359 degrees of freedom. This is equal to the standard deviation of the residuals (<span class="math inline">\({\sqrt{\hat{\sigma^2}}}\)</span>) <em>(which makes sense because we use a model’s SDs as approximations for the population’s SEs)</em>.</p>
-<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2.063875</code></pre>
 </div>
@@ -455,30 +416,22 @@
 <span class="header-section-number">11.8</span> Continue<a class="anchor" aria-label="anchor" href="#continue-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>Before I answer the questions, I’m going to start by looking at the summary statistics of my variables.</p>
-<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.rda"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median 
-##    0.00    7.00   50.00 
-##    Mean 3rd Qu.    Max. 
-##   44.85   75.00  100.00 
-##    NA's 
-##    2409</code></pre>
-<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.00    7.00   50.00   44.85   75.00  100.00    2409</code></pre>
+<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 34.54668</code></pre>
-<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median 
-##    0.00    6.00    9.00 
-##    Mean 3rd Qu.    Max. 
-##    8.59   11.00   16.00 
-##    NA's 
-##   32684</code></pre>
-<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   0.000   6.000   9.000   8.585  11.000  16.000   32684</code></pre>
+<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3.519915</code></pre>
 <p>On average, Canadians rate Trudeau about 45 points out of a 100 on the feeling thermometer scale (SD = 34.5), and score at about 8.6 on the market liberalism scale (SD = 3.5), which ranges from 0 to 16.</p>
@@ -486,7 +439,7 @@
 <h3>
 <span class="header-section-number">11.8.1</span> Q1. Produce a scatterplot of the two variables with a regression line visualized<a class="anchor" aria-label="anchor" href="#q1.-produce-a-scatterplot-of-the-two-variables-with-a-regression-line-visualized"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb255"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ces</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">marketlib</span>, y <span class="op">=</span> <span class="va">feel_trudeau</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -494,9 +447,8 @@
 <span>       y <span class="op">=</span> <span class="st">"Feeling thermometer ratings of Trudeau"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Trudeau ratings by market liberalism"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula
-## = 'y ~ x'</code></pre>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-95-1.png" width="672"></div>
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-95-1.png" alt="" width="672"></div>
 </div>
 <div id="q2.-describe-the-relationship-i.e.-is-it-positive-or-negative" class="section level3" number="11.8.2">
 <h3>
@@ -510,7 +462,7 @@
 <h3>
 <span class="header-section-number">11.8.3</span> Q3. Run the regression and report the coefficients and what they mean<a class="anchor" aria-label="anchor" href="#q3.-run-the-regression-and-report-the-coefficients-and-what-they-mean"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb250"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jtmod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">feel_trudeau</span> <span class="op">~</span> <span class="va">marketlib</span>, data <span class="op">=</span> <span class="va">ces</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">jtmod</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -518,25 +470,15 @@
 ## lm(formula = feel_trudeau ~ marketlib, data = ces)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -68.399 -31.323   0.121 
-##      3Q     Max 
-##  28.677  74.382 
+##     Min      1Q  Median      3Q     Max 
+## -68.399 -31.323   0.121  28.677  74.382 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  68.3989
-## marketlib    -2.8520
-##             Std. Error t value
-## (Intercept)     1.2546   54.52
-## marketlib       0.1352  -21.10
-##             Pr(&gt;|t|)    
-## (Intercept)   &lt;2e-16 ***
-## marketlib     &lt;2e-16 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  68.3989     1.2546   54.52   &lt;2e-16 ***
+## marketlib    -2.8520     0.1352  -21.10   &lt;2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 33.11 on 4795 degrees of freedom
 ##   (32936 observations deleted due to missingness)
@@ -554,12 +496,12 @@
 </h3>
 <p>First, let’s find the ratings of Trudeau at the quantiles of interest.</p>
 <p>The <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> function gives us the values at the 0th (min), 25th (lower quartile), 50th (i.e. median), 75th (upper quartile), and 100th (max) percentiles. Note, if your data set has missing values, you have to use the option <code>na.rm = TRUE</code>, otherwise the function does not work.</p>
-<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb252"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##   0%  25%  50%  75% 100% 
 ##    0    6    9   11   16</code></pre>
 <p>We can specify a specific value for the <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> function to return to get the 33rd and 75th percentile.</p>
-<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  <span class="st">"qtile33"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, <span class="fl">.33</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  <span class="st">"mean"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -571,17 +513,17 @@
 ## 1       7  8.59      11    16</code></pre>
 <p>There are a few ways we can calculate predicted probabilities.</p>
 <p>First, we could do the math manually and plug the value of market liberalism into our regression equation. Let’s do that for the 33rd percentile of market liberalism (<span class="math inline">\(marketlib=7\)</span>).</p>
-<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">68.399</span> <span class="op">+</span> <span class="op">(</span><span class="op">-</span><span class="fl">2.852</span> <span class="op">*</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 48.435</code></pre>
 <p>To avoid rounding errors, it’s better to use the actual coefficients returned by our model, which we can retrieve using <code>coefs()</code> or <code>$coefficients</code>. Here’s what that looks like for the example above.</p>
-<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jtmod</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> </span>
 <span>  <span class="op">(</span><span class="va">jtmod</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span>  <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, <span class="fl">.33</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##      33% 
 ## 48.43472</code></pre>
 <p>Finally, we can also use the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function and specify the values for our coefficient using the argument <code>newdata=</code>. Here’s the same example in that format.</p>
-<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb260"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">jtmod</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>          marketlib <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, <span class="fl">.33</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -590,19 +532,19 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 48.43472</code></pre>
 <p>Let’s continue using the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function to calculate our predicted values when <em>marketlib</em> is at the mean (8.59).</p>
-<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb262"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">jtmod</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>marketlib <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 43.91406</code></pre>
 <p>Here, we predict <em>feel_trudeau</em> when <em>marketlib</em> is at the 75th percentile.</p>
-<div class="sourceCode" id="cb271"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">jtmod</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">(</span><span class="va">marketlib</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, <span class="fl">.75</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 37.0266</code></pre>
 <p><code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> for the max value for <em>marketlib</em>.</p>
-<div class="sourceCode" id="cb273"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">jtmod</span>, </span>
 <span>        newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">(</span><span class="va">marketlib</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">marketlib</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -633,96 +575,52 @@
 </h3>
 <p>Model objects created by <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> are a list that contain various quantities of interest. Let’s take a look inside. We can do this using the command <code>View(model1)</code> (note the capital “V” in “View”).</p>
 <p>We can also look at the names of each item in our <code>model1</code> object using the command <code>names(model1)</code>.</p>
-<div class="sourceCode" id="cb275"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View(model1)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] "coefficients" 
-##  [2] "residuals"    
-##  [3] "effects"      
-##  [4] "rank"         
-##  [5] "fitted.values"
-##  [6] "assign"       
-##  [7] "qr"           
-##  [8] "df.residual"  
-##  [9] "xlevels"      
-## [10] "call"         
-## [11] "terms"        
-## [12] "model"</code></pre>
+<pre><code>##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
+##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
+## [11] "terms"         "model"</code></pre>
 <p>Notice that while we can see the coefficients, we’re missing things like the standard errors, t-statistics, and p-values. While it’s actually relatively easy to calculate these by doing math on the variance-covariance matrix, we’re not at that point yet.</p>
 <p>The easiest way to get those quantities is by <em>getting them from the model summary table</em>.</p>
 <p>We’re used to printing this out using the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command. However, we can also assign the output of that command to an object, and then get the values we want from the item <code>$coefficients</code>.</p>
-<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mysummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mysummary</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] "call"         
-##  [2] "terms"        
-##  [3] "residuals"    
-##  [4] "coefficients" 
-##  [5] "aliased"      
-##  [6] "sigma"        
-##  [7] "df"           
-##  [8] "r.squared"    
-##  [9] "adj.r.squared"
-## [10] "fstatistic"   
+<pre><code>##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
+##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
 ## [11] "cov.unscaled"</code></pre>
-<div class="sourceCode" id="cb279"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mysummary</span><span class="op">$</span><span class="va">coefficients</span></span></code></pre></div>
-<pre><code>##               Estimate
-## (Intercept)  3.4955406
-## educ        -0.2096504
-##              Std. Error
-## (Intercept) 0.056123844
-## educ        0.007960142
-##               t value
-## (Intercept)  62.28263
-## educ        -26.33752
-##                  Pr(&gt;|t|)
-## (Intercept)  0.000000e+00
-## educ        5.413817e-142</code></pre>
+<pre><code>##               Estimate  Std. Error   t value      Pr(&gt;|t|)
+## (Intercept)  3.4955406 0.056123844  62.28263  0.000000e+00
+## educ        -0.2096504 0.007960142 -26.33752 5.413817e-142</code></pre>
 <p>Note, if you assign <code>mysummary$coefficients</code> to a object, you’ll find out that it’s actually an array of numbers, which makes it a bit tricky to extract it’s contents.</p>
-<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycoefs</span> <span class="op">&lt;-</span> <span class="va">mysummary</span><span class="op">$</span><span class="va">coefficients</span></span>
 <span><span class="va">mycoefs</span></span></code></pre></div>
-<pre><code>##               Estimate
-## (Intercept)  3.4955406
-## educ        -0.2096504
-##              Std. Error
-## (Intercept) 0.056123844
-## educ        0.007960142
-##               t value
-## (Intercept)  62.28263
-## educ        -26.33752
-##                  Pr(&gt;|t|)
-## (Intercept)  0.000000e+00
-## educ        5.413817e-142</code></pre>
-<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
+<pre><code>##               Estimate  Std. Error   t value      Pr(&gt;|t|)
+## (Intercept)  3.4955406 0.056123844  62.28263  0.000000e+00
+## educ        -0.2096504 0.007960142 -26.33752 5.413817e-142</code></pre>
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">mycoefs</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "matrix" "array"</code></pre>
 <p>We can get around this by telling <code>R</code> to treat the object like it’s a data frame using the <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> command.</p>
-<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycoefs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">mysummary</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">mycoefs1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "data.frame"</code></pre>
-<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycoefs1</span></span></code></pre></div>
-<pre><code>##               Estimate
-## (Intercept)  3.4955406
-## educ        -0.2096504
-##              Std. Error
-## (Intercept) 0.056123844
-## educ        0.007960142
-##               t value
-## (Intercept)  62.28263
-## educ        -26.33752
-##                  Pr(&gt;|t|)
-## (Intercept)  0.000000e+00
-## educ        5.413817e-142</code></pre>
+<pre><code>##               Estimate  Std. Error   t value      Pr(&gt;|t|)
+## (Intercept)  3.4955406 0.056123844  62.28263  0.000000e+00
+## educ        -0.2096504 0.007960142 -26.33752 5.413817e-142</code></pre>
 <p>Now we can work with it like other data frames and extract columns using the <code>$</code> operator.</p>
 <p>Note, because of the space and special characters in some of the columns, we need to use backticks (i.e. the ` character, or the “lower-case tilde”) around the variable names.</p>
-<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycoefs1</span><span class="op">$</span><span class="va">Estimate</span></span></code></pre></div>
 <pre><code>## [1]  3.4955406 -0.2096504</code></pre>
-<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycoefs1</span><span class="op">$</span><span class="va">`Std. Error`</span></span></code></pre></div>
 <pre><code>## [1] 0.056123844 0.007960142</code></pre>
 </div>
@@ -734,32 +632,23 @@
 <p>The SEs are the square root of the diagonal of the variance-covariance matrix (you won’t have to know this for the course).</p>
 <p>The t-values (or t-statistics) are the quotients of the coefficients divided by the SEs (i.e. <span class="math inline">\(\frac{b_i}{SE_i}\)</span>).</p>
 <p>The p-values are the integrals of the t-distribution evaluated at the absolute values of the t-values, given the residual degrees of freedom of the model (for the course, you’ll be doing this using a statistical table, but knowing how to do this in <code>R</code> comes in handy).</p>
-<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  b <span class="op">=</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span>,</span>
 <span>  se <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html">vcov</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  t <span class="op">=</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html">vcov</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  p <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/vcov.html">vcov</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>             <span class="va">model1</span><span class="op">$</span><span class="va">df.residual</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##                      b
-## (Intercept)  3.4955406
-## educ        -0.2096504
-##                      se
-## (Intercept) 0.056123844
-## educ        0.007960142
-##                     t
-## (Intercept)  62.28263
-## educ        -26.33752
-##                         p
-## (Intercept)  0.000000e+00
-## educ        5.413817e-142</code></pre>
+<pre><code>##                      b          se         t             p
+## (Intercept)  3.4955406 0.056123844  62.28263  0.000000e+00
+## educ        -0.2096504 0.007960142 -26.33752 5.413817e-142</code></pre>
 
 </div>
 </div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></div>
-<div class="next"><a href="lecture-5-the-simple-regression-model-ii.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></div>
+<div class="next"><a href="lecture5.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -815,7 +704,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-06.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

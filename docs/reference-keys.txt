@@ -18,7 +18,7 @@ troubleshooting-common-issues
 getting-help
 next-steps
 acknowledgments
-lecture-1-what-is-causal-inference
+lecture1
 introduction
 tutorial-1-getting-started-with-r-rstudio-and-rmarkdown
 installing-r-and-rstudio
@@ -47,10 +47,11 @@ protips-for-r-success
 enable-helpful-rstudio-options
 good-coding-practices
 solutions-to-common-problems
-lecture-2-introduction-to-causal-inference
+lecture2
 introduction-1
 vignette-2.1
 vignette-2.2
+lecture-assignment
 tutorial-2-key-concepts
 lecture-2-exercises
 main-exercise
@@ -107,7 +108,7 @@ q6.-explain-what-might-be-in-the-u-term-of-the-model
 bonus-content
 looking-inside-model-objects
 how-se-t-and-p-are-calculated
-lecture-5-the-simple-regression-model-ii
+lecture5
 introduction-4
 vignette-5.1
 theorem-slr.1-unbiasedness-of-ols
@@ -117,7 +118,7 @@ b.-increased-variation-in-x-is-good
 c.-increased-sample-size-is-good
 tutorial-5-the-simple-regression-model-ii
 homework-1-practice
-lecture-6-the-multiple-regression-model-i
+lecture6
 introduction-5
 vignette-6.1
 vignette-6.2

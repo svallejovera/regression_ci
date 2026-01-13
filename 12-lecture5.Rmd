@@ -1,4 +1,4 @@
-# Lecture 5: The Simple Regression Model II
+# Lecture 5: The Simple Regression Model II {#lecture5}
 
 ## Slides{.unnumbered}
 
