@@ -87,40 +87,46 @@
 <li>Compute the average of children for those without electricity and do the same for those with electricity.</li>
 <li>From part (iii), can you infer that having electricity “causes” women to have fewer children?</li>
 </ol>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://justinmshea.github.io/wooldridge/">wooldridge</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: 'psych'</code></pre>
+<pre><code>## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha</code></pre>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"fertil2"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>(i) Find the smallest and largest values of children in the sample. What is the average of children?</strong></p>
 <p>Using Base R…</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 13</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2.267828</code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   0.000   0.000   2.000   2.268   4.000  13.000</code></pre>
 <p>Using the <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe()</a></code> function from the <a href="https://personality-project.org/r/psych/">psych</a> package…</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 4361 2.27 2.22      2    1.95 2.97   0  13    13 1.07     0.75 0.03</code></pre>
 <p><strong>(ii) What percentage of women have electricity in the home?</strong></p>
 <p>Using Base…</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##         0         1 
 ## 0.8597981 0.1402019</code></pre>
 <p>Using <a href="https://tidyverse.tidyverse.org">tidyverse</a> conventions…</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fertil2</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span></span></code></pre></div>
@@ -132,17 +138,17 @@
 <p><strong>(iii) Compute the average of children for those without electricity and do the same for those with electricity.</strong></p>
 <p>Using Base to manually calculate averages from subsets…</p>
 <p>The code below, translated into plain English, would be something like: <em>“Calculate the mean of fertil2$children for all cases where fertil2$electric equals 0, while removing all cases that have NAs.”</em></p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2.327729</code></pre>
 <p>The code below calculates the compliment of the code above. In plain English, this code says, <em>“Calculate the mean of fertil2$children for all cases where fertil2$electric equals 1, while removing all cases that have NAs.”</em></p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">[</span><span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1.898527</code></pre>
 <p>Mean number of children among women without electricity = 2.33.</p>
 <p>Mean number of children among women with electricity = 1.90.</p>
 <p>We could also use the <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> command from Base R:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span> <span class="op">~</span> <span class="va">fertil2</span><span class="op">$</span><span class="va">electric</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -157,14 +163,15 @@
 ##        2.327729        1.898527</code></pre>
 <p>Mean difference = 0.43, <span class="math inline">\(p\leq0.001\)</span>, 95% CI = 0.27 to 0.59.</p>
 <p>On average, women with electricity have 0.43 fewer children than women without electricity, and this difference is statistically significant.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dplyr</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">fertil2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">children</span><span class="op">)</span>,</span>
 <span>            sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">children</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 3 rows and 3 columns, ungrouped</code></pre>
+<pre><code>## group_by: one grouping variable (electric)
+## summarise: now 3 rows and 3 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 3 × 3
 ##   electric  mean    sd
 ##      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -196,7 +203,7 @@
 <h3>
 <span class="header-section-number">5.2.2</span> Continue<a class="anchor" aria-label="anchor" href="#continue"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"Sample_data/ces.Rda"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="overall-ratings-of-trudeau" class="section level3" number="5.2.3">
@@ -205,33 +212,33 @@
 </h3>
 <p>The variable <em>feel_trudeau</em> has feeling thermometer ratings of Liberal Leader Justin Trudeau. On average, how do Canadians rate him? What’s the lowest rating? What’s the highest rating?</p>
 <p>Using base <code>R</code>.</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>D’oh! That didn’t work because there are NAs.</p>
 <p>Let’s remove those using the option <code>na.rm = TRUE</code>.</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 44.84804</code></pre>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 100</code></pre>
 <p>Alternatively, we can use the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 ##    0.00    7.00   50.00   44.85   75.00  100.00    2409</code></pre>
 <p>We can do the same using <a href="https://dplyr.tidyverse.org">dplyr</a>. We can use this method to calculate other summary statistics at the same time.</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -241,7 +248,7 @@
 <pre><code>##       mean min max
 ## 1 44.84804   0 100</code></pre>
 <p>We could also calculate all the statistics…</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>            median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -265,13 +272,13 @@
 <h3>
 <span class="header-section-number">5.2.5</span> Gender<a class="anchor" aria-label="anchor" href="#gender"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">==</span><span class="st">"Man"</span><span class="op">]</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 43.35218</code></pre>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">[</span><span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">==</span><span class="st">"Woman"</span><span class="op">]</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 45.93724</code></pre>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -285,11 +292,12 @@
 ##   mean in group Man mean in group Woman 
 ##            43.35218            45.93724</code></pre>
 <p>Using <a href="https://dplyr.tidyverse.org">dplyr</a>…</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## group_by: one grouping variable (gender)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 3 × 2
 ##   gender   avg
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -298,7 +306,7 @@
 ## 3 &lt;NA&gt;    44.8</code></pre>
 <p>We can also use the base <code>R</code> command <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>.</p>
 <p>This option is somewhat limited because it only works when comparing across two categories. However, it does test the <em>significance</em> of the difference, which is useful.</p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span> <span class="op">~</span> <span class="va">ces</span><span class="op">$</span><span class="va">gender</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -315,11 +323,12 @@
 <h4>
 <span class="header-section-number">5.2.5.1</span> Age<a class="anchor" aria-label="anchor" href="#age"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">agegrp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## group_by: one grouping variable (agegrp)
+## summarise: now 3 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 3 × 2
 ##   agegrp   avg
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -331,11 +340,12 @@
 <h4>
 <span class="header-section-number">5.2.5.2</span> Education<a class="anchor" aria-label="anchor" href="#education"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">educ</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 5 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## group_by: one grouping variable (educ)
+## summarise: now 5 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 5 × 2
 ##   educ         avg
 ##   &lt;fct&gt;      &lt;dbl&gt;
@@ -349,11 +359,12 @@
 <h4>
 <span class="header-section-number">5.2.5.3</span> Ideology<a class="anchor" aria-label="anchor" href="#ideology"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">leftrightgrp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">feel_trudeau</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 4 rows and 2 columns, ungrouped</code></pre>
+<pre><code>## group_by: one grouping variable (leftrightgrp)
+## summarise: now 4 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 4 × 2
 ##   leftrightgrp   avg
 ##   &lt;fct&gt;        &lt;dbl&gt;
