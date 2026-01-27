@@ -17,3 +17,13 @@ The lecture slide are displayed in full below:
 knitr::include_graphics("slide/5_Simple_Regression_Model_I.pdf")
 ```
 
+## Lecture Assignment 
+
+1. Given the population regression function: $y = 2 + 4x + \mu$, use simulated data to show that OLS yields unbiased estimates from a random sample of the population. 
+
+2. Show how the mean and standard deviation of the distribution of the $\beta$'s from your simulation changes with sample size. 
+
+3. Show how the mean and standard deviation of the distribution of the $\beta$'s from your simulation changes with the variance in $x$.
+
+4. Show how the mean and standard deviation of the distribution of the $\beta$'s from your simulation changes with the variance in $y$.
+
