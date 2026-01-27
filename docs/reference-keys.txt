@@ -81,6 +81,7 @@ group-wise-means-mean-differences-and-statistical-significance
 interpretation-of-results
 lecture-4-the-simple-regression-model-i
 introduction-3
+lecture-assignment-1
 tutorial-4-the-simple-regression-model-i
 lecture-4-exercises
 practice-exercises

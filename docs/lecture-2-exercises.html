@@ -116,8 +116,10 @@
 <p>Using the <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe()</a></code> function from the <a href="https://personality-project.org/r/psych/">psych</a> package…</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">$</span><span class="va">children</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
-## X1    1 4361 2.27 2.22      2    1.95 2.97   0  13    13 1.07     0.75 0.03</code></pre>
+<pre><code>##    vars    n mean   sd median trimmed  mad min
+## X1    1 4361 2.27 2.22      2    1.95 2.97   0
+##    max range skew kurtosis   se
+## X1  13    13 1.07     0.75 0.03</code></pre>
 <p><strong>(ii) What percentage of women have electricity in the home?</strong></p>
 <p>Using Base…</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
@@ -130,7 +132,8 @@
 <code class="sourceCode R"><span><span class="va">fertil2</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">electric</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">fertil2</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## select: dropped 26 variables (mnthborn, yearborn, age, radio, tv, …)</code></pre>
+<pre><code>## select: dropped 26 variables (mnthborn,
+## yearborn, age, radio, tv, …)</code></pre>
 <pre><code>## electric
 ##         0         1 
 ## 0.8592066 0.1401055</code></pre>
@@ -235,8 +238,10 @@
 <p>Alternatively, we can use the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> command.</p>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">ces</span><span class="op">$</span><span class="va">feel_trudeau</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    7.00   50.00   44.85   75.00  100.00    2409</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    7.00   50.00   44.85   75.00  100.00 
+##    NA's 
+##    2409</code></pre>
 <p>We can do the same using <a href="https://dplyr.tidyverse.org">dplyr</a>. We can use this method to calculate other summary statistics at the same time.</p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
@@ -259,8 +264,10 @@
 <span>            lower95 <span class="op">=</span> <span class="va">mean</span> <span class="op">-</span> <span class="op">(</span><span class="fl">1.96</span><span class="op">*</span><span class="va">se</span><span class="op">)</span>,</span>
 <span>            upper95 <span class="op">=</span> <span class="va">mean</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1.96</span><span class="op">*</span><span class="va">se</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <pre><code>## summarise: now one row and 8 columns, ungrouped</code></pre>
-<pre><code>##       mean median min max       sd        se  lower95 upper95
-## 1 44.84804     50   0 100 34.54668 0.1838109 44.48777 45.2083</code></pre>
+<pre><code>##       mean median min max       sd        se
+## 1 44.84804     50   0 100 34.54668 0.1838109
+##    lower95 upper95
+## 1 44.48777 45.2083</code></pre>
 </div>
 <div id="trudeau-ratings-by-groups" class="section level3" number="5.2.4">
 <h3>
@@ -284,7 +291,8 @@
 ##  Welch Two Sample t-test
 ## 
 ## data:  ces$feel_trudeau by ces$gender
-## t = -6.9009, df = 31483, p-value = 5.266e-12
+## t = -6.9009, df = 31483, p-value =
+## 5.266e-12
 ## alternative hypothesis: true difference in means between group Man and group Woman is not equal to 0
 ## 95 percent confidence interval:
 ##  -3.319280 -1.850828
@@ -312,7 +320,8 @@
 ##  Welch Two Sample t-test
 ## 
 ## data:  ces$feel_trudeau by ces$gender
-## t = -6.9009, df = 31483, p-value = 5.266e-12
+## t = -6.9009, df = 31483, p-value =
+## 5.266e-12
 ## alternative hypothesis: true difference in means between group Man and group Woman is not equal to 0
 ## 95 percent confidence interval:
 ##  -3.319280 -1.850828
@@ -411,7 +420,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-13.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-01-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
