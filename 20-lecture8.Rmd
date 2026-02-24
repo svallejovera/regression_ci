@@ -1,4 +1,4 @@
-# Lecture 8: The Multiple Regression Model: Interpretation
+# Lecture 8: The Multiple Regression Model: Interpretation {#lecture8}
 
 ## Slides{.unnumbered}
 
@@ -9,3 +9,7 @@ No fancy code from this Lecture :( ...
 ```{r week9slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: Interpretation."}
 knitr::include_graphics("slide/9_Interpretation.pdf")
 ```
+
+## Lecture Assignment 
+
+1. Using simulated data, explain the difference between statistical significance and substantive significance, as explained by [Achen (1982)](https://ocul-uwo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UWO:UWO_DEFAULT&tab=OCULDiscoveryNetwork&search_scope=OCULDiscoveryNetwork&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any,contains,Interpreting%20and%20Using%20Regression&displayField=all&pcAvailabiltyMode=true), Chapter: Sampling Distributions of Regression Coefficients. Note: you can access the chapter through UWO Library. 

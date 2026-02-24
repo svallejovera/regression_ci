@@ -107,3 +107,11 @@ ggarrange(A,B,C,D,E,
           ncol = 2,
           nrow = 3)
 ```
+
+## Lecture Assignment 
+
+1. Using simulated data (or any other approach, including replication from a paper), show the effects of high collinearity, multicollinearity, and perfect collinearity on the estimates from OLS models. 
+
+2. What are the theoretical implications from models with high collinearity, multicollinearity, and perfect collinearity? What are possible solutions to high collinearity, multicollinearity, and perfect collinearity?
+
+

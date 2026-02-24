@@ -36,7 +36,7 @@ modelsummary(model_simple,
 plot_model(model_simple, type = "pred", terms = c("perhsed"))
 ## Dummy x Dummy:
 model_dumdum <- lm(turnoutho ~ perhsed + gdppercap_ln + ss + trumpw +
-                      ss*trumpw, data = election_turnout)
+                      region*trumpw, data = election_turnout)
 modelsummary(model_dumdum,
              # output = "kableExtra",
              title = "2016 Election Turnout",

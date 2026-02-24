@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 22 Lecture 9: Interactions | PS9591: Regressions and Causal Inference</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="Slides 10 Interactions (link) No fancy code from this Lecture :( …  Figure 22.1: Slides for 10 Interactions.   22.1 Interactions in Linear Models Interactions let the effect of one variable depend...">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta property="og:title" content="Chapter 22 Lecture 9: Interactions | PS9591: Regressions and Causal Inference">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Slides 10 Interactions (link) No fancy code from this Lecture :( …  Figure 22.1: Slides for 10 Interactions.   22.1 Interactions in Linear Models Interactions let the effect of one variable depend...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 22 Lecture 9: Interactions | PS9591: Regressions and Causal Inference">
+<meta name="twitter:description" content="Slides 10 Interactions (link) No fancy code from this Lecture :( …  Figure 22.1: Slides for 10 Interactions.   22.1 Interactions in Linear Models Interactions let the effect of one variable depend...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.9.0/transition.js"></script><script src="libs/bs3compat-0.9.0/tabs.js"></script><script src="libs/bs3compat-0.9.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9591: Regressions and Causal Inference</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Regressions and Causal Inference”</a></li>
+<li><a class="" href="lecture1.html"><span class="header-section-number">1</span> Lecture 1: What is Causal Inference?</a></li>
+<li><a class="" href="tutorial-1-getting-started-with-r-rstudio-and-rmarkdown.html"><span class="header-section-number">2</span> Tutorial 1: Getting Started with R, RStudio and RMarkdown</a></li>
+<li><a class="" href="lecture2.html"><span class="header-section-number">3</span> Lecture 2: Introduction to Causal Inference</a></li>
+<li><a class="" href="tutorial-2-key-concepts.html"><span class="header-section-number">4</span> Tutorial 2: Key Concepts</a></li>
+<li><a class="" href="lecture-2-exercises.html"><span class="header-section-number">5</span> Lecture 2 Exercises</a></li>
+<li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">6</span> Lecture 3: Core Concepts of Experimental Design</a></li>
+<li><a class="" href="tutorial-3-more-key-concepts.html"><span class="header-section-number">7</span> Tutorial 3: More Key Concepts</a></li>
+<li><a class="" href="lecture-3-exercises.html"><span class="header-section-number">8</span> Lecture 3 Exercises</a></li>
+<li><a class="" href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
+<li><a class="" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
+<li><a class="" href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></li>
+<li><a class="" href="lecture5.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></li>
+<li><a class="" href="tutorial-5-the-simple-regression-model-ii.html"><span class="header-section-number">13</span> Tutorial 5: The Simple Regression Model II</a></li>
+<li><a class="" href="homework-1-practice.html"><span class="header-section-number">14</span> Homework 1 Practice:</a></li>
+<li><a class="" href="lecture6.html"><span class="header-section-number">15</span> Lecture 6: The Multiple Regression Model I</a></li>
+<li><a class="" href="tutorial-6-regression-analysis-and-interpretation.html"><span class="header-section-number">16</span> Tutorial 6: Regression Analysis and Interpretation</a></li>
+<li><a class="" href="lecture-6-exercises.html"><span class="header-section-number">17</span> Lecture 6 Exercises</a></li>
+<li><a class="" href="lecture-7-the-multiple-regression-model-ii.html"><span class="header-section-number">18</span> Lecture 7: The Multiple Regression Model II</a></li>
+<li><a class="" href="tutorial-7-multiple-regression-analysis.html"><span class="header-section-number">19</span> Tutorial 7: Multiple Regression Analysis</a></li>
+<li><a class="" href="lecture8.html"><span class="header-section-number">20</span> Lecture 8: The Multiple Regression Model: Interpretation</a></li>
+<li><a class="" href="lecture-9-exercises.html"><span class="header-section-number">21</span> Lecture 9 Exercises</a></li>
+<li><a class="active" href="lecture9.html"><span class="header-section-number">22</span> Lecture 9: Interactions</a></li>
+<li><a class="" href="lecture10.html"><span class="header-section-number">23</span> Lecture 10: Difference-in-Difference</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/svallejovera/regression_ci">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="lecture9" class="section level1" number="22">
+<h1>
+<span class="header-section-number">22</span> Lecture 9: Interactions<a class="anchor" aria-label="anchor" href="#lecture9"><i class="fas fa-link"></i></a>
+</h1>
+<div id="slides-8" class="section level2 unnumbered">
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-8"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>10 Interactions (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/12%20Interactions.pdf">link</a>)</li>
+</ul>
+<p>No fancy code from this Lecture :( …</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:lectureinteraction"></span>
+<embed src="slide/12%20Interactions.pdf" title="Slides for 10 Interactions." width="100%" type="application/pdf"></embed><p class="caption">
+Figure 22.1: Slides for 10 Interactions.
+</p>
+</div>
+</div>
+<div id="interactions" class="section level2" number="22.1">
+<h2>
+<span class="header-section-number">22.1</span> Interactions in Linear Models<a class="anchor" aria-label="anchor" href="#interactions"><i class="fas fa-link"></i></a>
+</h2>
+<p>Interactions let the effect of one variable depend on the level of another. In social science language: <em>context conditions the relationship</em>.</p>
+<p>We will build intuition with two vignettes:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>State-level turnout (OLS):</strong> We’ll also compare <strong>classical</strong> vs <strong>robust</strong> standard errors.</li>
+<li>
+<strong>Individual voting (LPM):</strong> We’ll use a linear probability model to keep interpretation simple, and then discuss trade-offs.</li>
+</ol>
+<hr>
+<p>Start with a model with an interaction:</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 (X\cdot Z) + \varepsilon
+\]</span></p>
+<p>Two key interpretations:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Conditional effect of <span class="math inline">\(X\)</span></strong> (a.k.a. “simple slope”):
+<span class="math display">\[
+\frac{\partial E[y]}{\partial X} = \beta_1 + \beta_3 Z
+\]</span></p></li>
+<li><p><strong>Conditional regression line</strong>:</p></li>
+</ol>
+<ul>
+<li>If <span class="math inline">\(Z=0\)</span>: <span class="math inline">\(E[y|X,Z=0] = \beta_0 + \beta_1 X\)</span>
+</li>
+<li>If <span class="math inline">\(Z=1\)</span>: <span class="math inline">\(E[y|X,Z=1] = (\beta_0+\beta_2) + (\beta_1+\beta_3)X\)</span>
+</li>
+</ul>
+<p>So, <span class="math inline">\(\beta_3\)</span> is literally the <strong>difference in slopes</strong> (when <span class="math inline">\(Z\)</span> is a dummy).</p>
+<p>We’ll plug in real coefficients below.</p>
+<hr>
+</div>
+<div id="vignetteA" class="section level2" number="22.2">
+<h2>
+<span class="header-section-number">22.2</span> Vignette A: Turnout and conditional relationships (OLS)<a class="anchor" aria-label="anchor" href="#vignetteA"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb573"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/">marginaleffects</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">election_turnout</span>, package <span class="op">=</span> <span class="st">"stevedata"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">election_turnout</span> <span class="op">&lt;-</span> <span class="va">election_turnout</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    ss <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">ss</span><span class="op">)</span>,</span>
+<span>    trumpw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">trumpw</span><span class="op">)</span>,</span>
+<span>    region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">region</span><span class="op">)</span>,</span>
+<span>    gdppercap_ln <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">gdppercap</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">election_turnout</span><span class="op">$</span><span class="va">turnoutho</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median 
+##   42.20   56.75   60.90 
+##    Mean 3rd Qu.    Max. 
+##   60.82   64.75   74.20</code></pre>
+<div class="sourceCode" id="cb575"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">election_turnout</span><span class="op">$</span><span class="va">turnoutho</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 6.117199</code></pre>
+<div id="a.1-main-example-continuous-dummy-education-and-swing-states" class="section level3" number="22.2.1">
+<h3>
+<span class="header-section-number">22.2.1</span> A.1 Main example (continuous × dummy): education and swing states<a class="anchor" aria-label="anchor" href="#a.1-main-example-continuous-dummy-education-and-swing-states"><i class="fas fa-link"></i></a>
+</h3>
+<p>Here is the interaction model:</p>
+<p><span class="math display">\[
+turnoutho_i = \beta_0 + \beta_1 percoled_i + \beta_2 ss_i + \beta_3(percoled_i \cdot ss_i) + \varepsilon_i
+\]</span></p>
+<div class="sourceCode" id="cb577"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_turnout_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">turnoutho</span> <span class="op">~</span> <span class="va">percoled</span><span class="op">*</span><span class="va">ss</span> <span class="op">+</span> <span class="va">gdppercap_ln</span> <span class="op">+</span> <span class="va">trumpw</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">election_turnout</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Side-by-side: classical vs robust SEs</span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Classical SEs"</span> <span class="op">=</span> <span class="va">model_turnout_cd</span>,</span>
+<span>       <span class="st">"Robust SEs (HC3)"</span> <span class="op">=</span> <span class="va">model_turnout_cd</span><span class="op">)</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Classical SEs"</span> <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>              <span class="st">"Robust SEs (HC3)"</span> <span class="op">=</span> <span class="st">"HC3"</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Turnout with Interaction: percoled × swing state"</span>,</span>
+<span>  coef_rename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"(Intercept)"</span> <span class="op">=</span> <span class="st">"Intercept"</span>,</span>
+<span>    <span class="st">"percoled"</span> <span class="op">=</span> <span class="st">"% College Educated"</span>,</span>
+<span>    <span class="st">"ss1"</span> <span class="op">=</span> <span class="st">"Swing State"</span>,</span>
+<span>    <span class="st">"percoled:ss1"</span> <span class="op">=</span> <span class="st">"% College × Swing State"</span>,</span>
+<span>    <span class="st">"gdppercap_ln"</span> <span class="op">=</span> <span class="st">"GDP pc (log)"</span>,</span>
+<span>    <span class="st">"trumpw1"</span> <span class="op">=</span> <span class="st">"Trump Won"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  gof_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nobs"</span>,<span class="st">"r.squared"</span><span class="op">)</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Column 1: classical OLS standard errors. Column 2: robust (HC3) standard errors."</span>,</span>
+<span>    <span class="st">"*** p&lt;0.001, ** p&lt;0.01, * p&lt;0.05"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_owrqeajnldh26cw961ip(i, j, css_id) {
+          var table = document.getElementById("tinytable_owrqeajnldh26cw961ip");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_owrqeajnldh26cw961ip');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_owrqeajnldh26cw961ip(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_owrqeajnldh26cw961ip");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 14, j: 1 }, { i: 14, j: 2 },  ], css_id: 'tinytable_css_ksryf4hgsp3sihu568m3',}, 
+          { positions: [ { i: 12, j: 1 }, { i: 12, j: 2 },  ], css_id: 'tinytable_css_8rtq339i4ikgo8wz6jvw',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 10, j: 2 }, { i: 13, j: 1 }, { i: 3, j: 2 }, { i: 2, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 7, j: 2 }, { i: 4, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 11, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 13, j: 2 },  ], css_id: 'tinytable_css_rafjpvkt0hokygrq4kmn',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_gye1b527swb21bmewn0w',}, 
+          { positions: [ { i: 14, j: 0 },  ], css_id: 'tinytable_css_magpbkktaqaylaj81ucs',}, 
+          { positions: [ { i: 12, j: 0 },  ], css_id: 'tinytable_css_gn8w09ug7oc0vuieh1af',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 13, j: 0 },  ], css_id: 'tinytable_css_myqfz3sq2k1wyloyltl4',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_1hcb7bup5l6duqxkc8pl',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_owrqeajnldh26cw961ip(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_ksryf4hgsp3sihu568m3, .table th.tinytable_css_ksryf4hgsp3sihu568m3 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_8rtq339i4ikgo8wz6jvw, .table th.tinytable_css_8rtq339i4ikgo8wz6jvw { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_rafjpvkt0hokygrq4kmn, .table th.tinytable_css_rafjpvkt0hokygrq4kmn { text-align: center; }
+      .table td.tinytable_css_gye1b527swb21bmewn0w, .table th.tinytable_css_gye1b527swb21bmewn0w { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_magpbkktaqaylaj81ucs, .table th.tinytable_css_magpbkktaqaylaj81ucs { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_gn8w09ug7oc0vuieh1af, .table th.tinytable_css_gn8w09ug7oc0vuieh1af { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_myqfz3sq2k1wyloyltl4, .table th.tinytable_css_myqfz3sq2k1wyloyltl4 { text-align: left; }
+      .table td.tinytable_css_1hcb7bup5l6duqxkc8pl, .table th.tinytable_css_1hcb7bup5l6duqxkc8pl { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_owrqeajnldh26cw961ip" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>Turnout with Interaction: percoled × swing state</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">Classical SEs</th>
+                <th scope="col">Robust SEs (HC3)</th>
+              </tr>
+</thead>
+<tfoot>
+<tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
+<tr><td colspan="3">Column 1: classical OLS standard errors. Column 2: robust (HC3) standard errors.</td></tr>
+<tr><td colspan="3">*** p&lt;0.001, ** p&lt;0.01, * p&lt;0.05</td></tr>
+</tfoot>
+<tbody>
+<tr>
+<td>Intercept</td>
+                  <td>70.397</td>
+                  <td>70.397</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(41.929)</td>
+                  <td>(56.170)</td>
+                </tr>
+<tr>
+<td>% College Educated</td>
+                  <td>0.422+</td>
+                  <td>0.422</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.225)</td>
+                  <td>(0.282)</td>
+                </tr>
+<tr>
+<td>Swing State</td>
+                  <td>-0.022</td>
+                  <td>-0.022</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(10.226)</td>
+                  <td>(12.187)</td>
+                </tr>
+<tr>
+<td>GDP pc (log)</td>
+                  <td>-2.148</td>
+                  <td>-2.148</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.280)</td>
+                  <td>(5.070)</td>
+                </tr>
+<tr>
+<td>Trump Won</td>
+                  <td>-0.522</td>
+                  <td>-0.522</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(1.847)</td>
+                  <td>(2.900)</td>
+                </tr>
+<tr>
+<td>% College × Swing State</td>
+                  <td>0.239</td>
+                  <td>0.239</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.341)</td>
+                  <td>(0.405)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>51</td>
+                  <td>51</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.447</td>
+                  <td>0.447</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<p>From the model:</p>
+<ul>
+<li>When <code>ss = 0</code> (not a swing state), the slope of <code>percoled</code> is:
+<span class="math display">\[
+\text{slope} = \beta_1
+\]</span>
+</li>
+<li>When <code>ss = 1</code> (swing state), the slope of <code>percoled</code> is:
+<span class="math display">\[
+\text{slope} = \beta_1 + \beta_3
+\]</span>
+</li>
+</ul>
+<p>Let’s compute and display these “simple slopes” directly:</p>
+<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Simple slopes of percoled at ss=0 and ss=1</span></span>
+<span><span class="fu"><a href="https://marginaleffects.com/man/r/slopes.html">slopes</a></span><span class="op">(</span><span class="va">model_turnout_cd</span>, variables <span class="op">=</span> <span class="st">"percoled"</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span>ss <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">election_turnout</span><span class="op">$</span><span class="va">ss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##  ss Estimate Std. Error    z
+##   0    0.422      0.225 1.87
+##   1    0.661      0.342 1.93
+##  Pr(&gt;|z|)   S    2.5 % 97.5 %
+##    0.0614 4.0 -0.02021  0.863
+##    0.0531 4.2 -0.00886  1.330
+## 
+## Term: percoled
+## Type:  response 
+## Comparison: dY/dX</code></pre>
+<p>Now let’s plot predicted turnout across <code>percoled</code> for swing vs non-swing states:</p>
+<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_turnout_cd</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"percoled"</span>, <span class="st">"ss"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-212-1.png" width="480" style="display: block; margin: auto;"></div>
+<p>And a marginal effect plot is another way of saying the same thing:</p>
+<div class="sourceCode" id="cb581"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://marginaleffects.com/man/r/plot_slopes.html">plot_slopes</a></span><span class="op">(</span><span class="va">model_turnout_cd</span>, variables <span class="op">=</span> <span class="st">"percoled"</span>, condition <span class="op">=</span> <span class="st">"ss"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-213-1.png" width="480" style="display: block; margin: auto;"></div>
+<hr>
+</div>
+<div id="a.2-interaction-zoo-ols" class="section level3" number="22.2.2">
+<h3>
+<span class="header-section-number">22.2.2</span> A.2 Interaction zoo (OLS)<a class="anchor" aria-label="anchor" href="#a.2-interaction-zoo-ols"><i class="fas fa-link"></i></a>
+</h3>
+<div id="dummy-dummy-swing-states-trump-win-states" class="section level4" number="22.2.2.1">
+<h4>
+<span class="header-section-number">22.2.2.1</span> (1) Dummy × Dummy: swing states × Trump-win states<a class="anchor" aria-label="anchor" href="#dummy-dummy-swing-states-trump-win-states"><i class="fas fa-link"></i></a>
+</h4>
+<p>Now we interpret <span class="math inline">\(\beta_3\)</span> as a <strong>difference-in-differences</strong> term:</p>
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_turnout_dd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">turnoutho</span> <span class="op">~</span> <span class="va">ss</span><span class="op">*</span><span class="va">trumpw</span> <span class="op">+</span> <span class="va">percoled</span> <span class="op">+</span> <span class="va">gdppercap_ln</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">election_turnout</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_turnout_dd</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Turnout: swing state × Trump won (Dummy × Dummy)"</span>,</span>
+<span>  coef_rename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"(Intercept)"</span> <span class="op">=</span> <span class="st">"Intercept"</span>,</span>
+<span>    <span class="st">"ss1"</span> <span class="op">=</span> <span class="st">"Swing State"</span>,</span>
+<span>    <span class="st">"trumpw1"</span> <span class="op">=</span> <span class="st">"Trump Won"</span>,</span>
+<span>    <span class="st">"ss1:trumpw1"</span> <span class="op">=</span> <span class="st">"Swing × Trump Won"</span>,</span>
+<span>    <span class="st">"percoled"</span> <span class="op">=</span> <span class="st">"% College Educated"</span>,</span>
+<span>    <span class="st">"gdppercap_ln"</span> <span class="op">=</span> <span class="st">"GDP pc (log)"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  gof_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nobs"</span>,<span class="st">"r.squared"</span><span class="op">)</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_6wlhrxkb2u2vf12l2q2h(i, j, css_id) {
+          var table = document.getElementById("tinytable_6wlhrxkb2u2vf12l2q2h");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_6wlhrxkb2u2vf12l2q2h');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_6wlhrxkb2u2vf12l2q2h(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_6wlhrxkb2u2vf12l2q2h");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 14, j: 1 },  ], css_id: 'tinytable_css_hskmozpnav7ni7zymmqt',}, 
+          { positions: [ { i: 12, j: 1 },  ], css_id: 'tinytable_css_kvbumv298edjnab3dfsg',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 13, j: 1 },  ], css_id: 'tinytable_css_14tmhtr5ggrcptqjpky0',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_npkyjzb5457k4acerz50',}, 
+          { positions: [ { i: 14, j: 0 },  ], css_id: 'tinytable_css_320fo6on7aa9r66jbeu1',}, 
+          { positions: [ { i: 12, j: 0 },  ], css_id: 'tinytable_css_9jhduqbmlz0vvr989z2v',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 13, j: 0 },  ], css_id: 'tinytable_css_j3hx15y2yub56g650j9m',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_17l4jplompo1vniab2oi',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_6wlhrxkb2u2vf12l2q2h(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_hskmozpnav7ni7zymmqt, .table th.tinytable_css_hskmozpnav7ni7zymmqt { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_kvbumv298edjnab3dfsg, .table th.tinytable_css_kvbumv298edjnab3dfsg { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_14tmhtr5ggrcptqjpky0, .table th.tinytable_css_14tmhtr5ggrcptqjpky0 { text-align: center; }
+      .table td.tinytable_css_npkyjzb5457k4acerz50, .table th.tinytable_css_npkyjzb5457k4acerz50 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_320fo6on7aa9r66jbeu1, .table th.tinytable_css_320fo6on7aa9r66jbeu1 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_9jhduqbmlz0vvr989z2v, .table th.tinytable_css_9jhduqbmlz0vvr989z2v { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_j3hx15y2yub56g650j9m, .table th.tinytable_css_j3hx15y2yub56g650j9m { text-align: left; }
+      .table td.tinytable_css_17l4jplompo1vniab2oi, .table th.tinytable_css_17l4jplompo1vniab2oi { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_6wlhrxkb2u2vf12l2q2h" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>Turnout: swing state × Trump won (Dummy × Dummy)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>Intercept</td>
+                  <td>77.523+</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(41.197)</td>
+                </tr>
+<tr>
+<td>Swing State</td>
+                  <td>6.526*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.495)</td>
+                </tr>
+<tr>
+<td>Trump Won</td>
+                  <td>-0.848</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.069)</td>
+                </tr>
+<tr>
+<td>% College Educated</td>
+                  <td>0.469*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.215)</td>
+                </tr>
+<tr>
+<td>GDP pc (log)</td>
+                  <td>-2.911</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.176)</td>
+                </tr>
+<tr>
+<td>Swing × Trump Won</td>
+                  <td>0.908</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(3.258)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>51</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.442</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb583"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_turnout_dd</span>, type <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-214-1.png" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="dummy-categorical-swing-states-region" class="section level4" number="22.2.2.2">
+<h4>
+<span class="header-section-number">22.2.2.2</span> (2) Dummy × Categorical: swing states × region<a class="anchor" aria-label="anchor" href="#dummy-categorical-swing-states-region"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb584"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_turnout_dc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">turnoutho</span> <span class="op">~</span> <span class="va">ss</span><span class="op">*</span><span class="va">region</span> <span class="op">+</span> <span class="va">percoled</span> <span class="op">+</span> <span class="va">gdppercap_ln</span> <span class="op">+</span> <span class="va">trumpw</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">election_turnout</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_turnout_dc</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Turnout: swing state × region (Dummy × Categorical)"</span>,</span>
+<span>  gof_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nobs"</span>,<span class="st">"r.squared"</span><span class="op">)</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_byw02hjudbbfhpiqkbr9(i, j, css_id) {
+          var table = document.getElementById("tinytable_byw02hjudbbfhpiqkbr9");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_byw02hjudbbfhpiqkbr9');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_byw02hjudbbfhpiqkbr9(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_byw02hjudbbfhpiqkbr9");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 24, j: 1 },  ], css_id: 'tinytable_css_lmxen41fdcba8wutwrd9',}, 
+          { positions: [ { i: 22, j: 1 },  ], css_id: 'tinytable_css_4xwo0os6gx6mnegsjlx8',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 17, j: 1 }, { i: 18, j: 1 }, { i: 19, j: 1 }, { i: 20, j: 1 }, { i: 21, j: 1 }, { i: 23, j: 1 },  ], css_id: 'tinytable_css_7kt8t8iktr2sann570ws',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_6pckai86pr14qsazy25n',}, 
+          { positions: [ { i: 24, j: 0 },  ], css_id: 'tinytable_css_ct58x0fglekk888909bo',}, 
+          { positions: [ { i: 22, j: 0 },  ], css_id: 'tinytable_css_8v1htros4n4dqcl3xyrj',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 20, j: 0 }, { i: 21, j: 0 }, { i: 23, j: 0 },  ], css_id: 'tinytable_css_e6nz7h86g144gj6jv2lq',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_80frvooka5hxqkcutfye',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_byw02hjudbbfhpiqkbr9(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_lmxen41fdcba8wutwrd9, .table th.tinytable_css_lmxen41fdcba8wutwrd9 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_4xwo0os6gx6mnegsjlx8, .table th.tinytable_css_4xwo0os6gx6mnegsjlx8 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_7kt8t8iktr2sann570ws, .table th.tinytable_css_7kt8t8iktr2sann570ws { text-align: center; }
+      .table td.tinytable_css_6pckai86pr14qsazy25n, .table th.tinytable_css_6pckai86pr14qsazy25n { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_ct58x0fglekk888909bo, .table th.tinytable_css_ct58x0fglekk888909bo { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_8v1htros4n4dqcl3xyrj, .table th.tinytable_css_8v1htros4n4dqcl3xyrj { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_e6nz7h86g144gj6jv2lq, .table th.tinytable_css_e6nz7h86g144gj6jv2lq { text-align: left; }
+      .table td.tinytable_css_80frvooka5hxqkcutfye, .table th.tinytable_css_80frvooka5hxqkcutfye { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_byw02hjudbbfhpiqkbr9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>Turnout: swing state × region (Dummy × Categorical)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+                  <td>77.370+</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(42.926)</td>
+                </tr>
+<tr>
+<td>ss1</td>
+                  <td>7.753**</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.807)</td>
+                </tr>
+<tr>
+<td>regionNortheast</td>
+                  <td>0.386</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(3.016)</td>
+                </tr>
+<tr>
+<td>regionSouth</td>
+                  <td>-2.758</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.229)</td>
+                </tr>
+<tr>
+<td>regionWest</td>
+                  <td>-2.647</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.394)</td>
+                </tr>
+<tr>
+<td>percoled</td>
+                  <td>0.399+</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.225)</td>
+                </tr>
+<tr>
+<td>gdppercap_ln</td>
+                  <td>-2.547</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.335)</td>
+                </tr>
+<tr>
+<td>trumpw1</td>
+                  <td>-0.986</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.126)</td>
+                </tr>
+<tr>
+<td>ss1 × regionNortheast</td>
+                  <td>-2.447</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.846)</td>
+                </tr>
+<tr>
+<td>ss1 × regionSouth</td>
+                  <td>-1.230</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.191)</td>
+                </tr>
+<tr>
+<td>ss1 × regionWest</td>
+                  <td>-3.241</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(4.705)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>51</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.512</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb585"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_turnout_dc</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>,<span class="st">"ss"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-215-1.png" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="continuous-continuous-education-state-wealth" class="section level4" number="22.2.2.3">
+<h4>
+<span class="header-section-number">22.2.2.3</span> (3) Continuous × Continuous: education × state wealth<a class="anchor" aria-label="anchor" href="#continuous-continuous-education-state-wealth"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb586"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_turnout_cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">turnoutho</span> <span class="op">~</span> <span class="va">percoled</span><span class="op">*</span><span class="va">gdppercap_ln</span> <span class="op">+</span> <span class="va">ss</span> <span class="op">+</span> <span class="va">trumpw</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">election_turnout</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_turnout_cc</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Turnout: percoled × log(GDP pc) (Continuous × Continuous)"</span>,</span>
+<span>  coef_rename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"(Intercept)"</span> <span class="op">=</span> <span class="st">"Intercept"</span>,</span>
+<span>    <span class="st">"percoled"</span> <span class="op">=</span> <span class="st">"% College Educated"</span>,</span>
+<span>    <span class="st">"gdppercap_ln"</span> <span class="op">=</span> <span class="st">"GDP pc (log)"</span>,</span>
+<span>    <span class="st">"percoled:gdppercap_ln"</span> <span class="op">=</span> <span class="st">"% College × GDP pc (log)"</span>,</span>
+<span>    <span class="st">"ss1"</span> <span class="op">=</span> <span class="st">"Swing State"</span>,</span>
+<span>    <span class="st">"trumpw1"</span> <span class="op">=</span> <span class="st">"Trump Won"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  gof_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nobs"</span>,<span class="st">"r.squared"</span><span class="op">)</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_p3ti3xaqecmutx2hgfcg(i, j, css_id) {
+          var table = document.getElementById("tinytable_p3ti3xaqecmutx2hgfcg");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_p3ti3xaqecmutx2hgfcg');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_p3ti3xaqecmutx2hgfcg(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_p3ti3xaqecmutx2hgfcg");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 14, j: 1 },  ], css_id: 'tinytable_css_la3kjihzyk7ll3x0r5t4',}, 
+          { positions: [ { i: 12, j: 1 },  ], css_id: 'tinytable_css_yhaespxv7zti5mtanqsh',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 13, j: 1 },  ], css_id: 'tinytable_css_nq49nv5fsuwdnad3rx3j',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_5wq7mr8st1g8819kkzls',}, 
+          { positions: [ { i: 14, j: 0 },  ], css_id: 'tinytable_css_j7l5q9hwkwmwf9v2ou3e',}, 
+          { positions: [ { i: 12, j: 0 },  ], css_id: 'tinytable_css_4gx85au2hry5ajes1jm3',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 13, j: 0 },  ], css_id: 'tinytable_css_ioil9796l1i4dqc1vydr',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_hrv5fbdfk5pwa3ruazg0',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_p3ti3xaqecmutx2hgfcg(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_la3kjihzyk7ll3x0r5t4, .table th.tinytable_css_la3kjihzyk7ll3x0r5t4 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_yhaespxv7zti5mtanqsh, .table th.tinytable_css_yhaespxv7zti5mtanqsh { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_nq49nv5fsuwdnad3rx3j, .table th.tinytable_css_nq49nv5fsuwdnad3rx3j { text-align: center; }
+      .table td.tinytable_css_5wq7mr8st1g8819kkzls, .table th.tinytable_css_5wq7mr8st1g8819kkzls { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_j7l5q9hwkwmwf9v2ou3e, .table th.tinytable_css_j7l5q9hwkwmwf9v2ou3e { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_4gx85au2hry5ajes1jm3, .table th.tinytable_css_4gx85au2hry5ajes1jm3 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_ioil9796l1i4dqc1vydr, .table th.tinytable_css_ioil9796l1i4dqc1vydr { text-align: left; }
+      .table td.tinytable_css_hrv5fbdfk5pwa3ruazg0, .table th.tinytable_css_hrv5fbdfk5pwa3ruazg0 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_p3ti3xaqecmutx2hgfcg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>Turnout: percoled × log(GDP pc) (Continuous × Continuous)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>Intercept</td>
+                  <td>-101.422</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(89.009)</td>
+                </tr>
+<tr>
+<td>% College Educated</td>
+                  <td>5.491*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(2.261)</td>
+                </tr>
+<tr>
+<td>GDP pc (log)</td>
+                  <td>13.101</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(8.191)</td>
+                </tr>
+<tr>
+<td>Swing State</td>
+                  <td>6.614***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(1.540)</td>
+                </tr>
+<tr>
+<td>Trump Won</td>
+                  <td>0.487</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(1.825)</td>
+                </tr>
+<tr>
+<td>% College × GDP pc (log)</td>
+                  <td>-0.447*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.201)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>51</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.497</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb587"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Visualize: predicted turnout across percoled at representative GDP values</span></span>
+<span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_turnout_cc</span>, type <span class="op">=</span> <span class="st">"pred"</span>,</span>
+<span>           terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"percoled"</span>, <span class="st">"gdppercap_ln [7.5, 8.0, 8.5]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-216-1.png" width="480" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb588"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Marginal effect of percoled across GDP</span></span>
+<span><span class="fu"><a href="https://marginaleffects.com/man/r/plot_slopes.html">plot_slopes</a></span><span class="op">(</span><span class="va">model_turnout_cc</span>, variables <span class="op">=</span> <span class="st">"percoled"</span>, condition <span class="op">=</span> <span class="st">"gdppercap_ln"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-216-2.png" width="480" style="display: block; margin: auto;"></div>
+<hr>
+</div>
+</div>
+</div>
+<div id="vignetteB" class="section level2" number="22.3">
+<h2>
+<span class="header-section-number">22.3</span> Vignette B: Interactions in a Linear Probability Model (TV16)<a class="anchor" aria-label="anchor" href="#vignetteB"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb589"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">TV16</span>, package <span class="op">=</span> <span class="st">"stevedata"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">TV16</span> <span class="op">&lt;-</span> <span class="va">TV16</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    female <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">female</span><span class="op">)</span>,</span>
+<span>    collegeed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">collegeed</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Collapse race for cleaner teaching plots:</span></span>
+<span>    race4 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">racef</span> <span class="op">==</span> <span class="st">"White"</span> <span class="op">~</span> <span class="st">"White"</span>,</span>
+<span>      <span class="va">racef</span> <span class="op">==</span> <span class="st">"Black"</span> <span class="op">~</span> <span class="st">"Black"</span>,</span>
+<span>      <span class="va">racef</span> <span class="op">==</span> <span class="st">"Hispanic"</span> <span class="op">~</span> <span class="st">"Hispanic"</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Other"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    race4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">race4</span><span class="op">)</span>,</span>
+<span>    votetrump <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">votetrump</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">TV16</span><span class="op">$</span><span class="va">votetrump</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+##     0     1 
+## 26177 18755</code></pre>
+<div id="sidebar-why-an-lpm-here" class="section level3" number="22.3.1">
+<h3>
+<span class="header-section-number">22.3.1</span> Sidebar: why an LPM here?<a class="anchor" aria-label="anchor" href="#sidebar-why-an-lpm-here"><i class="fas fa-link"></i></a>
+</h3>
+<p>We could model a binary outcome using logit/probit. But for the purposes of this class, the LPM is extremely convenient:</p>
+<ul>
+<li>Coefficients are in <strong>percentage points</strong> (because <span class="math inline">\(y\in\{0,1\}\)</span>).</li>
+<li>Interactions are easy to interpret and visualize with straight lines.</li>
+<li>The main statistical downside is <strong>heteroskedasticity</strong> (so robust SEs are usually a good default).</li>
+<li>Another downside is that predicted values can fall outside <span class="math inline">\([0,1]\)</span>. We can check this.</li>
+</ul>
+<p>We’ll treat this as a pedagogical model and focus on interpretation.</p>
+<hr>
+</div>
+<div id="b.1-main-example-continuous-dummy-ideology-college-education" class="section level3" number="22.3.2">
+<h3>
+<span class="header-section-number">22.3.2</span> B.1 Main example (continuous × dummy): ideology × college education<a class="anchor" aria-label="anchor" href="#b.1-main-example-continuous-dummy-ideology-college-education"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb591"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_tv_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">votetrump</span> <span class="op">~</span> <span class="va">ideo</span><span class="op">*</span><span class="va">collegeed</span> <span class="op">+</span> <span class="va">female</span> <span class="op">+</span> <span class="va">race4</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">TV16</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Classical SEs"</span> <span class="op">=</span> <span class="va">model_tv_cd</span>,</span>
+<span>       <span class="st">"Robust SEs (HC3)"</span> <span class="op">=</span> <span class="va">model_tv_cd</span><span class="op">)</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Classical SEs"</span> <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>              <span class="st">"Robust SEs (HC3)"</span> <span class="op">=</span> <span class="st">"HC3"</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"LPM: Trump vote with interaction (ideo × college)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Binary outcome estimated by OLS (Linear Probability Model)."</span>,</span>
+<span>    <span class="st">"Column 2 uses robust (HC3) standard errors."</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_az9bplxrvf9eldgy2hps(i, j, css_id) {
+          var table = document.getElementById("tinytable_az9bplxrvf9eldgy2hps");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_az9bplxrvf9eldgy2hps');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_az9bplxrvf9eldgy2hps(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_az9bplxrvf9eldgy2hps");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 24, j: 1 }, { i: 24, j: 2 },  ], css_id: 'tinytable_css_5yygh6msrkz90id0oil7',}, 
+          { positions: [ { i: 16, j: 2 }, { i: 16, j: 1 },  ], css_id: 'tinytable_css_4i74yv4lf4l1b0mqstbj',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 4, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 8, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 4, j: 2 }, { i: 17, j: 1 }, { i: 18, j: 1 }, { i: 19, j: 1 }, { i: 20, j: 1 }, { i: 21, j: 1 }, { i: 22, j: 1 }, { i: 23, j: 1 }, { i: 12, j: 2 }, { i: 12, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 17, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 11, j: 2 }, { i: 20, j: 2 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 21, j: 2 }, { i: 18, j: 2 }, { i: 19, j: 2 }, { i: 22, j: 2 }, { i: 23, j: 2 },  ], css_id: 'tinytable_css_6x6gylpc03zaua8mngpe',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_rgzvm1kgqwvb4kpkhiub',}, 
+          { positions: [ { i: 24, j: 0 },  ], css_id: 'tinytable_css_fpgd236bq42tgmo17vbg',}, 
+          { positions: [ { i: 16, j: 0 },  ], css_id: 'tinytable_css_9q7adf87d96er5qmj3f1',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 20, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 21, j: 0 }, { i: 22, j: 0 }, { i: 23, j: 0 },  ], css_id: 'tinytable_css_u3si562pr63iienkeazr',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_51jsjpweh27jl220buxa',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_az9bplxrvf9eldgy2hps(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_5yygh6msrkz90id0oil7, .table th.tinytable_css_5yygh6msrkz90id0oil7 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_4i74yv4lf4l1b0mqstbj, .table th.tinytable_css_4i74yv4lf4l1b0mqstbj { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_6x6gylpc03zaua8mngpe, .table th.tinytable_css_6x6gylpc03zaua8mngpe { text-align: center; }
+      .table td.tinytable_css_rgzvm1kgqwvb4kpkhiub, .table th.tinytable_css_rgzvm1kgqwvb4kpkhiub { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_fpgd236bq42tgmo17vbg, .table th.tinytable_css_fpgd236bq42tgmo17vbg { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_9q7adf87d96er5qmj3f1, .table th.tinytable_css_9q7adf87d96er5qmj3f1 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_u3si562pr63iienkeazr, .table th.tinytable_css_u3si562pr63iienkeazr { text-align: left; }
+      .table td.tinytable_css_51jsjpweh27jl220buxa, .table th.tinytable_css_51jsjpweh27jl220buxa { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_az9bplxrvf9eldgy2hps" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>LPM: Trump vote with interaction (ideo × college)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">Classical SEs</th>
+                <th scope="col">Robust SEs (HC3)</th>
+              </tr>
+</thead>
+<tfoot>
+<tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
+<tr><td colspan="3">Binary outcome estimated by OLS (Linear Probability Model).</td></tr>
+<tr><td colspan="3">Column 2 uses robust (HC3) standard errors.</td></tr>
+</tfoot>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+                  <td>-0.575***</td>
+                  <td>-0.575***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                  <td>(0.008)</td>
+                </tr>
+<tr>
+<td>ideo</td>
+                  <td>0.258***</td>
+                  <td>0.258***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.002)</td>
+                  <td>(0.002)</td>
+                </tr>
+<tr>
+<td>collegeed1</td>
+                  <td>-0.056***</td>
+                  <td>-0.056***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.011)</td>
+                  <td>(0.008)</td>
+                </tr>
+<tr>
+<td>female1</td>
+                  <td>-0.034***</td>
+                  <td>-0.034***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.004)</td>
+                  <td>(0.004)</td>
+                </tr>
+<tr>
+<td>race4Hispanic</td>
+                  <td>0.178***</td>
+                  <td>0.178***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4Other</td>
+                  <td>0.243***</td>
+                  <td>0.243***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4White</td>
+                  <td>0.305***</td>
+                  <td>0.305***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.006)</td>
+                  <td>(0.006)</td>
+                </tr>
+<tr>
+<td>ideo × collegeed1</td>
+                  <td>-0.008*</td>
+                  <td>-0.008**</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.003)</td>
+                  <td>(0.003)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>43430</td>
+                  <td>43430</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.408</td>
+                  <td>0.408</td>
+                </tr>
+<tr>
+<td>R2 Adj.</td>
+                  <td>0.407</td>
+                  <td>0.407</td>
+                </tr>
+<tr>
+<td>AIC</td>
+                  <td>39160.7</td>
+                  <td>39160.7</td>
+                </tr>
+<tr>
+<td>BIC</td>
+                  <td>39238.8</td>
+                  <td>39238.8</td>
+                </tr>
+<tr>
+<td>Log.Lik.</td>
+                  <td>-19571.344</td>
+                  <td>-19571.344</td>
+                </tr>
+<tr>
+<td>RMSE</td>
+                  <td>0.38</td>
+                  <td>0.38</td>
+                </tr>
+<tr>
+<td>Std.Errors</td>
+                  <td>Classical SEs</td>
+                  <td>Robust SEs (HC3)</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<ul>
+<li>When <code>collegeed = 0</code>, the marginal effect of ideology is <span class="math inline">\(\beta_1\)</span>.</li>
+<li>When <code>collegeed = 1</code>, the marginal effect is <span class="math inline">\(\beta_1 + \beta_3\)</span>.</li>
+<li>Because <span class="math inline">\(y\)</span> is 0/1, interpret these as <strong>percentage point changes in Pr(Trump vote)</strong>.</li>
+</ul>
+<div class="sourceCode" id="cb592"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://marginaleffects.com/man/r/plot_slopes.html">plot_slopes</a></span><span class="op">(</span><span class="va">model_tv_cd</span>, variables <span class="op">=</span> <span class="st">"ideo"</span>, condition <span class="op">=</span> <span class="st">"collegeed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-219-1.png" width="480" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb593"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_tv_cd</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ideo"</span>, <span class="st">"collegeed"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-219-2.png" width="480" style="display: block; margin: auto;"></div>
+<p>Quick check: do predicted values leave [0,1]?</p>
+<div class="sourceCode" id="cb594"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pred_check</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span><span class="va">model_tv_cd</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>min_pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, max_pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pred_check</span></span></code></pre></div>
+<pre><code>##    min_pred max_pred
+## 1 -0.415327 1.018627</code></pre>
+<hr>
+</div>
+<div id="b.2-interaction-zoo-lpm" class="section level3" number="22.3.3">
+<h3>
+<span class="header-section-number">22.3.3</span> B.2 Interaction zoo (LPM)<a class="anchor" aria-label="anchor" href="#b.2-interaction-zoo-lpm"><i class="fas fa-link"></i></a>
+</h3>
+<div id="dummy-dummy-female-college" class="section level4" number="22.3.3.1">
+<h4>
+<span class="header-section-number">22.3.3.1</span> (1) Dummy × Dummy: female × college<a class="anchor" aria-label="anchor" href="#dummy-dummy-female-college"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb596"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_tv_dd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">votetrump</span> <span class="op">~</span> <span class="va">female</span><span class="op">*</span><span class="va">collegeed</span> <span class="op">+</span> <span class="va">ideo</span> <span class="op">+</span> <span class="va">race4</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">TV16</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_tv_dd</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"LPM: female × college (Dummy × Dummy)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_59lox0wzh25z3feqcaht(i, j, css_id) {
+          var table = document.getElementById("tinytable_59lox0wzh25z3feqcaht");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_59lox0wzh25z3feqcaht');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_59lox0wzh25z3feqcaht(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_59lox0wzh25z3feqcaht");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 23, j: 1 },  ], css_id: 'tinytable_css_39q5c23wimrn263ay02i',}, 
+          { positions: [ { i: 16, j: 1 },  ], css_id: 'tinytable_css_ygor1csc3gyaqfoprxx6',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 20, j: 1 }, { i: 17, j: 1 }, { i: 18, j: 1 }, { i: 19, j: 1 }, { i: 21, j: 1 }, { i: 22, j: 1 },  ], css_id: 'tinytable_css_fo6d1i7orskztkye63co',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_yb336e1wjlctnep79cte',}, 
+          { positions: [ { i: 23, j: 0 },  ], css_id: 'tinytable_css_1d7isgf1ir8j2h22xgk4',}, 
+          { positions: [ { i: 16, j: 0 },  ], css_id: 'tinytable_css_0cwrtd83ao5fdtpi5zx6',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 20, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 21, j: 0 }, { i: 22, j: 0 },  ], css_id: 'tinytable_css_ca7gf5x80qcv75xzaujb',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_qtml3ecwg51l5tefcp23',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_59lox0wzh25z3feqcaht(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_39q5c23wimrn263ay02i, .table th.tinytable_css_39q5c23wimrn263ay02i { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_ygor1csc3gyaqfoprxx6, .table th.tinytable_css_ygor1csc3gyaqfoprxx6 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_fo6d1i7orskztkye63co, .table th.tinytable_css_fo6d1i7orskztkye63co { text-align: center; }
+      .table td.tinytable_css_yb336e1wjlctnep79cte, .table th.tinytable_css_yb336e1wjlctnep79cte { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_1d7isgf1ir8j2h22xgk4, .table th.tinytable_css_1d7isgf1ir8j2h22xgk4 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0cwrtd83ao5fdtpi5zx6, .table th.tinytable_css_0cwrtd83ao5fdtpi5zx6 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_ca7gf5x80qcv75xzaujb, .table th.tinytable_css_ca7gf5x80qcv75xzaujb { text-align: left; }
+      .table td.tinytable_css_qtml3ecwg51l5tefcp23, .table th.tinytable_css_qtml3ecwg51l5tefcp23 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_59lox0wzh25z3feqcaht" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>LPM: female × college (Dummy × Dummy)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+                  <td>-0.562***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.008)</td>
+                </tr>
+<tr>
+<td>female1</td>
+                  <td>-0.041***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.005)</td>
+                </tr>
+<tr>
+<td>collegeed1</td>
+                  <td>-0.087***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.005)</td>
+                </tr>
+<tr>
+<td>ideo</td>
+                  <td>0.255***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.002)</td>
+                </tr>
+<tr>
+<td>race4Hispanic</td>
+                  <td>0.178***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4Other</td>
+                  <td>0.244***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4White</td>
+                  <td>0.306***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.006)</td>
+                </tr>
+<tr>
+<td>female1 × collegeed1</td>
+                  <td>0.016*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.007)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>43430</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.408</td>
+                </tr>
+<tr>
+<td>R2 Adj.</td>
+                  <td>0.407</td>
+                </tr>
+<tr>
+<td>AIC</td>
+                  <td>39161.2</td>
+                </tr>
+<tr>
+<td>BIC</td>
+                  <td>39239.3</td>
+                </tr>
+<tr>
+<td>Log.Lik.</td>
+                  <td>-19571.578</td>
+                </tr>
+<tr>
+<td>RMSE</td>
+                  <td>0.38</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_tv_dd</span>, type <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-221-1.png" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="dummy-categorical-college-race4-collapsed" class="section level4" number="22.3.3.2">
+<h4>
+<span class="header-section-number">22.3.3.2</span> (2) Dummy × Categorical: college × race4 (collapsed)<a class="anchor" aria-label="anchor" href="#dummy-categorical-college-race4-collapsed"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb598"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_tv_dc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">votetrump</span> <span class="op">~</span> <span class="va">collegeed</span><span class="op">*</span><span class="va">race4</span> <span class="op">+</span> <span class="va">female</span> <span class="op">+</span> <span class="va">ideo</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">TV16</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_tv_dc</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"LPM: college × race4 (Dummy × Categorical)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_mjhjqdr9onngp75wcccg(i, j, css_id) {
+          var table = document.getElementById("tinytable_mjhjqdr9onngp75wcccg");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_mjhjqdr9onngp75wcccg');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_mjhjqdr9onngp75wcccg(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_mjhjqdr9onngp75wcccg");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 27, j: 1 },  ], css_id: 'tinytable_css_n7t456douyrpzx0ysmsl',}, 
+          { positions: [ { i: 20, j: 1 },  ], css_id: 'tinytable_css_2sfawyfyyjygcx42ethj',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 17, j: 1 }, { i: 18, j: 1 }, { i: 19, j: 1 }, { i: 24, j: 1 }, { i: 21, j: 1 }, { i: 22, j: 1 }, { i: 23, j: 1 }, { i: 25, j: 1 }, { i: 26, j: 1 },  ], css_id: 'tinytable_css_nuwt29j1knmjuzn275nk',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_9gdqwoihcj323epjgkw4',}, 
+          { positions: [ { i: 27, j: 0 },  ], css_id: 'tinytable_css_a16lzekzihl185y30ptl',}, 
+          { positions: [ { i: 20, j: 0 },  ], css_id: 'tinytable_css_hl9fq66ar4dw1kdngdkz',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 24, j: 0 }, { i: 21, j: 0 }, { i: 22, j: 0 }, { i: 23, j: 0 }, { i: 25, j: 0 }, { i: 26, j: 0 },  ], css_id: 'tinytable_css_auskcuvkv5a728wo9ujj',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_74vspwewykcvbgxfdczs',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_mjhjqdr9onngp75wcccg(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_n7t456douyrpzx0ysmsl, .table th.tinytable_css_n7t456douyrpzx0ysmsl { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_2sfawyfyyjygcx42ethj, .table th.tinytable_css_2sfawyfyyjygcx42ethj { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_nuwt29j1knmjuzn275nk, .table th.tinytable_css_nuwt29j1knmjuzn275nk { text-align: center; }
+      .table td.tinytable_css_9gdqwoihcj323epjgkw4, .table th.tinytable_css_9gdqwoihcj323epjgkw4 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_a16lzekzihl185y30ptl, .table th.tinytable_css_a16lzekzihl185y30ptl { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_hl9fq66ar4dw1kdngdkz, .table th.tinytable_css_hl9fq66ar4dw1kdngdkz { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_auskcuvkv5a728wo9ujj, .table th.tinytable_css_auskcuvkv5a728wo9ujj { text-align: left; }
+      .table td.tinytable_css_74vspwewykcvbgxfdczs, .table th.tinytable_css_74vspwewykcvbgxfdczs { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_mjhjqdr9onngp75wcccg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>LPM: college × race4 (Dummy × Categorical)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+                  <td>-0.604***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>collegeed1</td>
+                  <td>0.031*</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.012)</td>
+                </tr>
+<tr>
+<td>race4Hispanic</td>
+                  <td>0.179***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.012)</td>
+                </tr>
+<tr>
+<td>race4Other</td>
+                  <td>0.253***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.013)</td>
+                </tr>
+<tr>
+<td>race4White</td>
+                  <td>0.359***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.008)</td>
+                </tr>
+<tr>
+<td>female1</td>
+                  <td>-0.035***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.004)</td>
+                </tr>
+<tr>
+<td>ideo</td>
+                  <td>0.254***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.002)</td>
+                </tr>
+<tr>
+<td>collegeed1 × race4Hispanic</td>
+                  <td>-0.010</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.019)</td>
+                </tr>
+<tr>
+<td>collegeed1 × race4Other</td>
+                  <td>-0.052**</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.019)</td>
+                </tr>
+<tr>
+<td>collegeed1 × race4White</td>
+                  <td>-0.137***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.013)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>43430</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.410</td>
+                </tr>
+<tr>
+<td>R2 Adj.</td>
+                  <td>0.410</td>
+                </tr>
+<tr>
+<td>AIC</td>
+                  <td>38986.4</td>
+                </tr>
+<tr>
+<td>BIC</td>
+                  <td>39081.9</td>
+                </tr>
+<tr>
+<td>Log.Lik.</td>
+                  <td>-19482.200</td>
+                </tr>
+<tr>
+<td>RMSE</td>
+                  <td>0.38</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb599"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_tv_dc</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"race4"</span>, <span class="st">"collegeed"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-222-1.png" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="continuous-continuous-ideology-racial-resentment-proxy-lemprac" class="section level4" number="22.3.3.3">
+<h4>
+<span class="header-section-number">22.3.3.3</span> (3) Continuous × Continuous: ideology × racial resentment proxy (lemprac)<a class="anchor" aria-label="anchor" href="#continuous-continuous-ideology-racial-resentment-proxy-lemprac"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb600"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_tv_cc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">votetrump</span> <span class="op">~</span> <span class="va">ideo</span><span class="op">*</span><span class="va">lemprac</span> <span class="op">+</span> <span class="va">female</span> <span class="op">+</span> <span class="va">collegeed</span> <span class="op">+</span> <span class="va">race4</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">TV16</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="va">model_tv_cc</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"LPM: ideo × lemprac (Continuous × Continuous)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_wabn91qwlxs84df3s66k(i, j, css_id) {
+          var table = document.getElementById("tinytable_wabn91qwlxs84df3s66k");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_wabn91qwlxs84df3s66k');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_wabn91qwlxs84df3s66k(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_wabn91qwlxs84df3s66k");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 25, j: 1 },  ], css_id: 'tinytable_css_qjq9y122o4yfdzydcxzl',}, 
+          { positions: [ { i: 18, j: 1 },  ], css_id: 'tinytable_css_14hjn4azv8ar59khh5o2',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 17, j: 1 }, { i: 22, j: 1 }, { i: 19, j: 1 }, { i: 20, j: 1 }, { i: 21, j: 1 }, { i: 23, j: 1 }, { i: 24, j: 1 },  ], css_id: 'tinytable_css_4s2g54ahsce6l6u42p2q',}, 
+          { positions: [ { i: 0, j: 1 },  ], css_id: 'tinytable_css_ad0ssllbbhst8sz88bze',}, 
+          { positions: [ { i: 25, j: 0 },  ], css_id: 'tinytable_css_2q5l16g6f7pzyhefxk8y',}, 
+          { positions: [ { i: 18, j: 0 },  ], css_id: 'tinytable_css_4fev6idsdixqcvvp0dej',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 }, { i: 17, j: 0 }, { i: 22, j: 0 }, { i: 19, j: 0 }, { i: 20, j: 0 }, { i: 21, j: 0 }, { i: 23, j: 0 }, { i: 24, j: 0 },  ], css_id: 'tinytable_css_u6bu3c6g7hwamnqwv9a4',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_edp2gsblaocbheanaj3b',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_wabn91qwlxs84df3s66k(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_qjq9y122o4yfdzydcxzl, .table th.tinytable_css_qjq9y122o4yfdzydcxzl { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_14hjn4azv8ar59khh5o2, .table th.tinytable_css_14hjn4azv8ar59khh5o2 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_4s2g54ahsce6l6u42p2q, .table th.tinytable_css_4s2g54ahsce6l6u42p2q { text-align: center; }
+      .table td.tinytable_css_ad0ssllbbhst8sz88bze, .table th.tinytable_css_ad0ssllbbhst8sz88bze { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_2q5l16g6f7pzyhefxk8y, .table th.tinytable_css_2q5l16g6f7pzyhefxk8y { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_4fev6idsdixqcvvp0dej, .table th.tinytable_css_4fev6idsdixqcvvp0dej { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_u6bu3c6g7hwamnqwv9a4, .table th.tinytable_css_u6bu3c6g7hwamnqwv9a4 { text-align: left; }
+      .table td.tinytable_css_edp2gsblaocbheanaj3b, .table th.tinytable_css_edp2gsblaocbheanaj3b { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_wabn91qwlxs84df3s66k" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<caption>LPM: ideo × lemprac (Continuous × Continuous)</caption>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+</thead>
+<tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+                  <td>-0.499***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.008)</td>
+                </tr>
+<tr>
+<td>ideo</td>
+                  <td>0.236***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.002)</td>
+                </tr>
+<tr>
+<td>lemprac</td>
+                  <td>0.078***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.012)</td>
+                </tr>
+<tr>
+<td>female1</td>
+                  <td>-0.023***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.004)</td>
+                </tr>
+<tr>
+<td>collegeed1</td>
+                  <td>-0.075***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.004)</td>
+                </tr>
+<tr>
+<td>race4Hispanic</td>
+                  <td>0.161***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4Other</td>
+                  <td>0.222***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.009)</td>
+                </tr>
+<tr>
+<td>race4White</td>
+                  <td>0.285***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.006)</td>
+                </tr>
+<tr>
+<td>ideo × lemprac</td>
+                  <td>0.025***</td>
+                </tr>
+<tr>
+<td></td>
+                  <td>(0.004)</td>
+                </tr>
+<tr>
+<td>Num.Obs.</td>
+                  <td>43428</td>
+                </tr>
+<tr>
+<td>R2</td>
+                  <td>0.428</td>
+                </tr>
+<tr>
+<td>R2 Adj.</td>
+                  <td>0.428</td>
+                </tr>
+<tr>
+<td>AIC</td>
+                  <td>37647.4</td>
+                </tr>
+<tr>
+<td>BIC</td>
+                  <td>37734.2</td>
+                </tr>
+<tr>
+<td>Log.Lik.</td>
+                  <td>-18813.719</td>
+                </tr>
+<tr>
+<td>RMSE</td>
+                  <td>0.37</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div class="sourceCode" id="cb601"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">model_tv_cc</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ideo"</span>, <span class="st">"lemprac [2,4,6]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-223-1.png" width="480" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb602"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://marginaleffects.com/man/r/plot_slopes.html">plot_slopes</a></span><span class="op">(</span><span class="va">model_tv_cc</span>, variables <span class="op">=</span> <span class="st">"ideo"</span>, condition <span class="op">=</span> <span class="st">"lemprac"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-223-2.png" width="480" style="display: block; margin: auto;"></div>
+<hr>
+</div>
+</div>
+</div>
+<div id="exercises" class="section level2" number="22.4">
+<h2>
+<span class="header-section-number">22.4</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>In the turnout model (A.1), write the fitted line for <code>ss = 0</code> and <code>ss = 1</code>. Identify the slope in each case.</li>
+<li>In the TV16 model (B.1), interpret the interaction sign: does ideology matter <em>more</em> or <em>less</em> among college-educated respondents?</li>
+<li>Pick two values of the continuous variable (e.g., <code>ideo=2</code> and <code>ideo=4</code>). Compute the predicted probability for college vs non-college using the estimated coefficients and compare.</li>
+</ol>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="lecture-9-exercises.html"><span class="header-section-number">21</span> Lecture 9 Exercises</a></div>
+<div class="next"><a href="lecture10.html"><span class="header-section-number">23</span> Lecture 10: Difference-in-Difference</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lecture9"><span class="header-section-number">22</span> Lecture 9: Interactions</a></li>
+<li><a class="nav-link" href="#slides-8">Slides</a></li>
+<li><a class="nav-link" href="#interactions"><span class="header-section-number">22.1</span> Interactions in Linear Models</a></li>
+<li>
+<a class="nav-link" href="#vignetteA"><span class="header-section-number">22.2</span> Vignette A: Turnout and conditional relationships (OLS)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#a.1-main-example-continuous-dummy-education-and-swing-states"><span class="header-section-number">22.2.1</span> A.1 Main example (continuous × dummy): education and swing states</a></li>
+<li><a class="nav-link" href="#a.2-interaction-zoo-ols"><span class="header-section-number">22.2.2</span> A.2 Interaction zoo (OLS)</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#vignetteB"><span class="header-section-number">22.3</span> Vignette B: Interactions in a Linear Probability Model (TV16)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sidebar-why-an-lpm-here"><span class="header-section-number">22.3.1</span> Sidebar: why an LPM here?</a></li>
+<li><a class="nav-link" href="#b.1-main-example-continuous-dummy-ideology-college-education"><span class="header-section-number">22.3.2</span> B.1 Main example (continuous × dummy): ideology × college education</a></li>
+<li><a class="nav-link" href="#b.2-interaction-zoo-lpm"><span class="header-section-number">22.3.3</span> B.2 Interaction zoo (LPM)</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#exercises"><span class="header-section-number">22.4</span> Exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/svallejovera/regression_ci/blob/master/22-lecture9.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/regression_ci/edit/master/22-lecture9.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-02-23.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

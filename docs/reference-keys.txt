@@ -6,6 +6,8 @@ fig:week6slides
 fig:week7slides
 fig:week8slides
 fig:week9slides
+fig:lectureinteraction
+fig:week10slides
 assignments
 final-exam
 about-tutorials
@@ -123,6 +125,7 @@ lecture6
 introduction-5
 vignette-6.1
 vignette-6.2
+lecture-assignment-2
 tutorial-6-regression-analysis-and-interpretation
 lecture-6-exercises
 how-to-nicely-display-model-results
@@ -153,7 +156,8 @@ explain-what-the-coefficients-mean-in-both-models.-how-does-the-effect-of-age-di
 which-of-the-models-better-explains-the-relationship-between-marketlib-and-age
 lecture-7-the-multiple-regression-model-ii
 tutorial-7-multiple-regression-analysis
-lecture-8-the-multiple-regression-model-interpretation
+lecture8
+lecture-assignment-3
 lecture-9-exercises
 the-car-package-and-the-functions-linearhypothesis-and-anova
 a-basic-test-of-one-terms-statistical-significance-e.g.-is-marketlib-0
@@ -185,3 +189,20 @@ calculating-the-lm-statistic
 using-the-bptest-function-from-lmtest
 dealing-with-heteroskedasticity-calculating-robust-ses
 using-robust-ses-in-a-stargazer-table
+lecture9
+interactions
+vignetteA
+a.1-main-example-continuous-dummy-education-and-swing-states
+a.2-interaction-zoo-ols
+dummy-dummy-swing-states-trump-win-states
+dummy-categorical-swing-states-region
+continuous-continuous-education-state-wealth
+vignetteB
+sidebar-why-an-lpm-here
+b.1-main-example-continuous-dummy-ideology-college-education
+b.2-interaction-zoo-lpm
+dummy-dummy-female-college
+dummy-categorical-college-race4-collapsed
+continuous-continuous-ideology-racial-resentment-proxy-lemprac
+exercises
+lecture10

@@ -170,4 +170,4 @@ df %>%
 
 1. Using simulated data, describe (in text) and show (with plots) a plausible situation where a treatment has an effect, but the observed outcome is null. **Tip:** Before committing to an example, remember that a difference-in-differences approach requires two periods (change over time) and two groups (treatment and control).
 
-2. Using a [difference-in-differences approach](#lecture9), show how to estimate the *true* effect from your example.
+2. Using a [difference-in-differences approach](#lecture10), show how to estimate the *true* effect from your example.

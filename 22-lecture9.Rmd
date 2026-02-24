@@ -1,0 +1,379 @@
+# Lecture 9: Interactions {#lecture9}
+
+## Slides{.unnumbered}
+
+- 10 Interactions ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/12 Interactions.pdf)) 
+
+No fancy code from this Lecture :( ... 
+
+```{r lectureinteraction, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 10 Interactions."}
+knitr::include_graphics("slide/12 Interactions.pdf")
+```
+
+## Interactions in Linear Models {#interactions}
+
+Interactions let the effect of one variable depend on the level of another. In social science language: *context conditions the relationship*.
+
+We will build intuition with two vignettes:
+
+1. **State-level turnout (OLS):** We’ll also compare **classical** vs **robust** standard errors.
+2. **Individual voting (LPM):** We’ll use a linear probability model to keep interpretation simple, and then discuss trade-offs.
+
+---
+
+Start with a model with an interaction:
+
+$$
+y = \beta_0 + \beta_1 X + \beta_2 Z + \beta_3 (X\cdot Z) + \varepsilon
+$$
+
+Two key interpretations:
+
+1. **Conditional effect of \(X\)** (a.k.a. “simple slope”):
+$$
+\frac{\partial E[y]}{\partial X} = \beta_1 + \beta_3 Z
+$$
+
+2. **Conditional regression line**:
+- If \(Z=0\):  \(E[y|X,Z=0] = \beta_0 + \beta_1 X\)
+- If \(Z=1\):  \(E[y|X,Z=1] = (\beta_0+\beta_2) + (\beta_1+\beta_3)X\)
+
+So, \(\beta_3\) is literally the **difference in slopes** (when \(Z\) is a dummy).
+
+We’ll plug in real coefficients below.
+
+---
+
+## Vignette A: Turnout and conditional relationships (OLS) {#vignetteA}
+
+```{r}
+library(tidyverse)
+library(sjPlot)
+library(marginaleffects)
+library(modelsummary)
+
+data(election_turnout, package = "stevedata")
+
+election_turnout <- election_turnout %>%
+  mutate(
+    ss = factor(ss),
+    trumpw = factor(trumpw),
+    region = factor(region),
+    gdppercap_ln = log(gdppercap)
+  )
+
+summary(election_turnout$turnoutho)
+sd(election_turnout$turnoutho)
+```
+
+### A.1 Main example (continuous × dummy): education and swing states
+
+Here is the interaction model:
+
+$$
+turnoutho_i = \beta_0 + \beta_1 percoled_i + \beta_2 ss_i + \beta_3(percoled_i \cdot ss_i) + \varepsilon_i
+$$
+
+```{r}
+model_turnout_cd <- lm(
+  turnoutho ~ percoled*ss + gdppercap_ln + trumpw,
+  data = election_turnout
+)
+
+# Side-by-side: classical vs robust SEs
+modelsummary(
+  list("Classical SEs" = model_turnout_cd,
+       "Robust SEs (HC3)" = model_turnout_cd),
+  vcov = list("Classical SEs" = NULL,
+              "Robust SEs (HC3)" = "HC3"),
+  title = "Turnout with Interaction: percoled × swing state",
+  coef_rename = c(
+    "(Intercept)" = "Intercept",
+    "percoled" = "% College Educated",
+    "ss1" = "Swing State",
+    "percoled:ss1" = "% College × Swing State",
+    "gdppercap_ln" = "GDP pc (log)",
+    "trumpw1" = "Trump Won"
+  ),
+  gof_map = c("nobs","r.squared"),
+  stars = TRUE,
+  notes = list(
+    "Column 1: classical OLS standard errors. Column 2: robust (HC3) standard errors.",
+    "*** p<0.001, ** p<0.01, * p<0.05"
+  )
+)
+```
+
+From the model:
+
+- When `ss = 0` (not a swing state), the slope of `percoled` is:
+  \[
+  \text{slope} = \beta_1
+  \]
+- When `ss = 1` (swing state), the slope of `percoled` is:
+  \[
+  \text{slope} = \beta_1 + \beta_3
+  \]
+
+Let’s compute and display these “simple slopes” directly:
+
+```{r}
+# Simple slopes of percoled at ss=0 and ss=1
+slopes(model_turnout_cd, variables = "percoled", newdata = datagrid(ss = levels(election_turnout$ss)))
+```
+
+Now let’s plot predicted turnout across `percoled` for swing vs non-swing states:
+
+```{r}
+plot_model(model_turnout_cd, type = "pred", terms = c("percoled", "ss")) +
+  theme_minimal()
+```
+
+And a marginal effect plot is another way of saying the same thing:
+
+```{r}
+plot_slopes(model_turnout_cd, variables = "percoled", condition = "ss") +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  theme_minimal()
+```
+
+---
+
+### A.2 Interaction zoo (OLS)
+
+#### (1) Dummy × Dummy: swing states × Trump-win states
+
+Now we interpret \(\beta_3\) as a **difference-in-differences** term:
+
+```{r}
+model_turnout_dd <- lm(
+  turnoutho ~ ss*trumpw + percoled + gdppercap_ln,
+  data = election_turnout
+)
+
+modelsummary(
+  model_turnout_dd,
+  title = "Turnout: swing state × Trump won (Dummy × Dummy)",
+  coef_rename = c(
+    "(Intercept)" = "Intercept",
+    "ss1" = "Swing State",
+    "trumpw1" = "Trump Won",
+    "ss1:trumpw1" = "Swing × Trump Won",
+    "percoled" = "% College Educated",
+    "gdppercap_ln" = "GDP pc (log)"
+  ),
+  gof_map = c("nobs","r.squared"),
+  stars = TRUE
+)
+
+plot_model(model_turnout_dd, type = "int") +
+  theme_minimal()
+```
+
+#### (2) Dummy × Categorical: swing states × region
+
+```{r}
+model_turnout_dc <- lm(
+  turnoutho ~ ss*region + percoled + gdppercap_ln + trumpw,
+  data = election_turnout
+)
+
+modelsummary(
+  model_turnout_dc,
+  title = "Turnout: swing state × region (Dummy × Categorical)",
+  gof_map = c("nobs","r.squared"),
+  stars = TRUE
+)
+
+plot_model(model_turnout_dc, type = "pred", terms = c("region","ss")) +
+  theme_minimal()
+```
+
+#### (3) Continuous × Continuous: education × state wealth
+
+```{r}
+model_turnout_cc <- lm(
+  turnoutho ~ percoled*gdppercap_ln + ss + trumpw,
+  data = election_turnout
+)
+
+modelsummary(
+  model_turnout_cc,
+  title = "Turnout: percoled × log(GDP pc) (Continuous × Continuous)",
+  coef_rename = c(
+    "(Intercept)" = "Intercept",
+    "percoled" = "% College Educated",
+    "gdppercap_ln" = "GDP pc (log)",
+    "percoled:gdppercap_ln" = "% College × GDP pc (log)",
+    "ss1" = "Swing State",
+    "trumpw1" = "Trump Won"
+  ),
+  gof_map = c("nobs","r.squared"),
+  stars = TRUE
+)
+
+# Visualize: predicted turnout across percoled at representative GDP values
+plot_model(model_turnout_cc, type = "pred",
+           terms = c("percoled", "gdppercap_ln [7.5, 8.0, 8.5]")) +
+  theme_minimal()
+
+# Marginal effect of percoled across GDP
+plot_slopes(model_turnout_cc, variables = "percoled", condition = "gdppercap_ln") +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  theme_minimal()
+```
+
+---
+
+## Vignette B: Interactions in a Linear Probability Model (TV16) {#vignetteB}
+
+```{r}
+data(TV16, package = "stevedata")
+
+TV16 <- TV16 %>%
+  mutate(
+    female = factor(female),
+    collegeed = factor(collegeed),
+    # Collapse race for cleaner teaching plots:
+    race4 = case_when(
+      racef == "White" ~ "White",
+      racef == "Black" ~ "Black",
+      racef == "Hispanic" ~ "Hispanic",
+      TRUE ~ "Other"
+    ),
+    race4 = factor(race4),
+    votetrump = as.numeric(votetrump)
+  )
+
+table(TV16$votetrump)
+```
+
+### Sidebar: why an LPM here?
+
+We could model a binary outcome using logit/probit. But for the purposes of this class, the LPM is extremely convenient:
+
+- Coefficients are in **percentage points** (because \(y\in\{0,1\}\)).
+- Interactions are easy to interpret and visualize with straight lines.
+- The main statistical downside is **heteroskedasticity** (so robust SEs are usually a good default).
+- Another downside is that predicted values can fall outside \([0,1]\). We can check this.
+
+We’ll treat this as a pedagogical model and focus on interpretation.
+
+---
+
+### B.1 Main example (continuous × dummy): ideology × college education
+
+```{r}
+model_tv_cd <- lm(
+  votetrump ~ ideo*collegeed + female + race4,
+  data = TV16
+)
+
+modelsummary(
+  list("Classical SEs" = model_tv_cd,
+       "Robust SEs (HC3)" = model_tv_cd),
+  vcov = list("Classical SEs" = NULL,
+              "Robust SEs (HC3)" = "HC3"),
+  title = "LPM: Trump vote with interaction (ideo × college)",
+  stars = TRUE,
+  notes = list(
+    "Binary outcome estimated by OLS (Linear Probability Model).",
+    "Column 2 uses robust (HC3) standard errors."
+  )
+)
+```
+
+- When `collegeed = 0`, the marginal effect of ideology is \(\beta_1\).
+- When `collegeed = 1`, the marginal effect is \(\beta_1 + \beta_3\).
+- Because \(y\) is 0/1, interpret these as **percentage point changes in Pr(Trump vote)**.
+
+```{r}
+plot_slopes(model_tv_cd, variables = "ideo", condition = "collegeed") +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  theme_minimal()
+
+plot_model(model_tv_cd, type = "pred", terms = c("ideo", "collegeed")) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+Quick check: do predicted values leave [0,1]?
+
+```{r}
+pred_check <- predictions(model_tv_cd) %>%
+  summarize(min_pred = min(estimate), max_pred = max(estimate))
+pred_check
+```
+
+---
+
+### B.2 Interaction zoo (LPM)
+
+#### (1) Dummy × Dummy: female × college
+
+```{r}
+model_tv_dd <- lm(
+  votetrump ~ female*collegeed + ideo + race4,
+  data = TV16
+)
+
+modelsummary(
+  model_tv_dd,
+  title = "LPM: female × college (Dummy × Dummy)",
+  stars = TRUE
+)
+
+plot_model(model_tv_dd, type = "int") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+#### (2) Dummy × Categorical: college × race4 (collapsed)
+
+```{r}
+model_tv_dc <- lm(
+  votetrump ~ collegeed*race4 + female + ideo,
+  data = TV16
+)
+
+modelsummary(
+  model_tv_dc,
+  title = "LPM: college × race4 (Dummy × Categorical)",
+  stars = TRUE
+)
+
+plot_model(model_tv_dc, type = "pred", terms = c("race4", "collegeed")) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+#### (3) Continuous × Continuous: ideology × racial resentment proxy (lemprac)
+
+```{r}
+model_tv_cc <- lm(
+  votetrump ~ ideo*lemprac + female + collegeed + race4,
+  data = TV16
+)
+
+modelsummary(
+  model_tv_cc,
+  title = "LPM: ideo × lemprac (Continuous × Continuous)",
+  stars = TRUE
+)
+
+plot_model(model_tv_cc, type = "pred", terms = c("ideo", "lemprac [2,4,6]")) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+
+plot_slopes(model_tv_cc, variables = "ideo", condition = "lemprac") +
+  geom_hline(yintercept = 0, linetype = "dotted") +
+  theme_minimal()
+```
+
+---
+
+## Exercises 
+
+1. In the turnout model (A.1), write the fitted line for `ss = 0` and `ss = 1`. Identify the slope in each case.
+2. In the TV16 model (B.1), interpret the interaction sign: does ideology matter *more* or *less* among college-educated respondents?
+3. Pick two values of the continuous variable (e.g., `ideo=2` and `ideo=4`). Compute the predicted probability for college vs non-college using the estimated coefficients and compare.

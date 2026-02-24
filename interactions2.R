@@ -69,3 +69,12 @@ values_marg <- plot_slopes(model_dumcont, variables = "lemprac", condition = "ra
   geom_hline(yintercept = 0, linetype = "dotted") 
 values_marg
 values_marg$data$estimate
+
+## Continuous x Continious:
+TV16$racef <- factor(TV16$racef)
+model_dumcont <- lm(votetrump ~ female + collegeed + lemprac + racef +
+                      lemprac*ideo, data = TV16)
+summary(model_dumcont)
+values_pred <- plot_model(model_dumcont, type = "pred", terms = c('lemprac','ideo'))
+plot_slopes(model_dumcont, variables = "lemprac", condition = "ideo") +
+  geom_hline(yintercept = 0, linetype = "dotted") 
