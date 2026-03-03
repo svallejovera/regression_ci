@@ -4,8 +4,6 @@
 
 - 10 Interactions ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/12 Interactions.pdf)) 
 
-No fancy code from this Lecture :( ... 
-
 ```{r lectureinteraction, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 10 Interactions."}
 knitr::include_graphics("slide/12 Interactions.pdf")
 ```
@@ -372,7 +370,7 @@ plot_slopes(model_tv_cc, variables = "ideo", condition = "lemprac") +
 
 ---
 
-## Exercises 
+## Lecture Assignment 
 
 1. In the turnout model (A.1), write the fitted line for `ss = 0` and `ss = 1`. Identify the slope in each case.
 2. In the TV16 model (B.1), interpret the interaction sign: does ideology matter *more* or *less* among college-educated respondents?

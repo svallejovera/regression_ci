@@ -204,5 +204,5 @@ b.2-interaction-zoo-lpm
 dummy-dummy-female-college
 dummy-categorical-college-race4-collapsed
 continuous-continuous-ideology-racial-resentment-proxy-lemprac
-exercises
+lecture-assignment-4
 lecture10
