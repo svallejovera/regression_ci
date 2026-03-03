@@ -1,4 +1,4 @@
-# Lecture 4: The Simple Regression Model I
+# Lecture 4: The Simple Regression Model I {#lecture4}
 
 ## Slides{.unnumbered}
 

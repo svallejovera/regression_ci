@@ -39,7 +39,15 @@ tabl <- "
 cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
-Additionally, throughout the semester, and after every other lecture, I will post an exercise aimed at challenging you and helping you apply a key concept from class. You must submit solutions to *three* exercises by **March 27**.
+### Lecture Assignments
+
+Additionally, throughout the semester, and after every other lecture, I will post an exercise aimed at challenging you and helping you apply a key concept from class. You must submit solutions to *three* exercises by **March 27**. You can find these *Lecture Assignments* at the end of the following lectures:
+
+- [Lecture 2 ](#lecture2)
+- [Lecture 4 ](#lecture4)
+- [Lecture 6 ](#lecture6)
+- [Lecture 8 ](#lecture8)
+- [Lecture 9 ](#lecture9)
 
 ## Final Exam
 

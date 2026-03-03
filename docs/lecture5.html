@@ -51,7 +51,7 @@
 <li><a class="" href="lecture-3-core-concepts-of-experimental-design.html"><span class="header-section-number">6</span> Lecture 3: Core Concepts of Experimental Design</a></li>
 <li><a class="" href="tutorial-3-more-key-concepts.html"><span class="header-section-number">7</span> Tutorial 3: More Key Concepts</a></li>
 <li><a class="" href="lecture-3-exercises.html"><span class="header-section-number">8</span> Lecture 3 Exercises</a></li>
-<li><a class="" href="lecture-4-the-simple-regression-model-i.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
+<li><a class="" href="lecture4.html"><span class="header-section-number">9</span> Lecture 4: The Simple Regression Model I</a></li>
 <li><a class="" href="tutorial-4-the-simple-regression-model-i.html"><span class="header-section-number">10</span> Tutorial 4: The Simple Regression Model I</a></li>
 <li><a class="" href="lecture-4-exercises.html"><span class="header-section-number">11</span> Lecture 4 Exercises</a></li>
 <li><a class="active" href="lecture5.html"><span class="header-section-number">12</span> Lecture 5: The Simple Regression Model II</a></li>
@@ -120,12 +120,12 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -4.8596 -0.6739 -0.0008  0.6736  5.1595 
+## -4.8594 -0.6756  0.0008  0.6745  4.5486 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value
-## (Intercept) 1.0013712  0.0009989    1002
-## x           1.9991131  0.0009998    2000
+##             Estimate Std. Error t value
+## (Intercept) 1.002883   0.001001    1002
+## x           1.999828   0.001001    1997
 ##             Pr(&gt;|t|)    
 ## (Intercept)   &lt;2e-16 ***
 ## x             &lt;2e-16 ***
@@ -134,9 +134,9 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.'
 ##   0.1 ' ' 1
 ## 
-## Residual standard error: 0.9989 on 999998 degrees of freedom
-## Multiple R-squared:  0.7999, Adjusted R-squared:  0.7999 
-## F-statistic: 3.998e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 1.001 on 999998 degrees of freedom
+## Multiple R-squared:  0.7996, Adjusted R-squared:  0.7996 
+## F-statistic: 3.989e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div id="theorem-slr.1-unbiasedness-of-ols" class="section level3" number="12.2.1">
 <h3>
 <span class="header-section-number">12.2.1</span> Theorem SLR.1: Unbiasedness of OLS:<a class="anchor" aria-label="anchor" href="#theorem-slr.1-unbiasedness-of-ols"><i class="fas fa-link"></i></a>
@@ -358,7 +358,7 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 <p>Let’s see the mean of these betas:</p>
 <div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 1.996754</code></pre>
+<pre><code>## [1] 1.995982</code></pre>
 <div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-114-1.png" width="672"></div>

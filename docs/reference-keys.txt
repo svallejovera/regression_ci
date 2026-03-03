@@ -9,6 +9,7 @@ fig:week9slides
 fig:lectureinteraction
 fig:week10slides
 assignments
+lecture-assignments
 final-exam
 about-tutorials
 prerequisites
@@ -81,7 +82,7 @@ stop-1
 continue-1
 group-wise-means-mean-differences-and-statistical-significance
 interpretation-of-results
-lecture-4-the-simple-regression-model-i
+lecture4
 introduction-3
 lecture-assignment-1
 tutorial-4-the-simple-regression-model-i
