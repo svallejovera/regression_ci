@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 20 Lecture 8: The Multiple Regression Model: Interpretation | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 9 The Multiple Regression Model: Interpretation (link) No fancy code from this Lecture :( …  Figure 20.1: Slides for 9 The Multiple Regression Model: Interpretation.   20.1 Lecture...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="description" content="Slides 9a The Multiple Regression Model: Interpretation (link) 9b The Multiple Regression Model: F-Tests (link) 9c The Multiple Regression Model: Heteroskedasticity (link) No fancy code from this...">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="Chapter 20 Lecture 8: The Multiple Regression Model: Interpretation | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 9 The Multiple Regression Model: Interpretation (link) No fancy code from this Lecture :( …  Figure 20.1: Slides for 9 The Multiple Regression Model: Interpretation.   20.1 Lecture...">
+<meta property="og:description" content="Slides 9a The Multiple Regression Model: Interpretation (link) 9b The Multiple Regression Model: F-Tests (link) 9c The Multiple Regression Model: Heteroskedasticity (link) No fancy code from this...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 20 Lecture 8: The Multiple Regression Model: Interpretation | PS9591: Regressions and Causal Inference">
-<meta name="twitter:description" content="Slides 9 The Multiple Regression Model: Interpretation (link) No fancy code from this Lecture :( …  Figure 20.1: Slides for 9 The Multiple Regression Model: Interpretation.   20.1 Lecture...">
+<meta name="twitter:description" content="Slides 9a The Multiple Regression Model: Interpretation (link) 9b The Multiple Regression Model: F-Tests (link) 9c The Multiple Regression Model: Heteroskedasticity (link) No fancy code from this...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.9.0/transition.js"></script><script src="libs/bs3compat-0.9.0/tabs.js"></script><script src="libs/bs3compat-0.9.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -81,13 +81,27 @@
 <h2>Slides<a class="anchor" aria-label="anchor" href="#slides-7"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
-<li>9 The Multiple Regression Model: Interpretation (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx">link</a>)</li>
+<li><p>9a The Multiple Regression Model: Interpretation (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx">link</a>)</p></li>
+<li><p>9b The Multiple Regression Model: F-Tests (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/10_Ftest.pdf">link</a>)</p></li>
+<li><p>9c The Multiple Regression Model: Heteroskedasticity (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/11_Heteroskedasticity.pdf">link</a>)</p></li>
 </ul>
 <p>No fancy code from this Lecture :( …</p>
 <div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:week9slides"></span>
+<span style="display:block;" id="fig:week9slidesA"></span>
 <embed src="slide/9_Interpretation.pdf" title="Slides for 9 The Multiple Regression Model: Interpretation." width="100%" type="application/pdf"></embed><p class="caption">
 Figure 20.1: Slides for 9 The Multiple Regression Model: Interpretation.
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:week9slidesB"></span>
+<embed src="slide/10_Ftest.pdf" title="Slides for 9 The Multiple Regression Model: F-Test" width="100%" type="application/pdf"></embed><p class="caption">
+Figure 20.2: Slides for 9 The Multiple Regression Model: F-Test
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:week9slidesC"></span>
+<embed src="slide/11_Heteroskedasticity.pdf" title="Slides for 9 The Multiple Regression Model: Heteroskedasticity" width="100%" type="application/pdf"></embed><p class="caption">
+Figure 20.3: Slides for 9 The Multiple Regression Model: Heteroskedasticity
 </p>
 </div>
 </div>
@@ -126,7 +140,7 @@ Figure 20.1: Slides for 9 The Multiple Regression Model: Interpretation.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-03.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

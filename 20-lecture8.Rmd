@@ -2,12 +2,24 @@
 
 ## Slides{.unnumbered}
 
-- 9 The Multiple Regression Model: Interpretation ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx)) 
+- 9a The Multiple Regression Model: Interpretation ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx)) 
+
+- 9b The Multiple Regression Model: F-Tests ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/10_Ftest.pdf)) 
+
+- 9c The Multiple Regression Model: Heteroskedasticity ([link](https://github.com/svallejovera/regression_ci/blob/main/slide/11_Heteroskedasticity.pdf)) 
 
 No fancy code from this Lecture :( ... 
 
-```{r week9slides, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: Interpretation."}
+```{r week9slidesA, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: Interpretation."}
 knitr::include_graphics("slide/9_Interpretation.pdf")
+```
+
+```{r week9slidesB, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: F-Test"}
+knitr::include_graphics("slide/10_Ftest.pdf")
+```
+
+```{r week9slidesC, echo=FALSE,fig.align = 'center', out.width = "100%", fig.cap = "Slides for 9 The Multiple Regression Model: Heteroskedasticity"}
+knitr::include_graphics("slide/11_Heteroskedasticity.pdf")
 ```
 
 ## Lecture Assignment 

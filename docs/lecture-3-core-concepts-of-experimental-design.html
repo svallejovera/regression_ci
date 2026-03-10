@@ -7,7 +7,7 @@
 <title>Chapter 6 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
 <meta name="description" content="Slides 4 Core Concepts of Experimental Design (link)  6.1 Introduction In this lecture, we take a (slightly) more technical look at selection bias (to understand the problem with observational...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="Chapter 6 Lecture 3: Core Concepts of Experimental Design | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Slides 4 Core Concepts of Experimental Design (link)  6.1 Introduction In this lecture, we take a (slightly) more technical look at selection bias (to understand the problem with observational...">
@@ -114,8 +114,7 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 <code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">treat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">summarise</span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">paid_work_yes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 2 rows and 2 columns,
-## ungrouped</code></pre>
+<pre><code>## summarise: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   treat   ATE
 ##   &lt;dbl&gt; &lt;dbl&gt;
@@ -126,8 +125,8 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 <code class="sourceCode R"><span><span class="va">exp_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">female</span>,<span class="va">treat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">summarise</span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">paid_work_yes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## summarise: now 4 rows and 3 columns, one
-## group variable remaining (female)</code></pre>
+<pre><code>## summarise: now 4 rows and 3 columns, one group
+## variable remaining (female)</code></pre>
 <pre><code>## # A tibble: 4 × 3
 ## # Groups:   female [2]
 ##   female treat   ATE
@@ -162,8 +161,7 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 ## treat1        0.0596 .  
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.'
-##   0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4237 on 1591 degrees of freedom
 ##   (890 observations deleted due to missingness)
@@ -174,7 +172,7 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Treatment"</span>, y<span class="op">=</span><span class="st">"Worked +1 Year"</span>,</span>
 <span>       title<span class="op">=</span><span class="st">"Predicted Effect of Treatment"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-44-1.png" width="672"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-44-1.png" alt="" width="672"></div>
 <p>And now by gender:</p>
 <div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model by gender</span></span>
@@ -190,20 +188,19 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 ## -0.7871  0.2129  0.2164  0.2176  0.2871 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error
-## (Intercept)     0.783626   0.022885
-## female1        -0.070685   0.030743
-## treat1          0.003436   0.031725
-## female1:treat1  0.066040   0.042680
-##                t value Pr(&gt;|t|)    
-## (Intercept)     34.242   &lt;2e-16 ***
-## female1         -2.299   0.0216 *  
-## treat1           0.108   0.9138    
-## female1:treat1   1.547   0.1220    
+##                 Estimate Std. Error t value
+## (Intercept)     0.783626   0.022885  34.242
+## female1        -0.070685   0.030743  -2.299
+## treat1          0.003436   0.031725   0.108
+## female1:treat1  0.066040   0.042680   1.547
+##                Pr(&gt;|t|)    
+## (Intercept)      &lt;2e-16 ***
+## female1          0.0216 *  
+## treat1           0.9138    
+## female1:treat1   0.1220    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.'
-##   0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4232 on 1589 degrees of freedom
 ##   (890 observations deleted due to missingness)
@@ -214,7 +211,10 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Women"</span>, y<span class="op">=</span><span class="st">"Worked +1 Year"</span>, color <span class="op">=</span> <span class="st">"Treatment"</span>,</span>
 <span>       title<span class="op">=</span><span class="st">"Predicted Effect of Treatment by Gender"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-45-1.png" width="672"></div>
+<pre><code>## Ignoring unknown labels:
+## • linetype : "treat"
+## • shape : "treat"</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-45-1.png" alt="" width="672"></div>
 <p>Cool…</p>
 
 </div>
@@ -246,7 +246,7 @@ Figure 6.1: Slides for 4 Core Concepts of Experimental Design.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-03.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

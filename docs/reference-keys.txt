@@ -5,7 +5,9 @@ fig:week5slides
 fig:week6slides
 fig:week7slides
 fig:week8slides
-fig:week9slides
+fig:week9slidesA
+fig:week9slidesB
+fig:week9slidesC
 fig:lectureinteraction
 fig:week10slides
 assignments
