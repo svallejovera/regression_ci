@@ -257,7 +257,7 @@ $$
 Let’s compute that translation for the estimated DiD coefficient:
 
 ```{r}
-b3 <- coef(m_did_controls)["treated:post"]
+b3 <- coef(m_did_basic)["treated:post"]
 b3
 100*(exp(b3)-1)
 ```

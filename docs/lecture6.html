@@ -120,15 +120,11 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## -3.3243 -0.8017  0.0414  0.7760  4.4131 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value
-## (Intercept)  2.64639    0.13392  19.761
-## expen_wages  0.13820    0.02997   4.611
-##             Pr(&gt;|t|)    
-## (Intercept)  &lt; 2e-16 ***
-## expen_wages  5.1e-06 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.64639    0.13392  19.761  &lt; 2e-16 ***
+## expen_wages  0.13820    0.02997   4.611  5.1e-06 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.173 on 498 degrees of freedom
 ## Multiple R-squared:  0.04094,    Adjusted R-squared:  0.03902 
@@ -178,15 +174,11 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 ## -2.9582 -0.6750  0.0149  0.6246  3.3842 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error
-## (Intercept)          -4.135e-18  4.560e-02
-## expen_wages_residual -2.693e-01  4.136e-02
-##                      t value Pr(&gt;|t|)    
-## (Intercept)            0.000        1    
-## expen_wages_residual  -6.512 1.82e-10 ***
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          -4.135e-18  4.560e-02   0.000        1    
+## expen_wages_residual -2.693e-01  4.136e-02  -6.512 1.82e-10 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.02 on 498 degrees of freedom
 ## Multiple R-squared:  0.07846,    Adjusted R-squared:  0.07661 
@@ -232,7 +224,7 @@ Figure 15.1: Slides for 7 The Multiple Regression Model.
 <pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-124-5.png" alt="" width="672"></div>
 <div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggarrange</span><span class="op">(</span><span class="va">A</span>,<span class="va">B</span>,<span class="va">C</span>,<span class="va">D</span>,<span class="va">E</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span><span class="va">A</span>,<span class="va">B</span>,<span class="va">C</span>,<span class="va">D</span>,<span class="va">E</span>,</span>
 <span>          common.legend <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>          nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>

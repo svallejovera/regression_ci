@@ -755,14 +755,14 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 \]</span></p>
 <p>Let’s compute that translation for the estimated DiD coefficient:</p>
 <div class="sourceCode" id="cb595"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">b3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_controls</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">b3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span>
 <span><span class="va">b3</span></span></code></pre></div>
 <pre><code>## treated:post 
-## -0.003704198</code></pre>
+##  -0.06906794</code></pre>
 <div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">100</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">b3</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## treated:post 
-##   -0.3697346</code></pre>
+##    -6.673673</code></pre>
 </div>
 </div>
 <div id="vignette-b-a-multi-period-did-for-event-study-intuition" class="section level2" number="23.4">

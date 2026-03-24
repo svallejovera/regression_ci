@@ -331,12 +331,9 @@ turnoutho_i = \beta_0 + \beta_1 percoled_i + \beta_2 ss_i + \beta_3(percoled_i \
 <code class="sourceCode R"><span><span class="co"># Simple slopes of percoled at ss=0 and ss=1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html">slopes</a></span><span class="op">(</span><span class="va">model_turnout_cd</span>, variables <span class="op">=</span> <span class="st">"percoled"</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span>ss <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">election_turnout</span><span class="op">$</span><span class="va">ss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
-##  ss Estimate Std. Error    z Pr(&gt;|z|)   S
-##   0    0.422      0.225 1.87   0.0613 4.0
-##   1    0.661      0.342 1.93   0.0535 4.2
-##     2.5 % 97.5 %
-##  -0.01996  0.863
-##  -0.00995  1.332
+##  ss Estimate Std. Error    z Pr(&gt;|z|)   S    2.5 % 97.5 %
+##   0    0.422      0.225 1.87   0.0613 4.0 -0.01996  0.863
+##   1    0.661      0.342 1.93   0.0535 4.2 -0.00995  1.332
 ## 
 ## Term: percoled
 ## Type: response
