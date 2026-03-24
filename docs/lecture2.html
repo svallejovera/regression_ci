@@ -126,11 +126,11 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <tbody>
 <tr class="odd">
 <td align="left">0</td>
-<td align="right">2553</td>
+<td align="right">2534</td>
 </tr>
 <tr class="even">
 <td align="left">1</td>
-<td align="right">2447</td>
+<td align="right">2466</td>
 </tr>
 </tbody>
 </table></div>
@@ -179,27 +179,27 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <span><span class="co"># Inspect the first 10 rows to verify the observed outcome was assigned correctly</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    health_no_pill pill health_w_pill
-## 1      0.73487435    1     1.7348744
-## 2     -0.22740389    1     0.7725961
-## 3      1.14278142    0     2.1427814
-## 4     -0.78661487    1     0.2133851
-## 5      1.14762293    0     2.1476229
-## 6     -0.02646953    0     0.9735305
-## 7      0.43260042    0     1.4326004
-## 8     -0.22912635    1     0.7708737
-## 9     -0.30914441    1     0.6908556
-## 10     1.03198220    1     2.0319822
+## 1     -1.01411417    1   -0.01411417
+## 2     -0.79131388    0    0.20868612
+## 3      0.29959368    0    1.29959368
+## 4      1.63905191    0    2.63905191
+## 5      1.08461701    0    2.08461701
+## 6     -0.62456747    1    0.37543253
+## 7      0.82592290    1    1.82592290
+## 8     -0.04856835    0    0.95143165
+## 9      0.30131365    0    1.30131365
+## 10     0.26036149    0    1.26036149
 ##     health_obs
-## 1   1.73487435
-## 2   0.77259611
-## 3   1.14278142
-## 4   0.21338513
-## 5   1.14762293
-## 6  -0.02646953
-## 7   0.43260042
-## 8   0.77087365
-## 9   0.69085559
-## 10  2.03198220</code></pre>
+## 1  -0.01411417
+## 2  -0.79131388
+## 3   0.29959368
+## 4   1.63905191
+## 5   1.08461701
+## 6   0.37543253
+## 7   1.82592290
+## 8  -0.04856835
+## 9   0.30131365
+## 10  0.26036149</code></pre>
 <p>We can see the average effect of the pill on the treated group (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment and those who do not):</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -208,10 +208,10 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
-##    pill health
-##   &lt;dbl&gt;  &lt;dbl&gt;
-## 1     0 0.0146
-## 2     1 1.03</code></pre>
+##    pill  health
+##   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     0 0.00173
+## 2     1 0.998</code></pre>
 <p>Or we can plot it:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -254,28 +254,28 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <span></span>
 <span><span class="co"># Inspect the first 10 rows</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##       income health_no_pill health_w_pill  pill
-## 1  0.2823133    -0.42813733    0.57186267 FALSE
-## 2  0.3981014     0.93581402    1.93581402 FALSE
-## 3  0.7386998     1.50385020    2.50385020  TRUE
-## 4  0.5396686     0.05022473    1.05022473 FALSE
-## 5  0.5054340     0.14850232    1.14850232 FALSE
-## 6  0.3241123    -0.97063147    0.02936853 FALSE
-## 7  0.9934859     1.45517296    2.45517296  TRUE
-## 8  0.2820173     0.07810458    1.07810458 FALSE
-## 9  0.7996215     2.11795395    3.11795395  TRUE
-## 10 0.5867035     1.85616613    2.85616613 FALSE
-##     health_obs
-## 1  -0.42813733
-## 2   0.93581402
-## 3   2.50385020
-## 4   0.05022473
-## 5   0.14850232
-## 6  -0.97063147
-## 7   2.45517296
-## 8   0.07810458
-## 9   3.11795395
-## 10  1.85616613</code></pre>
+<pre><code>##        income health_no_pill health_w_pill
+## 1  0.69998198    -1.05327463   -0.05327463
+## 2  0.12084447     0.69326394    1.69326394
+## 3  0.22901818     0.79237216    1.79237216
+## 4  0.36735530     2.17917253    3.17917253
+## 5  0.85802166     0.84699939    1.84699939
+## 6  0.52003876     1.15513275    2.15513275
+## 7  0.09846138     0.37147689    1.37147689
+## 8  0.72027808     0.04708895    1.04708895
+## 9  0.98205552     0.45448049    1.45448049
+## 10 0.14580767    -0.98404987    0.01595013
+##     pill health_obs
+## 1  FALSE -1.0532746
+## 2  FALSE  0.6932639
+## 3  FALSE  0.7923722
+## 4  FALSE  2.1791725
+## 5   TRUE  1.8469994
+## 6  FALSE  1.1551328
+## 7  FALSE  0.3714769
+## 8   TRUE  1.0470890
+## 9   TRUE  1.4544805
+## 10 FALSE -0.9840499</code></pre>
 <p>Let’s see what happens now to the estimated mean average ‘effect’ (remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment and those who do not):</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -285,8 +285,8 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.363
-## 2 TRUE   1.88</code></pre>
+## 1 FALSE  0.333
+## 2 TRUE   1.83</code></pre>
 <p>Oh no! That is more than the true effect of the pill, which we <em>know</em> is 1 because we created it. However, if we model this properly (this is an RDD!), then—remember from the lecture that the <em>effect</em> is, in essence, the <em>difference</em> between those who receive the treatment and those who do not:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -296,13 +296,13 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <span>  <span class="co"># Compare mean observed outcomes just below vs. just above the cutoff</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">pill</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">summarize</span><span class="op">(</span>health <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">health_obs</span><span class="op">)</span><span class="op">)</span> <span class="co"># BOOM!!</span></span></code></pre></div>
-<pre><code>## filter: removed 9,791 rows (98%), 209 rows remaining
+<pre><code>## filter: removed 9,801 rows (98%), 199 rows remaining
 ## summarize: now 2 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   pill  health
 ##   &lt;lgl&gt;  &lt;dbl&gt;
-## 1 FALSE  0.741
-## 2 TRUE   1.77</code></pre>
+## 1 FALSE  0.692
+## 2 TRUE   1.67</code></pre>
 </div>
 <div id="lecture-assignment" class="section level2" number="3.4">
 <h2>
@@ -343,7 +343,7 @@ Figure 3.1: Slides for 3 Introduction to Causal Inference.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-10.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

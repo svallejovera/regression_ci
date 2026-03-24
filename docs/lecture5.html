@@ -120,12 +120,12 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -5.0336 -0.6750  0.0004  0.6774  4.9716 
+## -4.5897 -0.6742  0.0004  0.6738  4.5503 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value
-## (Intercept) 1.000786   0.001001   999.3
-## x           1.999990   0.001002  1995.5
+##              Estimate Std. Error t value
+## (Intercept) 0.9989008  0.0009996   999.3
+## x           1.9992395  0.0009998  1999.6
 ##             Pr(&gt;|t|)    
 ## (Intercept)   &lt;2e-16 ***
 ## x             &lt;2e-16 ***
@@ -133,9 +133,9 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 ## Signif. codes:  
 ## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.001 on 999998 degrees of freedom
-## Multiple R-squared:  0.7993, Adjusted R-squared:  0.7993 
-## F-statistic: 3.982e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 0.9996 on 999998 degrees of freedom
+## Multiple R-squared:  0.7999, Adjusted R-squared:  0.7999 
+## F-statistic: 3.998e+06 on 1 and 999998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div id="theorem-slr.1-unbiasedness-of-ols" class="section level3" number="12.2.1">
 <h3>
 <span class="header-section-number">12.2.1</span> Theorem SLR.1: Unbiasedness of OLS:<a class="anchor" aria-label="anchor" href="#theorem-slr.1-unbiasedness-of-ols"><i class="fas fa-link"></i></a>
@@ -357,7 +357,7 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 <p>Let’s see the mean of these betas:</p>
 <div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 1.998335</code></pre>
+<pre><code>## [1] 1.996405</code></pre>
 <div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">beta_coefs</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-114-1.png" alt="" width="672"></div>
@@ -1791,7 +1791,7 @@ Figure 12.1: Slides for 4 The Simple Regression Model II.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-10.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

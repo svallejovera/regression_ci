@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 23 Lecture 10: Difference-in-Difference | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 10 Difference-in-Difference (link) No fancy code from this Lecture :( …  Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.">
+<meta name="description" content="Slides 10 Difference-in-Difference (link)  23.1 In-class example Below is the example code from class lectures. ## Experiments and Causal Inference ## Week 11: Difference in difference II...">
 <meta name="generator" content="bookdown 0.46 with bs4_book()">
 <meta property="og:title" content="Chapter 23 Lecture 10: Difference-in-Difference | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 10 Difference-in-Difference (link) No fancy code from this Lecture :( …  Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.">
+<meta property="og:description" content="Slides 10 Difference-in-Difference (link)  23.1 In-class example Below is the example code from class lectures. ## Experiments and Causal Inference ## Week 11: Difference in difference II...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 23 Lecture 10: Difference-in-Difference | PS9591: Regressions and Causal Inference">
-<meta name="twitter:description" content="Slides 10 Difference-in-Difference (link) No fancy code from this Lecture :( …  Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.">
+<meta name="twitter:description" content="Slides 10 Difference-in-Difference (link)  23.1 In-class example Below is the example code from class lectures. ## Experiments and Causal Inference ## Week 11: Difference in difference II...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.9.0/transition.js"></script><script src="libs/bs3compat-0.9.0/tabs.js"></script><script src="libs/bs3compat-0.9.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -81,16 +81,772 @@
 <h2>Slides<a class="anchor" aria-label="anchor" href="#slides-9"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
-<li>10 Difference-in-Difference (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/9_Interpretation.pptx">link</a>)</li>
+<li>10 Difference-in-Difference (<a href="https://github.com/svallejovera/regression_ci/blob/main/slide/13_Difference_in_Difference.pptx">link</a>)</li>
 </ul>
-<p>No fancy code from this Lecture :( …</p>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:week10slides"></span>
-<embed src="slide/9_Interpretation.pdf" title="Slides for 9 The Multiple Regression Model: Interpretation." width="100%" type="application/pdf"></embed><p class="caption">
-Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.
-</p>
 </div>
+<div id="in-class-example" class="section level2" number="23.1">
+<h2>
+<span class="header-section-number">23.1</span> In-class example<a class="anchor" aria-label="anchor" href="#in-class-example"><i class="fas fa-link"></i></a>
+</h2>
+<p>Below is the example code from class lectures.</p>
+<div class="sourceCode" id="cb575"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Experiments and Causal Inference</span></span>
+<span><span class="co">## Week 11: Difference in difference II</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lrberge.github.io/fixest/">fixest</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Vignette 11.1: Difference in Difference Example:</span></span>
+<span></span>
+<span><span class="co"># Data from the interwebs:</span></span>
+<span><span class="va">od_data</span> <span class="op">=</span><span class="st">"https://raw.githubusercontent.com/NickCH-K/causalbook/main/DifferenceinDifferences/organ_donation.csv"</span></span>
+<span></span>
+<span><span class="va">od</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="va">od_data</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Treatment</span></span>
+<span><span class="va">od</span> <span class="op">&lt;-</span> <span class="va">od</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="va">State</span> <span class="op">==</span> <span class="st">'California'</span> <span class="op">&amp;</span> </span>
+<span>           <span class="va">Quarter</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Q32011'</span>,<span class="st">'Q42011'</span>,<span class="st">'Q12012'</span><span class="op">)</span>,</span>
+<span>         After_Treatment <span class="op">=</span> <span class="va">Quarter</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Q32011'</span>,<span class="st">'Q42011'</span>,<span class="st">'Q12012'</span><span class="op">)</span>,</span>
+<span>         California <span class="op">=</span> <span class="va">State</span> <span class="op">==</span> <span class="st">'California'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Feols = Fixed Effects OLS... Everything afther the | </span></span>
+<span><span class="co"># are the variable for which I want to do fixed effects:</span></span>
+<span><span class="co"># feols also allows us to cluster the errors around the first fixed effect</span></span>
+<span></span>
+<span><span class="va">clfe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">Rate</span> <span class="op">~</span> <span class="va">Treatment</span> <span class="op">|</span> <span class="va">State</span> <span class="op">+</span> <span class="va">Quarter</span>,</span>
+<span>              data <span class="op">=</span> <span class="va">od</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Alternative II:</span></span>
+<span><span class="va">clfe_2</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Rate</span> <span class="op">~</span> <span class="va">Treatment</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">State</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span> <span class="op">(</span><span class="va">Quarter</span><span class="op">)</span>,</span>
+<span>              data <span class="op">=</span> <span class="va">od</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Alternative III:</span></span>
+<span><span class="va">clfe_3</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Rate</span> <span class="op">~</span> <span class="va">After_Treatment</span> <span class="op">+</span> <span class="va">California</span> <span class="op">+</span> </span>
+<span>              <span class="va">After_Treatment</span> <span class="op">*</span> <span class="va">California</span>,</span>
+<span>            data <span class="op">=</span> <span class="va">od</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/msummary.html">msummary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">clfe</span>,<span class="va">clfe_2</span>,<span class="va">clfe_3</span><span class="op">)</span>, stars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'*'</span> <span class="op">=</span> <span class="fl">.1</span>, <span class="st">'**'</span> <span class="op">=</span> <span class="fl">.05</span>, <span class="st">'***'</span> <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span>,</span>
+<span>         vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">~</span><span class="va">State</span>,<span class="st">"robust"</span>,<span class="st">"robust"</span><span class="op">)</span>,</span>
+<span>         coef_omit <span class="op">=</span> <span class="st">"factor"</span>, notes <span class="op">=</span> <span class="st">"Fixed effects coefficient in Model 2 are omitted."</span>,</span>
+<span>         gof_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'nobs'</span>,<span class="st">"adj.r.squared"</span>,<span class="st">'FE: State'</span>,<span class="st">'FE: Quarter'</span>,<span class="st">'vcov.type'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="did" class="section level2" number="23.2">
+<h2>
+<span class="header-section-number">23.2</span> Difference-in-Differences (DiD)<a class="anchor" aria-label="anchor" href="#did"><i class="fas fa-link"></i></a>
+</h2>
+<p>Difference-in-differences is a way to estimate a treatment effect when we have:</p>
+<ul>
+<li>a <strong>treated</strong> group and a <strong>comparison</strong> group, and</li>
+<li>outcomes observed <strong>before</strong> and <strong>after</strong> treatment begins.</li>
+</ul>
+<p>The core intuition is simple:</p>
+<blockquote>
+<p><strong>Use the comparison group to subtract off whatever would have happened over time anyway.</strong></p>
+</blockquote>
+<p>We’ll do this twice:
+1. A clean two-period DiD with real data (<strong>injury.csv</strong>).
+2. A short multi-period example (so we can talk about <em>event study</em> plots and parallel trends checks).</p>
+<div id="the-math-spine-two-by-two-did" class="section level3" number="23.2.1">
+<h3>
+<span class="header-section-number">23.2.1</span> The math spine (two-by-two DiD)<a class="anchor" aria-label="anchor" href="#the-math-spine-two-by-two-did"><i class="fas fa-link"></i></a>
+</h3>
+<p>Let <span class="math inline">\(T\in\{0,1\}\)</span> indicate treatment group and <span class="math inline">\(Post\in\{0,1\}\)</span> indicate the post period.</p>
+<p>The DiD estimand is:</p>
+<p><span class="math display">\[
+\widehat{\tau}_{DID}=(\bar Y_{T=1,Post=1}-\bar Y_{T=1,Post=0}) - (\bar Y_{T=0,Post=1}-\bar Y_{T=0,Post=0})
+\]</span></p>
+<p>That is: <em>change in treated</em> (i.e., the difference before and after in the treatment group) minus (i.e., the difference) <em>change in control</em> (i.e. the difference before and after in the control group). Thus, a difference-in-difference.</p>
+</div>
+<div id="did-as-a-regression-interaction" class="section level3" number="23.2.2">
+<h3>
+<span class="header-section-number">23.2.2</span> DiD as a regression interaction<a class="anchor" aria-label="anchor" href="#did-as-a-regression-interaction"><i class="fas fa-link"></i></a>
+</h3>
+<p>The “canonical” DiD regression is:</p>
+<p><span class="math display">\[
+Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
+\]</span></p>
+<p>Interpretation cheat-sheet (these are fitted cell means):</p>
+<ul>
+<li>
+<strong>Control, pre:</strong> <span class="math inline">\(\beta_0\)</span>
+</li>
+<li>
+<strong>Treated, pre:</strong> <span class="math inline">\(\beta_0+\beta_1\)</span>
+</li>
+<li>
+<strong>Control, post:</strong> <span class="math inline">\(\beta_0+\beta_2\)</span>
+</li>
+<li>
+<strong>Treated, post:</strong> <span class="math inline">\(\beta_0+\beta_1+\beta_2+\beta_3\)</span>
+</li>
+</ul>
+<p>So <span class="math inline">\(\beta_3\)</span> is the DiD estimate.</p>
+<p>Note: the following two examples were borrowed from <a href="https://evalsp21.classes.andrewheiss.com/example/diff-in-diff/">Andrew Heiss’ course</a> on program evaluation.</p>
+</div>
+</div>
+<div id="vignette-a-workers-compensation-injury-durations-two-period-did" class="section level2" number="23.3">
+<h2>
+<span class="header-section-number">23.3</span> Vignette A: Workers’ compensation injury durations (two-period DiD)<a class="anchor" aria-label="anchor" href="#vignette-a-workers-compensation-injury-durations-two-period-did"><i class="fas fa-link"></i></a>
+</h2>
+<p>We’ll use <code>injury.csv</code>. In this dataset:</p>
+<ul>
+<li>
+<code>ky</code> indicates the treated group (Kentucky = 1; Michigan = 0)</li>
+<li>
+<code>afchnge</code> indicates the post period (after the policy change = 1)</li>
+<li>
+<code>ldurat</code> is log duration (a nice, well-behaved outcome)</li>
+</ul>
+<div class="sourceCode" id="cb576"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/">marginaleffects</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">injury</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"Sample_data/injury.csv"</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">injury</span> <span class="op">&lt;-</span> <span class="va">injury</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    ky <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">ky</span><span class="op">)</span>,</span>
+<span>    mi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">mi</span><span class="op">)</span>,</span>
+<span>    afchnge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">afchnge</span><span class="op">)</span>,</span>
+<span>    treated <span class="op">=</span> <span class="va">ky</span>,</span>
+<span>    post <span class="op">=</span> <span class="va">afchnge</span>,</span>
+<span>    did <span class="op">=</span> <span class="va">treated</span> <span class="op">*</span> <span class="va">post</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">injury</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">treated</span>, <span class="va">post</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   treated  post     n
+##     &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1       0     0   828
+## 2       0     1   696
+## 3       1     0  2938
+## 4       1     1  2688</code></pre>
+<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">injury</span><span class="op">$</span><span class="va">ldurat</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -1.3863  0.6931  1.3863  1.3327  2.0794  5.2040</code></pre>
+<div id="a.1-start-with-a-picture-group-means-pre-vs-post" class="section level3" number="23.3.1">
+<h3>
+<span class="header-section-number">23.3.1</span> A.1 Start with a picture: group means pre vs post<a class="anchor" aria-label="anchor" href="#a.1-start-with-a-picture-group-means-pre-vs-post"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">means_2x2</span> <span class="op">&lt;-</span> <span class="va">injury</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">treated</span>, <span class="va">post</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
+<span>    mean_ldurat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ldurat</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">means_2x2</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   treated  post mean_ldurat     n
+##     &lt;int&gt; &lt;int&gt;       &lt;dbl&gt; &lt;int&gt;
+## 1       0     0        1.46   828
+## 2       0     1        1.62   696
+## 3       1     0        1.23  2938
+## 4       1     1        1.33  2688</code></pre>
+<p>Plot those means:</p>
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    group <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Treated (KY)"</span>, <span class="st">"Control (MI)"</span><span class="op">)</span>,</span>
+<span>    period <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">post</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Post"</span>, <span class="st">"Pre"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">period</span>, y <span class="op">=</span> <span class="va">mean_ldurat</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Mean log(duration)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-222-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="a.2-compute-did-by-hand-from-the-four-means" class="section level3" number="23.3.2">
+<h3>
+<span class="header-section-number">23.3.2</span> A.2 Compute DiD “by hand” from the four means<a class="anchor" aria-label="anchor" href="#a.2-compute-did-by-hand-from-the-four-means"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb583"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m_t_pre</span>  <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">post</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
+<span><span class="va">m_t_post</span> <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">post</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
+<span><span class="va">m_c_pre</span>  <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">0</span>, <span class="va">post</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
+<span><span class="va">m_c_post</span> <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">0</span>, <span class="va">post</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">did_by_hand</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">m_t_post</span> <span class="op">-</span> <span class="va">m_t_pre</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">m_c_post</span> <span class="op">-</span> <span class="va">m_c_pre</span><span class="op">)</span></span>
+<span><span class="va">did_by_hand</span></span></code></pre></div>
+<pre><code>## [1] -0.06906794</code></pre>
+<p>Because the outcome is logged, it’s also helpful to translate the DiD into a percent change:</p>
+<div class="sourceCode" id="cb585"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">100</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">did_by_hand</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] -6.673673</code></pre>
+</div>
+<div id="a.3-estimate-the-same-thing-with-the-canonical-regression" class="section level3" number="23.3.3">
+<h3>
+<span class="header-section-number">23.3.3</span> A.3 Estimate the same thing with the canonical regression<a class="anchor" aria-label="anchor" href="#a.3-estimate-the-same-thing-with-the-canonical-regression"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb587"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m_did_basic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ldurat</span> <span class="op">~</span> <span class="va">treated</span> <span class="op">*</span> <span class="va">post</span>, data <span class="op">=</span> <span class="va">injury</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"DiD (basic)"</span> <span class="op">=</span> <span class="va">m_did_basic</span>,</span>
+<span>       <span class="st">"DiD (basic, robust HC3)"</span> <span class="op">=</span> <span class="va">m_did_basic</span><span class="op">)</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"DiD (basic)"</span> <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>              <span class="st">"DiD (basic, robust HC3)"</span> <span class="op">=</span> <span class="st">"HC3"</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Two-period DiD as an interaction (treated × post)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Robust SEs are useful here because the two-by-two setup often has heteroskedasticity."</span>,</span>
+<span>    <span class="st">"Clustering by state is not sensible here because there are only 2 states (2 clusters)."</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
 
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_nkcmwzb5hxn6ac68jxka = TinyTable.createTableFunctions("tinytable_nkcmwzb5hxn6ac68jxka");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '16', j: 2 }, { i: '16', j: 3 } ], css_id: 'tinytable_css_5xneq495nj2iw5qdoqbs',}, 
+          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_moxes342lqtk0ve9xl8o',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '9', j: 3 }, { i: '10', j: 3 }, { i: '11', j: 3 }, { i: '12', j: 3 }, { i: '13', j: 3 }, { i: '14', j: 3 }, { i: '15', j: 3 } ], css_id: 'tinytable_css_kda6s9u4qeothwyysxpt',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_kqaller066l0ygynopmv',}, 
+          { positions: [ { i: '16', j: 1 } ], css_id: 'tinytable_css_26i2bqv22riw1z7ju950',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_5dgiin05qc9x430shi0y',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 } ], css_id: 'tinytable_css_28fzuwh5o9d2bpsr7xqq',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_yw0jmqmrw35k5qf282o7',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_nkcmwzb5hxn6ac68jxka.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_5xneq495nj2iw5qdoqbs, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_5xneq495nj2iw5qdoqbs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_moxes342lqtk0ve9xl8o, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_moxes342lqtk0ve9xl8o {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_kda6s9u4qeothwyysxpt, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_kda6s9u4qeothwyysxpt { text-align: center }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_kqaller066l0ygynopmv, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_kqaller066l0ygynopmv {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_26i2bqv22riw1z7ju950, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_26i2bqv22riw1z7ju950 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_5dgiin05qc9x430shi0y, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_5dgiin05qc9x430shi0y {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_28fzuwh5o9d2bpsr7xqq, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_28fzuwh5o9d2bpsr7xqq { text-align: left }
+    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_yw0jmqmrw35k5qf282o7, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_yw0jmqmrw35k5qf282o7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="tinytable" id="tinytable_nkcmwzb5hxn6ac68jxka" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<caption>Two-period DiD as an interaction (treated × post)</caption>
+        <thead><tr>
+<th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">DiD (basic)</th>
+                <th scope="col" data-row="0" data-col="3">DiD (basic, robust HC3)</th>
+              </tr></thead>
+<tfoot>
+<tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
+<tr><td colspan="3">Robust SEs are useful here because the two-by-two setup often has heteroskedasticity.</td></tr>
+<tr><td colspan="3">Clustering by state is not sensible here because there are only 2 states (2 clusters).</td></tr>
+</tfoot>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">1.462***</td>
+                  <td data-row="1" data-col="3">1.462***</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(0.045)</td>
+                  <td data-row="2" data-col="3">(0.048)</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">treated</td>
+                  <td data-row="3" data-col="2">-0.228***</td>
+                  <td data-row="3" data-col="3">-0.228***</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">(0.051)</td>
+                  <td data-row="4" data-col="3">(0.053)</td>
+                </tr>
+<tr>
+<td data-row="5" data-col="1">post</td>
+                  <td data-row="5" data-col="2">0.162*</td>
+                  <td data-row="5" data-col="3">0.162*</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(0.067)</td>
+                  <td data-row="6" data-col="3">(0.071)</td>
+                </tr>
+<tr>
+<td data-row="7" data-col="1">treated × post</td>
+                  <td data-row="7" data-col="2">-0.069</td>
+                  <td data-row="7" data-col="3">-0.069</td>
+                </tr>
+<tr>
+<td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(0.076)</td>
+                  <td data-row="8" data-col="3">(0.079)</td>
+                </tr>
+<tr>
+<td data-row="9" data-col="1">Num.Obs.</td>
+                  <td data-row="9" data-col="2">7150</td>
+                  <td data-row="9" data-col="3">7150</td>
+                </tr>
+<tr>
+<td data-row="10" data-col="1">R2</td>
+                  <td data-row="10" data-col="2">0.008</td>
+                  <td data-row="10" data-col="3">0.008</td>
+                </tr>
+<tr>
+<td data-row="11" data-col="1">R2 Adj.</td>
+                  <td data-row="11" data-col="2">0.008</td>
+                  <td data-row="11" data-col="3">0.008</td>
+                </tr>
+<tr>
+<td data-row="12" data-col="1">AIC</td>
+                  <td data-row="12" data-col="2">24085.5</td>
+                  <td data-row="12" data-col="3">24085.5</td>
+                </tr>
+<tr>
+<td data-row="13" data-col="1">BIC</td>
+                  <td data-row="13" data-col="2">24119.9</td>
+                  <td data-row="13" data-col="3">24119.9</td>
+                </tr>
+<tr>
+<td data-row="14" data-col="1">Log.Lik.</td>
+                  <td data-row="14" data-col="2">-12037.768</td>
+                  <td data-row="14" data-col="3">-12037.768</td>
+                </tr>
+<tr>
+<td data-row="15" data-col="1">RMSE</td>
+                  <td data-row="15" data-col="2">1.30</td>
+                  <td data-row="15" data-col="3">1.30</td>
+                </tr>
+<tr>
+<td data-row="16" data-col="1">Std.Errors</td>
+                  <td data-row="16" data-col="2">DiD (basic)</td>
+                  <td data-row="16" data-col="3">DiD (basic, robust HC3)</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+<div id="plug-in-reconstruct-the-fitted-22-cell-means-from-coefficients" class="section level4" number="23.3.3.1">
+<h4>
+<span class="header-section-number">23.3.3.1</span> Plug-in: reconstruct the fitted 2×2 cell means from coefficients<a class="anchor" aria-label="anchor" href="#plug-in-reconstruct-the-fitted-22-cell-means-from-coefficients"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb588"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cell_control_pre</span>  <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[</span><span class="st">"(Intercept)"</span><span class="op">]</span></span>
+<span><span class="va">cell_treated_pre</span>  <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[</span><span class="st">"(Intercept)"</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[</span><span class="st">"treated"</span><span class="op">]</span></span>
+<span><span class="va">cell_control_post</span> <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[</span><span class="st">"(Intercept)"</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[</span><span class="st">"post"</span><span class="op">]</span></span>
+<span><span class="va">cell_treated_post</span> <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[</span><span class="st">"(Intercept)"</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[</span><span class="st">"treated"</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[</span><span class="st">"post"</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  cell <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Control, Pre"</span>, <span class="st">"Treated, Pre"</span>, <span class="st">"Control, Post"</span>, <span class="st">"Treated, Post"</span><span class="op">)</span>,</span>
+<span>  fitted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">cell_control_pre</span>, <span class="va">cell_treated_pre</span>, <span class="va">cell_control_post</span>, <span class="va">cell_treated_post</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   cell          fitted
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Control, Pre    1.46
+## 2 Treated, Pre    1.23
+## 3 Control, Post   1.62
+## 4 Treated, Post   1.33</code></pre>
+<p>Check: the DiD estimate is <span class="math inline">\(\hat\beta_3\)</span>, and it should match the by-hand estimate.</p>
+<div class="sourceCode" id="cb590"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## treated:post 
+##  -0.06906794</code></pre>
+<div class="sourceCode" id="cb592"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">did_by_hand</span></span></code></pre></div>
+<pre><code>## [1] -0.06906794</code></pre>
+</div>
+</div>
+<div id="a.4-add-covariates-precision-not-magic" class="section level3" number="23.3.4">
+<h3>
+<span class="header-section-number">23.3.4</span> A.4 Add covariates (precision, not magic)<a class="anchor" aria-label="anchor" href="#a.4-add-covariates-precision-not-magic"><i class="fas fa-link"></i></a>
+</h3>
+<p>Adding controls can improve precision and adjust for observable differences, but the identifying assumption is still <strong>parallel trends</strong>.</p>
+<div class="sourceCode" id="cb594"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m_did_controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">ldurat</span> <span class="op">~</span> <span class="va">treated</span><span class="op">*</span><span class="va">post</span> <span class="op">+</span> <span class="va">male</span> <span class="op">+</span> <span class="va">lage</span> <span class="op">+</span> <span class="va">married</span> <span class="op">+</span> <span class="va">lprewage</span> <span class="op">+</span></span>
+<span>    <span class="va">head</span> <span class="op">+</span> <span class="va">neck</span> <span class="op">+</span> <span class="va">upextr</span> <span class="op">+</span> <span class="va">trunk</span> <span class="op">+</span> <span class="va">lowback</span> <span class="op">+</span> <span class="va">lowextr</span> <span class="op">+</span></span>
+<span>    <span class="va">manuf</span> <span class="op">+</span> <span class="va">construc</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">injury</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"DiD (basic, HC3)"</span> <span class="op">=</span> <span class="va">m_did_basic</span>,</span>
+<span>       <span class="st">"DiD + controls (HC3)"</span> <span class="op">=</span> <span class="va">m_did_controls</span><span class="op">)</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"DiD (basic, HC3)"</span> <span class="op">=</span> <span class="st">"HC3"</span>,</span>
+<span>              <span class="st">"DiD + controls (HC3)"</span> <span class="op">=</span> <span class="st">"HC3"</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"DiD with and without controls (robust SEs)"</span>,</span>
+<span>  stars <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_soz85i703st49ia7c02g = TinyTable.createTableFunctions("tinytable_soz85i703st49ia7c02g");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '40', j: 2 }, { i: '40', j: 3 } ], css_id: 'tinytable_css_brx9a2ezh4qseq0oe807',}, 
+          { positions: [ { i: '32', j: 2 }, { i: '32', j: 3 } ], css_id: 'tinytable_css_5oefubdhd2jzmdvx1qr4',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '16', j: 2 }, { i: '17', j: 2 }, { i: '18', j: 2 }, { i: '19', j: 2 }, { i: '20', j: 2 }, { i: '21', j: 2 }, { i: '22', j: 2 }, { i: '23', j: 2 }, { i: '24', j: 2 }, { i: '25', j: 2 }, { i: '26', j: 2 }, { i: '27', j: 2 }, { i: '28', j: 2 }, { i: '29', j: 2 }, { i: '30', j: 2 }, { i: '31', j: 2 }, { i: '33', j: 2 }, { i: '34', j: 2 }, { i: '35', j: 2 }, { i: '36', j: 2 }, { i: '37', j: 2 }, { i: '38', j: 2 }, { i: '39', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '8', j: 3 }, { i: '9', j: 3 }, { i: '10', j: 3 }, { i: '11', j: 3 }, { i: '12', j: 3 }, { i: '13', j: 3 }, { i: '14', j: 3 }, { i: '15', j: 3 }, { i: '16', j: 3 }, { i: '17', j: 3 }, { i: '18', j: 3 }, { i: '19', j: 3 }, { i: '20', j: 3 }, { i: '21', j: 3 }, { i: '22', j: 3 }, { i: '23', j: 3 }, { i: '24', j: 3 }, { i: '25', j: 3 }, { i: '26', j: 3 }, { i: '27', j: 3 }, { i: '28', j: 3 }, { i: '29', j: 3 }, { i: '30', j: 3 }, { i: '31', j: 3 }, { i: '33', j: 3 }, { i: '34', j: 3 }, { i: '35', j: 3 }, { i: '36', j: 3 }, { i: '37', j: 3 }, { i: '38', j: 3 }, { i: '39', j: 3 } ], css_id: 'tinytable_css_0kwz8gr21ztevxg7s1m2',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_zwt8x8ncaq1sx90n1q8s',}, 
+          { positions: [ { i: '40', j: 1 } ], css_id: 'tinytable_css_rjwer0kc32kddekyyvof',}, 
+          { positions: [ { i: '32', j: 1 } ], css_id: 'tinytable_css_j2c8gi8li9az3m4myt0j',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 }, { i: '16', j: 1 }, { i: '17', j: 1 }, { i: '18', j: 1 }, { i: '19', j: 1 }, { i: '20', j: 1 }, { i: '21', j: 1 }, { i: '22', j: 1 }, { i: '23', j: 1 }, { i: '24', j: 1 }, { i: '25', j: 1 }, { i: '26', j: 1 }, { i: '27', j: 1 }, { i: '28', j: 1 }, { i: '29', j: 1 }, { i: '30', j: 1 }, { i: '31', j: 1 }, { i: '33', j: 1 }, { i: '34', j: 1 }, { i: '35', j: 1 }, { i: '36', j: 1 }, { i: '37', j: 1 }, { i: '38', j: 1 }, { i: '39', j: 1 } ], css_id: 'tinytable_css_jwe01bzlolcmf9sl3ep0',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_gle91dtmuxm9qunxz40r',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_soz85i703st49ia7c02g.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_brx9a2ezh4qseq0oe807, #tinytable_soz85i703st49ia7c02g th.tinytable_css_brx9a2ezh4qseq0oe807 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_5oefubdhd2jzmdvx1qr4, #tinytable_soz85i703st49ia7c02g th.tinytable_css_5oefubdhd2jzmdvx1qr4 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_0kwz8gr21ztevxg7s1m2, #tinytable_soz85i703st49ia7c02g th.tinytable_css_0kwz8gr21ztevxg7s1m2 { text-align: center }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_zwt8x8ncaq1sx90n1q8s, #tinytable_soz85i703st49ia7c02g th.tinytable_css_zwt8x8ncaq1sx90n1q8s {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_rjwer0kc32kddekyyvof, #tinytable_soz85i703st49ia7c02g th.tinytable_css_rjwer0kc32kddekyyvof {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_j2c8gi8li9az3m4myt0j, #tinytable_soz85i703st49ia7c02g th.tinytable_css_j2c8gi8li9az3m4myt0j {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_jwe01bzlolcmf9sl3ep0, #tinytable_soz85i703st49ia7c02g th.tinytable_css_jwe01bzlolcmf9sl3ep0 { text-align: left }
+    #tinytable_soz85i703st49ia7c02g td.tinytable_css_gle91dtmuxm9qunxz40r, #tinytable_soz85i703st49ia7c02g th.tinytable_css_gle91dtmuxm9qunxz40r {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+<div class="container">
+      <div class="inline-table"><table class="tinytable" id="tinytable_soz85i703st49ia7c02g" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<caption>DiD with and without controls (robust SEs)</caption>
+        <thead><tr>
+<th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">DiD (basic, HC3)</th>
+                <th scope="col" data-row="0" data-col="3">DiD + controls (HC3)</th>
+              </tr></thead>
+<tfoot><tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">1.462***</td>
+                  <td data-row="1" data-col="3">-0.795**</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(0.048)</td>
+                  <td data-row="2" data-col="3">(0.245)</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">treated</td>
+                  <td data-row="3" data-col="2">-0.228***</td>
+                  <td data-row="3" data-col="3">-0.166**</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">(0.053)</td>
+                  <td data-row="4" data-col="3">(0.055)</td>
+                </tr>
+<tr>
+<td data-row="5" data-col="1">post</td>
+                  <td data-row="5" data-col="2">0.162*</td>
+                  <td data-row="5" data-col="3">0.112</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(0.071)</td>
+                  <td data-row="6" data-col="3">(0.071)</td>
+                </tr>
+<tr>
+<td data-row="7" data-col="1">treated × post</td>
+                  <td data-row="7" data-col="2">-0.069</td>
+                  <td data-row="7" data-col="3">-0.004</td>
+                </tr>
+<tr>
+<td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(0.079)</td>
+                  <td data-row="8" data-col="3">(0.078)</td>
+                </tr>
+<tr>
+<td data-row="9" data-col="1">male</td>
+                  <td data-row="9" data-col="2"></td>
+                  <td data-row="9" data-col="3">-0.119**</td>
+                </tr>
+<tr>
+<td data-row="10" data-col="1"></td>
+                  <td data-row="10" data-col="2"></td>
+                  <td data-row="10" data-col="3">(0.041)</td>
+                </tr>
+<tr>
+<td data-row="11" data-col="1">lage</td>
+                  <td data-row="11" data-col="2"></td>
+                  <td data-row="11" data-col="3">0.290***</td>
+                </tr>
+<tr>
+<td data-row="12" data-col="1"></td>
+                  <td data-row="12" data-col="2"></td>
+                  <td data-row="12" data-col="3">(0.048)</td>
+                </tr>
+<tr>
+<td data-row="13" data-col="1">married</td>
+                  <td data-row="13" data-col="2"></td>
+                  <td data-row="13" data-col="3">0.036</td>
+                </tr>
+<tr>
+<td data-row="14" data-col="1"></td>
+                  <td data-row="14" data-col="2"></td>
+                  <td data-row="14" data-col="3">(0.036)</td>
+                </tr>
+<tr>
+<td data-row="15" data-col="1">lprewage</td>
+                  <td data-row="15" data-col="2"></td>
+                  <td data-row="15" data-col="3">0.263***</td>
+                </tr>
+<tr>
+<td data-row="16" data-col="1"></td>
+                  <td data-row="16" data-col="2"></td>
+                  <td data-row="16" data-col="3">(0.035)</td>
+                </tr>
+<tr>
+<td data-row="17" data-col="1">head</td>
+                  <td data-row="17" data-col="2"></td>
+                  <td data-row="17" data-col="3">-0.653***</td>
+                </tr>
+<tr>
+<td data-row="18" data-col="1"></td>
+                  <td data-row="18" data-col="2"></td>
+                  <td data-row="18" data-col="3">(0.122)</td>
+                </tr>
+<tr>
+<td data-row="19" data-col="1">neck</td>
+                  <td data-row="19" data-col="2"></td>
+                  <td data-row="19" data-col="3">0.093</td>
+                </tr>
+<tr>
+<td data-row="20" data-col="1"></td>
+                  <td data-row="20" data-col="2"></td>
+                  <td data-row="20" data-col="3">(0.155)</td>
+                </tr>
+<tr>
+<td data-row="21" data-col="1">upextr</td>
+                  <td data-row="21" data-col="2"></td>
+                  <td data-row="21" data-col="3">-0.258**</td>
+                </tr>
+<tr>
+<td data-row="22" data-col="1"></td>
+                  <td data-row="22" data-col="2"></td>
+                  <td data-row="22" data-col="3">(0.088)</td>
+                </tr>
+<tr>
+<td data-row="23" data-col="1">trunk</td>
+                  <td data-row="23" data-col="2"></td>
+                  <td data-row="23" data-col="3">0.030</td>
+                </tr>
+<tr>
+<td data-row="24" data-col="1"></td>
+                  <td data-row="24" data-col="2"></td>
+                  <td data-row="24" data-col="3">(0.094)</td>
+                </tr>
+<tr>
+<td data-row="25" data-col="1">lowback</td>
+                  <td data-row="25" data-col="2"></td>
+                  <td data-row="25" data-col="3">-0.183*</td>
+                </tr>
+<tr>
+<td data-row="26" data-col="1"></td>
+                  <td data-row="26" data-col="2"></td>
+                  <td data-row="26" data-col="3">(0.090)</td>
+                </tr>
+<tr>
+<td data-row="27" data-col="1">lowextr</td>
+                  <td data-row="27" data-col="2"></td>
+                  <td data-row="27" data-col="3">-0.247**</td>
+                </tr>
+<tr>
+<td data-row="28" data-col="1"></td>
+                  <td data-row="28" data-col="2"></td>
+                  <td data-row="28" data-col="3">(0.089)</td>
+                </tr>
+<tr>
+<td data-row="29" data-col="1">manuf</td>
+                  <td data-row="29" data-col="2"></td>
+                  <td data-row="29" data-col="3">-0.159***</td>
+                </tr>
+<tr>
+<td data-row="30" data-col="1"></td>
+                  <td data-row="30" data-col="2"></td>
+                  <td data-row="30" data-col="3">(0.036)</td>
+                </tr>
+<tr>
+<td data-row="31" data-col="1">construc</td>
+                  <td data-row="31" data-col="2"></td>
+                  <td data-row="31" data-col="3">0.151***</td>
+                </tr>
+<tr>
+<td data-row="32" data-col="1"></td>
+                  <td data-row="32" data-col="2"></td>
+                  <td data-row="32" data-col="3">(0.045)</td>
+                </tr>
+<tr>
+<td data-row="33" data-col="1">Num.Obs.</td>
+                  <td data-row="33" data-col="2">7150</td>
+                  <td data-row="33" data-col="3">6822</td>
+                </tr>
+<tr>
+<td data-row="34" data-col="1">R2</td>
+                  <td data-row="34" data-col="2">0.008</td>
+                  <td data-row="34" data-col="3">0.052</td>
+                </tr>
+<tr>
+<td data-row="35" data-col="1">R2 Adj.</td>
+                  <td data-row="35" data-col="2">0.008</td>
+                  <td data-row="35" data-col="3">0.050</td>
+                </tr>
+<tr>
+<td data-row="36" data-col="1">AIC</td>
+                  <td data-row="36" data-col="2">24085.5</td>
+                  <td data-row="36" data-col="3">22631.6</td>
+                </tr>
+<tr>
+<td data-row="37" data-col="1">BIC</td>
+                  <td data-row="37" data-col="2">24119.9</td>
+                  <td data-row="37" data-col="3">22747.7</td>
+                </tr>
+<tr>
+<td data-row="38" data-col="1">Log.Lik.</td>
+                  <td data-row="38" data-col="2">-12037.768</td>
+                  <td data-row="38" data-col="3">-11298.821</td>
+                </tr>
+<tr>
+<td data-row="39" data-col="1">RMSE</td>
+                  <td data-row="39" data-col="2">1.30</td>
+                  <td data-row="39" data-col="3">1.27</td>
+                </tr>
+<tr>
+<td data-row="40" data-col="1">Std.Errors</td>
+                  <td data-row="40" data-col="2">DiD (basic, HC3)</td>
+                  <td data-row="40" data-col="3">DiD + controls (HC3)</td>
+                </tr>
+</tbody>
+</table></div>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+<div id="a.5-interpreting-beta_3-in-log-points-a-quick-translation" class="section level3" number="23.3.5">
+<h3>
+<span class="header-section-number">23.3.5</span> A.5 Interpreting <span class="math inline">\(\beta_3\)</span> in log points (a quick translation)<a class="anchor" aria-label="anchor" href="#a.5-interpreting-beta_3-in-log-points-a-quick-translation"><i class="fas fa-link"></i></a>
+</h3>
+<p>If <span class="math inline">\(\hat\beta_3 = -0.06\)</span>, that is about a:</p>
+<p><span class="math display">\[
+100\times(\exp(-0.06)-1) \approx -5.8\%
+\]</span></p>
+<p>Let’s compute that translation for the estimated DiD coefficient:</p>
+<div class="sourceCode" id="cb595"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">b3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_controls</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span>
+<span><span class="va">b3</span></span></code></pre></div>
+<pre><code>## treated:post 
+## -0.003704198</code></pre>
+<div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">100</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">b3</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## treated:post 
+##   -0.3697346</code></pre>
+</div>
+</div>
+<div id="vignette-b-a-multi-period-did-for-event-study-intuition" class="section level2" number="23.4">
+<h2>
+<span class="header-section-number">23.4</span> Vignette B: A multi-period DiD (for event study intuition)<a class="anchor" aria-label="anchor" href="#vignette-b-a-multi-period-did-for-event-study-intuition"><i class="fas fa-link"></i></a>
+</h2>
+<p>Two-period DiD is great for the core idea, but it can’t show you pre-trends.</p>
+<p>So here’s a quick multi-period example (simulated) where we can:
+- plot treated vs control across many periods,
+- estimate a two-way fixed effects model,
+- and draw an event study plot.</p>
+<div class="sourceCode" id="cb599"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lrberge.github.io/fixest/">fixest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">n_units</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">n_t</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
+<span><span class="va">treat_time</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span></span>
+<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">expand_grid</a></span><span class="op">(</span></span>
+<span>  id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_units</span>,</span>
+<span>  t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_t</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    treated <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">id</span> <span class="op">&lt;=</span> <span class="va">n_units</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1L</span>, <span class="fl">0L</span><span class="op">)</span>,</span>
+<span>    post <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">t</span> <span class="op">&gt;=</span> <span class="va">treat_time</span>, <span class="fl">1L</span>, <span class="fl">0L</span><span class="op">)</span>,</span>
+<span>    alpha_i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_units</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">n_t</span><span class="op">)</span>,</span>
+<span>    gamma_t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, length.out <span class="op">=</span> <span class="va">n_t</span><span class="op">)</span>, times <span class="op">=</span> <span class="va">n_units</span><span class="op">)</span>,</span>
+<span>    tau <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">post</span><span class="op">==</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">0.25</span> <span class="op">-</span> <span class="fl">0.05</span><span class="op">*</span><span class="op">(</span><span class="va">t</span> <span class="op">-</span> <span class="va">treat_time</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">alpha_i</span> <span class="op">+</span> <span class="va">gamma_t</span> <span class="op">+</span> <span class="va">tau</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_units</span><span class="op">*</span><span class="va">n_t</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">panel</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">treated</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>ybar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, .groups<span class="op">=</span><span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="st">"Treated"</span>, <span class="st">"Control"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">ybar</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">treat_time</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"Average outcome"</span>, caption <span class="op">=</span> <span class="st">"Dotted line = treatment begins"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-230-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+<div id="b.1-two-way-fe-did-twfe" class="section level3" number="23.4.1">
+<h3>
+<span class="header-section-number">23.4.1</span> B.1 Two-way FE DiD (TWFE)<a class="anchor" aria-label="anchor" href="#b.1-two-way-fe-did-twfe"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb600"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m_twfe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">treated</span><span class="op">*</span><span class="va">post</span> <span class="op">|</span> <span class="va">id</span> <span class="op">+</span> <span class="va">t</span>, data <span class="op">=</span> <span class="va">panel</span>, cluster <span class="op">=</span> <span class="op">~</span><span class="va">id</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://lrberge.github.io/fixest/reference/etable.html">etable</a></span><span class="op">(</span><span class="va">m_twfe</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##                              m_twfe
+## Dependent Var.:                   y
+##                                    
+## treated x post  -0.3061*** (0.0669)
+## Fixed-Effects:  -------------------
+## id                              Yes
+## t                               Yes
+## _______________ ___________________
+## S.E.: Clustered              by: id
+## Observations                    800
+## R2                          0.79661
+## Within R2                   0.02575
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div id="b.2-event-study-leads-and-lags" class="section level3" number="23.4.2">
+<h3>
+<span class="header-section-number">23.4.2</span> B.2 Event study: leads and lags<a class="anchor" aria-label="anchor" href="#b.2-event-study-leads-and-lags"><i class="fas fa-link"></i></a>
+</h3>
+<p>Create an adoption time variable (<code>g</code>) and estimate event-time effects with <code>sunab()</code>.</p>
+<div class="sourceCode" id="cb602"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="va">panel</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">treat_time</span>, <span class="fl">0L</span><span class="op">)</span><span class="op">)</span>  <span class="co"># 0 = never-treated</span></span>
+<span></span>
+<span><span class="va">m_es</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu">sunab</span><span class="op">(</span><span class="va">g</span>, <span class="va">t</span><span class="op">)</span> <span class="op">|</span> <span class="va">id</span> <span class="op">+</span> <span class="va">t</span>, data <span class="op">=</span> <span class="va">panel</span>, cluster <span class="op">=</span> <span class="op">~</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://lrberge.github.io/fixest/reference/coefplot.html">iplot</a></span><span class="op">(</span><span class="va">m_es</span>, ref.line <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-232-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+<p>Interpretation:
+- Pre-treatment coefficients (leads) near 0 → consistent with parallel trends.
+- Post-treatment coefficients (lags) show dynamics.</p>
+
+</div>
 </div>
 </div>
 
@@ -107,6 +863,28 @@ Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#lecture10"><span class="header-section-number">23</span> Lecture 10: Difference-in-Difference</a></li>
 <li><a class="nav-link" href="#slides-9">Slides</a></li>
+<li><a class="nav-link" href="#in-class-example"><span class="header-section-number">23.1</span> In-class example</a></li>
+<li>
+<a class="nav-link" href="#did"><span class="header-section-number">23.2</span> Difference-in-Differences (DiD)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-math-spine-two-by-two-did"><span class="header-section-number">23.2.1</span> The math spine (two-by-two DiD)</a></li>
+<li><a class="nav-link" href="#did-as-a-regression-interaction"><span class="header-section-number">23.2.2</span> DiD as a regression interaction</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#vignette-a-workers-compensation-injury-durations-two-period-did"><span class="header-section-number">23.3</span> Vignette A: Workers’ compensation injury durations (two-period DiD)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#a.1-start-with-a-picture-group-means-pre-vs-post"><span class="header-section-number">23.3.1</span> A.1 Start with a picture: group means pre vs post</a></li>
+<li><a class="nav-link" href="#a.2-compute-did-by-hand-from-the-four-means"><span class="header-section-number">23.3.2</span> A.2 Compute DiD “by hand” from the four means</a></li>
+<li><a class="nav-link" href="#a.3-estimate-the-same-thing-with-the-canonical-regression"><span class="header-section-number">23.3.3</span> A.3 Estimate the same thing with the canonical regression</a></li>
+<li><a class="nav-link" href="#a.4-add-covariates-precision-not-magic"><span class="header-section-number">23.3.4</span> A.4 Add covariates (precision, not magic)</a></li>
+<li><a class="nav-link" href="#a.5-interpreting-beta_3-in-log-points-a-quick-translation"><span class="header-section-number">23.3.5</span> A.5 Interpreting \(\beta_3\) in log points (a quick translation)</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#vignette-b-a-multi-period-did-for-event-study-intuition"><span class="header-section-number">23.4</span> Vignette B: A multi-period DiD (for event study intuition)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#b.1-two-way-fe-did-twfe"><span class="header-section-number">23.4.1</span> B.1 Two-way FE DiD (TWFE)</a></li>
+<li><a class="nav-link" href="#b.2-event-study-leads-and-lags"><span class="header-section-number">23.4.2</span> B.2 Event study: leads and lags</a></li>
+</ul>
+</li>
 </ul>
 
       <div class="book-extra">
@@ -124,7 +902,7 @@ Figure 23.1: Slides for 9 The Multiple Regression Model: Interpretation.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-10.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

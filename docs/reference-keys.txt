@@ -9,7 +9,6 @@ fig:week9slidesA
 fig:week9slidesB
 fig:week9slidesC
 fig:lectureinteraction
-fig:week10slides
 assignments
 lecture-assignments
 final-exam
@@ -209,3 +208,17 @@ dummy-categorical-college-race4-collapsed
 continuous-continuous-ideology-racial-resentment-proxy-lemprac
 lecture-assignment-4
 lecture10
+in-class-example
+did
+the-math-spine-two-by-two-did
+did-as-a-regression-interaction
+vignette-a-workers-compensation-injury-durations-two-period-did
+a.1-start-with-a-picture-group-means-pre-vs-post
+a.2-compute-did-by-hand-from-the-four-means
+a.3-estimate-the-same-thing-with-the-canonical-regression
+plug-in-reconstruct-the-fitted-22-cell-means-from-coefficients
+a.4-add-covariates-precision-not-magic
+a.5-interpreting-beta_3-in-log-points-a-quick-translation
+vignette-b-a-multi-period-did-for-event-study-intuition
+b.1-two-way-fe-did-twfe
+b.2-event-study-leads-and-lags
