@@ -7,7 +7,7 @@
 <title>Chapter 23 Lecture 10: Difference-in-Difference | PS9591: Regressions and Causal Inference</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
 <meta name="description" content="Slides 10 Difference-in-Difference (link)  23.1 In-class example Below is the example code from class lectures. ## Experiments and Causal Inference ## Week 11: Difference in difference II...">
-<meta name="generator" content="bookdown 0.46 with bs4_book()">
+<meta name="generator" content="bookdown 0.42 with bs4_book()">
 <meta property="og:title" content="Chapter 23 Lecture 10: Difference-in-Difference | PS9591: Regressions and Causal Inference">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Slides 10 Difference-in-Difference (link)  23.1 In-class example Below is the example code from class lectures. ## Experiments and Causal Inference ## Week 11: Difference in difference II...">
@@ -66,6 +66,7 @@
 <li><a class="" href="lecture-9-exercises.html"><span class="header-section-number">21</span> Lecture 9 Exercises</a></li>
 <li><a class="" href="lecture9.html"><span class="header-section-number">22</span> Lecture 9: Interactions</a></li>
 <li><a class="active" href="lecture10.html"><span class="header-section-number">23</span> Lecture 10: Difference-in-Difference</a></li>
+<li><a class="" href="lecture11.html"><span class="header-section-number">24</span> Lecture 11: Regression Discontinuity</a></li>
 </ul>
 
         <div class="book-extra">
@@ -89,7 +90,7 @@
 <span class="header-section-number">23.1</span> In-class example<a class="anchor" aria-label="anchor" href="#in-class-example"><i class="fas fa-link"></i></a>
 </h2>
 <p>Below is the example code from class lectures.</p>
-<div class="sourceCode" id="cb575"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb581"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Experiments and Causal Inference</span></span>
 <span><span class="co">## Week 11: Difference in difference II</span></span>
 <span></span>
@@ -200,7 +201,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <li>
 <code>ldurat</code> is log duration (a nice, well-behaved outcome)</li>
 </ul>
-<div class="sourceCode" id="cb576"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com">modelsummary</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/">marginaleffects</a></span><span class="op">)</span></span>
@@ -226,7 +227,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 ## 2       0     1   696
 ## 3       1     0  2938
 ## 4       1     1  2688</code></pre>
-<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb584"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">injury</span><span class="op">$</span><span class="va">ldurat</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ## -1.3863  0.6931  1.3863  1.3327  2.0794  5.2040</code></pre>
@@ -234,7 +235,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <h3>
 <span class="header-section-number">23.3.1</span> A.1 Start with a picture: group means pre vs post<a class="anchor" aria-label="anchor" href="#a.1-start-with-a-picture-group-means-pre-vs-post"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb586"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">means_2x2</span> <span class="op">&lt;-</span> <span class="va">injury</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">treated</span>, <span class="va">post</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
@@ -252,7 +253,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 ## 3       1     0        1.23  2938
 ## 4       1     1        1.33  2688</code></pre>
 <p>Plot those means:</p>
-<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb588"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    group <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Treated (KY)"</span>, <span class="st">"Control (MI)"</span><span class="op">)</span>,</span>
@@ -263,13 +264,13 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Mean log(duration)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-222-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-232-1.png" width="480" style="display: block; margin: auto;"></div>
 </div>
 <div id="a.2-compute-did-by-hand-from-the-four-means" class="section level3" number="23.3.2">
 <h3>
 <span class="header-section-number">23.3.2</span> A.2 Compute DiD “by hand” from the four means<a class="anchor" aria-label="anchor" href="#a.2-compute-did-by-hand-from-the-four-means"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb583"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb589"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_t_pre</span>  <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">post</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
 <span><span class="va">m_t_post</span> <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">post</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
 <span><span class="va">m_c_pre</span>  <span class="op">&lt;-</span> <span class="va">means_2x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">0</span>, <span class="va">post</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">mean_ldurat</span><span class="op">)</span></span>
@@ -279,7 +280,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span><span class="va">did_by_hand</span></span></code></pre></div>
 <pre><code>## [1] -0.06906794</code></pre>
 <p>Because the outcome is logged, it’s also helpful to translate the DiD into a percent change:</p>
-<div class="sourceCode" id="cb585"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb591"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">100</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">did_by_hand</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] -6.673673</code></pre>
 </div>
@@ -287,7 +288,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <h3>
 <span class="header-section-number">23.3.3</span> A.3 Estimate the same thing with the canonical regression<a class="anchor" aria-label="anchor" href="#a.3-estimate-the-same-thing-with-the-canonical-regression"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb587"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb593"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_did_basic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ldurat</span> <span class="op">~</span> <span class="va">treated</span> <span class="op">*</span> <span class="va">post</span>, data <span class="op">=</span> <span class="va">injury</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html">modelsummary</a></span><span class="op">(</span></span>
@@ -304,50 +305,96 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span><span class="op">)</span></span></code></pre></div>
 <!-- preamble start -->
 
-    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
-      // Create table-specific functions using external factory
-      const tableFns_nkcmwzb5hxn6ac68jxka = TinyTable.createTableFunctions("tinytable_nkcmwzb5hxn6ac68jxka");
+    <script>
+
+      function styleCell_eu2a82e2peib86d59o4k(i, j, css_id) {
+          var table = document.getElementById("tinytable_eu2a82e2peib86d59o4k");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_eu2a82e2peib86d59o4k');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_eu2a82e2peib86d59o4k(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_eu2a82e2peib86d59o4k");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '16', j: 2 }, { i: '16', j: 3 } ], css_id: 'tinytable_css_5xneq495nj2iw5qdoqbs',}, 
-          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_moxes342lqtk0ve9xl8o',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '9', j: 3 }, { i: '10', j: 3 }, { i: '11', j: 3 }, { i: '12', j: 3 }, { i: '13', j: 3 }, { i: '14', j: 3 }, { i: '15', j: 3 } ], css_id: 'tinytable_css_kda6s9u4qeothwyysxpt',}, 
-          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_kqaller066l0ygynopmv',}, 
-          { positions: [ { i: '16', j: 1 } ], css_id: 'tinytable_css_26i2bqv22riw1z7ju950',}, 
-          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_5dgiin05qc9x430shi0y',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 } ], css_id: 'tinytable_css_28fzuwh5o9d2bpsr7xqq',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_yw0jmqmrw35k5qf282o7',}, 
+          { positions: [ { i: 16, j: 1 }, { i: 16, j: 2 },  ], css_id: 'tinytable_css_81zqwz7ran253jioup3b',}, 
+          { positions: [ { i: 8, j: 1 }, { i: 8, j: 2 },  ], css_id: 'tinytable_css_gi3ayiqknz6te7xab00k',}, 
+          { positions: [ { i: 1, j: 1 }, { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 4, j: 2 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 12, j: 2 }, { i: 4, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 11, j: 2 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 },  ], css_id: 'tinytable_css_7dbb8180ul6kbwxnupi1',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_qkfvqitfuhpfnwz9or3m',}, 
+          { positions: [ { i: 16, j: 0 },  ], css_id: 'tinytable_css_8e0di2k34ppsv0rrbkez',}, 
+          { positions: [ { i: 8, j: 0 },  ], css_id: 'tinytable_css_6wv0aorzh7cj8i6t1y5s',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 12, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 },  ], css_id: 'tinytable_css_ghrtw9mgnwzd7bsxwvd3',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_ggt7v2nsinl9gjom60a5',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_nkcmwzb5hxn6ac68jxka.styleCell(cell.i, cell.j, group.css_id);
+                  styleCell_eu2a82e2peib86d59o4k(cell.i, cell.j, group.css_id);
               });
           });
       });
-    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
-<style>
-    /* tinytable css entries after */
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_5xneq495nj2iw5qdoqbs, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_5xneq495nj2iw5qdoqbs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_moxes342lqtk0ve9xl8o, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_moxes342lqtk0ve9xl8o {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_kda6s9u4qeothwyysxpt, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_kda6s9u4qeothwyysxpt { text-align: center }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_kqaller066l0ygynopmv, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_kqaller066l0ygynopmv {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_26i2bqv22riw1z7ju950, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_26i2bqv22riw1z7ju950 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_5dgiin05qc9x430shi0y, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_5dgiin05qc9x430shi0y {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_28fzuwh5o9d2bpsr7xqq, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_28fzuwh5o9d2bpsr7xqq { text-align: left }
-    #tinytable_nkcmwzb5hxn6ac68jxka td.tinytable_css_yw0jmqmrw35k5qf282o7, #tinytable_nkcmwzb5hxn6ac68jxka th.tinytable_css_yw0jmqmrw35k5qf282o7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_81zqwz7ran253jioup3b, .table th.tinytable_css_81zqwz7ran253jioup3b { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_gi3ayiqknz6te7xab00k, .table th.tinytable_css_gi3ayiqknz6te7xab00k { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_7dbb8180ul6kbwxnupi1, .table th.tinytable_css_7dbb8180ul6kbwxnupi1 { text-align: center; }
+      .table td.tinytable_css_qkfvqitfuhpfnwz9or3m, .table th.tinytable_css_qkfvqitfuhpfnwz9or3m { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_8e0di2k34ppsv0rrbkez, .table th.tinytable_css_8e0di2k34ppsv0rrbkez { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_6wv0aorzh7cj8i6t1y5s, .table th.tinytable_css_6wv0aorzh7cj8i6t1y5s { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_ghrtw9mgnwzd7bsxwvd3, .table th.tinytable_css_ghrtw9mgnwzd7bsxwvd3 { text-align: left; }
+      .table td.tinytable_css_ggt7v2nsinl9gjom60a5, .table th.tinytable_css_ggt7v2nsinl9gjom60a5 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <div class="inline-table"><table class="tinytable" id="tinytable_nkcmwzb5hxn6ac68jxka" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_eu2a82e2peib86d59o4k" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
 <caption>Two-period DiD as an interaction (treated × post)</caption>
-        <thead><tr>
-<th scope="col" data-row="0" data-col="1"> </th>
-                <th scope="col" data-row="0" data-col="2">DiD (basic)</th>
-                <th scope="col" data-row="0" data-col="3">DiD (basic, robust HC3)</th>
-              </tr></thead>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">DiD (basic)</th>
+                <th scope="col">DiD (basic, robust HC3)</th>
+              </tr>
+</thead>
 <tfoot>
 <tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
 <tr><td colspan="3">Robust SEs are useful here because the two-by-two setup often has heteroskedasticity.</td></tr>
@@ -355,84 +402,84 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 </tfoot>
 <tbody>
 <tr>
-<td data-row="1" data-col="1">(Intercept)</td>
-                  <td data-row="1" data-col="2">1.462***</td>
-                  <td data-row="1" data-col="3">1.462***</td>
+<td>(Intercept)</td>
+                  <td>1.462***</td>
+                  <td>1.462***</td>
                 </tr>
 <tr>
-<td data-row="2" data-col="1"></td>
-                  <td data-row="2" data-col="2">(0.045)</td>
-                  <td data-row="2" data-col="3">(0.048)</td>
+<td></td>
+                  <td>(0.045)</td>
+                  <td>(0.048)</td>
                 </tr>
 <tr>
-<td data-row="3" data-col="1">treated</td>
-                  <td data-row="3" data-col="2">-0.228***</td>
-                  <td data-row="3" data-col="3">-0.228***</td>
+<td>treated</td>
+                  <td>-0.228***</td>
+                  <td>-0.228***</td>
                 </tr>
 <tr>
-<td data-row="4" data-col="1"></td>
-                  <td data-row="4" data-col="2">(0.051)</td>
-                  <td data-row="4" data-col="3">(0.053)</td>
+<td></td>
+                  <td>(0.051)</td>
+                  <td>(0.053)</td>
                 </tr>
 <tr>
-<td data-row="5" data-col="1">post</td>
-                  <td data-row="5" data-col="2">0.162*</td>
-                  <td data-row="5" data-col="3">0.162*</td>
+<td>post</td>
+                  <td>0.162*</td>
+                  <td>0.162*</td>
                 </tr>
 <tr>
-<td data-row="6" data-col="1"></td>
-                  <td data-row="6" data-col="2">(0.067)</td>
-                  <td data-row="6" data-col="3">(0.071)</td>
+<td></td>
+                  <td>(0.067)</td>
+                  <td>(0.071)</td>
                 </tr>
 <tr>
-<td data-row="7" data-col="1">treated × post</td>
-                  <td data-row="7" data-col="2">-0.069</td>
-                  <td data-row="7" data-col="3">-0.069</td>
+<td>treated × post</td>
+                  <td>-0.069</td>
+                  <td>-0.069</td>
                 </tr>
 <tr>
-<td data-row="8" data-col="1"></td>
-                  <td data-row="8" data-col="2">(0.076)</td>
-                  <td data-row="8" data-col="3">(0.079)</td>
+<td></td>
+                  <td>(0.076)</td>
+                  <td>(0.079)</td>
                 </tr>
 <tr>
-<td data-row="9" data-col="1">Num.Obs.</td>
-                  <td data-row="9" data-col="2">7150</td>
-                  <td data-row="9" data-col="3">7150</td>
+<td>Num.Obs.</td>
+                  <td>7150</td>
+                  <td>7150</td>
                 </tr>
 <tr>
-<td data-row="10" data-col="1">R2</td>
-                  <td data-row="10" data-col="2">0.008</td>
-                  <td data-row="10" data-col="3">0.008</td>
+<td>R2</td>
+                  <td>0.008</td>
+                  <td>0.008</td>
                 </tr>
 <tr>
-<td data-row="11" data-col="1">R2 Adj.</td>
-                  <td data-row="11" data-col="2">0.008</td>
-                  <td data-row="11" data-col="3">0.008</td>
+<td>R2 Adj.</td>
+                  <td>0.008</td>
+                  <td>0.008</td>
                 </tr>
 <tr>
-<td data-row="12" data-col="1">AIC</td>
-                  <td data-row="12" data-col="2">24085.5</td>
-                  <td data-row="12" data-col="3">24085.5</td>
+<td>AIC</td>
+                  <td>24085.5</td>
+                  <td>24085.5</td>
                 </tr>
 <tr>
-<td data-row="13" data-col="1">BIC</td>
-                  <td data-row="13" data-col="2">24119.9</td>
-                  <td data-row="13" data-col="3">24119.9</td>
+<td>BIC</td>
+                  <td>24119.9</td>
+                  <td>24119.9</td>
                 </tr>
 <tr>
-<td data-row="14" data-col="1">Log.Lik.</td>
-                  <td data-row="14" data-col="2">-12037.768</td>
-                  <td data-row="14" data-col="3">-12037.768</td>
+<td>Log.Lik.</td>
+                  <td>-12037.768</td>
+                  <td>-12037.768</td>
                 </tr>
 <tr>
-<td data-row="15" data-col="1">RMSE</td>
-                  <td data-row="15" data-col="2">1.30</td>
-                  <td data-row="15" data-col="3">1.30</td>
+<td>RMSE</td>
+                  <td>1.30</td>
+                  <td>1.30</td>
                 </tr>
 <tr>
-<td data-row="16" data-col="1">Std.Errors</td>
-                  <td data-row="16" data-col="2">DiD (basic)</td>
-                  <td data-row="16" data-col="3">DiD (basic, robust HC3)</td>
+<td>Std.Errors</td>
+                  <td>DiD (basic)</td>
+                  <td>DiD (basic, robust HC3)</td>
                 </tr>
 </tbody>
 </table></div>
@@ -442,7 +489,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <h4>
 <span class="header-section-number">23.3.3.1</span> Plug-in: reconstruct the fitted 2×2 cell means from coefficients<a class="anchor" aria-label="anchor" href="#plug-in-reconstruct-the-fitted-22-cell-means-from-coefficients"><i class="fas fa-link"></i></a>
 </h4>
-<div class="sourceCode" id="cb588"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb594"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cell_control_pre</span>  <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[</span><span class="st">"(Intercept)"</span><span class="op">]</span></span>
@@ -462,11 +509,11 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 ## 3 Control, Post   1.62
 ## 4 Treated, Post   1.33</code></pre>
 <p>Check: the DiD estimate is <span class="math inline">\(\hat\beta_3\)</span>, and it should match the by-hand estimate.</p>
-<div class="sourceCode" id="cb590"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb596"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## treated:post 
 ##  -0.06906794</code></pre>
-<div class="sourceCode" id="cb592"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb598"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">did_by_hand</span></span></code></pre></div>
 <pre><code>## [1] -0.06906794</code></pre>
 </div>
@@ -476,7 +523,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span class="header-section-number">23.3.4</span> A.4 Add covariates (precision, not magic)<a class="anchor" aria-label="anchor" href="#a.4-add-covariates-precision-not-magic"><i class="fas fa-link"></i></a>
 </h3>
 <p>Adding controls can improve precision and adjust for observable differences, but the identifying assumption is still <strong>parallel trends</strong>.</p>
-<div class="sourceCode" id="cb594"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb600"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_did_controls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">ldurat</span> <span class="op">~</span> <span class="va">treated</span><span class="op">*</span><span class="va">post</span> <span class="op">+</span> <span class="va">male</span> <span class="op">+</span> <span class="va">lage</span> <span class="op">+</span> <span class="va">married</span> <span class="op">+</span> <span class="va">lprewage</span> <span class="op">+</span></span>
 <span>    <span class="va">head</span> <span class="op">+</span> <span class="va">neck</span> <span class="op">+</span> <span class="va">upextr</span> <span class="op">+</span> <span class="va">trunk</span> <span class="op">+</span> <span class="va">lowback</span> <span class="op">+</span> <span class="va">lowextr</span> <span class="op">+</span></span>
@@ -494,251 +541,297 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span><span class="op">)</span></span></code></pre></div>
 <!-- preamble start -->
 
-    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
-      // Create table-specific functions using external factory
-      const tableFns_soz85i703st49ia7c02g = TinyTable.createTableFunctions("tinytable_soz85i703st49ia7c02g");
+    <script>
+
+      function styleCell_dlf4fqxeg3oodslsa44c(i, j, css_id) {
+          var table = document.getElementById("tinytable_dlf4fqxeg3oodslsa44c");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_dlf4fqxeg3oodslsa44c');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_dlf4fqxeg3oodslsa44c(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_dlf4fqxeg3oodslsa44c");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '40', j: 2 }, { i: '40', j: 3 } ], css_id: 'tinytable_css_brx9a2ezh4qseq0oe807',}, 
-          { positions: [ { i: '32', j: 2 }, { i: '32', j: 3 } ], css_id: 'tinytable_css_5oefubdhd2jzmdvx1qr4',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 }, { i: '9', j: 2 }, { i: '10', j: 2 }, { i: '11', j: 2 }, { i: '12', j: 2 }, { i: '13', j: 2 }, { i: '14', j: 2 }, { i: '15', j: 2 }, { i: '16', j: 2 }, { i: '17', j: 2 }, { i: '18', j: 2 }, { i: '19', j: 2 }, { i: '20', j: 2 }, { i: '21', j: 2 }, { i: '22', j: 2 }, { i: '23', j: 2 }, { i: '24', j: 2 }, { i: '25', j: 2 }, { i: '26', j: 2 }, { i: '27', j: 2 }, { i: '28', j: 2 }, { i: '29', j: 2 }, { i: '30', j: 2 }, { i: '31', j: 2 }, { i: '33', j: 2 }, { i: '34', j: 2 }, { i: '35', j: 2 }, { i: '36', j: 2 }, { i: '37', j: 2 }, { i: '38', j: 2 }, { i: '39', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '8', j: 3 }, { i: '9', j: 3 }, { i: '10', j: 3 }, { i: '11', j: 3 }, { i: '12', j: 3 }, { i: '13', j: 3 }, { i: '14', j: 3 }, { i: '15', j: 3 }, { i: '16', j: 3 }, { i: '17', j: 3 }, { i: '18', j: 3 }, { i: '19', j: 3 }, { i: '20', j: 3 }, { i: '21', j: 3 }, { i: '22', j: 3 }, { i: '23', j: 3 }, { i: '24', j: 3 }, { i: '25', j: 3 }, { i: '26', j: 3 }, { i: '27', j: 3 }, { i: '28', j: 3 }, { i: '29', j: 3 }, { i: '30', j: 3 }, { i: '31', j: 3 }, { i: '33', j: 3 }, { i: '34', j: 3 }, { i: '35', j: 3 }, { i: '36', j: 3 }, { i: '37', j: 3 }, { i: '38', j: 3 }, { i: '39', j: 3 } ], css_id: 'tinytable_css_0kwz8gr21ztevxg7s1m2',}, 
-          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_zwt8x8ncaq1sx90n1q8s',}, 
-          { positions: [ { i: '40', j: 1 } ], css_id: 'tinytable_css_rjwer0kc32kddekyyvof',}, 
-          { positions: [ { i: '32', j: 1 } ], css_id: 'tinytable_css_j2c8gi8li9az3m4myt0j',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 }, { i: '9', j: 1 }, { i: '10', j: 1 }, { i: '11', j: 1 }, { i: '12', j: 1 }, { i: '13', j: 1 }, { i: '14', j: 1 }, { i: '15', j: 1 }, { i: '16', j: 1 }, { i: '17', j: 1 }, { i: '18', j: 1 }, { i: '19', j: 1 }, { i: '20', j: 1 }, { i: '21', j: 1 }, { i: '22', j: 1 }, { i: '23', j: 1 }, { i: '24', j: 1 }, { i: '25', j: 1 }, { i: '26', j: 1 }, { i: '27', j: 1 }, { i: '28', j: 1 }, { i: '29', j: 1 }, { i: '30', j: 1 }, { i: '31', j: 1 }, { i: '33', j: 1 }, { i: '34', j: 1 }, { i: '35', j: 1 }, { i: '36', j: 1 }, { i: '37', j: 1 }, { i: '38', j: 1 }, { i: '39', j: 1 } ], css_id: 'tinytable_css_jwe01bzlolcmf9sl3ep0',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_gle91dtmuxm9qunxz40r',}, 
+          { positions: [ { i: 40, j: 1 }, { i: 40, j: 2 },  ], css_id: 'tinytable_css_3voxlai4zntyegq64rv5',}, 
+          { positions: [ { i: 32, j: 1 }, { i: 32, j: 2 },  ], css_id: 'tinytable_css_47ex554o2etf8fywa5di',}, 
+          { positions: [ { i: 2, j: 1 }, { i: 3, j: 1 }, { i: 4, j: 1 }, { i: 5, j: 1 }, { i: 6, j: 1 }, { i: 7, j: 1 }, { i: 8, j: 1 }, { i: 9, j: 1 }, { i: 10, j: 1 }, { i: 11, j: 1 }, { i: 12, j: 1 }, { i: 13, j: 1 }, { i: 14, j: 1 }, { i: 15, j: 1 }, { i: 16, j: 1 }, { i: 17, j: 1 }, { i: 18, j: 1 }, { i: 19, j: 1 }, { i: 20, j: 1 }, { i: 21, j: 1 }, { i: 22, j: 1 }, { i: 23, j: 1 }, { i: 24, j: 1 }, { i: 25, j: 1 }, { i: 26, j: 1 }, { i: 27, j: 1 }, { i: 28, j: 1 }, { i: 29, j: 1 }, { i: 30, j: 1 }, { i: 31, j: 1 }, { i: 31, j: 2 }, { i: 33, j: 1 }, { i: 34, j: 1 }, { i: 35, j: 1 }, { i: 36, j: 1 }, { i: 37, j: 1 }, { i: 38, j: 1 }, { i: 39, j: 1 }, { i: 39, j: 2 }, { i: 1, j: 1 }, { i: 1, j: 2 }, { i: 2, j: 2 }, { i: 3, j: 2 }, { i: 4, j: 2 }, { i: 5, j: 2 }, { i: 6, j: 2 }, { i: 7, j: 2 }, { i: 8, j: 2 }, { i: 9, j: 2 }, { i: 10, j: 2 }, { i: 11, j: 2 }, { i: 12, j: 2 }, { i: 13, j: 2 }, { i: 14, j: 2 }, { i: 15, j: 2 }, { i: 16, j: 2 }, { i: 17, j: 2 }, { i: 18, j: 2 }, { i: 19, j: 2 }, { i: 20, j: 2 }, { i: 21, j: 2 }, { i: 22, j: 2 }, { i: 23, j: 2 }, { i: 24, j: 2 }, { i: 25, j: 2 }, { i: 26, j: 2 }, { i: 27, j: 2 }, { i: 28, j: 2 }, { i: 29, j: 2 }, { i: 30, j: 2 }, { i: 35, j: 2 }, { i: 36, j: 2 }, { i: 33, j: 2 }, { i: 34, j: 2 }, { i: 37, j: 2 }, { i: 38, j: 2 },  ], css_id: 'tinytable_css_dfkamppog4ommei6bpm0',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_aee9bf5p4gqhvti54ygh',}, 
+          { positions: [ { i: 40, j: 0 },  ], css_id: 'tinytable_css_sb3v1mgo262ot88bhlv3',}, 
+          { positions: [ { i: 32, j: 0 },  ], css_id: 'tinytable_css_ykqwvim8smcv0dj58bx1',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 12, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 20, j: 0 }, { i: 21, j: 0 }, { i: 22, j: 0 }, { i: 23, j: 0 }, { i: 24, j: 0 }, { i: 25, j: 0 }, { i: 26, j: 0 }, { i: 27, j: 0 }, { i: 28, j: 0 }, { i: 29, j: 0 }, { i: 30, j: 0 }, { i: 31, j: 0 }, { i: 36, j: 0 }, { i: 33, j: 0 }, { i: 34, j: 0 }, { i: 35, j: 0 }, { i: 37, j: 0 }, { i: 38, j: 0 }, { i: 39, j: 0 },  ], css_id: 'tinytable_css_vglnm06aikue0o4tj4d3',}, 
+          { positions: [ { i: 0, j: 0 },  ], css_id: 'tinytable_css_c76y3c6pjsdqgq3fnoob',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_soz85i703st49ia7c02g.styleCell(cell.i, cell.j, group.css_id);
+                  styleCell_dlf4fqxeg3oodslsa44c(cell.i, cell.j, group.css_id);
               });
           });
       });
-    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
-<style>
-    /* tinytable css entries after */
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_brx9a2ezh4qseq0oe807, #tinytable_soz85i703st49ia7c02g th.tinytable_css_brx9a2ezh4qseq0oe807 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_5oefubdhd2jzmdvx1qr4, #tinytable_soz85i703st49ia7c02g th.tinytable_css_5oefubdhd2jzmdvx1qr4 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_0kwz8gr21ztevxg7s1m2, #tinytable_soz85i703st49ia7c02g th.tinytable_css_0kwz8gr21ztevxg7s1m2 { text-align: center }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_zwt8x8ncaq1sx90n1q8s, #tinytable_soz85i703st49ia7c02g th.tinytable_css_zwt8x8ncaq1sx90n1q8s {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_rjwer0kc32kddekyyvof, #tinytable_soz85i703st49ia7c02g th.tinytable_css_rjwer0kc32kddekyyvof {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_j2c8gi8li9az3m4myt0j, #tinytable_soz85i703st49ia7c02g th.tinytable_css_j2c8gi8li9az3m4myt0j {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_jwe01bzlolcmf9sl3ep0, #tinytable_soz85i703st49ia7c02g th.tinytable_css_jwe01bzlolcmf9sl3ep0 { text-align: left }
-    #tinytable_soz85i703st49ia7c02g td.tinytable_css_gle91dtmuxm9qunxz40r, #tinytable_soz85i703st49ia7c02g th.tinytable_css_gle91dtmuxm9qunxz40r {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </script><style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_3voxlai4zntyegq64rv5, .table th.tinytable_css_3voxlai4zntyegq64rv5 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_47ex554o2etf8fywa5di, .table th.tinytable_css_47ex554o2etf8fywa5di { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_dfkamppog4ommei6bpm0, .table th.tinytable_css_dfkamppog4ommei6bpm0 { text-align: center; }
+      .table td.tinytable_css_aee9bf5p4gqhvti54ygh, .table th.tinytable_css_aee9bf5p4gqhvti54ygh { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_sb3v1mgo262ot88bhlv3, .table th.tinytable_css_sb3v1mgo262ot88bhlv3 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_ykqwvim8smcv0dj58bx1, .table th.tinytable_css_ykqwvim8smcv0dj58bx1 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_vglnm06aikue0o4tj4d3, .table th.tinytable_css_vglnm06aikue0o4tj4d3 { text-align: left; }
+      .table td.tinytable_css_c76y3c6pjsdqgq3fnoob, .table th.tinytable_css_c76y3c6pjsdqgq3fnoob { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <div class="inline-table"><table class="tinytable" id="tinytable_soz85i703st49ia7c02g" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <div class="inline-table"><table class="table table-borderless" id="tinytable_dlf4fqxeg3oodslsa44c" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
 <caption>DiD with and without controls (robust SEs)</caption>
-        <thead><tr>
-<th scope="col" data-row="0" data-col="1"> </th>
-                <th scope="col" data-row="0" data-col="2">DiD (basic, HC3)</th>
-                <th scope="col" data-row="0" data-col="3">DiD + controls (HC3)</th>
-              </tr></thead>
+              <tr>
+<th scope="col"> </th>
+                <th scope="col">DiD (basic, HC3)</th>
+                <th scope="col">DiD + controls (HC3)</th>
+              </tr>
+</thead>
 <tfoot><tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
 <tbody>
 <tr>
-<td data-row="1" data-col="1">(Intercept)</td>
-                  <td data-row="1" data-col="2">1.462***</td>
-                  <td data-row="1" data-col="3">-0.795**</td>
+<td>(Intercept)</td>
+                  <td>1.462***</td>
+                  <td>-0.795**</td>
                 </tr>
 <tr>
-<td data-row="2" data-col="1"></td>
-                  <td data-row="2" data-col="2">(0.048)</td>
-                  <td data-row="2" data-col="3">(0.245)</td>
+<td></td>
+                  <td>(0.048)</td>
+                  <td>(0.245)</td>
                 </tr>
 <tr>
-<td data-row="3" data-col="1">treated</td>
-                  <td data-row="3" data-col="2">-0.228***</td>
-                  <td data-row="3" data-col="3">-0.166**</td>
+<td>treated</td>
+                  <td>-0.228***</td>
+                  <td>-0.166**</td>
                 </tr>
 <tr>
-<td data-row="4" data-col="1"></td>
-                  <td data-row="4" data-col="2">(0.053)</td>
-                  <td data-row="4" data-col="3">(0.055)</td>
+<td></td>
+                  <td>(0.053)</td>
+                  <td>(0.055)</td>
                 </tr>
 <tr>
-<td data-row="5" data-col="1">post</td>
-                  <td data-row="5" data-col="2">0.162*</td>
-                  <td data-row="5" data-col="3">0.112</td>
+<td>post</td>
+                  <td>0.162*</td>
+                  <td>0.112</td>
                 </tr>
 <tr>
-<td data-row="6" data-col="1"></td>
-                  <td data-row="6" data-col="2">(0.071)</td>
-                  <td data-row="6" data-col="3">(0.071)</td>
+<td></td>
+                  <td>(0.071)</td>
+                  <td>(0.071)</td>
                 </tr>
 <tr>
-<td data-row="7" data-col="1">treated × post</td>
-                  <td data-row="7" data-col="2">-0.069</td>
-                  <td data-row="7" data-col="3">-0.004</td>
+<td>treated × post</td>
+                  <td>-0.069</td>
+                  <td>-0.004</td>
                 </tr>
 <tr>
-<td data-row="8" data-col="1"></td>
-                  <td data-row="8" data-col="2">(0.079)</td>
-                  <td data-row="8" data-col="3">(0.078)</td>
+<td></td>
+                  <td>(0.079)</td>
+                  <td>(0.078)</td>
                 </tr>
 <tr>
-<td data-row="9" data-col="1">male</td>
-                  <td data-row="9" data-col="2"></td>
-                  <td data-row="9" data-col="3">-0.119**</td>
+<td>male</td>
+                  <td></td>
+                  <td>-0.119**</td>
                 </tr>
 <tr>
-<td data-row="10" data-col="1"></td>
-                  <td data-row="10" data-col="2"></td>
-                  <td data-row="10" data-col="3">(0.041)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.041)</td>
                 </tr>
 <tr>
-<td data-row="11" data-col="1">lage</td>
-                  <td data-row="11" data-col="2"></td>
-                  <td data-row="11" data-col="3">0.290***</td>
+<td>lage</td>
+                  <td></td>
+                  <td>0.290***</td>
                 </tr>
 <tr>
-<td data-row="12" data-col="1"></td>
-                  <td data-row="12" data-col="2"></td>
-                  <td data-row="12" data-col="3">(0.048)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.048)</td>
                 </tr>
 <tr>
-<td data-row="13" data-col="1">married</td>
-                  <td data-row="13" data-col="2"></td>
-                  <td data-row="13" data-col="3">0.036</td>
+<td>married</td>
+                  <td></td>
+                  <td>0.036</td>
                 </tr>
 <tr>
-<td data-row="14" data-col="1"></td>
-                  <td data-row="14" data-col="2"></td>
-                  <td data-row="14" data-col="3">(0.036)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.036)</td>
                 </tr>
 <tr>
-<td data-row="15" data-col="1">lprewage</td>
-                  <td data-row="15" data-col="2"></td>
-                  <td data-row="15" data-col="3">0.263***</td>
+<td>lprewage</td>
+                  <td></td>
+                  <td>0.263***</td>
                 </tr>
 <tr>
-<td data-row="16" data-col="1"></td>
-                  <td data-row="16" data-col="2"></td>
-                  <td data-row="16" data-col="3">(0.035)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.035)</td>
                 </tr>
 <tr>
-<td data-row="17" data-col="1">head</td>
-                  <td data-row="17" data-col="2"></td>
-                  <td data-row="17" data-col="3">-0.653***</td>
+<td>head</td>
+                  <td></td>
+                  <td>-0.653***</td>
                 </tr>
 <tr>
-<td data-row="18" data-col="1"></td>
-                  <td data-row="18" data-col="2"></td>
-                  <td data-row="18" data-col="3">(0.122)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.122)</td>
                 </tr>
 <tr>
-<td data-row="19" data-col="1">neck</td>
-                  <td data-row="19" data-col="2"></td>
-                  <td data-row="19" data-col="3">0.093</td>
+<td>neck</td>
+                  <td></td>
+                  <td>0.093</td>
                 </tr>
 <tr>
-<td data-row="20" data-col="1"></td>
-                  <td data-row="20" data-col="2"></td>
-                  <td data-row="20" data-col="3">(0.155)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.155)</td>
                 </tr>
 <tr>
-<td data-row="21" data-col="1">upextr</td>
-                  <td data-row="21" data-col="2"></td>
-                  <td data-row="21" data-col="3">-0.258**</td>
+<td>upextr</td>
+                  <td></td>
+                  <td>-0.258**</td>
                 </tr>
 <tr>
-<td data-row="22" data-col="1"></td>
-                  <td data-row="22" data-col="2"></td>
-                  <td data-row="22" data-col="3">(0.088)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.088)</td>
                 </tr>
 <tr>
-<td data-row="23" data-col="1">trunk</td>
-                  <td data-row="23" data-col="2"></td>
-                  <td data-row="23" data-col="3">0.030</td>
+<td>trunk</td>
+                  <td></td>
+                  <td>0.030</td>
                 </tr>
 <tr>
-<td data-row="24" data-col="1"></td>
-                  <td data-row="24" data-col="2"></td>
-                  <td data-row="24" data-col="3">(0.094)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.094)</td>
                 </tr>
 <tr>
-<td data-row="25" data-col="1">lowback</td>
-                  <td data-row="25" data-col="2"></td>
-                  <td data-row="25" data-col="3">-0.183*</td>
+<td>lowback</td>
+                  <td></td>
+                  <td>-0.183*</td>
                 </tr>
 <tr>
-<td data-row="26" data-col="1"></td>
-                  <td data-row="26" data-col="2"></td>
-                  <td data-row="26" data-col="3">(0.090)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.090)</td>
                 </tr>
 <tr>
-<td data-row="27" data-col="1">lowextr</td>
-                  <td data-row="27" data-col="2"></td>
-                  <td data-row="27" data-col="3">-0.247**</td>
+<td>lowextr</td>
+                  <td></td>
+                  <td>-0.247**</td>
                 </tr>
 <tr>
-<td data-row="28" data-col="1"></td>
-                  <td data-row="28" data-col="2"></td>
-                  <td data-row="28" data-col="3">(0.089)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.089)</td>
                 </tr>
 <tr>
-<td data-row="29" data-col="1">manuf</td>
-                  <td data-row="29" data-col="2"></td>
-                  <td data-row="29" data-col="3">-0.159***</td>
+<td>manuf</td>
+                  <td></td>
+                  <td>-0.159***</td>
                 </tr>
 <tr>
-<td data-row="30" data-col="1"></td>
-                  <td data-row="30" data-col="2"></td>
-                  <td data-row="30" data-col="3">(0.036)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.036)</td>
                 </tr>
 <tr>
-<td data-row="31" data-col="1">construc</td>
-                  <td data-row="31" data-col="2"></td>
-                  <td data-row="31" data-col="3">0.151***</td>
+<td>construc</td>
+                  <td></td>
+                  <td>0.151***</td>
                 </tr>
 <tr>
-<td data-row="32" data-col="1"></td>
-                  <td data-row="32" data-col="2"></td>
-                  <td data-row="32" data-col="3">(0.045)</td>
+<td></td>
+                  <td></td>
+                  <td>(0.045)</td>
                 </tr>
 <tr>
-<td data-row="33" data-col="1">Num.Obs.</td>
-                  <td data-row="33" data-col="2">7150</td>
-                  <td data-row="33" data-col="3">6822</td>
+<td>Num.Obs.</td>
+                  <td>7150</td>
+                  <td>6822</td>
                 </tr>
 <tr>
-<td data-row="34" data-col="1">R2</td>
-                  <td data-row="34" data-col="2">0.008</td>
-                  <td data-row="34" data-col="3">0.052</td>
+<td>R2</td>
+                  <td>0.008</td>
+                  <td>0.052</td>
                 </tr>
 <tr>
-<td data-row="35" data-col="1">R2 Adj.</td>
-                  <td data-row="35" data-col="2">0.008</td>
-                  <td data-row="35" data-col="3">0.050</td>
+<td>R2 Adj.</td>
+                  <td>0.008</td>
+                  <td>0.050</td>
                 </tr>
 <tr>
-<td data-row="36" data-col="1">AIC</td>
-                  <td data-row="36" data-col="2">24085.5</td>
-                  <td data-row="36" data-col="3">22631.6</td>
+<td>AIC</td>
+                  <td>24085.5</td>
+                  <td>22631.6</td>
                 </tr>
 <tr>
-<td data-row="37" data-col="1">BIC</td>
-                  <td data-row="37" data-col="2">24119.9</td>
-                  <td data-row="37" data-col="3">22747.7</td>
+<td>BIC</td>
+                  <td>24119.9</td>
+                  <td>22747.7</td>
                 </tr>
 <tr>
-<td data-row="38" data-col="1">Log.Lik.</td>
-                  <td data-row="38" data-col="2">-12037.768</td>
-                  <td data-row="38" data-col="3">-11298.821</td>
+<td>Log.Lik.</td>
+                  <td>-12037.768</td>
+                  <td>-11298.821</td>
                 </tr>
 <tr>
-<td data-row="39" data-col="1">RMSE</td>
-                  <td data-row="39" data-col="2">1.30</td>
-                  <td data-row="39" data-col="3">1.27</td>
+<td>RMSE</td>
+                  <td>1.30</td>
+                  <td>1.27</td>
                 </tr>
 <tr>
-<td data-row="40" data-col="1">Std.Errors</td>
-                  <td data-row="40" data-col="2">DiD (basic, HC3)</td>
-                  <td data-row="40" data-col="3">DiD + controls (HC3)</td>
+<td>Std.Errors</td>
+                  <td>DiD (basic, HC3)</td>
+                  <td>DiD + controls (HC3)</td>
                 </tr>
 </tbody>
 </table></div>
@@ -754,12 +847,12 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 100\times(\exp(-0.06)-1) \approx -5.8\%
 \]</span></p>
 <p>Let’s compute that translation for the estimated DiD coefficient:</p>
-<div class="sourceCode" id="cb595"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb601"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">b3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m_did_basic</span><span class="op">)</span><span class="op">[</span><span class="st">"treated:post"</span><span class="op">]</span></span>
 <span><span class="va">b3</span></span></code></pre></div>
 <pre><code>## treated:post 
 ##  -0.06906794</code></pre>
-<div class="sourceCode" id="cb597"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb603"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">100</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">b3</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## treated:post 
 ##    -6.673673</code></pre>
@@ -774,7 +867,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 - plot treated vs control across many periods,
 - estimate a two-way fixed effects model,
 - and draw an event study plot.</p>
-<div class="sourceCode" id="cb599"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb605"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lrberge.github.io/fixest/">fixest</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -806,12 +899,12 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">treat_time</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"Average outcome"</span>, caption <span class="op">=</span> <span class="st">"Dotted line = treatment begins"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-230-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-240-1.png" width="480" style="display: block; margin: auto;"></div>
 <div id="b.1-two-way-fe-did-twfe" class="section level3" number="23.4.1">
 <h3>
 <span class="header-section-number">23.4.1</span> B.1 Two-way FE DiD (TWFE)<a class="anchor" aria-label="anchor" href="#b.1-two-way-fe-did-twfe"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb600"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb606"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_twfe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">treated</span><span class="op">*</span><span class="va">post</span> <span class="op">|</span> <span class="va">id</span> <span class="op">+</span> <span class="va">t</span>, data <span class="op">=</span> <span class="va">panel</span>, cluster <span class="op">=</span> <span class="op">~</span><span class="va">id</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://lrberge.github.io/fixest/reference/etable.html">etable</a></span><span class="op">(</span><span class="va">m_twfe</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##                              m_twfe
@@ -834,14 +927,14 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <span class="header-section-number">23.4.2</span> B.2 Event study: leads and lags<a class="anchor" aria-label="anchor" href="#b.2-event-study-leads-and-lags"><i class="fas fa-link"></i></a>
 </h3>
 <p>Create an adoption time variable (<code>g</code>) and estimate event-time effects with <code>sunab()</code>.</p>
-<div class="sourceCode" id="cb602"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb608"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="va">panel</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">treated</span><span class="op">==</span><span class="fl">1</span>, <span class="va">treat_time</span>, <span class="fl">0L</span><span class="op">)</span><span class="op">)</span>  <span class="co"># 0 = never-treated</span></span>
 <span></span>
 <span><span class="va">m_es</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu">sunab</span><span class="op">(</span><span class="va">g</span>, <span class="va">t</span><span class="op">)</span> <span class="op">|</span> <span class="va">id</span> <span class="op">+</span> <span class="va">t</span>, data <span class="op">=</span> <span class="va">panel</span>, cluster <span class="op">=</span> <span class="op">~</span><span class="va">id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://lrberge.github.io/fixest/reference/coefplot.html">iplot</a></span><span class="op">(</span><span class="va">m_es</span>, ref.line <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-232-1.png" alt="" width="480" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-242-1.png" width="480" style="display: block; margin: auto;"></div>
 <p>Interpretation:
 - Pre-treatment coefficients (leads) near 0 → consistent with parallel trends.
 - Post-treatment coefficients (lags) show dynamics.</p>
@@ -849,15 +942,9 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 </div>
 </div>
 </div>
-
-
-
-
-
-
   <div class="chapter-nav">
 <div class="prev"><a href="lecture9.html"><span class="header-section-number">22</span> Lecture 9: Interactions</a></div>
-<div class="empty"></div>
+<div class="next"><a href="lecture11.html"><span class="header-section-number">24</span> Lecture 11: Regression Discontinuity</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -902,7 +989,7 @@ Y = \beta_0 + \beta_1 T + \beta_2 Post + \beta_3(T\cdot Post) + \varepsilon
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-24.</p>
+    <p>"<strong>PS9591: Regressions and Causal Inference</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2026-03-30.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
